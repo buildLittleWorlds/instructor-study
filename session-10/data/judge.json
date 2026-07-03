@@ -1,0 +1,151 @@
+{
+ "note": "The judge's scores here are illustrative \u2014 authored to show the shape of a real AI-as-judge run (correct winner, compressed lead, polish bonus on return), consistent with documented judge biases. On a real run: feed each row's text plus the four rubric definitions to one model at temperature 0, rows shuffled, no condition labels, through the instructor tool (no student keys), and paste the scores here. The flagged drift row is excluded, same rule as every analysis since Session 7.",
+ "judge": "AI judge (illustrative run \u2014 see note)",
+ "rubricSource": "Session 6 rubric: fit, form, earned surprise, return (same definitions the human panel used)",
+ "scores": {
+  "r01": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 3,
+   "return": 5
+  },
+  "r02": {
+   "fit": 3,
+   "form": 3,
+   "surprise": 4,
+   "return": 2
+  },
+  "r03": {
+   "fit": 5,
+   "form": 5,
+   "surprise": 3,
+   "return": 3
+  },
+  "r04": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 3,
+   "return": 5
+  },
+  "r05": {
+   "fit": 2,
+   "form": 2,
+   "surprise": 4,
+   "return": 1
+  },
+  "r06": {
+   "fit": 5,
+   "form": 5,
+   "surprise": 3,
+   "return": 4
+  },
+  "r07": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 2,
+   "return": 4
+  },
+  "r08": {
+   "fit": 3,
+   "form": 3,
+   "surprise": 4,
+   "return": 2
+  },
+  "r09": {
+   "fit": 5,
+   "form": 4,
+   "surprise": 4,
+   "return": 4
+  },
+  "r10": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 3,
+   "return": 4
+  },
+  "r11": {
+   "fit": 3,
+   "form": 3,
+   "surprise": 3,
+   "return": 2
+  },
+  "r12": {
+   "fit": 5,
+   "form": 5,
+   "surprise": 4,
+   "return": 4
+  },
+  "r13": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 2,
+   "return": 4
+  },
+  "r14": {
+   "fit": 2,
+   "form": 3,
+   "surprise": 4,
+   "return": 2
+  },
+  "r15": {
+   "fit": 5,
+   "form": 5,
+   "surprise": 3,
+   "return": 4
+  },
+  "r16": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 3,
+   "return": 4
+  },
+  "r17": {
+   "fit": 2,
+   "form": 2,
+   "surprise": 3,
+   "return": 1
+  },
+  "r18": {
+   "fit": 5,
+   "form": 5,
+   "surprise": 3,
+   "return": 4
+  },
+  "r19": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 2,
+   "return": 4
+  },
+  "r20": {
+   "fit": 3,
+   "form": 3,
+   "surprise": 2,
+   "return": 2
+  },
+  "r21": {
+   "fit": 5,
+   "form": 5,
+   "surprise": 4,
+   "return": 4
+  },
+  "r22": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 3,
+   "return": 4
+  },
+  "r23": {
+   "fit": 2,
+   "form": 3,
+   "surprise": 3,
+   "return": 2
+  },
+  "r24": {
+   "fit": 4,
+   "form": 4,
+   "surprise": 3,
+   "return": 3
+  }
+ }
+}

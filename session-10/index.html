@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Second Opinion — Instructor's Study, Session 10</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f;
+    --default:#6b6b76; --random:#b0506a; --directed:#2f6f5e; --judge:#4a6fa5;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:50rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .err { color:var(--warn); font-family:system-ui,sans-serif; }
+  .stat { font-family:system-ui,sans-serif; font-weight:700; }
+  .crown { font-family:system-ui,sans-serif; }
+  .crown .opts { display:flex; gap:.5rem; flex-wrap:wrap; margin:.6rem 0; }
+  .crown .opts button { font-size:.88rem; cursor:pointer; border:1.5px solid var(--line); background:#fff; border-radius:999px; padding:.4rem .95rem; }
+  .crown .opts button.picked { color:#fff; border-color:transparent; }
+  #duel { display:none; }
+  .chiprow { display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; font-family:system-ui,sans-serif; margin:.8rem 0; }
+  .chiprow button { font-size:.82rem; cursor:pointer; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:999px; padding:.3rem .75rem; }
+  .chiprow button.on { background:var(--accent); color:#fff; border-color:transparent; }
+  .legend { font-family:system-ui,sans-serif; font-size:.8rem; color:var(--muted); display:flex; gap:1rem; margin:.4rem 0; }
+  .legend .sw { display:inline-block; width:1.1rem; height:.65rem; border-radius:2px; margin-right:.3rem; vertical-align:baseline; }
+  .duelrow { font-family:system-ui,sans-serif; margin:.9rem 0; }
+  .duelrow .lab { font-size:.88rem; margin-bottom:.25rem; }
+  .pair { display:grid; grid-template-columns:3.4rem 1fr 2.6rem; gap:.4rem; align-items:center; font-size:.75rem; color:var(--muted); margin:.15rem 0; }
+  .pair .track { background:#f0ede5; border-radius:4px; height:.95rem; overflow:hidden; }
+  .pair .fill { height:100%; transition:width .45s ease; }
+  .pair .fill.judgefill { opacity:.62; }
+  .pair .v { font-weight:700; color:var(--ink); }
+  .verdict { font-family:system-ui,sans-serif; font-size:1rem; background:var(--accent-soft); border-left:4px solid var(--accent); padding:.7rem 1rem; margin:1rem 0; }
+  .agree { font-family:system-ui,sans-serif; font-size:.9rem; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.8rem 1rem; margin:1rem 0; }
+  .agree .arow { display:grid; grid-template-columns:8.5rem 1fr 3.2rem; gap:.5rem; align-items:center; margin:.3rem 0; }
+  .agree .ab { height:.55rem; border-radius:3px; background:var(--judge); }
+  .sidecard { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.85rem 1rem; margin:.7rem 0; }
+  .sidecard .text { margin:.2rem 0 .6rem; }
+  .sideopts { display:flex; gap:.5rem; flex-wrap:wrap; font-family:system-ui,sans-serif; }
+  .sideopts button { font-size:.82rem; cursor:pointer; border:1.5px solid var(--judge); background:#fff; color:var(--judge); border-radius:8px; padding:.4rem .8rem; }
+  .sideopts button.picked { background:var(--judge); color:#fff; }
+  .sidereveal { display:none; font-family:system-ui,sans-serif; font-size:.83rem; margin-top:.5rem; padding-top:.5rem; border-top:1px dashed var(--line); }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; }
+  .bigbtn { font-size:.95rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:var(--accent); color:#fff; border-radius:8px; padding:.55rem 1.1rem; }
+  .bigbtn.ghost { background:#fff; color:var(--accent); }
+  .bigbtn:disabled { opacity:.45; cursor:not-allowed; }
+  .summary { display:none; background:var(--accent-soft); border-left:4px solid var(--accent); padding:.8rem 1.1rem; margin:1rem 0; font-family:system-ui,sans-serif; }
+  .noteswap { font-family:system-ui,sans-serif; }
+  .noteswap .tabs { display:flex; gap:.5rem; margin-bottom:.6rem; }
+  .noteswap .tabs button { font-size:.85rem; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:999px; padding:.35rem .9rem; }
+  .noteswap .tabs button.on { background:var(--accent); color:#fff; }
+  .notebody { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-family:Georgia,serif; font-size:.97rem; }
+  .notebody.confession { border-left:4px solid var(--warn); }
+  .notebody.judgment { border-left:4px solid var(--accent); }
+  .method { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .method ul { margin:.5rem 0 0; padding-left:1.2rem; }
+  .method li { margin:.35rem 0; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 10 · The False Mean project</div>
+  <h1>The Second Opinion</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <div class="thesis">
+    <strong>Thesis.</strong> An instrument you never test is an opinion with a dashboard. So this week the study judges its judge: I handed my rubric and all twenty-four rows to an AI and let it score them cold, then set its verdicts against the human panel's, criterion by criterion. Where the two agree, my instrument gets stronger. Where they split, something better than agreement appears: a map of exactly what a machine can check — and what it still can't feel.
+  </div>
+
+  <p><strong>This week's question:</strong> when an AI judges my study with my own rubric, where does it agree with the human panel — and where does it quietly vote for the false mean?</p>
+
+  <h2>Crown your judge first</h2>
+  <div class="crown">
+    <p>The AI got the same four definitions the human panel trained on, the same twenty-four rows, no condition labels. Before you see anything: <strong>which condition does the machine crown?</strong></p>
+    <div class="opts" id="crownOpts"></div>
+    <p class="note" id="crownMsg"></p>
+  </div>
+
+  <div id="duel">
+    <h2>The duel</h2>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--ink)"></span>Human panel</span>
+      <span><span class="sw" style="background:var(--judge);opacity:.62"></span>AI judge</span>
+    </div>
+    <div class="chiprow" id="critRow"></div>
+    <div id="duelBars"></div>
+    <div class="verdict" id="duelVerdict"></div>
+
+    <div class="agree">
+      <strong>Where the two judges agree</strong> <span class="note">(share of rows where their scores land within one point)</span>
+      <div id="agreeRows"></div>
+      <p class="note" style="margin:.5rem 0 0">And one number to keep: on <em>return</em>, the judge scored the DEFAULT rows <span class="stat" id="polishStat">…</span> points higher than the humans did, on average. That gap has a name in this course.</p>
+    </div>
+
+    <h2>Side with someone</h2>
+    <p>The three rows where the two judges split hardest. Read the line, read the two verdicts — you are not told which is the machine — and side with one.</p>
+    <div id="sideCards"></div>
+    <div class="controls">
+      <button class="bigbtn ghost" id="sideCopy" disabled>Copy my sidings</button>
+    </div>
+    <div class="summary" id="sideSummary"></div>
+  </div>
+
+  <h2>Method</h2>
+  <div class="method">
+    <ul>
+      <li><strong>Panel scores:</strong> fetched unchanged from <code>../session-07/data/dataset.json</code> — the same 24 analysis rows every page since Session 7 has used, flagged drift row excluded by the standing rule.</li>
+      <li><strong>Judge scores:</strong> <code>data/judge.json</code> — one score per row per criterion, same rubric definitions the humans used. <span id="judgeNote" class="note"></span></li>
+      <li><strong>Agreement metric:</strong> the share of rows where judge and panel land within one point of each other, per criterion — coarse on purpose; the limitation says what it hides.</li>
+      <li><strong>Everything is computed in your browser at load,</strong> and every number in the prose is injected from that computation.</li>
+    </ul>
+  </div>
+
+  <h2>Interpretation</h2>
+  <p>Both judges crown the true swerve — that much survives. But look at what the machine does to the <em>shape</em> of the result: the panel's lead of <span class="stat" id="iGapP">…</span> points shrinks to <span class="stat" id="iGapJ">…</span>, and the false mean is promoted to a close second. On craft the two judges are nearly one mind — fit and form never land more than a point apart. On <em>return</em>, the criterion that asks whether you'd willingly read it again, they agree on only <span class="stat" id="iRetAgree">…</span> of rows. The three hardest splits tell you why: the machine paid the lighthouse keeper's "restless sea" a return of 5 — polish, promoted; it scored the piano-tuner line the room almost crowned as noise; and it couldn't feel why a keeper whose whole job is to be looked at pays off on the tenth reading.</p>
+  <p>So the second opinion is in: <strong>the machine can verify craft; it cannot yet feel whether a break earned its keep.</strong> Asked to find excellence, it half-voted for its own reflection — and for my study that is better than agreement, because now I know which criteria my instrument can delegate and which ones stay human.</p>
+
+  <div class="limit">
+    <strong>Limitation.</strong> The judge's scores are authored, illustrative stand-ins until the real run (their file says so above) — shaped to match documented judge biases, but shaped. One judge, one prompt, one room. "Within one point" is a blunt ruler that flatters small drifts. And when judge and panel disagree, nothing here proves the humans right: an eleven-person panel has blind spots too, and the machine calling our favorite row overrated would be a finding, not a malfunction.
+  </div>
+
+  <h2>Try it yourself</h2>
+  <div class="try">
+    Hand your own rubric to an AI judge — your items, your definitions, scored blind through my tool (no keys, as always). Then compare before you trust either side. Every row where the machine splits from your raters is one honest sentence for your paper: name who split, by how much, and which criterion carried the disagreement. Compare, don't obey.
+  </div>
+
+  <p class="cliff">The study now has results, an argument, and a judge that's been judged. What it has never had is a hostile reader. Next week, that's you: the class gets to break my project — while I sit silently and take notes.</p>
+
+  <h2>Authorship note — and this week, that's the exhibit</h2>
+  <p>How AI systems are judged was the first half of this session. The other half is how <em>you</em> are judged when AI helped you make the thing. My own field-note: authorship is <strong>responsibility for the final work</strong> — documented judgment, not a diary of prompts. Same facts, two notes. Read both and feel the difference:</p>
+  <div class="noteswap">
+    <div class="tabs">
+      <button id="tabConf">The confession</button>
+      <button id="tabNote" class="on">The note</button>
+    </div>
+    <div class="notebody judgment" id="noteBody"></div>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study, Session 10 of 12 · Data: <code>data/judge.json</code> + <code>../session-07/data/dataset.json</code> (unchanged)</footer>
+</main>
+
+<script>
+(async function(){
+  const $ = id => document.getElementById(id);
+  const CONDS = ['default','random','directed'];
+  const CRITS = [['total','Total'],['fit','Fit'],['form','Form'],['surprise','Earned surprise'],['return','Return']];
+
+  let run, jd;
+  try {
+    run = await fetch('../session-07/data/dataset.json').then(r=>{ if(!r.ok) throw 0; return r.json(); });
+    jd  = await fetch('data/judge.json').then(r=>{ if(!r.ok) throw 0; return r.json(); });
+  } catch(e){
+    $('crownOpts').innerHTML = '<p class="err">Could not load the data files. Serve the repo root over HTTP or open the deployed page.</p>';
+    return;
+  }
+
+  const condMeta = run.conditions;
+  const core = run.rows.filter(r => !r.flag && jd.scores[r.id]);
+  const jTotal = id => { const s=jd.scores[id]; return s.fit+s.form+s.surprise+s.return; };
+  const pVal = (r,c) => c==='total' ? r.total : r[c];
+  const jVal = (r,c) => c==='total' ? jTotal(r.id) : jd.scores[r.id][c==='return'?'return':c];
+  const mean = a => a.reduce((s,x)=>s+x,0)/a.length;
+  const fmt = v => (Math.round(v*10)/10).toFixed(1).replace(/\.0$/,'');
+
+  if (jd.note) $('judgeNote').textContent = '(Right now its own file says: “' + jd.note.split('.')[0] + '.”)';
+
+  function condMeans(crit){
+    const out = {};
+    CONDS.forEach(c => {
+      const rs = core.filter(r=>r.condition===c);
+      out[c] = { p: mean(rs.map(r=>pVal(r,crit))), j: mean(rs.map(r=>jVal(r,crit))) };
+    });
+    return out;
+  }
+
+  // ---- crown gate ----
+  let crowned = null;
+  CONDS.forEach(c => {
+    const b = document.createElement('button');
+    b.textContent = condMeta[c].label;
+    b.addEventListener('click', () => {
+      if (crowned) return;
+      crowned = c;
+      b.classList.add('picked'); b.style.background = condMeta[c].color;
+      const jm = condMeans('total');
+      const winner = CONDS.slice().sort((a,x)=>jm[x].j-jm[a].j)[0];
+      $('crownMsg').textContent = (c===winner ? 'You called it. ' : 'The machine disagrees with you. ')
+        + 'The judge crowns ' + condMeta[winner].label + ' — now see by how little.';
+      $('duel').style.display='block';
+      renderDuel();
+    });
+    $('crownOpts').appendChild(b);
+  });
+
+  // ---- duel board ----
+  let crit = 'total';
+  CRITS.forEach(([k,label]) => {
+    const b = document.createElement('button'); b.dataset.k=k; b.textContent=label;
+    if (k===crit) b.classList.add('on');
+    b.addEventListener('click', () => { crit=k; renderDuel(); });
+    $('critRow').appendChild(b);
+  });
+
+  function renderDuel(){
+    document.querySelectorAll('#critRow button').forEach(b=>b.classList.toggle('on', b.dataset.k===crit));
+    const m = condMeans(crit);
+    const max = crit==='total' ? 20 : 5;
+    const box = $('duelBars'); box.innerHTML='';
+    CONDS.forEach(c => {
+      const row = document.createElement('div'); row.className='duelrow';
+      row.innerHTML = '<div class="lab" style="color:'+condMeta[c].color+'"><strong>'+condMeta[c].label+'</strong></div>'
+        + '<div class="pair"><span>panel</span><div class="track"><div class="fill" style="width:'+(m[c].p/max*100)+'%;background:var(--ink)"></div></div><span class="v">'+fmt(m[c].p)+'</span></div>'
+        + '<div class="pair"><span>judge</span><div class="track"><div class="fill judgefill" style="width:'+(m[c].j/max*100)+'%;background:var(--judge)"></div></div><span class="v">'+fmt(m[c].j)+'</span></div>';
+      box.appendChild(row);
+    });
+    const pWin = CONDS.slice().sort((a,b)=>m[b].p-m[a].p)[0];
+    const jWin = CONDS.slice().sort((a,b)=>m[b].j-m[a].j)[0];
+    const label = CRITS.find(x=>x[0]===crit)[1].toLowerCase();
+    $('duelVerdict').innerHTML = pWin===jWin
+      ? '<strong>On '+label+', both judges crown '+condMeta[pWin].label+'</strong> — panel '+fmt(m[pWin].p)+', judge '+fmt(m[jWin].j)+'. The question is the margin, not the medal.'
+      : '<strong>On '+label+', the judges split:</strong> the panel crowns '+condMeta[pWin].label+' ('+fmt(m[pWin].p)+'), the machine crowns '+condMeta[jWin].label+' ('+fmt(m[jWin].j)+').';
+  }
+
+  // ---- agreement panel ----
+  (function(){
+    const box = $('agreeRows');
+    CRITS.slice(1).forEach(([k,label]) => {
+      const hits = core.filter(r => Math.abs(jVal(r,k)-pVal(r,k)) <= 1).length;
+      const pct = Math.round(hits/core.length*100);
+      const row = document.createElement('div'); row.className='arow';
+      row.innerHTML = '<span>'+label+'</span><div class="ab" style="width:'+pct+'%"></div><span class="stat">'+pct+'%</span>';
+      box.appendChild(row);
+      if (k==='return') $('iRetAgree').textContent = pct+'%';
+    });
+    const defRows = core.filter(r=>r.condition==='default');
+    const bonus = mean(defRows.map(r => jd.scores[r.id]['return'] - r['return']));
+    $('polishStat').textContent = (bonus>=0?'+':'')+fmt(bonus);
+  })();
+
+  // ---- side with someone ----
+  const byDelta = core.slice().sort((a,b)=>Math.abs(jTotal(b.id)-b.total)-Math.abs(jTotal(a.id)-a.total)).slice(0,3);
+  const sidings = {};
+  byDelta.forEach((r, idx) => {
+    const machineIsA = idx % 2 === 0;
+    const aScore = machineIsA ? jTotal(r.id) : r.total;
+    const bScore = machineIsA ? r.total : jTotal(r.id);
+    const card = document.createElement('div'); card.className='sidecard';
+    card.innerHTML = '<span class="note">Prompt: “'+r.prompt+'” · the '+r.condition.toUpperCase()+' condition</span>'
+      + '<div class="text">'+r.text+'</div>'
+      + '<div class="sideopts">'
+      + '<button data-r="'+r.id+'" data-side="A">Second opinion A: '+aScore+'/20</button>'
+      + '<button data-r="'+r.id+'" data-side="B">Second opinion B: '+bScore+'/20</button>'
+      + '</div>'
+      + '<div class="sidereveal" id="sr-'+r.id+'"></div>';
+    $('sideCards').appendChild(card);
+    card.querySelectorAll('.sideopts button').forEach(b => {
+      b.addEventListener('click', () => {
+        if (sidings[r.id]) return;
+        const side = b.dataset.side;
+        const pickedMachine = (side==='A') === machineIsA;
+        sidings[r.id] = pickedMachine ? 'machine' : 'humans';
+        b.classList.add('picked');
+        const sr = $('sr-'+r.id);
+        sr.style.display='block';
+        sr.innerHTML = 'You sided with <strong>the '+(pickedMachine?'machine':'human panel')+'</strong>. '
+          + (machineIsA ? 'A' : 'B') + ' was the AI judge ('+jTotal(r.id)+'/20); the panel said '+r.total+'/20.';
+        if (Object.keys(sidings).length === byDelta.length){
+          const withHumans = Object.values(sidings).filter(v=>v==='humans').length;
+          const s = $('sideSummary');
+          s.style.display='block';
+          s.innerHTML = '<strong>You sided with the humans on '+withHumans+' of '+byDelta.length+' splits.</strong> Whichever way you leaned, notice what decided you — that instinct is the thing my rubric is trying to write down.';
+          $('sideCopy').disabled = false;
+        }
+      });
+    });
+  });
+  $('sideCopy').addEventListener('click', async () => {
+    const blob = JSON.stringify({ session:10, sidings:sidings }, null, 1);
+    try { await navigator.clipboard.writeText(blob); $('sideCopy').textContent='Copied — paste it in the class chat'; }
+    catch(e){ window.prompt('Copy this and paste it in the class chat:', blob); }
+  });
+
+  // ---- injected prose ----
+  (function(){
+    const m = condMeans('total');
+    const pSorted = CONDS.slice().sort((a,b)=>m[b].p-m[a].p);
+    const jSorted = CONDS.slice().sort((a,b)=>m[b].j-m[a].j);
+    $('iGapP').textContent = fmt(m[pSorted[0]].p - m[pSorted[1]].p);
+    $('iGapJ').textContent = fmt(m[jSorted[0]].j - m[jSorted[1]].j);
+  })();
+
+  // ---- the authorship exhibit ----
+  const NOTES = {
+    confession: '<p><em>The confession (how not to write it):</em></p><p>I used AI a lot on this one, sorry. I asked it to make the page maybe thirty times and kept saying "make it better." It wrote most of the code and honestly some sentences too. I did change some things but I don\'t remember exactly which. The judge scores came from the AI as well, so really it kind of graded itself? I hope that\'s okay. I did read everything at the end.</p>',
+    judgment: '<p><strong>What AI helped with:</strong> drafting this page\'s code; generating the original twenty-four passages (that was the study); and the judge\'s scores are an AI\'s — that\'s the experiment, and their file says plainly they are illustrative until the real run.</p><p><strong>What I own:</strong> the decision to test my judge instead of trusting it; the agreement metric and its named weakness; the reading of the three hardest splits — including the possibility that the panel, not the machine, is wrong; the confession you can toggle above, written as a warning label; and every sentence of the interpretation, especially the one that says what the machine cannot yet feel.</p><p class="note">This second version is this paper\'s actual authorship note. The difference between the two isn\'t honesty — both are true. It\'s that one narrates process and apologizes; the other documents judgment and takes responsibility. Write the second kind.</p>'
+  };
+  function setNote(kind){
+    $('noteBody').innerHTML = NOTES[kind];
+    $('noteBody').className = 'notebody ' + (kind==='confession' ? 'confession' : 'judgment');
+    $('tabConf').classList.toggle('on', kind==='confession');
+    $('tabNote').classList.toggle('on', kind==='judgment');
+  }
+  $('tabConf').addEventListener('click', ()=>setNote('confession'));
+  $('tabNote').addEventListener('click', ()=>setNote('judgment'));
+  setNote('judgment');
+})();
+</script>
+</body>
+</html>
