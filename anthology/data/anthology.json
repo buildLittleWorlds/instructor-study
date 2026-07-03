@@ -1,0 +1,191 @@
+{
+  "note": "The growing, canonical copy of the course anthology. Add a specimen = append one row and push. Wings: core (the founding collection), acquisition (added during the course), cohort (student work, first names only, accessioned by class vote).",
+  "patterns": [
+    "prediction reveal", "blind comparison", "parameter gallery", "simulation sandbox",
+    "break & repair", "atlas / map", "walkthrough", "living dashboard", "many paths",
+    "memory checkpoint", "app-first", "claim ladder", "evidence cards", "research map",
+    "argument game", "scroll essay"
+  ],
+  "specimens": [
+    {
+      "id": "neural-thickets",
+      "wing": "core",
+      "title": "Neural Thickets",
+      "url": "https://thickets.mit.edu/",
+      "readerAction": "Move through a research website with visual metaphors, algorithm explanation, benchmark controls, and links out to arXiv, Colab, and GitHub.",
+      "underneath": "A current AI paper presented as an experience: finding, intuition, algorithm, demo, implementation.",
+      "borrow": "Click to reveal the landscape — make the thesis visible before the formal method arrives.",
+      "patterns": ["app-first", "research map"]
+    },
+    {
+      "id": "llm-reductionism",
+      "wing": "core",
+      "title": "Against LLM Reductionism",
+      "url": "https://www.lesswrong.com/posts/PwfwZ2LeoLC4FXyDA/against-llm-reductionism",
+      "readerAction": "Read a long public argument with embedded references, examples, images, and linked evidence.",
+      "underneath": "A research essay carrying scholarly argument outside a PDF.",
+      "borrow": "Claim ladder — each section answers one possible objection.",
+      "patterns": ["claim ladder", "evidence cards"]
+    },
+    {
+      "id": "evolve-harness",
+      "wing": "core",
+      "title": "Don't Train the Model, Evolve the Harness",
+      "url": "https://huggingface.co/spaces/joelniklaus/harness-optimization",
+      "readerAction": "Encounter a paper-like argument inside a Hugging Face Space — the app surface and the exposition live together.",
+      "underneath": "The paper lives inside the tool it describes.",
+      "borrow": "App-first introduction — let the reader use the tool, then explain what happened.",
+      "patterns": ["app-first"]
+    },
+    {
+      "id": "tsne",
+      "wing": "core",
+      "title": "How to Use t-SNE Effectively",
+      "url": "https://distill.pub/2016/misread-tsne/",
+      "readerAction": "Watch and compare t-SNE behavior across parameters and examples.",
+      "underneath": "A peer-reviewed interactive article; the reader learns why static plots mislead by seeing the algorithm behave.",
+      "borrow": "Parameter gallery — the same case under different settings.",
+      "patterns": ["parameter gallery"]
+    },
+    {
+      "id": "growing-ca",
+      "wing": "core",
+      "title": "Growing Neural Cellular Automata",
+      "url": "https://distill.pub/2020/growing-ca/",
+      "readerAction": "Damage a pattern, change the model type, and watch the system regenerate.",
+      "underneath": "The interaction is the evidence: the reader directly experiences the phenomenon the paper studies.",
+      "borrow": "Break it and watch recovery — let the reader perturb the system.",
+      "patterns": ["simulation sandbox", "break & repair"]
+    },
+    {
+      "id": "activation-atlas",
+      "wing": "core",
+      "title": "Exploring Neural Networks with Activation Atlases",
+      "url": "https://distill.pub/2019/activation-atlas/",
+      "readerAction": "Inspect a visual atlas of network activations, moving between global overview and local examples.",
+      "underneath": "A huge invisible model space turned into a browsable map.",
+      "borrow": "Atlas view — arrange many examples spatially, let the reader inspect clusters.",
+      "patterns": ["atlas / map"]
+    },
+    {
+      "id": "bayes-opt",
+      "wing": "core",
+      "title": "Exploring Bayesian Optimization",
+      "url": "https://distill.pub/2020/bayesian-optimization/",
+      "readerAction": "Follow stepwise visual explanations of how a model chooses the next point to test.",
+      "underneath": "An algorithm made to feel like a decision process, not just math.",
+      "borrow": "Algorithm walkthrough — step, explain, visualize, repeat.",
+      "patterns": ["walkthrough", "simulation sandbox"]
+    },
+    {
+      "id": "interactive-articles",
+      "wing": "core",
+      "title": "Communicating with Interactive Articles",
+      "url": "https://distill.pub/2020/communicating-with-interactive-articles/",
+      "readerAction": "Read a research article about interactive articles while encountering the design patterns it describes.",
+      "underneath": "The course's meta-reading: language for why interaction improves learning.",
+      "borrow": "Design pattern catalog — name the pattern, show the pattern, say when to use it.",
+      "patterns": ["evidence cards", "memory checkpoint"]
+    },
+    {
+      "id": "quantum-country",
+      "wing": "core",
+      "title": "Quantum Computing for the Very Curious",
+      "url": "https://quantum.country/qcvc",
+      "readerAction": "Read an essay with embedded questions and spaced repetition.",
+      "underneath": "A paper that tries to change what the reader remembers over time.",
+      "borrow": "Memory checkpoint — ask the reader to answer before continuing.",
+      "patterns": ["memory checkpoint"]
+    },
+    {
+      "id": "seeing-theory",
+      "wing": "core",
+      "title": "Seeing Theory",
+      "url": "https://seeing-theory.brown.edu/",
+      "readerAction": "Explore probability and statistics through interactive visual chapters.",
+      "underneath": "A whole subject re-presented as manipulable visual intuition.",
+      "borrow": "Visual concept lab — turn a formula into a small playground.",
+      "patterns": ["simulation sandbox", "parameter gallery"]
+    },
+    {
+      "id": "boba",
+      "wing": "core",
+      "title": "Boba: Visualizing Multiverse Analyses",
+      "url": "https://arxiv.org/abs/2007.05551",
+      "readerAction": "Study a system for authoring and reviewing many plausible analysis paths.",
+      "underneath": "Research method made inspectable through an interface.",
+      "borrow": "Many paths view — show how different choices lead to different results.",
+      "patterns": ["many paths"]
+    },
+    {
+      "id": "argo-scholar",
+      "wing": "core",
+      "title": "Argo Scholar",
+      "url": "https://arxiv.org/abs/2110.14060",
+      "readerAction": "Explore scholarly literature through an interactive graph connected to live paper data.",
+      "underneath": "A paper about an app for exploring papers.",
+      "borrow": "Expandable research map — start with one node, grow the field.",
+      "patterns": ["research map"]
+    },
+    {
+      "id": "helm",
+      "wing": "core",
+      "title": "HELM: Holistic Evaluation of Language Models",
+      "url": "https://crfm.stanford.edu/helm/latest/",
+      "readerAction": "Move from a benchmark paper into a living results dashboard.",
+      "underneath": "The paper-app as an ongoing public evidence surface.",
+      "borrow": "Living benchmark table — give readers filters and comparisons across evidence.",
+      "patterns": ["living dashboard"]
+    },
+    {
+      "id": "papervoyager",
+      "wing": "core",
+      "title": "PaperVoyager",
+      "url": "https://arxiv.org/abs/2603.22999",
+      "readerAction": "Encounter the idea that papers can be converted into executable interactive web systems.",
+      "underneath": "The future this course prepares students for: papers becoming experiences, simulations, tools.",
+      "borrow": "Mechanism reconstruction — turn a paper's moving parts into controls.",
+      "patterns": ["research map", "walkthrough"]
+    },
+    {
+      "id": "polygons",
+      "wing": "acquisition",
+      "title": "Parable of the Polygons",
+      "url": "https://ncase.me/polygons/",
+      "readerAction": "Drag unhappy shapes into new homes and watch a whole society segregate — then try to undo it.",
+      "underneath": "A playable version of Schelling's segregation model; the paper's claim is a game you lose.",
+      "borrow": "Argument game — the reader's own play produces the evidence for the thesis.",
+      "patterns": ["argument game", "simulation sandbox"]
+    },
+    {
+      "id": "trust",
+      "wing": "acquisition",
+      "title": "The Evolution of Trust",
+      "url": "https://ncase.me/trust/",
+      "readerAction": "Play iterated game-theory tournaments against different strategies and watch cooperation evolve or collapse.",
+      "underneath": "Axelrod's tournaments rebuilt as a 30-minute playable essay.",
+      "borrow": "Tournament reveal — let the reader bet on a strategy before the simulation runs.",
+      "patterns": ["argument game", "prediction reveal", "walkthrough"]
+    },
+    {
+      "id": "mechanical-watch",
+      "wing": "acquisition",
+      "title": "Mechanical Watch",
+      "url": "https://ciechanow.ski/mechanical-watch/",
+      "readerAction": "Drag, spin, and disassemble every figure in a long-form explanation of how a watch works.",
+      "underneath": "Every diagram is a live 3D simulation; nothing is a static image.",
+      "borrow": "Draggable figure — any diagram you were going to paste, make it turnable instead.",
+      "patterns": ["simulation sandbox", "walkthrough"]
+    },
+    {
+      "id": "deep-sea",
+      "wing": "acquisition",
+      "title": "The Deep Sea",
+      "url": "https://neal.fun/deep-sea/",
+      "readerAction": "Scroll downward through the ocean, meter by meter, until the bottom.",
+      "underneath": "An argument about scale where the scrollbar itself is the evidence.",
+      "borrow": "Scroll essay — let distance, time, or quantity map onto the reader's own scrolling.",
+      "patterns": ["scroll essay", "atlas / map"]
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Anthology — a museum of experimental paper-apps</title>
+<style>
+  :root {
+    --ink: #22222a; --muted: #6b6b76; --paper: #fdfcf9; --card: #ffffff;
+    --line: #e3e0d8; --accent: #2f6f5e; --accent-soft: #e7f1ee; --warn: #a8582f;
+    --wing-core: #2f6f5e; --wing-acq: #4a6fb5; --wing-cohort: #a8582f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; font-size: 1.03rem; }
+  main { max-width: 50rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
+  h2 { font-size: 1.25rem; margin: 2.4rem 0 .8rem; border-top: 1px solid var(--line); padding-top: 1.4rem; }
+  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.4rem; }
+  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.2rem 0; }
+  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
+  .filters { position: sticky; top: 0; background: var(--paper); padding: .8rem 0; border-bottom: 1px solid var(--line); z-index: 5; }
+  .chiprow { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+  .chiprow button {
+    font-family: system-ui, sans-serif; font-size: .8rem; cursor: pointer;
+    border: 1.5px solid var(--line); background: #fff; color: var(--ink);
+    border-radius: 999px; padding: .3rem .75rem;
+  }
+  .chiprow button:hover { border-color: var(--accent); }
+  .chiprow button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .count { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); margin: .8rem 0; }
+  .specimen { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; margin: 1rem 0; }
+  .specimen .wing-tag { float: right; font-family: system-ui, sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: .12rem .6rem; border-radius: 999px; color: #fff; }
+  .specimen h3 { margin: 0 0 .2rem; font-size: 1.15rem; }
+  .specimen h3 a { color: var(--accent); text-decoration: none; }
+  .specimen h3 a:hover { text-decoration: underline; }
+  .specimen dl { margin: .5rem 0 0; font-size: .93rem; }
+  .specimen dt { font-family: system-ui, sans-serif; font-size: .74rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: .55rem; }
+  .specimen dd { margin: .1rem 0 0; }
+  .ptags { margin-top: .7rem; display: flex; flex-wrap: wrap; gap: .35rem; }
+  .ptags span { font-family: system-ui, sans-serif; font-size: .74rem; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: .15rem .6rem; }
+  .empty-wing { border: 1px dashed var(--line); border-radius: 8px; padding: 1rem 1.2rem; color: var(--muted); font-family: system-ui, sans-serif; font-size: .9rem; }
+  .nominate { background: var(--card); border: 2px dashed var(--accent); border-radius: 8px; padding: 1.1rem 1.2rem; margin: 1.4rem 0; font-family: system-ui, sans-serif; font-size: .92rem; }
+  .nominate input, .nominate select { width: 100%; font-size: .95rem; padding: .45rem .6rem; border: 1px solid var(--line); border-radius: 6px; margin: .25rem 0 .7rem; background: #fff; }
+  .nominate label { font-weight: 600; font-size: .85rem; }
+  .bigbtn { font-family: system-ui, sans-serif; font-size: .95rem; font-weight: 600; cursor: pointer; border: none; border-radius: 8px; padding: .6rem 1.2rem; background: var(--accent); color: #fff; }
+  .nominate textarea { width: 100%; height: 5rem; margin-top: .6rem; font-family: ui-monospace, monospace; font-size: .78rem; display: none; }
+  .err { color: var(--warn); font-family: system-ui, sans-serif; }
+  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">AI + Research · Level 2 · Paper-App Research Studio</div>
+  <h1>The Anthology</h1>
+  <div class="byline">A museum of experimental paper-apps — visit the exhibits, steal the patterns</div>
+
+  <div class="thesis">
+    Every specimen here is a piece of research or explanation that a reader can <strong>do something to</strong>.
+    When you visit one, answer four questions: What does the reader get to do? How does the interaction strengthen
+    the argument? What evidence or system sits underneath? What pattern could I borrow at smaller scale?
+  </div>
+  <p class="note">The collection grows all course long. New acquisitions get added weekly — and the best student paper-apps are accessioned into the Cohort Wing by class vote.</p>
+
+  <div class="filters">
+    <span class="note">Filter by wing:</span>
+    <div class="chiprow" id="wingChips"></div>
+    <span class="note" style="display:block;margin-top:.6rem">Filter by interaction pattern:</span>
+    <div class="chiprow" id="patternChips"></div>
+  </div>
+
+  <p class="count" id="count"></p>
+  <div id="cabinet"><p class="note">Loading the collection…</p></div>
+
+  <h2>Nominate a specimen</h2>
+  <div class="nominate">
+    Found something that belongs in the museum — an interactive essay, a playable argument, a strange research object?
+    Fill this in and click the button; it copies a ready-to-add entry. Paste it into the class chat or Classroom.
+    <div style="margin-top: .8rem">
+      <label>Title</label><input id="nTitle" placeholder="e.g. The Evolution of Trust">
+      <label>Link</label><input id="nUrl" placeholder="https://…">
+      <label>What does the reader get to do?</label><input id="nAction" placeholder="e.g. play tournaments against strategies and watch cooperation evolve">
+      <label>Closest pattern</label><select id="nPattern"></select>
+      <label>Your first name</label><input id="nWho" maxlength="20" placeholder="e.g. Maya">
+      <button class="bigbtn" id="nominateBtn">Copy my nomination</button>
+      <span class="note" id="nMsg"></span>
+      <textarea id="nFallback" readonly></textarea>
+    </div>
+  </div>
+
+  <footer>
+    Part of the class proceedings · The collection lives in <code>data/anthology.json</code> — adding a specimen is adding one row.
+    · <a href="../" style="color:var(--accent)">The Instructor's Study</a>
+  </footer>
+</main>
+
+<script>
+(async function () {
+  let data;
+  try {
+    data = await fetch('data/anthology.json').then(r => r.json());
+  } catch (e) {
+    document.getElementById('cabinet').innerHTML =
+      '<p class="err">Could not load the collection. Serve this folder over HTTP or view the deployed page.</p>';
+    return;
+  }
+
+  const wings = [
+    { id: 'core', label: 'Core collection', color: 'var(--wing-core)' },
+    { id: 'acquisition', label: 'New acquisitions', color: 'var(--wing-acq)' },
+    { id: 'cohort', label: 'Cohort wing', color: 'var(--wing-cohort)' }
+  ];
+  const activeWings = new Set(wings.map(w => w.id));
+  let activePattern = null;
+
+  const wingChips = document.getElementById('wingChips');
+  wings.forEach(w => {
+    const b = document.createElement('button');
+    b.textContent = w.label;
+    b.classList.add('on');
+    b.addEventListener('click', () => {
+      if (activeWings.has(w.id) && activeWings.size > 1) { activeWings.delete(w.id); b.classList.remove('on'); }
+      else { activeWings.add(w.id); b.classList.add('on'); }
+      render();
+    });
+    wingChips.appendChild(b);
+  });
+
+  const patternChips = document.getElementById('patternChips');
+  const allBtn = document.createElement('button');
+  allBtn.textContent = 'all patterns';
+  allBtn.classList.add('on');
+  allBtn.addEventListener('click', () => { activePattern = null; syncPatternChips(); render(); });
+  patternChips.appendChild(allBtn);
+  data.patterns.forEach(p => {
+    const b = document.createElement('button');
+    b.textContent = p;
+    b.dataset.pattern = p;
+    b.addEventListener('click', () => {
+      activePattern = activePattern === p ? null : p;
+      syncPatternChips(); render();
+    });
+    patternChips.appendChild(b);
+  });
+  function syncPatternChips() {
+    patternChips.querySelectorAll('button').forEach(b => {
+      const p = b.dataset.pattern;
+      b.classList.toggle('on', p ? activePattern === p : activePattern === null);
+    });
+  }
+
+  const wingMeta = Object.fromEntries(wings.map(w => [w.id, w]));
+
+  function render() {
+    const cab = document.getElementById('cabinet');
+    cab.innerHTML = '';
+    const visible = data.specimens.filter(s =>
+      activeWings.has(s.wing) && (!activePattern || s.patterns.includes(activePattern)));
+    document.getElementById('count').textContent =
+      visible.length + ' of ' + data.specimens.length + ' specimens on display';
+    visible.forEach(s => {
+      const el = document.createElement('div');
+      el.className = 'specimen';
+      el.innerHTML =
+        '<span class="wing-tag" style="background:' + wingMeta[s.wing].color + '">' + wingMeta[s.wing].label + '</span>' +
+        '<h3><a href="' + s.url + '" target="_blank" rel="noopener">' + s.title + '</a></h3>' +
+        '<dl>' +
+        '<dt>What the reader gets to do</dt><dd>' + s.readerAction + '</dd>' +
+        '<dt>What sits underneath</dt><dd>' + s.underneath + '</dd>' +
+        '<dt>Pattern to borrow</dt><dd>' + s.borrow + '</dd>' +
+        (s.credit ? '<dt>Made by</dt><dd>' + s.credit + '</dd>' : '') +
+        '</dl>' +
+        '<div class="ptags">' + s.patterns.map(p => '<span>' + p + '</span>').join('') + '</div>';
+      cab.appendChild(el);
+    });
+    if (activeWings.has('cohort') && !data.specimens.some(s => s.wing === 'cohort')) {
+      const d = document.createElement('div');
+      d.className = 'empty-wing';
+      d.textContent = 'The Cohort Wing is empty — for now. The best paper-apps made in this course get accessioned here by class vote, credited by first name. One of them could be yours.';
+      cab.appendChild(d);
+    }
+  }
+
+  const sel = document.getElementById('nPattern');
+  data.patterns.forEach(p => {
+    const o = document.createElement('option');
+    o.value = p; o.textContent = p;
+    sel.appendChild(o);
+  });
+
+  document.getElementById('nominateBtn').addEventListener('click', async () => {
+    const row = {
+      id: (document.getElementById('nTitle').value || 'untitled').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40),
+      wing: 'acquisition',
+      title: document.getElementById('nTitle').value || 'Untitled',
+      url: document.getElementById('nUrl').value || '',
+      readerAction: document.getElementById('nAction').value || '',
+      underneath: '',
+      borrow: '',
+      patterns: [sel.value],
+      nominatedBy: (document.getElementById('nWho').value || 'anon').trim()
+    };
+    const blob = JSON.stringify(row, null, 2);
+    const msg = document.getElementById('nMsg');
+    try {
+      await navigator.clipboard.writeText(blob);
+      msg.textContent = 'Copied — paste it in the class chat or Classroom.';
+    } catch (e) {
+      const ta = document.getElementById('nFallback');
+      ta.value = blob; ta.style.display = 'block'; ta.select();
+      msg.textContent = 'Clipboard blocked — copy the text below manually.';
+    }
+  });
+
+  syncPatternChips();
+  render();
+})();
+</script>
+</body>
+</html>

@@ -8,14 +8,18 @@ The Bridge artifact for Session 1 (strand W1). A complete paper-app in miniature
 - `data/study.json` - the infant-study prediction questions and revealed results (real numbers from the experiments table in the corpus).
 - `data/outputs.json` - the ten model outputs, hand-tagged features, and method fields.
 
+## Current class dataset
+
+The current deployed dataset in `data/outputs.json` was generated on 2026-07-03 with OpenAI GPT-5 via Codex, using the exact prompt in the artifact. The method field in the JSON states this directly so the page does not pretend these were from a different model or setup.
+
 ## Before class: regenerate the data honestly
 
-The ten outputs currently in `outputs.json` are **illustrative drafts**. Replace them with real runs so the artifact's method note is true:
+If you want to rerun the example with another model before class, replace the current outputs so the artifact's method note is true:
 
 1. Open ten fresh chats in your model of choice. Same prompt each time: *"Describe a beautiful room in two or three sentences."* Default settings.
 2. Paste each response into an `outputs[].text` field.
 3. Hand-tag features per output (keep the tags honest - tagging is a judgment call, and the authorship note says so).
-4. Fill in `model` and `date`. Delete the `note` field.
+4. Fill in `model`, `date`, and `settings`.
 5. If the real tally differs from the draft (it will, somewhat), nothing else needs changing - the bars, top-5 scoring, and highlights all compute from the data.
 
 ## Preview locally
