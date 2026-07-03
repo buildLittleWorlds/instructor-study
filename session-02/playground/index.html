@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading the Dice — a sampling playground</title>
+<style>
+  :root {
+    --ink: #22222a; --muted: #6b6b76; --paper: #fdfcf9; --card: #ffffff;
+    --line: #e3e0d8; --accent: #2f6f5e; --accent-soft: #e7f1ee; --warn: #a8582f;
+    --cool: #4a7fb5; --hot: #b54a4a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; font-size: 1.05rem; }
+  main { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font-size: 1.8rem; line-height: 1.2; margin: 0 0 .4rem; }
+  h2 { font-size: 1.25rem; margin: 2.4rem 0 .8rem; border-top: 1px solid var(--line); padding-top: 1.4rem; }
+  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.6rem; }
+  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
+  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
+  .lab { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1.2rem; margin: 1.4rem 0; }
+  .context { font-size: 1.15rem; margin-bottom: 1rem; }
+  .context .blank { border-bottom: 2px solid var(--accent); padding: 0 .4rem; font-style: italic; color: var(--accent); font-weight: 700; }
+  .dial { display: flex; align-items: center; gap: .8rem; font-family: system-ui, sans-serif; font-size: .9rem; margin: 1rem 0 1.4rem; }
+  .dial input[type=range] { flex: 1; accent-color: var(--accent); }
+  .dial .tval { font-weight: 700; width: 5.5rem; }
+  .bars { display: grid; gap: .3rem; }
+  .brow { display: grid; grid-template-columns: 6.5rem 1fr 3.4rem; gap: .6rem; align-items: center; font-family: system-ui, sans-serif; font-size: .88rem; }
+  .btrack { background: #f0ede5; border-radius: 4px; height: 1.15rem; overflow: hidden; }
+  .bfill { height: 100%; border-radius: 4px; background: var(--accent); transition: width .25s ease; }
+  .controls { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1.3rem; }
+  .bigbtn { font-family: system-ui, sans-serif; font-size: .95rem; font-weight: 600; cursor: pointer; border: none; border-radius: 8px; padding: .6rem 1.2rem; background: var(--accent); color: #fff; }
+  .ghost { background: #fff; color: var(--accent); border: 1.5px solid var(--accent); }
+  .draws { margin-top: 1.1rem; font-family: system-ui, sans-serif; font-size: .95rem; min-height: 3.2rem; }
+  .draws .tok { display: inline-block; background: var(--accent-soft); border-radius: 6px; padding: .15rem .55rem; margin: .15rem .2rem; }
+  .draws .tok.rare { background: #f6e3d5; }
+  .readout { font-family: system-ui, sans-serif; font-size: .9rem; font-weight: 600; margin-top: .7rem; }
+  .method, .authorship { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
+  .limit { border-left: 4px solid var(--warn); padding: .7rem 1.1rem; background: #faf3ee; margin: 1.2rem 0; }
+  .cliff { font-size: 1.1rem; font-style: italic; margin: 2rem 0 0; }
+  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 2 companion · The False Mean project</div>
+  <h1>Loading the Dice</h1>
+  <div class="byline">A toy you can play with instead of a paragraph you can read</div>
+
+  <div class="thesis">
+    <strong>The claim, playable:</strong> a language model writes by rolling weighted dice over possible next words.
+    Temperature doesn't add ideas — it only reshapes the weights. Drag the dial and watch: the distribution flattens
+    or sharpens, but the <em>same twelve words</em> are all it ever had.
+  </div>
+
+  <div class="lab">
+    <p class="context">“The old library was <span class="blank" id="drawn">___</span>”</p>
+    <div class="dial">
+      <span>temp</span>
+      <input type="range" id="temp" min="0.1" max="2.0" step="0.05" value="1.0">
+      <span class="tval" id="tval">T = 1.00</span>
+    </div>
+    <div class="bars" id="bars"></div>
+    <div class="controls">
+      <button class="bigbtn" id="drawOne">Roll once</button>
+      <button class="bigbtn ghost" id="drawTwenty">Roll 20×</button>
+      <button class="bigbtn ghost" id="clearBtn">Clear</button>
+    </div>
+    <div class="draws" id="draws"></div>
+    <p class="readout" id="readout"></p>
+  </div>
+
+  <p>Three things to try, in order: drag the dial to <strong>0.1</strong> and roll 20 times (meet the false mean — the same word, almost every roll). Drag to <strong>2.0</strong> and roll 20 (everything possible, nothing chosen). Then hunt for the dial position where the rolls feel <em>interestingly varied but still sane</em> — and notice that you, the reader, just reinvented the quality curve from <a href="../">the main paper</a>.</p>
+
+  <h2>Method</h2>
+  <div class="method">
+    <p>Twelve candidate next words with hand-set base probabilities (roughly the shape a real model produces for this context: one dominant choice, a few plausible ones, a long tail). The dial applies the real temperature formula — each probability is raised to the power 1/T and renormalized — the same math running inside an actual model's sampler, just over 12 words instead of ~100,000.</p>
+  </div>
+
+  <div class="limit">
+    <strong>Limitation.</strong> This is a toy: real models recompute the entire distribution after every word, conditioned on everything so far, and their tail is fifty thousand words deep. The toy shows the mechanism, not the scale — and nothing about the mechanism tells you which word is <em>best</em>. The dice know probabilities, not quality.
+  </div>
+
+  <p class="cliff">If the dial can't add ideas — only spread the dice — then where would <em>better</em> writing ever come from? <span class="note">(Back to <a href="../">the blind gallery</a>, where readers judge exactly that.)</span></p>
+
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>What AI helped with:</strong> drafting this page's first HTML and suggesting plausible base probabilities, which I adjusted.</p>
+    <p><strong>What I own:</strong> the twelve-word vocabulary, the framing of the dial as "loading the dice," the three-step reading path, and the decision to keep the toy honest about being a toy.</p>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study · companion to <a href="../">Session 2: The False Mean</a></footer>
+</main>
+
+<script>
+(function () {
+  // Hand-set base distribution: one dominant head, plausible middle, long tail.
+  const vocab = [
+    { w: 'quiet',     p: 0.30 },
+    { w: 'silent',    p: 0.17 },
+    { w: 'empty',     p: 0.13 },
+    { w: 'dusty',     p: 0.11 },
+    { w: 'beautiful', p: 0.08 },
+    { w: 'closed',    p: 0.06 },
+    { w: 'enormous',  p: 0.05 },
+    { w: 'waiting',   p: 0.04 },
+    { w: 'breathing', p: 0.025 },
+    { w: 'furious',   p: 0.015 },
+    { w: 'underwater',p: 0.01 },
+    { w: 'a whale',   p: 0.005 }
+  ];
+  const RARE = new Set(['breathing', 'furious', 'underwater', 'a whale']);
+
+  const bars = document.getElementById('bars');
+  vocab.forEach((v, i) => {
+    const row = document.createElement('div');
+    row.className = 'brow';
+    row.innerHTML = '<span>' + v.w + '</span>' +
+      '<span class="btrack"><span class="bfill" id="bf' + i + '"></span></span>' +
+      '<span id="bp' + i + '"></span>';
+    bars.appendChild(row);
+  });
+
+  function weights(T) {
+    const raw = vocab.map(v => Math.pow(v.p, 1 / T));
+    const sum = raw.reduce((a, b) => a + b, 0);
+    return raw.map(x => x / sum);
+  }
+
+  let T = 1.0;
+  function renderBars() {
+    const w = weights(T);
+    w.forEach((p, i) => {
+      document.getElementById('bf' + i).style.width = (p * 100) + '%';
+      document.getElementById('bp' + i).textContent = (p * 100).toFixed(1) + '%';
+    });
+  }
+
+  const tempEl = document.getElementById('temp');
+  tempEl.addEventListener('input', () => {
+    T = parseFloat(tempEl.value);
+    document.getElementById('tval').textContent = 'T = ' + T.toFixed(2);
+    renderBars();
+  });
+
+  const drawsEl = document.getElementById('draws');
+  const drawnEl = document.getElementById('drawn');
+  let history = [];
+
+  function sampleOne() {
+    const w = weights(T);
+    let r = Math.random(), acc = 0;
+    for (let i = 0; i < w.length; i++) {
+      acc += w[i];
+      if (r <= acc) return vocab[i].w;
+    }
+    return vocab[vocab.length - 1].w;
+  }
+
+  function draw(n) {
+    for (let k = 0; k < n; k++) {
+      const word = sampleOne();
+      history.push(word);
+      const tok = document.createElement('span');
+      tok.className = 'tok' + (RARE.has(word) ? ' rare' : '');
+      tok.textContent = word;
+      drawsEl.appendChild(tok);
+      drawnEl.textContent = word;
+    }
+    const distinct = new Set(history).size;
+    document.getElementById('readout').textContent =
+      history.length + ' rolls at various settings · ' + distinct + ' distinct words · ' +
+      'most common: "' + mode(history) + '"';
+  }
+
+  function mode(arr) {
+    const c = {};
+    let best = arr[0];
+    arr.forEach(x => { c[x] = (c[x] || 0) + 1; if (c[x] > c[best]) best = x; });
+    return best;
+  }
+
+  document.getElementById('drawOne').addEventListener('click', () => draw(1));
+  document.getElementById('drawTwenty').addEventListener('click', () => draw(20));
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    history = []; drawsEl.innerHTML = ''; drawnEl.textContent = '___';
+    document.getElementById('readout').textContent = '';
+  });
+
+  renderBars();
+})();
+</script>
+</body>
+</html>

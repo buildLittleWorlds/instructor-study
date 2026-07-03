@@ -7,12 +7,17 @@ Weekly paper-apps for *The False Mean* — the instructor's research strand for 
 ## Structure
 
 ```
-index.html        landing page linking every session
-session-01/       The Prototype Problem      (embeddings & prototypes)
-session-02/       The False Mean             (probability & temperature)
-session-03/       Fitted or Veneer?          (attention & context)
-session-04/ ...   added weekly
+index.html            landing page linking everything
+proceedings/          class gallery - student paper-apps as they ship
+anthology/            the museum - filterable specimen collection (grows weekly)
+session-01/           The Prototype Problem      (embeddings & prototypes)
+session-02/           The False Mean             (probability & temperature)
+session-02/playground/  Loading the Dice - temperature sampling toy
+session-03/           Fitted or Veneer?          (attention & context)
+session-04/ ...       added weekly, each in a different formal genre
 ```
+
+**Form of the week:** each session's paper deliberately inhabits a different anthology genre - predict-reveal (1), blind gallery + sandbox toy (2), evidence cards (3), atlas (4), app-first (5), living dashboard (6), filterable corpus (7), many-paths (8), interactive sorter (9), judge-vs-panel duel (10). One study, many forms.
 
 Each session folder has its own README covering: how to regenerate the data honestly before class, the in-class data loop (export button → paste → commit → reload), and the 15-minute Bridge run-of-show.
 
