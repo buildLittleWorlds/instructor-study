@@ -1,0 +1,10 @@
+{
+  "note": "Illustrative tallies showing the shape of a real class reveal — replace with the actual sealed predictions collected at the end of Session 7 before the Bridge. My own seal is real.",
+  "mySeal": "directed",
+  "class": {
+    "n": 11,
+    "default": 2,
+    "random": 4,
+    "directed": 5
+  }
+}
