@@ -1,0 +1,60 @@
+{
+  "prompt": "Describe an old library in two or three sentences.",
+  "model": "REPLACE ME — model name and version",
+  "date": "REPLACE ME — generation date",
+  "settings": "Two outputs per temperature setting (0.2, 0.7, 1.0, 1.3, 1.7), generated through the instructor-controlled API tool. Display order is shuffled on every visit.",
+  "note": "The outputs below are illustrative drafts. Replace them with real temperature-sweep runs before class (see README).",
+  "temperatures": [0.2, 0.7, 1.0, 1.3, 1.7],
+  "cards": [
+    {
+      "id": "lib-01",
+      "temperature": 0.2,
+      "text": "The old library smells of aged paper and leather, its towering oak shelves lined with countless volumes. Dust motes drift through shafts of afternoon sunlight, and the silence feels almost sacred."
+    },
+    {
+      "id": "lib-02",
+      "temperature": 0.2,
+      "text": "Tall oak shelves stretch toward a vaulted ceiling, filled with leather-bound books whose spines have faded with age. Dust motes float in the amber light, and the air smells of old paper and quiet."
+    },
+    {
+      "id": "lib-03",
+      "temperature": 0.7,
+      "text": "Every footstep echoes on the worn parquet floor. The shelves lean under decades of accumulated knowledge, and somewhere in the back a radiator ticks like a patient clock."
+    },
+    {
+      "id": "lib-04",
+      "temperature": 0.7,
+      "text": "The library keeps its own weather: cool, dim, smelling of paper and furniture polish. Green-shaded lamps pool light onto long tables scarred by a century of elbows."
+    },
+    {
+      "id": "lib-05",
+      "temperature": 1.0,
+      "text": "Nobody has sat in the third-floor alcove for years, but the chair still holds the shape of a reader. Card catalogs stand like small wooden mausoleums, their drawers full of names no one calls."
+    },
+    {
+      "id": "lib-06",
+      "temperature": 1.0,
+      "text": "The books have outlived their donors, whose brass nameplates tarnish politely on the ends of the shelves. Afternoon light moves across the floor as if it were looking for a particular sentence."
+    },
+    {
+      "id": "lib-07",
+      "temperature": 1.3,
+      "text": "The library digests its readers slowly — you enter at nineteen and leave gray, carrying the smell of it in your coat forever. Upstairs, the atlases dream of coastlines that no longer exist."
+    },
+    {
+      "id": "lib-08",
+      "temperature": 1.3,
+      "text": "Shelf after shelf of patient thunder. The dictionaries have grown territorial with age; the poetry section leaks. A librarian moves through the stacks the way a heron fishes — slow, then certain."
+    },
+    {
+      "id": "lib-09",
+      "temperature": 1.7,
+      "text": "Old library, yes — the spines mutter in Latin and misremembered weather. A ladder leans into the vowels. Somewhere, an index finger of light files the dust under 'afternoon, gold, unreturned.'"
+    },
+    {
+      "id": "lib-10",
+      "temperature": 1.7,
+      "text": "The library is a whale skeleton wearing wallpaper; each book a baleen tooth combing plankton-thoughts from drowned centuries. Do not shelve the moon under M; it circulates, it circulates."
+    }
+  ]
+}

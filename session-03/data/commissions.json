@@ -1,0 +1,35 @@
+{
+  "requestStem": "Write a short description of the town's old clock tower for ___.",
+  "object": "The clock tower is fictional — chosen so the model cannot retrieve real facts. Anything that sounds like history below was invented by the model.",
+  "model": "REPLACE ME — model name and version",
+  "date": "REPLACE ME — generation date",
+  "settings": "One output per commission, each in a fresh chat, default settings. Only the commission clause changed between runs.",
+  "note": "The outputs below are illustrative drafts. Replace them with real runs before class (see README).",
+  "sharedPhrases": ["stood watch", "over the town", "generations", "glowing face", "heart"],
+  "commissions": [
+    {
+      "id": "picture-book",
+      "label": "A picture book for five-year-olds",
+      "clause": "a picture book read aloud to five-year-olds",
+      "output": "High above the rooftops lives the old clock tower, tick-tock, tick-tock. It has stood watch over the town for over a hundred years, telling everyone when it is time for lunch and time for bed. Children say that if you wave up at its great glowing face, the clock winks back — tick-tock, tick-tock."
+    },
+    {
+      "id": "journal",
+      "label": "An architectural-history journal",
+      "clause": "an architectural-history journal",
+      "output": "Completed, we are told, in 1874, the tower is a late example of civic Gothic Revival: a rusticated limestone base rising to buff brick, crowned by a cast-iron finial. It has stood watch over the town for a century and a half, and generations of residents have set their days by its weathered face. The original hand-wound movement survived the restoration of the 1990s, which stabilized the parapet without erasing the marks of age."
+    },
+    {
+      "id": "memorial",
+      "label": "A memorial program for the town's longtime clockmaker",
+      "clause": "the memorial program of the town's longtime clockmaker",
+      "output": "For more than fifty years, Harold kept the old tower's heart beating. Its hands still turn because his did first — up the narrow stairs each week, in every season, so the town below would never lose its time. The clock has stood watch over generations of us; today, we stand watch for him."
+    },
+    {
+      "id": "theme-park",
+      "label": "A theme-park brochure",
+      "clause": "a theme-park brochure",
+      "output": "Don't miss the Grand Old Clock Tower — it has stood watch over the town's best days for more than a century, and it's still the beating heart of the skyline! Climb the 112 twisting steps, feel the giant gears thrum beneath your hands, and be standing right there when the great bell rings out. Generations have made a wish beneath its glowing face at midnight... will you?"
+    }
+  ]
+}

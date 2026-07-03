@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Instructor's Study — The False Mean project</title>
+<style>
+  :root {
+    --ink: #22222a; --muted: #6b6b76; --paper: #fdfcf9; --card: #ffffff;
+    --line: #e3e0d8; --accent: #2f6f5e; --accent-soft: #e7f1ee; --warn: #a8582f;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; font-size: 1.05rem; }
+  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
+  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.8rem; }
+  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
+  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
+  a.session { display: block; text-decoration: none; color: inherit; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; padding: 1rem 1.2rem; margin: 1rem 0; }
+  a.session:hover { background: var(--accent-soft); }
+  a.session .sk { font-family: system-ui, sans-serif; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+  a.session h2 { margin: .15rem 0 .3rem; font-size: 1.25rem; }
+  a.session p { margin: 0; font-size: .95rem; color: var(--muted); }
+  .soon { background: var(--card); border: 1px dashed var(--line); border-radius: 8px; padding: .8rem 1.2rem; margin: 1rem 0; color: var(--muted); font-family: system-ui, sans-serif; font-size: .9rem; }
+  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">AI + Research · Level 2 · Youth Horizons Learning</div>
+  <h1>The Instructor's Study</h1>
+  <div class="byline">Daniel — one paper-app per week, built in public, alongside the class</div>
+
+  <div class="thesis">
+    <strong>The project:</strong> <em>The False Mean — Can You Tell Excellence from Polish?</em>
+    A twelve-week study of prototypes, randomness, and taste in language-model writing, conducted as a series of small deployed paper-apps. Each one is a complete argument you can read <em>and</em> test.
+  </div>
+
+  <a class="session" href="session-01/">
+    <span class="sk">Session 1 · Embeddings and prototypes</span>
+    <h2>The Prototype Problem</h2>
+    <p>Predict what infants preferred; predict what the model defaults to. Two systems, one anchor.</p>
+  </a>
+
+  <a class="session" href="session-02/">
+    <span class="sk">Session 2 · Probability and temperature</span>
+    <h2>The False Mean</h2>
+    <p>Ten answers to one prompt, rated blind across five temperatures. Surprise rises, coherence falls — and difference turns out not to be quality.</p>
+  </a>
+
+  <a class="session" href="session-03/">
+    <span class="sk">Session 3 · Attention and context</span>
+    <h2>Fitted or Veneer?</h2>
+    <p>One request, four commissions. Match them, judge how deep the adaptation goes, then reveal the shared bones.</p>
+  </a>
+
+  <div class="soon">Sessions 4–12 arrive weekly: consensus slop · the two swerves · the rubric · the run · the reveal · the argument · the judge and the author · role reversal · showcase.</div>
+
+  <footer>Part of the Paper-App Research Studio · every dataset on these pages lives in the page's own <code>data/</code> folder — the app is the spreadsheet.</footer>
+</main>
+</body>
+</html>

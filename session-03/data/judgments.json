@@ -1,0 +1,17 @@
+{
+  "note": "Illustrative draft rows — replace with real class judgments collected via the page's 'Copy my judgments' button during Session 3, then recommit. The class tallies recompute from whatever is here.",
+  "judgments": [
+    { "rater": "R1", "outputId": "picture-book", "matchedCorrectly": true,  "verdict": "fitted" },
+    { "rater": "R1", "outputId": "journal",      "matchedCorrectly": true,  "verdict": "fitted" },
+    { "rater": "R1", "outputId": "memorial",     "matchedCorrectly": true,  "verdict": "fitted" },
+    { "rater": "R1", "outputId": "theme-park",   "matchedCorrectly": true,  "verdict": "veneer" },
+    { "rater": "R2", "outputId": "picture-book", "matchedCorrectly": true,  "verdict": "fitted" },
+    { "rater": "R2", "outputId": "journal",      "matchedCorrectly": true,  "verdict": "veneer" },
+    { "rater": "R2", "outputId": "memorial",     "matchedCorrectly": true,  "verdict": "fitted" },
+    { "rater": "R2", "outputId": "theme-park",   "matchedCorrectly": false, "verdict": "veneer" },
+    { "rater": "R3", "outputId": "picture-book", "matchedCorrectly": true,  "verdict": "veneer" },
+    { "rater": "R3", "outputId": "journal",      "matchedCorrectly": true,  "verdict": "fitted" },
+    { "rater": "R3", "outputId": "memorial",     "matchedCorrectly": true,  "verdict": "fitted" },
+    { "rater": "R3", "outputId": "theme-park",   "matchedCorrectly": true,  "verdict": "veneer" }
+  ]
+}

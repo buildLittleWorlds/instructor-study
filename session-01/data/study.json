@@ -1,0 +1,27 @@
+{
+  "source": "Infant preference for attractive animal faces (see corpus: 02-attractive-faces/attractive-faces.source-card.md)",
+  "questions": [
+    {
+      "id": "q1",
+      "prompt": "Researchers showed 3–4-month-old infants pairs of domestic cat faces — one rated attractive by adults, one unattractive. Which face did the infants look at longer?",
+      "options": ["The attractive face", "No reliable difference — babies are too young to care"],
+      "answer": 0,
+      "explanation": "Infants looked longer at the attractive cat faces: 61.25% mean preference, with 16 of 20 infants above chance. The preference for attractive faces extends beyond human faces."
+    },
+    {
+      "id": "q2",
+      "prompt": "Then the researchers turned the same cat faces upside down. What happened to the preference?",
+      "options": ["It stayed — an attractive image is attractive either way", "It disappeared"],
+      "answer": 1,
+      "explanation": "It vanished — 51.87%, chance level. So the preference isn't about raw image properties like brightness or contrast. It depends on the upright structural configuration of a face."
+    },
+    {
+      "id": "q3",
+      "prompt": "Wild tiger faces — animals no infant has met. Shown upright, did 3–4-month-olds prefer the attractive tigers too?",
+      "options": ["Yes — the preference appeared again", "No — unfamiliar wild faces didn't trigger it"],
+      "answer": 0,
+      "explanation": "Yes: 61.45% preference upright (and only 52.87% inverted — gone again). Even for wild animals, infant perception is drawn to attractive, well-formed upright faces."
+    }
+  ],
+  "takeaway": "Attractive faces sit close to the prototype — the mathematical average of many faces. Before culture, before language, human perception already anchors on the statistical center of a category."
+}

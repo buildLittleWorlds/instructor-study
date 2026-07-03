@@ -1,0 +1,79 @@
+{
+  "prompt": "Describe a beautiful room in two or three sentences.",
+  "model": "REPLACE ME — model name and version",
+  "date": "REPLACE ME — generation date",
+  "settings": "Ten runs, each in a fresh chat, default settings, no system prompt.",
+  "note": "The outputs below are illustrative drafts. Replace them with your own real runs before class (see README, 'Regenerate the data honestly').",
+  "features": [
+    "natural light",
+    "large windows",
+    "soft neutral tones",
+    "plants or greenery",
+    "cozy textiles",
+    "wood elements",
+    "books",
+    "fireplace",
+    "view of nature",
+    "uncluttered space"
+  ],
+  "distractors": [
+    "bold clashing colors",
+    "neon lighting",
+    "ornate gold detail",
+    "collections and clutter",
+    "dark moody walls",
+    "loud patterns"
+  ],
+  "outputs": [
+    {
+      "run": 1,
+      "text": "A beautiful room is filled with natural light streaming through large windows, with soft neutral tones creating a sense of calm. A few well-chosen plants add life, and a comfortable reading chair invites you to linger.",
+      "features": ["natural light", "large windows", "soft neutral tones", "plants or greenery"]
+    },
+    {
+      "run": 2,
+      "text": "Picture a sunlit space with floor-to-ceiling windows overlooking a garden. Warm wooden floors, a plush cream sofa with textured throw pillows, and trailing greenery on open shelves make the room feel both elegant and inviting.",
+      "features": ["natural light", "large windows", "view of nature", "wood elements", "cozy textiles", "soft neutral tones", "plants or greenery"]
+    },
+    {
+      "run": 3,
+      "text": "A beautiful room balances light, texture, and calm. Imagine white walls washed in morning sun, a linen sofa, a leafy fiddle-leaf fig in the corner, and a shelf of well-loved books.",
+      "features": ["natural light", "soft neutral tones", "cozy textiles", "plants or greenery", "books"]
+    },
+    {
+      "run": 4,
+      "text": "The most beautiful rooms feel serene and uncluttered. Natural light pours through big windows onto pale oak floors, and a neutral palette of whites and warm grays lets a single piece of art stand out.",
+      "features": ["natural light", "large windows", "wood elements", "soft neutral tones", "uncluttered space"]
+    },
+    {
+      "run": 5,
+      "text": "A crackling fireplace anchors the space, flanked by built-in bookshelves. Sunlight filters through tall windows, and soft throws over a deep sofa make the whole room feel like an invitation to stay.",
+      "features": ["fireplace", "books", "natural light", "large windows", "cozy textiles"]
+    },
+    {
+      "run": 6,
+      "text": "Think soft, layered neutrals — ivory, sand, warm taupe — with abundant daylight and a view of trees beyond the glass. A sculptural plant and a handwoven rug add just enough character.",
+      "features": ["soft neutral tones", "natural light", "view of nature", "large windows", "plants or greenery", "cozy textiles"]
+    },
+    {
+      "run": 7,
+      "text": "A beautiful room welcomes you with warmth: honey-toned wood, generous windows, green plants on the sill, and a reading nook bathed in afternoon light.",
+      "features": ["wood elements", "large windows", "plants or greenery", "natural light"]
+    },
+    {
+      "run": 8,
+      "text": "Clean lines and a calm, minimal palette define the space. Morning light falls across a low platform bed, a single monstera thrives by the window, and nothing feels out of place.",
+      "features": ["uncluttered space", "soft neutral tones", "natural light", "plants or greenery"]
+    },
+    {
+      "run": 9,
+      "text": "It's a room that breathes: high ceilings, white walls, sunlight everywhere. A worn leather armchair by the fireplace, shelves of books, and a soft wool blanket give it soul.",
+      "features": ["natural light", "soft neutral tones", "fireplace", "books", "cozy textiles"]
+    },
+    {
+      "run": 10,
+      "text": "A beautiful room combines comfort and simplicity — natural light through large windows, plants that soften the corners, warm wood accents, and a neutral base of creams and grays.",
+      "features": ["natural light", "large windows", "plants or greenery", "wood elements", "soft neutral tones"]
+    }
+  ]
+}
