@@ -122,12 +122,20 @@ const W = 600, H = 460, PAD = 40;
 let data, catColor = {}, coords = {}, vectors = {}, live = false;
 
 function setStatus(cls, msg){ statusEl.className = 'status ' + cls; statusEl.textContent = msg; }
+function renderMethod(){
+  if(!data) return;
+  document.getElementById('method').innerHTML =
+    `<p><strong>Model.</strong> ${data.model} Every word — the 36 on the map, the axis anchors, and any word you type — is embedded by the same model.</p>`+
+    `<p><strong>The two axes.</strong> The horizontal axis is the direction from “${data.axes.x.neg}” toward “${data.axes.x.pos}” (${data.axes.x.label}); the vertical axis, from “${data.axes.y.neg}” toward “${data.axes.y.pos}” (${data.axes.y.label}), straightened to be independent of the first. Each word’s position is how far it leans along each axis.</p>`+
+    `<p><strong>Prototype.</strong> For a category, we average its members’ embeddings to get a center, then pick the member closest to it. ${data.note}</p>`;
+}
 
 (async function(){
   try { data = await fetch('data/words.json').then(r=>r.json()); }
   catch(e){ setStatus('fb','Could not load the word list. Serve this folder over HTTP or open the deployed page.'); return; }
   data.categories.forEach(c=>catColor[c.id]=c);
   buildLegend();
+  renderMethod();
 
   // Try the live model; fall back gracefully.
   try {
@@ -274,11 +282,6 @@ async function placeUserWord(){
 document.getElementById('placeBtn').addEventListener('click', placeUserWord);
 document.getElementById('wordInput').addEventListener('keydown', e=>{ if(e.key==='Enter') placeUserWord(); });
 
-// ---- method text ----
-document.getElementById('method').innerHTML =
-  `<p><strong>Model.</strong> ${data ? data.model : ''} Every word — the 36 on the map, the axis anchors, and any word you type — is embedded by the same model.</p>`+
-  `<p><strong>The two axes.</strong> The horizontal axis is the direction from “${data.axes.x.neg}” toward “${data.axes.x.pos}” (${data.axes.x.label}); the vertical axis, from “${data.axes.y.neg}” toward “${data.axes.y.pos}” (${data.axes.y.label}), straightened to be independent of the first. Each word’s position is how far it leans along each axis.</p>`+
-  `<p><strong>Prototype.</strong> For a category, we average its members’ embeddings to get a center, then pick the member closest to it. ${data.note}</p>`;
 </script>
 </body>
 </html>
