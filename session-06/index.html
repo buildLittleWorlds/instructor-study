@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Agreement Machine — Instructor's Study, Session 6</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f;
+    --panel:#9aa6b2; --you:#c9781f; --lo:#b0506a; --hi:#2f6f5e;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  h3 { font-size:1.05rem; margin:1.2rem 0 .3rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .item { background:var(--card); border:1px solid var(--line); border-radius:9px; padding:.9rem 1.1rem; margin:.8rem 0; }
+  .item .opening { font-size:1.1rem; margin-bottom:.5rem; }
+  .rate { display:flex; gap:.4rem; align-items:center; font-family:system-ui,sans-serif; font-size:.85rem; }
+  .rate .scaleL { color:var(--muted); font-size:.78rem; }
+  .rate button { width:2.1rem; height:2.1rem; border-radius:6px; border:1.5px solid var(--line); background:#fff; color:var(--ink); font-family:system-ui,sans-serif; cursor:pointer; }
+  .rate button:hover:not(:disabled){ border-color:var(--accent); }
+  .rate button.sel { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .rate button:disabled { opacity:.6; cursor:default; } .rate button.sel:disabled { opacity:1; }
+  .axis { position:relative; height:2.4rem; margin:.7rem 0 .2rem; display:none; }
+  .axis .line { position:absolute; top:1.5rem; left:4%; right:4%; height:2px; background:var(--line); }
+  .axis .tick { position:absolute; top:1.9rem; transform:translateX(-50%); font-family:system-ui,sans-serif; font-size:.7rem; color:var(--muted); }
+  .axis .dot { position:absolute; width:.8rem; height:.8rem; border-radius:50%; background:var(--panel); transform:translate(-50%,-50%); top:1.5rem; opacity:.8; }
+  .axis .you { width:1.05rem; height:1.05rem; background:var(--you); border:2px solid #fff; box-shadow:0 0 0 1px var(--you); z-index:2; }
+  .agtag { font-family:system-ui,sans-serif; font-size:.85rem; font-weight:600; display:none; }
+  .bigbtn { font-family:system-ui,sans-serif; font-size:.95rem; font-weight:600; cursor:pointer; border:none; border-radius:8px; padding:.6rem 1.2rem; background:var(--accent); color:#fff; margin-top:.5rem; }
+  .bigbtn:disabled { background:#b8c9c4; cursor:default; }
+  .rubric { background:var(--accent-soft); border-radius:8px; padding:1rem 1.2rem; margin:1rem 0; display:none; }
+  .rubric .crit { margin:.5rem 0; font-size:.95rem; }
+  .rubric .crit b { color:var(--accent); }
+  .rubric .anchors { font-family:system-ui,sans-serif; font-size:.8rem; color:var(--muted); }
+  #roundB { display:none; }
+  .headline { display:none; background:#faf6ee; border-left:4px solid var(--accent); padding:.9rem 1.1rem; border-radius:8px; margin:1.2rem 0; font-size:1.05rem; }
+  .headline .big { font-size:1.5rem; font-weight:700; color:var(--accent); }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  .err { color:var(--warn); font-family:system-ui,sans-serif; }
+  .legend { font-family:system-ui,sans-serif; font-size:.8rem; display:flex; gap:1.2rem; margin:.3rem 0 .6rem; }
+  .legend b { display:inline-block; width:.7rem; height:.7rem; border-radius:50%; vertical-align:middle; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 6 · The False Mean project</div>
+  <h1>The Agreement Machine</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <div class="thesis">
+    <strong>Thesis.</strong> "Quality" sounds hopelessly personal — until you notice that trained judges, given clear criteria, start to <em>agree</em>. That agreement is the whole trick: it turns a feeling into evidence. This page is a small machine for watching it happen — to you.
+  </div>
+
+  <p><strong>This week's question:</strong> can defining what we mean by "good" make a room full of people rate the same writing the same way?</p>
+
+  <h2>Round 1 — Rate on gut feeling</h2>
+  <p>Three story openings. Rate each 1–5 on "overall quality." No definitions, no rules — just your gut.</p>
+  <div id="roundA"></div>
+  <button class="bigbtn" id="revealA" disabled>Rate all three to see how we agreed</button>
+  <p class="agtag" id="agA"></p>
+
+  <div class="rubric" id="rubric">
+    <h3 style="margin-top:0">The rubric — four criteria for "good"</h3>
+    <div id="critList"></div>
+  </div>
+
+  <div id="roundB">
+    <h2>Round 2 — Rate the same three, now with the rubric</h2>
+    <p>Exact same openings. Same you. This time, hold each one against the four criteria above before you choose a number.</p>
+    <div id="roundBItems"></div>
+    <button class="bigbtn" id="revealB" disabled>Rate all three to see how we agree now</button>
+    <p class="agtag" id="agB"></p>
+  </div>
+
+  <div class="headline" id="headline"></div>
+
+  <h2>Method</h2>
+  <div class="method" id="method">Loading…</div>
+
+  <h2>Interpretation</h2>
+  <p>Same openings, same raters — the only thing that changed between the rounds was having words for what we were looking for. On gut feeling, the panel scattered from 1 to 5 on the same sentence; with the rubric, they converged. That convergence is what lets a judgment about writing count as <em>evidence</em> instead of just a vibe. And notice the second gift: the trained panel didn't just agree, it agreed on <em>different</em> scores for different openings — low for the cliché, high for the pigeon — so the criteria don't flatten everything, they discriminate. This is exactly how real AI systems are evaluated: break the fuzzy judgment into named criteria, rate blind, and check that independent judges land in the same place.</p>
+
+  <div class="limit">
+    <strong>Limitation.</strong> Rating the same items twice means Round 2 is nudged by having already seen them — a cleaner test would use two separate trained-and-untrained groups on fresh items (which is what the real panels here do). And "agreement" isn't "correct": a whole panel can agree and still be wrong. Agreement makes a judgment <em>usable as evidence</em>, not automatically true.
+  </div>
+
+  <h2>Try it yourself</h2>
+  <div class="try">
+    Grab a friend and three short things — song lyrics, tweets, opening lines. Rate them 1–5 apart, then compare: how far off are you? Now write one sentence defining what "good" means for that kind of thing, rate again, and re-compare. Watch the gap shrink.
+  </div>
+
+  <p class="cliff">Now I have a yardstick that judges agree on. The obvious next move: point it at a hundred outputs across my three conditions and see which one actually wins. <span class="note">(That's the run — next week.)</span></p>
+
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>What AI helped with:</strong> drafting this page's code and the agreement math, which I checked. The openings are a mix I chose; the panels are illustrative ratings.</p>
+    <p><strong>What I own:</strong> the four criteria and their scale anchors, the two-round calibration design, the choice to measure agreement as "how often two judges land within a point," and the honesty that agreement is not the same as being right.</p>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study, Session 6 of 12 · Data: <code>data/rubric.json</code></footer>
+</main>
+
+<script>
+(async function(){
+  let data;
+  try { data = await fetch('data/rubric.json').then(r=>r.json()); }
+  catch(e){ document.getElementById('roundA').innerHTML='<p class="err">Could not load the data. Serve this folder over HTTP or open the deployed page.</p>'; return; }
+
+  const readerA={}, readerB={};
+
+  // pairwise-within-1 agreement over an array
+  function agreePct(arr){ let hit=0,n=0; for(let i=0;i<arr.length;i++)for(let j=i+1;j<arr.length;j++){ n++; if(Math.abs(arr[i]-arr[j])<=1) hit++; } return n? hit/n : 1; }
+
+  function itemCard(item, round, store, onDone){
+    const card=document.createElement('div'); card.className='item'; card.id=round+'-'+item.id;
+    card.innerHTML=`<div class="opening">“${item.text}”</div>`;
+    const rate=document.createElement('div'); rate.className='rate';
+    rate.innerHTML='<span class="scaleL">1 weak</span>';
+    for(let v=1; v<=5; v++){ const b=document.createElement('button'); b.textContent=v;
+      b.addEventListener('click',()=>{ rate.querySelectorAll('button').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); store[item.id]=v; onDone(); });
+      rate.appendChild(b); }
+    rate.insertAdjacentHTML('beforeend','<span class="scaleL">5 strong</span>');
+    card.appendChild(rate);
+    // axis (hidden until reveal)
+    const axis=document.createElement('div'); axis.className='axis'; axis.id='axis-'+round+'-'+item.id;
+    axis.innerHTML='<div class="line"></div>'+[1,2,3,4,5].map(v=>`<span class="tick" style="left:${4+(v-1)/4*92}%">${v}</span>`).join('');
+    card.appendChild(axis);
+    const ag=document.createElement('div'); ag.className='agtag'; ag.id='ag-'+round+'-'+item.id; card.appendChild(ag);
+    return card;
+  }
+
+  // Round A
+  const rA=document.getElementById('roundA');
+  data.items.forEach(it=> rA.appendChild(itemCard(it,'A',readerA,()=>{
+    document.getElementById('revealA').disabled = Object.keys(readerA).length!==data.items.length;
+    if(Object.keys(readerA).length===data.items.length) document.getElementById('revealA').textContent='See how we agreed';
+  })));
+
+  function plot(round, item, panel, readerVal, color){
+    const axis=document.getElementById('axis-'+round+'-'+item.id); axis.style.display='block';
+    // panel dots (jittered vertically)
+    panel.forEach((v,i)=>{ const d=document.createElement('div'); d.className='dot';
+      d.style.left=(4+(v-1)/4*92)+'%'; d.style.top=(1.5-0.35+ (i%3)*0.25)+'rem'; d.style.background=color; axis.appendChild(d); });
+    const you=document.createElement('div'); you.className='dot you'; you.style.left=(4+(readerVal-1)/4*92)+'%'; axis.appendChild(you);
+    const full=panel.concat([readerVal]);
+    const ag=document.getElementById('ag-'+round+'-'+item.id); ag.style.display='block';
+    ag.innerHTML=`agreement: <strong>${Math.round(agreePct(full)*100)}%</strong> of judges within a point · scores ranged ${Math.min(...full)}–${Math.max(...full)}`;
+  }
+
+  document.getElementById('revealA').addEventListener('click',()=>{
+    document.getElementById('revealA').disabled=true;
+    document.querySelectorAll('#roundA .rate button').forEach(b=>b.disabled=true);
+    let all=[];
+    data.items.forEach(it=>{ plot('A',it,it.untrained,readerA[it.id],'var(--panel)'); all=all.concat(it.untrained.concat([readerA[it.id]])); });
+    const overall=data.items.map(it=>agreePct(it.untrained.concat([readerA[it.id]]))).reduce((a,b)=>a+b)/data.items.length;
+    window.__agA=overall;
+    const el=document.getElementById('agA'); el.style.display='block';
+    el.innerHTML=`Overall, judges landed within a point only <strong>${Math.round(overall*100)}%</strong> of the time. On gut feeling, "good" is chaos.`;
+    // reveal rubric + round B
+    renderRubric();
+    document.getElementById('rubric').style.display='block';
+    document.getElementById('roundB').style.display='block';
+    document.getElementById('roundB').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  function renderRubric(){
+    const cl=document.getElementById('critList'); cl.innerHTML='';
+    data.rubric.forEach(c=>{ const d=document.createElement('div'); d.className='crit';
+      d.innerHTML=`<b>${c.name}.</b> ${c.definition} <span class="anchors">(1 = ${c.s1}; 5 = ${c.s5})</span>`; cl.appendChild(d); });
+  }
+
+  // Round B (built lazily so items appear under the rubric)
+  const rB=document.getElementById('roundBItems');
+  data.items.forEach(it=> rB.appendChild(itemCard(it,'B',readerB,()=>{
+    document.getElementById('revealB').disabled = Object.keys(readerB).length!==data.items.length;
+    if(Object.keys(readerB).length===data.items.length) document.getElementById('revealB').textContent='See how we agree now';
+  })));
+
+  document.getElementById('revealB').addEventListener('click',()=>{
+    document.getElementById('revealB').disabled=true;
+    document.querySelectorAll('#roundBItems .rate button').forEach(b=>b.disabled=true);
+    data.items.forEach(it=> plot('B',it,it.trained,readerB[it.id],'var(--hi)'));
+    const overall=data.items.map(it=>agreePct(it.trained.concat([readerB[it.id]]))).reduce((a,b)=>a+b)/data.items.length;
+    const el=document.getElementById('agB'); el.style.display='block';
+    el.innerHTML=`With the rubric, agreement jumped to <strong>${Math.round(overall*100)}%</strong>.`;
+    const a=Math.round((window.__agA||0)*100), b=Math.round(overall*100);
+    const h=document.getElementById('headline'); h.style.display='block';
+    h.innerHTML=`Same three openings. Same you. Agreement went from <span class="big">${a}%</span> to <span class="big">${b}%</span> — and the only thing that changed was having criteria. That jump is how taste becomes evidence.`;
+    h.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  document.getElementById('method').innerHTML =
+    `<p><strong>The design.</strong> Three story openings, rated 1–5 twice: once on gut feeling, once against a four-criterion rubric. Two illustrative panels stand in for an untrained group and a trained group; your own ratings join each.</p>`+
+    `<p><strong>Agreement.</strong> For each opening we look at every pair of judges and count how often they land within one point of each other, then average. Higher = the judges are converging.</p>`+
+    `<p class="note">${data.note}</p>`;
+})();
+</script>
+</body>
+</html>

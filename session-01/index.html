@@ -3,261 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Prototype Problem — Instructor's Study, Session 1</title>
+<title>The Map of Meaning — Instructor's Study, Session 1</title>
 <style>
   :root {
-    --ink: #22222a;
-    --muted: #6b6b76;
-    --paper: #fdfcf9;
-    --card: #ffffff;
-    --line: #e3e0d8;
-    --accent: #2f6f5e;
-    --accent-soft: #e7f1ee;
-    --warn: #a8582f;
-    --bar: #cfe3dd;
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f; --star:#c9781f;
   }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--paper); color: var(--ink);
-    font-family: Georgia, 'Times New Roman', serif;
-    line-height: 1.65; font-size: 1.05rem;
-  }
-  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
-  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
-  h2 { font-size: 1.3rem; margin: 2.8rem 0 .8rem; border-top: 1px solid var(--line); padding-top: 1.6rem; }
-  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.8rem; }
-  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
-  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
-  .q { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
-  .q p { margin: 0 0 .7rem; }
-  .opts { display: flex; flex-wrap: wrap; gap: .5rem; }
-  button {
-    font-family: system-ui, sans-serif; font-size: .92rem; cursor: pointer;
-    border: 1.5px solid var(--accent); background: #fff; color: var(--accent);
-    border-radius: 999px; padding: .45rem .95rem;
-  }
-  button:hover:not(:disabled) { background: var(--accent-soft); }
-  button:disabled { cursor: default; opacity: .55; }
-  button.chosen { background: var(--accent); color: #fff; opacity: 1; }
-  button.correct { border-width: 2.5px; opacity: 1; }
-  .explain { display: none; margin-top: .8rem; padding-top: .7rem; border-top: 1px dashed var(--line); font-size: .97rem; }
-  .verdict { font-family: system-ui, sans-serif; font-weight: 600; font-size: .85rem; }
-  .verdict.right { color: var(--accent); }
-  .verdict.wrong { color: var(--warn); }
-  .scoreline { font-family: system-ui, sans-serif; font-weight: 600; margin-top: 1rem; display: none; }
-  .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 1rem; }
-  .chips button.picked { background: var(--accent); color: #fff; }
-  #revealTally { display: block; margin: .5rem 0 0; padding: .55rem 1.2rem; font-weight: 600; }
-  .tally { display: none; margin-top: 1.4rem; }
-  .bar-row { display: grid; grid-template-columns: 11.5rem 1fr 3.2rem; gap: .6rem; align-items: center; margin: .35rem 0; font-family: system-ui, sans-serif; font-size: .88rem; cursor: pointer; }
-  .bar-row .label { text-align: right; }
-  .bar-track { background: #f0ede5; border-radius: 4px; height: 1.05rem; overflow: hidden; }
-  .bar-fill { background: var(--bar); height: 100%; border-radius: 4px; }
-  .bar-row.active .bar-fill { background: var(--accent); }
-  .bar-row .mark { font-weight: 700; }
-  .cards { margin-top: 1.4rem; display: grid; gap: .7rem; }
-  .card { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 6px; padding: .8rem 1rem; font-size: .96rem; transition: opacity .15s; }
-  .card .rn { font-family: system-ui, sans-serif; font-size: .75rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
-  .card.hit { border-left-color: var(--accent); background: #fbfdfc; }
-  .card.dim { opacity: .35; }
-  .method, .authorship { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
-  .limit { border-left: 4px solid var(--warn); padding: .7rem 1.1rem; background: #faf3ee; margin: 1.2rem 0; }
-  .try { border: 2px dashed var(--accent); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
-  .cliff { font-size: 1.15rem; font-style: italic; margin: 2rem 0 0; }
-  .err { color: var(--warn); font-family: system-ui, sans-serif; }
-  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .mapwrap { position:relative; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.5rem; margin:1rem 0; }
+  svg#map { width:100%; height:auto; display:block; touch-action:none; }
+  .dot { cursor:pointer; }
+  .lbl { font-family:system-ui,sans-serif; font-size:9px; fill:var(--ink); pointer-events:none; }
+  .dim { opacity:.18; }
+  .legend { display:flex; flex-wrap:wrap; gap:.4rem .9rem; font-family:system-ui,sans-serif; font-size:.82rem; margin:.4rem .3rem 0; }
+  .legend span { display:inline-flex; align-items:center; gap:.35rem; }
+  .swatch { width:.7rem; height:.7rem; border-radius:50%; display:inline-block; }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  input[type=text] { font-size:1rem; padding:.45rem .7rem; border:1px solid var(--line); border-radius:8px; min-width:11rem; }
+  button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  button:hover:not(:disabled){ background:var(--accent-soft); }
+  button:disabled { opacity:.5; cursor:default; }
+  .readout { font-family:system-ui,sans-serif; font-size:.92rem; min-height:1.4rem; margin-top:.4rem; }
+  .neighbors { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.5rem; }
+  .neighbors span { font-family:system-ui,sans-serif; font-size:.82rem; background:var(--accent-soft); color:var(--accent); border-radius:999px; padding:.15rem .6rem; }
+  .status { font-family:system-ui,sans-serif; font-size:.85rem; padding:.5rem .8rem; border-radius:8px; margin:.6rem 0; }
+  .status.load { background:#eef3f1; color:var(--muted); }
+  .status.ok { background:var(--accent-soft); color:var(--accent); }
+  .status.fb { background:#faf3ee; color:var(--warn); }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+  footer a { color:var(--accent); }
 </style>
 </head>
 <body>
 <main>
   <div class="kicker">The Instructor's Study · Session 1 · The False Mean project</div>
-  <h1>The Prototype Problem</h1>
-  <div class="byline">Daniel — AI + Research, Level 2 · Youth Horizons Learning</div>
+  <h1>The Map of Meaning</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
 
   <div class="thesis">
-    <strong>Thesis.</strong> Human perception and language models both anchor on <em>prototypes</em> — the statistical center of the examples they have absorbed. Before we can ask whether AI writing is any good, we have to meet the average it keeps returning to.
+    <strong>Thesis.</strong> A language model turns every word into a point in a vast space of numbers, where distance means similarity of meaning. If that's true, meaning has a <em>geography</em> — and the "typical" member of any group sits near the center of its neighborhood. That center is a <strong>prototype</strong>, and it's where the model's default answers come from.
   </div>
 
-  <p><strong>This week's question:</strong> do people and language models share the same starting point — a built-in pull toward the prototype?</p>
+  <p><strong>This week's question:</strong> can we actually see meaning as a map — and find the prototype sitting at the middle of a cluster?</p>
 
-  <h2>Part 1 — Predict the infants</h2>
-  <p>A developmental psychology lab showed <strong>3–4-month-old infants</strong> pairs of animal faces and measured which face they looked at longer. Before you see the results, commit to a prediction on each question.</p>
-  <div id="quiz"><p class="note">Loading study data…</p></div>
-  <p class="scoreline" id="quizScore"></p>
-  <p id="takeaway" style="display:none"></p>
+  <div class="status load" id="status">Waking up a real language model in your browser… (first load downloads ~30 MB; it's cached after that.)</div>
 
-  <h2>Part 2 — Predict the machine</h2>
-  <p>We asked a language model the same question ten times, in ten fresh conversations: <em>“Describe a beautiful room in two or three sentences.”</em> If the model anchors on a prototype, the ten “different” answers should keep reaching for the same furniture.</p>
-  <p><strong>Pick the three features you predict appear most often</strong> across the ten answers — then reveal the tally.</p>
-  <div class="chips" id="chips"><span class="note">Loading outputs…</span></div>
-  <button id="revealTally" disabled>Pick 3 to reveal the tally</button>
-
-  <div class="tally" id="tally">
-    <p class="scoreline" id="chipScore" style="display:block"></p>
-    <div id="bars"></div>
-    <p class="note">Click a bar to highlight the answers that contain that feature.</p>
-    <div class="cards" id="cards"></div>
+  <h2>The map</h2>
+  <p class="note">Each dot is a word, placed by a real embedding model. Click any dot to see its nearest neighbors. Words that mean similar things sit close together.</p>
+  <div class="mapwrap">
+    <svg id="map" viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" aria-label="A map of words"></svg>
   </div>
+  <div class="legend" id="legend"></div>
+  <p class="readout" id="readout">Loading the map…</p>
+  <div class="neighbors" id="neighbors"></div>
+
+  <div class="controls">
+    <button id="protoBtn" disabled>Reveal the prototype (Animals)</button>
+    <span class="note">— the word nearest the center of its cluster.</span>
+  </div>
+
+  <h2>Put your own word on the map</h2>
+  <p class="note">Type any word. A real neural network will read it, turn it into 384 numbers, and drop it onto the map beside its neighbors. (Needs the live model.)</p>
+  <div class="controls">
+    <input type="text" id="wordInput" placeholder="e.g. dragon, sadness, guitar…" disabled>
+    <button id="placeBtn" disabled>Place it</button>
+  </div>
+  <p class="readout" id="userReadout"></p>
 
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
 
   <h2>Interpretation</h2>
-  <p>Two very different systems, one behavior. Infants — with no training data we can inspect — look longer at faces near the attractive prototype, and the preference collapses when the structure is disrupted. A language model — which is, mathematically, a map of averages — reaches for the same windows, plants, and neutral tones no matter how many times we ask. In embedding terms: <strong>a prototype is a centroid</strong>, and the model's default answer lives near the centroid of everything it learned about "beautiful rooms."</p>
+  <p>The map isn't decoration — it's the model's actual sense of meaning, flattened from 384 dimensions down to two so our eyes can read it. Animals land near animals, feelings near feelings, without anyone telling the model what a category is; it learned the neighborhoods from how words are used. And inside each neighborhood there's a center of gravity. The word closest to that center is the most "average" member — the <strong>prototype</strong>. When you later ask a model for "an animal" or "a beautiful room," this is where its first answer comes from: the middle of the map.</p>
 
   <div class="limit">
-    <strong>Limitation.</strong> Ten runs, one model, one prompt — a hint, not a proof. And the infant study concerns face perception, not room descriptions: the connection between the two is an <em>analogy about anchoring</em>, not an identity. Nothing here yet says whether the prototype is good, bad, or merely the starting point.
+    <strong>Limitation.</strong> Squashing 384 dimensions into 2 loses a lot — two dots that look close on this flat map might be farther apart in the real space, and the two axes are just one choice of many. This is a faithful <em>sketch</em> of the model's meaning-space, not a perfect photograph. It shows that meaning has structure; it doesn't capture all of it.
   </div>
 
   <h2>Try it yourself</h2>
   <div class="try">
-    Open the AI chat you already use. Ask it — in three separate conversations — for <em>“a beautiful room”</em> (or a beautiful anything you care about: game level, sneaker, song). Count what repeats. Then try, politely, to escape the default: <em>“make it unusual.”</em> Watch what it does instead.
+    Put in a word that lives between two worlds — <em>"bat"</em> (animal or baseball?), <em>"spring,"</em> <em>"rock,"</em> your own name. Where does the model place it, and whose neighbor does it become? Then find a word you think the model will get <em>wrong</em>, and see if it does.
   </div>
 
-  <p class="cliff">Babies like the prototype. The model <em>is</em> a prototype machine. So — is the average therefore good? <span class="note">(Next week: what happens when we force the model away from its center.)</span></p>
+  <p class="cliff">The model hands us the center of the map every time. So here's the whole rest of the course in one question: <em>is the center any good?</em> <span class="note">(Next week we grab a dial that pulls answers away from it.)</span></p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
-    <p><strong>What AI helped with:</strong> generating the ten room descriptions (that was the experiment); drafting the first version of this page's HTML, which I revised.</p>
-    <p><strong>What I own:</strong> the question, the choice of study, the feature labels (hand-tagged — a judgment call you are welcome to dispute), the interpretation, and the limitation. The study data comes from published research; the reveal-numbers are quoted from it.</p>
+    <p><strong>What AI helped with:</strong> the embedding model does the real work of placing words — that <em>is</em> the experiment. AI also drafted this page's first code, which I revised.</p>
+    <p><strong>What I own:</strong> the word list and its categories, the two meaning-axes I chose to project onto, the decision to define a prototype as the word nearest a cluster's center, and every sentence of the interpretation and limitation.</p>
   </div>
 
-  <footer>Part of the class proceedings · The Instructor's Study, Session 1 of 12 · Data: <code>data/study.json</code>, <code>data/outputs.json</code></footer>
+  <footer>Part of the class proceedings · The Instructor's Study, Session 1 of 12 · Data: <code>data/words.json</code> · Model runs in your browser via <a href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener">Transformers.js</a></footer>
 </main>
 
-<script>
-(async function () {
-  let study, out;
+<script type="module">
+import { pipeline } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers";
+
+const statusEl = document.getElementById('status');
+const readoutEl = document.getElementById('readout');
+const neighborsEl = document.getElementById('neighbors');
+const userReadoutEl = document.getElementById('userReadout');
+const svg = document.getElementById('map');
+const SVGNS = "http://www.w3.org/2000/svg";
+const W = 600, H = 460, PAD = 40;
+
+let data, catColor = {}, coords = {}, vectors = {}, live = false;
+
+function setStatus(cls, msg){ statusEl.className = 'status ' + cls; statusEl.textContent = msg; }
+
+(async function(){
+  try { data = await fetch('data/words.json').then(r=>r.json()); }
+  catch(e){ setStatus('fb','Could not load the word list. Serve this folder over HTTP or open the deployed page.'); return; }
+  data.categories.forEach(c=>catColor[c.id]=c);
+  buildLegend();
+
+  // Try the live model; fall back gracefully.
   try {
-    [study, out] = await Promise.all([
-      fetch('data/study.json').then(r => r.json()),
-      fetch('data/outputs.json').then(r => r.json())
-    ]);
-  } catch (e) {
-    document.getElementById('quiz').innerHTML =
-      '<p class="err">Could not load data files. Serve this folder over HTTP (e.g. <code>python3 -m http.server</code>) or view the deployed page.</p>';
-    return;
+    const extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
+      progress_callback: e => { if(e.status==='progress' && e.progress) setStatus('load', `Downloading the model… ${Math.round(e.progress)}%`); }
+    });
+    setStatus('load','Model ready — embedding the words…');
+    const embed = async t => Array.from((await extractor(t, { pooling:'mean', normalize:true })).data);
+    // embed every word + the 4 axis anchors
+    for(const w of data.words) vectors[w.word] = await embed(w.word);
+    const ax = {}; for(const a of [data.axes.x.pos,data.axes.x.neg,data.axes.y.pos,data.axes.y.neg]) ax[a]=await embed(a);
+    let axX = sub(ax[data.axes.x.pos], ax[data.axes.x.neg]); axX = norm(axX);
+    let axY = sub(ax[data.axes.y.pos], ax[data.axes.y.neg]);
+    axY = norm(sub(axY, scale(axX, dot(axY,axX)))); // orthogonalize Y against X
+    window.__axes = {axX, axY};
+    for(const w of data.words) coords[w.word] = [dot(vectors[w.word],axX), dot(vectors[w.word],axY)];
+    fitCoords();
+    live = true;
+    setStatus('ok','Live model loaded. Every dot is placed by a real neural network. Type your own word below.');
+    document.getElementById('wordInput').disabled = false;
+    document.getElementById('placeBtn').disabled = false;
+  } catch(err){
+    // fallback: approximate hand-arranged layout
+    for(const w of data.words) coords[w.word] = data.fallbackCoords[w.word];
+    fitCoords();
+    setStatus('fb','The live model could not load on this device, so the map is showing an approximate backup layout. The idea still holds — but "place your own word" needs the model.');
   }
-
-  /* ---------- Part 1: prediction quiz ---------- */
-  const quiz = document.getElementById('quiz');
-  quiz.innerHTML = '';
-  let answered = 0, correct = 0;
-  study.questions.forEach(q => {
-    const box = document.createElement('div');
-    box.className = 'q';
-    box.innerHTML = '<p>' + q.prompt + '</p>';
-    const opts = document.createElement('div');
-    opts.className = 'opts';
-    const explain = document.createElement('div');
-    explain.className = 'explain';
-    q.options.forEach((label, i) => {
-      const b = document.createElement('button');
-      b.textContent = label;
-      b.addEventListener('click', () => {
-        opts.querySelectorAll('button').forEach(x => x.disabled = true);
-        b.classList.add('chosen');
-        opts.querySelectorAll('button')[q.answer].classList.add('correct');
-        const right = i === q.answer;
-        if (right) correct++;
-        explain.innerHTML = '<span class="verdict ' + (right ? 'right">Your prediction was right.' : 'wrong">Not this time.') +
-          '</span> ' + q.explanation;
-        explain.style.display = 'block';
-        answered++;
-        if (answered === study.questions.length) {
-          const s = document.getElementById('quizScore');
-          s.textContent = 'You predicted ' + correct + ' of ' + study.questions.length + ' results correctly.';
-          s.style.display = 'block';
-          const t = document.getElementById('takeaway');
-          t.innerHTML = '<strong>Takeaway:</strong> ' + study.takeaway;
-          t.style.display = 'block';
-        }
-      });
-      opts.appendChild(b);
-    });
-    box.appendChild(opts);
-    box.appendChild(explain);
-    quiz.appendChild(box);
-  });
-
-  /* ---------- Part 2: predict the machine ---------- */
-  const counts = {};
-  out.features.forEach(f => counts[f] = 0);
-  out.outputs.forEach(o => o.features.forEach(f => { if (f in counts) counts[f]++; }));
-  const ranked = out.features.slice().sort((a, b) => counts[b] - counts[a]);
-  const top5 = new Set(ranked.slice(0, 5));
-  const allChips = out.features.concat(out.distractors)
-    .map(f => ({ f, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(x => x.f);
-
-  const chipsEl = document.getElementById('chips');
-  chipsEl.innerHTML = '';
-  const picked = new Set();
-  const revealBtn = document.getElementById('revealTally');
-  allChips.forEach(f => {
-    const b = document.createElement('button');
-    b.textContent = f;
-    b.addEventListener('click', () => {
-      if (picked.has(f)) { picked.delete(f); b.classList.remove('picked'); }
-      else if (picked.size < 3) { picked.add(f); b.classList.add('picked'); }
-      revealBtn.disabled = picked.size !== 3;
-      revealBtn.textContent = picked.size === 3 ? 'Reveal the tally' : 'Pick 3 to reveal the tally';
-    });
-    chipsEl.appendChild(b);
-  });
-
-  revealBtn.addEventListener('click', () => {
-    revealBtn.disabled = true;
-    chipsEl.querySelectorAll('button').forEach(b => b.disabled = true);
-    document.getElementById('tally').style.display = 'block';
-
-    const hits = [...picked].filter(f => top5.has(f)).length;
-    document.getElementById('chipScore').textContent =
-      hits + ' of your 3 picks were in the top 5. The model asked for “different” answers ten times — and returned to the same room.';
-
-    const bars = document.getElementById('bars');
-    ranked.forEach(f => {
-      const row = document.createElement('div');
-      row.className = 'bar-row';
-      row.dataset.feature = f;
-      const youPicked = picked.has(f);
-      row.innerHTML =
-        '<span class="label">' + f + (youPicked ? ' <span class="mark">•you</span>' : '') + '</span>' +
-        '<span class="bar-track"><span class="bar-fill" style="width:' + (counts[f] * 10) + '%"></span></span>' +
-        '<span>' + counts[f] + '/10</span>';
-      row.addEventListener('click', () => {
-        const on = !row.classList.contains('active');
-        bars.querySelectorAll('.bar-row').forEach(r => r.classList.remove('active'));
-        document.querySelectorAll('.card').forEach(c => c.classList.remove('hit', 'dim'));
-        if (on) {
-          row.classList.add('active');
-          document.querySelectorAll('.card').forEach(c => {
-            if (c.dataset.features.split('|').includes(f)) c.classList.add('hit');
-            else c.classList.add('dim');
-          });
-        }
-      });
-      bars.appendChild(row);
-    });
-
-    const cards = document.getElementById('cards');
-    out.outputs.forEach(o => {
-      const c = document.createElement('div');
-      c.className = 'card';
-      c.dataset.features = o.features.join('|');
-      c.innerHTML = '<div class="rn">Run ' + o.run + '</div>' + o.text;
-      cards.appendChild(c);
-    });
-  });
-
-  /* ---------- Method ---------- */
-  document.getElementById('method').innerHTML =
-    '<p><strong>Machine side.</strong> Prompt: “' + out.prompt + '” — ' + out.settings +
-    ' Model: ' + out.model + '. Date: ' + out.date +
-    '. Feature labels were hand-tagged by the author; the tally is computed from those tags on this page.</p>' +
-    '<p><strong>Human side.</strong> ' + study.source +
-    '. Reveal numbers are quoted from the published experiments (preference = proportion of looking time toward the attractive face).</p>';
+  document.getElementById('protoBtn').disabled = false;
+  render();
+  readoutEl.textContent = 'Click any word to see its nearest neighbors.';
 })();
+
+// ---- vector helpers ----
+function dot(a,b){ let s=0; for(let i=0;i<a.length;i++) s+=a[i]*b[i]; return s; }
+function sub(a,b){ return a.map((v,i)=>v-b[i]); }
+function scale(a,k){ return a.map(v=>v*k); }
+function norm(a){ const m=Math.sqrt(dot(a,a))||1; return a.map(v=>v/m); }
+
+// ---- layout ----
+let tx, ty;
+function fitCoords(){
+  const xs=Object.values(coords).map(c=>c[0]), ys=Object.values(coords).map(c=>c[1]);
+  const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
+  tx = v => PAD + (v-minX)/((maxX-minX)||1)*(W-2*PAD);
+  ty = v => H-PAD - (v-minY)/((maxY-minY)||1)*(H-2*PAD);
+}
+function px(w){ return [tx(coords[w][0]), ty(coords[w][1])]; }
+
+function buildLegend(){
+  const el=document.getElementById('legend'); el.innerHTML='';
+  data.categories.forEach(c=>{ const s=document.createElement('span');
+    s.innerHTML=`<span class="swatch" style="background:${c.color}"></span>${c.label}`; el.appendChild(s); });
+}
+
+function render(){
+  svg.innerHTML='';
+  for(const w of data.words){
+    const [x,y]=px(w.word);
+    const c=document.createElementNS(SVGNS,'circle');
+    c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r',6);
+    c.setAttribute('fill',catColor[w.cat].color); c.setAttribute('class','dot'); c.dataset.word=w.word;
+    c.addEventListener('click',()=>selectWord(w.word));
+    svg.appendChild(c);
+    const t=document.createElementNS(SVGNS,'text');
+    t.setAttribute('x',x+8); t.setAttribute('y',y+3); t.setAttribute('class','lbl'); t.textContent=w.word;
+    svg.appendChild(t);
+  }
+}
+
+function nearest(word, k){
+  // cosine on full vectors when live; else 2D distance on the map
+  const scored = data.words.filter(w=>w.word!==word).map(w=>{
+    let d;
+    if(live && vectors[word] && vectors[w.word]) d = -dot(vectors[word],vectors[w.word]); // higher cosine = closer
+    else { const a=coords[word],b=coords[w.word]; d=(a[0]-b[0])**2+(a[1]-b[1])**2; }
+    return {word:w.word,d};
+  }).sort((a,b)=>a.d-b.d);
+  return scored.slice(0,k).map(s=>s.word);
+}
+
+function selectWord(word){
+  const nbrs = nearest(word,4);
+  const keep = new Set([word,...nbrs]);
+  svg.querySelectorAll('.dot').forEach(d=> d.classList.toggle('dim', !keep.has(d.dataset.word)));
+  svg.querySelectorAll('text').forEach(t=> t.classList.toggle('dim', !keep.has(t.textContent)));
+  // draw neighbor lines
+  svg.querySelectorAll('.nbline').forEach(l=>l.remove());
+  const [x0,y0]=px(word);
+  nbrs.forEach(n=>{ const [x1,y1]=px(n); const l=document.createElementNS(SVGNS,'line');
+    l.setAttribute('x1',x0);l.setAttribute('y1',y0);l.setAttribute('x2',x1);l.setAttribute('y2',y1);
+    l.setAttribute('stroke','#2f6f5e');l.setAttribute('stroke-width','1');l.setAttribute('opacity','.35');l.setAttribute('class','nbline');
+    svg.insertBefore(l, svg.firstChild); });
+  readoutEl.innerHTML = `<strong>${word}</strong> — its nearest neighbors on the map:`;
+  neighborsEl.innerHTML = nbrs.map(n=>`<span>${n}</span>`).join('');
+}
+
+// ---- prototype ----
+document.getElementById('protoBtn').addEventListener('click',()=>{
+  const catId = data.prototypeCategory;
+  const members = data.words.filter(w=>w.cat===catId).map(w=>w.word);
+  let proto;
+  if(live){
+    const dim = vectors[members[0]].length; const cen = new Array(dim).fill(0);
+    members.forEach(m=>vectors[m].forEach((v,i)=>cen[i]+=v)); for(let i=0;i<dim;i++) cen[i]/=members.length;
+    proto = members.map(m=>({m,d:-dot(vectors[m],cen)})).sort((a,b)=>a.d-b.d)[0].m;
+  } else {
+    const cx=members.reduce((s,m)=>s+coords[m][0],0)/members.length;
+    const cy=members.reduce((s,m)=>s+coords[m][1],0)/members.length;
+    proto = members.map(m=>({m,d:(coords[m][0]-cx)**2+(coords[m][1]-cy)**2})).sort((a,b)=>a.d-b.d)[0].m;
+  }
+  // mark it
+  svg.querySelectorAll('.protoring').forEach(r=>r.remove());
+  const [x,y]=px(proto); const ring=document.createElementNS(SVGNS,'circle');
+  ring.setAttribute('cx',x);ring.setAttribute('cy',y);ring.setAttribute('r',13);
+  ring.setAttribute('fill','none');ring.setAttribute('stroke',catColor[catId].color);ring.setAttribute('stroke-width','2.5');ring.setAttribute('class','protoring');
+  svg.appendChild(ring);
+  selectWord(proto);
+  readoutEl.innerHTML = `The most <strong>prototypical</strong> ${catColor[catId].label.toLowerCase()} word — nearest the center of its cluster — is <strong>${proto}</strong>. That's the model's "default" animal.`;
+});
+
+// ---- place your own word ----
+async function placeUserWord(){
+  const raw = document.getElementById('wordInput').value.trim();
+  if(!raw || !live) return;
+  userReadoutEl.textContent = `Embedding "${raw}"…`;
+  try {
+    const extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+    const vec = Array.from((await extractor(raw,{pooling:'mean',normalize:true})).data);
+    const {axX,axY} = window.__axes;
+    coords[raw] = [dot(vec,axX), dot(vec,axY)]; vectors[raw] = vec;
+    if(!data.words.find(w=>w.word===raw)) data.words.push({word:raw, cat:'__user'});
+    catColor['__user'] = {color:'#c9781f', label:'You'};
+    fitCoords(); render();
+    // star marker
+    const [x,y]=px(raw); const star=document.createElementNS(SVGNS,'circle');
+    star.setAttribute('cx',x);star.setAttribute('cy',y);star.setAttribute('r',8);
+    star.setAttribute('fill','#c9781f');star.setAttribute('stroke','#fff');star.setAttribute('stroke-width','2');
+    svg.appendChild(star);
+    const nbrs = nearest(raw,4);
+    userReadoutEl.innerHTML = `<strong>${raw}</strong> landed nearest: ${nbrs.join(', ')}. Is that the neighborhood you expected?`;
+    selectWord(raw);
+  } catch(e){ userReadoutEl.textContent = 'Could not embed that word — the model may still be loading.'; }
+}
+document.getElementById('placeBtn').addEventListener('click', placeUserWord);
+document.getElementById('wordInput').addEventListener('keydown', e=>{ if(e.key==='Enter') placeUserWord(); });
+
+// ---- method text ----
+document.getElementById('method').innerHTML =
+  `<p><strong>Model.</strong> ${data ? data.model : ''} Every word — the 36 on the map, the axis anchors, and any word you type — is embedded by the same model.</p>`+
+  `<p><strong>The two axes.</strong> The horizontal axis is the direction from “${data.axes.x.neg}” toward “${data.axes.x.pos}” (${data.axes.x.label}); the vertical axis, from “${data.axes.y.neg}” toward “${data.axes.y.pos}” (${data.axes.y.label}), straightened to be independent of the first. Each word’s position is how far it leans along each axis.</p>`+
+  `<p><strong>Prototype.</strong> For a category, we average its members’ embeddings to get a center, then pick the member closest to it. ${data.note}</p>`;
 </script>
 </body>
 </html>

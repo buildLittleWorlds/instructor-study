@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Slop Detector — Instructor's Study, Session 4</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f;
+    --ai:#b0506a; --human:#3f7fae; --mark:#f4c04e;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .predict { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.1rem; margin:1rem 0; }
+  .predict .opts { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.6rem; }
+  .predict button { font-family:system-ui,sans-serif; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:999px; padding:.45rem .95rem; cursor:pointer; }
+  .predict button.chosen { background:var(--accent); color:#fff; }
+  .predict button:disabled { cursor:default; opacity:.6; }
+  .predict button.chosen:disabled { opacity:1; }
+  #results { display:none; }
+  .meter { margin:.7rem 0; font-family:system-ui,sans-serif; }
+  .meter .lab { font-size:.9rem; font-weight:600; margin-bottom:.2rem; display:flex; justify-content:space-between; }
+  .meter .track { background:#f0ede5; border-radius:5px; height:1.5rem; overflow:hidden; }
+  .meter .fill { height:100%; border-radius:5px; transition:width .8s ease; }
+  .fill.ai { background:var(--ai); } .fill.human { background:var(--human); }
+  .verdict { font-family:system-ui,sans-serif; font-weight:600; margin-top:.6rem; }
+  .chart { margin:1rem 0; }
+  .prow { display:grid; grid-template-columns:11rem 1fr; gap:.6rem; align-items:center; font-family:system-ui,sans-serif; font-size:.85rem; padding:.25rem .3rem; border-radius:6px; cursor:pointer; }
+  .prow:hover { background:var(--accent-soft); }
+  .prow.sel { background:var(--accent-soft); outline:1px solid var(--accent); }
+  .prow .phrase { text-align:right; color:var(--ink); }
+  .prow .bars { display:flex; flex-direction:column; gap:.15rem; }
+  .prow .b { height:.8rem; border-radius:3px; display:flex; align-items:center; }
+  .prow .b.ai { background:var(--ai); } .prow .b.human { background:var(--human); }
+  .prow .b span { color:#fff; font-size:.7rem; font-weight:700; padding-left:.3rem; }
+  .legend { font-family:system-ui,sans-serif; font-size:.82rem; display:flex; gap:1rem; margin:.4rem .3rem; }
+  .legend b { display:inline-block; width:.7rem; height:.7rem; border-radius:2px; vertical-align:middle; }
+  .cols { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:1rem; }
+  @media (max-width:640px){ .cols { grid-template-columns:1fr; } }
+  .colhead { font-family:system-ui,sans-serif; font-weight:700; font-size:.85rem; padding:.3rem 0; }
+  .colhead.ai { color:var(--ai); } .colhead.human { color:var(--human); }
+  .tcard { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.6rem .8rem; margin:.4rem 0; font-size:.9rem; }
+  .tcard .pr { font-family:system-ui,sans-serif; font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:.2rem; }
+  .tcard mark { background:var(--mark); padding:0 .1em; border-radius:2px; }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  .err { color:var(--warn); font-family:system-ui,sans-serif; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 4 · The False Mean project</div>
+  <h1>The Slop Detector</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <div class="thesis">
+    <strong>Thesis.</strong> After a model learns language, it's tuned toward answers people preferred — a process called RLHF. A documented side effect is <em>mode collapse</em>: the outputs get more and more alike, no matter how different the questions. The field's word for the result is <strong>consensus slop</strong> — fluent, polished, and eerily the same. If it's real, we should be able to <em>measure</em> it.
+  </div>
+
+  <p><strong>This week's question:</strong> are a model's answers to eight unrelated prompts measurably more alike than eight humans' answers to the same prompts?</p>
+
+  <h2>Predict first</h2>
+  <div class="predict" id="predict">
+    <strong>Before we measure:</strong> which set do you think repeats itself more — and by how much?
+    <div class="opts">
+      <button data-p="tie">About the same</button>
+      <button data-p="human">Humans repeat more</button>
+      <button data-p="ai-little">AI repeats a little more</button>
+      <button data-p="ai-lot">AI repeats a lot more</button>
+    </div>
+  </div>
+
+  <div id="results">
+    <h2>How alike is each set?</h2>
+    <p class="note">Sameness = the average share of vocabulary any two texts in a set have in common. Computed live from the texts below.</p>
+    <div class="meter">
+      <div class="lab"><span id="aiLab"></span><span id="aiPct"></span></div>
+      <div class="track"><div class="fill ai" id="aiBar" style="width:0"></div></div>
+    </div>
+    <div class="meter">
+      <div class="lab"><span id="huLab"></span><span id="huPct"></span></div>
+      <div class="track"><div class="fill human" id="huBar" style="width:0"></div></div>
+    </div>
+    <p class="verdict" id="verdict"></p>
+
+    <h2>Where the sameness lives: the tells</h2>
+    <p class="note">Stock phrases counted across both sets — the model's fingerprints. Click any row to light up every text that uses it.</p>
+    <div class="legend"><span><b style="background:var(--ai)"></b> AI</span><span><b style="background:var(--human)"></b> Human</span></div>
+    <div class="chart" id="chart"></div>
+
+    <h2>The evidence underneath</h2>
+    <div class="cols">
+      <div><div class="colhead ai" id="colheadAi"></div><div id="aiCol"></div></div>
+      <div><div class="colhead human" id="colheadHuman"></div><div id="humanCol"></div></div>
+    </div>
+  </div>
+
+  <h2>Method</h2>
+  <div class="method" id="method">Loading…</div>
+
+  <h2>Interpretation</h2>
+  <p>The two bars usually aren't close. The AI answers share a large slice of their vocabulary with one another even though the prompts have nothing in common — a sunset, a study tip, a pep talk all reach for <em>journey, ultimately, it's important to remember, truly.</em> The human notes barely overlap at all, because each person grabbed something concrete and specific: a spilled coffee, a traffic-cone orange, a cat. That gap is <strong>consensus slop</strong> made visible. And it raises the real question behind the mechanism: the model sounds this way because it was tuned toward what raters rewarded — so <em>whose</em> preferences, and <em>what</em> did they reward, to sand every answer down to the same shape?</p>
+
+  <div class="limit">
+    <strong>Limitation.</strong> Sameness here is measured by shared vocabulary — a rough, surface proxy. Two texts can share few words yet still feel identical in rhythm and stance, which this misses; a deeper version would compare meaning with embeddings, not words. And the texts are a small, authored sample. The direction is real and repeatable; the exact percentages are just this sample's.
+  </div>
+
+  <h2>Try it yourself</h2>
+  <div class="try">
+    Give your AI chat five prompts that have nothing to do with each other and read the answers back to back. Hunt for the phrase that shows up in all five — that's your model's tell. Then ask it to "avoid clichés and be original," and watch what <em>new</em> repeated phrase appears instead.
+  </div>
+
+  <p class="cliff">The obvious fix is "make it weirder." But if you just crank the strangeness, you get a different sameness — edgy slop instead of safe slop. So what actually beats slop? <span class="note">(That question is where my real research begins — next week.)</span></p>
+
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>What AI helped with:</strong> it wrote the eight "AI answers" — that <em>is</em> the specimen. It also drafted this page's code and the sameness math, which I checked.</p>
+    <p><strong>What I own:</strong> the choice of prompts, the human notes I collected, the stock-phrase list, the decision to measure sameness by shared vocabulary (and to say plainly that it's a surface proxy), and the reading that slop is a symptom of what raters rewarded.</p>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study, Session 4 of 12 · Data: <code>data/slop.json</code></footer>
+</main>
+
+<script>
+(async function(){
+  let data;
+  try { data = await fetch('data/slop.json').then(r=>r.json()); }
+  catch(e){ document.getElementById('predict').innerHTML='<p class="err">Could not load the texts. Serve this folder over HTTP or open the deployed page.</p>'; return; }
+
+  // ---- sameness math ----
+  const STOP=new Set("a an the and or but of to in on at for with is are was were be been it its this that these those you your i my we our they them he she as so if then than too very can could will would just about into out up down over more most some any all no not only own same other new keep make take come go going once what who a is it".split(" "));
+  const words=t=>t.toLowerCase().split(/[^a-z']+/).filter(w=>w.length>2 && !STOP.has(w));
+  const jac=(a,b)=>{ const A=new Set(a),B=new Set(b); let inter=0; for(const x of A) if(B.has(x)) inter++; const uni=new Set([...A,...B]).size; return uni?inter/uni:0; };
+  const avgPair=set=>{ const ws=set.map(t=>words(t.text)); let s=0,n=0; for(let i=0;i<ws.length;i++)for(let j=i+1;j<ws.length;j++){s+=jac(ws[i],ws[j]);n++;} return n?s/n:0; };
+  const aiSame=avgPair(data.ai), huSame=avgPair(data.human);
+
+  // ---- render text columns (optionally highlight a phrase) ----
+  function esc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+  function renderCols(hl){
+    const mk=(set,elId)=>{ const el=document.getElementById(elId); el.innerHTML='';
+      set.forEach(t=>{ const d=document.createElement('div'); d.className='tcard';
+        let body=t.text;
+        if(hl){ body=body.replace(new RegExp('('+esc(hl)+')','gi'),'<mark>$1</mark>'); }
+        d.innerHTML=`<div class="pr">${t.prompt}</div>${body}`; el.appendChild(d); });
+    };
+    mk(data.ai,'aiCol'); mk(data.human,'humanCol');
+  }
+
+  // ---- phrase chart ----
+  function countIn(set,p){ return set.filter(x=>x.text.toLowerCase().includes(p)).length; }
+  function renderChart(){
+    const chart=document.getElementById('chart'); chart.innerHTML='';
+    const maxN=data.ai.length;
+    data.phrases.forEach(p=>{
+      const a=countIn(data.ai,p), h=countIn(data.human,p);
+      const row=document.createElement('div'); row.className='prow'; row.dataset.phrase=p;
+      row.innerHTML=`<div class="phrase">"${p}"</div>`+
+        `<div class="bars">`+
+        `<div class="b ai" style="width:${Math.max(6,a/maxN*100)}%"><span>${a}</span></div>`+
+        `<div class="b human" style="width:${Math.max(6,h/maxN*100)}%"><span>${h}</span></div>`+
+        `</div>`;
+      row.addEventListener('click',()=>{
+        document.querySelectorAll('.prow').forEach(r=>r.classList.toggle('sel', r===row));
+        renderCols(p);
+      });
+      chart.appendChild(row);
+    });
+  }
+
+  // ---- prediction → reveal ----
+  let predicted=null;
+  document.querySelectorAll('#predict button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      predicted=b.dataset.p;
+      document.querySelectorAll('#predict button').forEach(x=>{ x.classList.toggle('chosen',x===b); x.disabled=true; });
+      reveal();
+    });
+  });
+
+  function reveal(){
+    document.getElementById('results').style.display='block';
+    document.getElementById('aiLab').textContent=data.aiLabel;
+    document.getElementById('huLab').textContent=data.humanLabel;
+    document.getElementById('colheadAi').textContent=data.aiLabel;
+    document.getElementById('colheadHuman').textContent=data.humanLabel;
+    const aiPct=(aiSame*100), huPct=(huSame*100);
+    document.getElementById('aiPct').textContent=aiPct.toFixed(1)+'% alike';
+    document.getElementById('huPct').textContent=huPct.toFixed(1)+'% alike';
+    // scale bars to the larger value for visibility
+    const scale=Math.max(aiPct,huPct,1);
+    setTimeout(()=>{ document.getElementById('aiBar').style.width=(aiPct/scale*100)+'%';
+      document.getElementById('huBar').style.width=(huPct/scale*100)+'%'; },60);
+    const ratio=huSame>0?(aiSame/huSame):Infinity;
+    const ratioTxt=ratio===Infinity?'far':(ratio.toFixed(0)+'×');
+    const right = (predicted==='ai-lot' && ratio>=3) || (predicted==='ai-little' && ratio>1 && ratio<3);
+    document.getElementById('verdict').innerHTML=
+      `The AI answers are about <strong>${ratioTxt} more alike</strong> to each other than the human notes are. `+
+      (predicted?(right?'Your prediction was right.':'More lopsided than most people guess — that gap is the slop.'):'');
+    renderChart(); renderCols(null);
+    document.getElementById('results').scrollIntoView({behavior:'smooth'});
+  }
+
+  document.getElementById('method').innerHTML =
+    `<p><strong>The sample.</strong> ${data.ai.length} AI answers and ${data.human.length} human notes, to the same ${data.ai.length} unrelated prompts.</p>`+
+    `<p><strong>Sameness.</strong> For each set we take every pair of texts, compute the share of meaningful words they have in common (a Jaccard overlap, ignoring tiny stop-words), and average it. Higher = the texts recycle more of the same vocabulary.</p>`+
+    `<p><strong>The tells.</strong> We count a fixed list of stock phrases across both sets. Everything is computed in your browser from <code>data/slop.json</code>. ${data.note}</p>`;
+})();
+</script>
+</body>
+</html>

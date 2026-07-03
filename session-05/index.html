@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Question Zero — Instructor's Study, Session 5</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f;
+    --default:#6b6b76; --random:#b0506a; --directed:#2f6f5e;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .wondering { font-style:italic; font-size:1.15rem; color:var(--ink); margin:1rem 0; }
+  .qcard { background:var(--card); border:1px solid var(--line); border-radius:9px; padding:.9rem 1.1rem; margin:.8rem 0; }
+  .qcard .qtext { font-size:1.05rem; margin-bottom:.6rem; }
+  .vbtns { display:flex; flex-wrap:wrap; gap:.4rem; }
+  .vbtns button { font-family:system-ui,sans-serif; font-size:.82rem; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:999px; padding:.35rem .8rem; cursor:pointer; }
+  .vbtns button:hover:not(:disabled){ border-color:var(--accent); }
+  .vbtns button.picked { color:#fff; }
+  .vbtns button:disabled { cursor:default; }
+  .reveal { display:none; margin-top:.7rem; padding-top:.7rem; border-top:1px dashed var(--line); font-family:system-ui,sans-serif; font-size:.88rem; }
+  .kills { display:flex; gap:1rem; flex-wrap:wrap; margin:.4rem 0; }
+  .kills .k { font-size:.82rem; }
+  .kills .y { color:var(--accent); font-weight:700; } .kills .n { color:var(--warn); font-weight:700; } .kills .p { color:#3f7fae; font-weight:700; }
+  .verdicttag { display:inline-block; font-weight:700; font-size:.78rem; padding:.1rem .55rem; border-radius:999px; color:#fff; }
+  .mark { font-family:system-ui,sans-serif; font-weight:600; font-size:.8rem; }
+  .mark.right { color:var(--accent); } .mark.wrong { color:var(--warn); }
+  .score { font-family:system-ui,sans-serif; font-weight:600; margin-top:1rem; display:none; }
+  .survivor { display:none; background:var(--accent-soft); border-left:4px solid var(--accent); padding:1rem 1.2rem; border-radius:8px; margin:1.4rem 0; }
+  .survivor .q { font-size:1.15rem; font-weight:700; color:var(--accent); margin:.3rem 0; }
+  .doors { display:grid; gap:.7rem; margin:1rem 0; }
+  .door { background:var(--card); border:1px solid var(--line); border-radius:9px; padding:.9rem 1.1rem; }
+  .door .dn { font-family:system-ui,sans-serif; font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+  .door .dtext { font-size:1.05rem; margin:.4rem 0 .6rem; }
+  .door .assign { display:flex; flex-wrap:wrap; gap:.4rem; }
+  .door .assign button { font-family:system-ui,sans-serif; font-size:.8rem; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:999px; padding:.3rem .75rem; cursor:pointer; }
+  .door .assign button.sel { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .door.revealed .assign { display:none; }
+  .door .verdict2 { display:none; font-family:system-ui,sans-serif; font-size:.9rem; margin-top:.4rem; padding-top:.4rem; border-top:1px dashed var(--line); }
+  .door .verdict2 .sw { font-weight:700; }
+  .bigbtn { font-family:system-ui,sans-serif; font-size:.95rem; font-weight:600; cursor:pointer; border:none; border-radius:8px; padding:.6rem 1.2rem; background:var(--accent); color:#fff; }
+  .bigbtn:disabled { background:#b8c9c4; cursor:default; }
+  .payoff { display:none; background:#faf6ee; border-left:4px solid var(--directed); padding:.9rem 1.1rem; border-radius:8px; margin:1rem 0; font-size:.98rem; }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  .err { color:var(--warn); font-family:system-ui,sans-serif; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 5 · The False Mean project · the hinge</div>
+  <h1>Question Zero</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <div class="thesis">
+    <strong>Thesis.</strong> A surprise is not a research question — it's the raw material for one. The whole craft of research is narrowing: turning "AI writing feels off" into something small enough to actually test, and interesting enough to be worth testing. A good question is one you can measure, get data for, and be surprised by — <em>either way it turns out.</em>
+  </div>
+
+  <p class="wondering" id="wondering"></p>
+
+  <h2>Part 1 — The kill-tests</h2>
+  <p>For four sessions I collected surprises. Then I tried to turn them into questions — and killed most of them. Here are seven candidates. For each, decide its fate before I reveal mine. Ask three things: <strong>Can you measure it? Can you get the data? Would either answer surprise you?</strong></p>
+  <div id="triage"><p class="note">Loading candidates…</p></div>
+  <p class="score" id="score"></p>
+
+  <div class="survivor" id="survivor">
+    <div class="note">One survived every test:</div>
+    <div class="q" id="survivorQ"></div>
+    <div id="survivorWhy"></div>
+  </div>
+
+  <h2>Part 2 — Three doors</h2>
+  <p>So this is my locked study. To run it I need three versions of one answer. Here are three first lines for the same prompt — <em>"<span id="doorsPrompt"></span>"</em> — produced three different ways. Match each to how you think it was made, then reveal.</p>
+  <div class="doors" id="doors"></div>
+  <button class="bigbtn" id="revealDoors" disabled>Assign all three to reveal</button>
+  <div class="payoff" id="payoff"></div>
+
+  <h2>Method</h2>
+  <div class="method" id="method">Loading…</div>
+
+  <h2>Interpretation</h2>
+  <p>Narrowing feels like giving up ambition. It's the opposite. A giant question ("is AI creative?") can never be answered, so it teaches you nothing; a small one ("do readers rate a directed break above the default and a random one?") can be run in a few weeks and will change your mind about something real. The three conditions give the study its shape: the <strong>false mean</strong> (the safe default), the <strong>random swerve</strong> (difference by noise), and the <strong>true swerve</strong> (a break made on purpose). The bet is that the true swerve wins — but the reason to make the bet is that I learn something whether it does or not.</p>
+
+  <div class="limit">
+    <strong>Limitation.</strong> A locked question can still be the wrong one — too small to matter, or resting on a distinction ("directed" vs. "random") that readers can't actually feel. I won't know until I build the instrument and run it. Locking the question isn't the end of doubt; it's the start of a test.
+  </div>
+
+  <h2>Try it yourself</h2>
+  <div class="try">
+    Bring three of your own surprises from the last few weeks. Run each through the three kill-tests: can you measure it, can you get the data, would either answer surprise you? Keep the one that survives — that's your Question Zero, and it's worth more than ten big ideas you can't test.
+  </div>
+
+  <p class="cliff">To test my bet fairly I can't just ask "which is best?" — that's an opinion again. I need criteria a stranger could be trained to apply, and agree on. <span class="note">(Next week you become my expert panel.)</span></p>
+
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>What AI helped with:</strong> it generated the three lighthouse lines under my three different instructions — that's the pilot specimen — and drafted this page's code.</p>
+    <p><strong>What I own:</strong> every candidate question and its verdict, the three kill-tests, the choice of the surviving question, the three-condition design, and the reading that a good question pays off both ways.</p>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study, Session 5 of 12 · Data: <code>data/questions.json</code></footer>
+</main>
+
+<script>
+(async function(){
+  let data;
+  try { data = await fetch('data/questions.json').then(r=>r.json()); }
+  catch(e){ document.getElementById('triage').innerHTML='<p class="err">Could not load the data. Serve this folder over HTTP or open the deployed page.</p>'; return; }
+
+  document.getElementById('wondering').textContent = '“' + data.wondering + '”';
+  document.getElementById('doorsPrompt').textContent = data.doorsPrompt;
+
+  // ---- Part 1: triage ----
+  const triage = document.getElementById('triage');
+  triage.innerHTML='';
+  const vkeys = Object.keys(data.verdicts);
+  let answered=0, correct=0;
+  const killGlyph = v => v==='yes' ? '<span class="y">can ✓</span>' : v==='no' ? '<span class="n">can’t ✗</span>' : '<span class="p">sort of ~</span>';
+
+  data.candidates.forEach(c=>{
+    const card=document.createElement('div'); card.className='qcard';
+    card.innerHTML = `<div class="qtext">${c.text}</div>`;
+    const btns=document.createElement('div'); btns.className='vbtns';
+    vkeys.forEach(k=>{
+      const b=document.createElement('button'); b.textContent=data.verdicts[k].label; b.dataset.k=k;
+      b.addEventListener('click',()=>{
+        btns.querySelectorAll('button').forEach(x=>x.disabled=true);
+        b.classList.add('picked'); b.style.background=data.verdicts[k].color; b.style.borderColor=data.verdicts[k].color;
+        const right = k===c.verdict;
+        if(right) correct++; answered++;
+        const rv=card.querySelector('.reveal');
+        const vt=data.verdicts[c.verdict];
+        rv.innerHTML =
+          `<span class="mark ${right?'right':'wrong'}">${right?'You judged it the same way I did.':'I filed this one differently:'}</span> `+
+          `<span class="verdicttag" style="background:${vt.color}">${vt.label}</span>`+
+          `<div class="kills"><span class="k">Measure it? ${killGlyph(c.kill.measure)}</span>`+
+          `<span class="k">Get the data? ${killGlyph(c.kill.data)}</span>`+
+          `<span class="k">Could surprise you? ${killGlyph(c.kill.surprise)}</span></div>`+
+          `<div>${c.why}</div>`;
+        rv.style.display='block';
+        if(answered===data.candidates.length) finishTriage();
+      });
+      btns.appendChild(b);
+    });
+    card.appendChild(btns);
+    const rv=document.createElement('div'); rv.className='reveal'; card.appendChild(rv);
+    triage.appendChild(card);
+  });
+
+  function finishTriage(){
+    const s=document.getElementById('score');
+    s.textContent = `You matched my verdict on ${correct} of ${data.candidates.length}. Narrowing is a skill — you just practiced it.`;
+    s.style.display='block';
+    const surv=data.candidates.find(c=>c.survivor);
+    document.getElementById('survivorQ').textContent = '“'+surv.text+'”';
+    document.getElementById('survivorWhy').textContent = surv.why;
+    document.getElementById('survivor').style.display='block';
+  }
+
+  // ---- Part 2: doors ----
+  const shuffled = data.doors.map(d=>({d,s:Math.random()})).sort((a,b)=>a.s-b.s).map(x=>x.d);
+  const assigned = {}; // cond of card -> chosen label
+  const doorsEl=document.getElementById('doors'); doorsEl.innerHTML='';
+  const condLabels = { default:'The default', random:'Cranked-up randomness', directed:'A directed break' };
+  shuffled.forEach((card,idx)=>{
+    const el=document.createElement('div'); el.className='door'; el.dataset.cond=card.cond;
+    el.innerHTML = `<div class="dn">Line ${String.fromCharCode(65+idx)}</div><div class="dtext">${card.text}</div>`;
+    const assign=document.createElement('div'); assign.className='assign';
+    Object.keys(condLabels).forEach(k=>{
+      const b=document.createElement('button'); b.textContent=condLabels[k]; b.dataset.k=k;
+      b.addEventListener('click',()=>{
+        assign.querySelectorAll('button').forEach(x=>x.classList.toggle('sel', x===b));
+        assigned[card.cond]=k;
+        document.getElementById('revealDoors').disabled = Object.keys(assigned).length!==shuffled.length;
+        if(Object.keys(assigned).length===shuffled.length) document.getElementById('revealDoors').textContent='Reveal the three doors';
+      });
+      assign.appendChild(b);
+    });
+    el.appendChild(assign);
+    const v=document.createElement('div'); v.className='verdict2'; el.appendChild(v);
+    doorsEl.appendChild(el);
+  });
+
+  document.getElementById('revealDoors').addEventListener('click',()=>{
+    document.getElementById('revealDoors').style.display='none';
+    document.querySelectorAll('.door').forEach(el=>{
+      const cond=el.dataset.cond; const sw=data.swerves[cond];
+      const right = assigned[cond]===cond;
+      el.classList.add('revealed');
+      const v=el.querySelector('.verdict2');
+      v.innerHTML = `<span class="sw" style="color:var(--${cond})">${sw.name}${condLabels[cond]?` — made by ${condLabels[cond].toLowerCase()}`:''}.</span> ${sw.note} `+
+        `<span class="mark ${right?'right':'wrong'}">${right?'You matched it.':'Not this one.'}</span>`;
+      v.style.display='block';
+    });
+    const p=document.getElementById('payoff'); p.textContent=data.payoff; p.style.display='block';
+    p.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  document.getElementById('method').innerHTML =
+    `<p><strong>The kill-tests.</strong> A question earns a place only if it passes three: you can measure it, you can get the data, and either outcome would surprise you. Fail one and it's an opinion, too big, or missing a yardstick.</p>`+
+    `<p><strong>The three conditions.</strong> DEFAULT = the model's standard answer (the false mean). RANDOM = the same prompt at high temperature (difference by noise). DIRECTED = the model told to break one expectation on purpose, for a reason (the candidate true swerve).</p>`+
+    `<p class="note">${data.note}</p>`;
+})();
+</script>
+</body>
+</html>

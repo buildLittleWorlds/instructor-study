@@ -1,0 +1,301 @@
+{
+  "note": "This is the real evidence-gathering instrument for my study: the same prompts run through three conditions, each rated on the four-criterion rubric from last week. The texts and scores here are illustrative (authored to show the shape of a real run); the totals are computed. On a real run these would be model outputs I generated and the class rated. The averages that decide the study are deliberately NOT on this page — that is next week.",
+  "conditions": {
+    "default": {
+      "label": "Default (the false mean)",
+      "color": "#6b6b76"
+    },
+    "random": {
+      "label": "Random (high temperature)",
+      "color": "#b0506a"
+    },
+    "directed": {
+      "label": "Directed (the true swerve)",
+      "color": "#2f6f5e"
+    }
+  },
+  "criteria": [
+    "fit",
+    "form",
+    "surprise",
+    "return"
+  ],
+  "rows": [
+    {
+      "id": "r01",
+      "prompt": "lighthouse keeper",
+      "condition": "default",
+      "text": "The lighthouse keeper climbed the stairs each night, lantern in hand, watching over the restless sea.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 1,
+      "return": 2,
+      "total": 11
+    },
+    {
+      "id": "r02",
+      "prompt": "lighthouse keeper",
+      "condition": "random",
+      "text": "Lighthouse keeper, barnacle mayor of the vertical sea, kettle screaming semaphore at a bored moon.",
+      "fit": 3,
+      "form": 2,
+      "surprise": 5,
+      "return": 3,
+      "total": 13
+    },
+    {
+      "id": "r03",
+      "prompt": "lighthouse keeper",
+      "condition": "directed",
+      "text": "The lighthouse keeper had never once looked at the sea; his whole job, he decided, was to be looked at.",
+      "fit": 5,
+      "form": 5,
+      "surprise": 5,
+      "return": 5,
+      "total": 20
+    },
+    {
+      "id": "r04",
+      "prompt": "locksmith",
+      "condition": "default",
+      "text": "The old locksmith had opened a thousand doors, but this one made his hands shake.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 2,
+      "return": 3,
+      "total": 13
+    },
+    {
+      "id": "r05",
+      "prompt": "locksmith",
+      "condition": "random",
+      "text": "Locksmith teeth, brass Tuesdays, a keyhole humming the wrong hymn to nobody in particular.",
+      "fit": 2,
+      "form": 1,
+      "surprise": 5,
+      "return": 1,
+      "total": 9
+    },
+    {
+      "id": "r06",
+      "prompt": "locksmith",
+      "condition": "directed",
+      "text": "The locksmith kept one lock he could never open, and visited it like a grave.",
+      "fit": 5,
+      "form": 5,
+      "surprise": 4,
+      "return": 5,
+      "total": 19
+    },
+    {
+      "id": "r07",
+      "prompt": "beekeeper",
+      "condition": "default",
+      "text": "The beekeeper moved slowly among the hives, calm as always, wrapped in the hum of summer.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 1,
+      "return": 2,
+      "total": 11
+    },
+    {
+      "id": "r08",
+      "prompt": "beekeeper",
+      "condition": "random",
+      "text": "Beekeeper: sugar admiral, drone-choir conductor, stung into a language of small yellow verbs.",
+      "fit": 3,
+      "form": 2,
+      "surprise": 5,
+      "return": 3,
+      "total": 13
+    },
+    {
+      "id": "r09",
+      "prompt": "beekeeper",
+      "condition": "directed",
+      "text": "The beekeeper was allergic to bees, and had chosen the job on purpose.",
+      "fit": 5,
+      "form": 4,
+      "surprise": 5,
+      "return": 5,
+      "total": 19
+    },
+    {
+      "id": "r10",
+      "prompt": "night nurse",
+      "condition": "default",
+      "text": "The night nurse walked the quiet ward, checking each patient, listening to the machines breathe.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 2,
+      "return": 2,
+      "total": 12
+    },
+    {
+      "id": "r11",
+      "prompt": "night nurse",
+      "condition": "random",
+      "text": "Night nurse, the moon’s employee, IV-drip metronome, folding the dark into hospital corners.",
+      "fit": 3,
+      "form": 3,
+      "surprise": 4,
+      "return": 3,
+      "total": 13
+    },
+    {
+      "id": "r12",
+      "prompt": "night nurse",
+      "condition": "directed",
+      "text": "The night nurse knew everyone’s last words before they did, and kept a list she never read.",
+      "fit": 5,
+      "form": 5,
+      "surprise": 5,
+      "return": 5,
+      "total": 20
+    },
+    {
+      "id": "r13",
+      "prompt": "mapmaker",
+      "condition": "default",
+      "text": "The mapmaker bent over her desk, drawing coastlines with a steady, practiced hand.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 1,
+      "return": 2,
+      "total": 11
+    },
+    {
+      "id": "r14",
+      "prompt": "mapmaker",
+      "condition": "random",
+      "text": "Mapmaker inks a country that keeps sneezing its borders into the wrong ocean, whoops.",
+      "fit": 2,
+      "form": 2,
+      "surprise": 5,
+      "return": 2,
+      "total": 11
+    },
+    {
+      "id": "r15",
+      "prompt": "mapmaker",
+      "condition": "directed",
+      "text": "The mapmaker left one island off every map, so that one place could stay unfound.",
+      "fit": 5,
+      "form": 5,
+      "surprise": 4,
+      "return": 5,
+      "total": 19
+    },
+    {
+      "id": "r16",
+      "prompt": "ferry captain",
+      "condition": "default",
+      "text": "The ferry captain crossed the same grey water twice a day, year after year, without complaint.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 2,
+      "return": 2,
+      "total": 12
+    },
+    {
+      "id": "r17",
+      "prompt": "ferry captain",
+      "condition": "random",
+      "text": "Ferry captain, gull-argued, wearing the fog like a borrowed coat two sizes of Tuesday.",
+      "fit": 2,
+      "form": 1,
+      "surprise": 4,
+      "return": 1,
+      "total": 8
+    },
+    {
+      "id": "r18",
+      "prompt": "ferry captain",
+      "condition": "directed",
+      "text": "The ferry captain had crossed ten thousand times and still counted, in case the far shore one day wasn’t there.",
+      "fit": 5,
+      "form": 5,
+      "surprise": 4,
+      "return": 5,
+      "total": 19
+    },
+    {
+      "id": "r19",
+      "prompt": "piano tuner",
+      "condition": "default",
+      "text": "The piano tuner listened closely, adjusting each string until the note rang true.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 1,
+      "return": 2,
+      "total": 11
+    },
+    {
+      "id": "r20",
+      "prompt": "piano tuner",
+      "condition": "random",
+      "text": "Piano tuner, felt-hammered saint, tightening the silence until it confesses a middle C.",
+      "fit": 3,
+      "form": 3,
+      "surprise": 5,
+      "return": 4,
+      "total": 15
+    },
+    {
+      "id": "r21",
+      "prompt": "piano tuner",
+      "condition": "directed",
+      "text": "The piano tuner was deaf, and tuned by watching the dust jump on the lid.",
+      "fit": 5,
+      "form": 5,
+      "surprise": 5,
+      "return": 5,
+      "total": 20
+    },
+    {
+      "id": "r22",
+      "prompt": "taxidermist",
+      "condition": "default",
+      "text": "The taxidermist worked carefully in the back room, giving the fox a lifelike, watchful pose.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 2,
+      "return": 2,
+      "total": 12
+    },
+    {
+      "id": "r23",
+      "prompt": "taxidermist",
+      "condition": "random",
+      "text": "Taxidermist, glass-eyed haberdasher of the almost-alive, stitching Tuesday back into the rabbit.",
+      "fit": 2,
+      "form": 2,
+      "surprise": 4,
+      "return": 2,
+      "total": 10
+    },
+    {
+      "id": "r24",
+      "prompt": "taxidermist",
+      "condition": "directed",
+      "text": "The taxidermist only worked on animals that had died of old age, and gave each one a name.",
+      "fit": 4,
+      "form": 4,
+      "surprise": 4,
+      "return": 4,
+      "total": 16
+    },
+    {
+      "id": "r25",
+      "prompt": "beekeeper",
+      "condition": "directed",
+      "text": "The gardener never planted anything he could not later dig up and apologize to.",
+      "fit": 5,
+      "form": 5,
+      "surprise": 5,
+      "return": 5,
+      "total": 20,
+      "flag": "Prompt drifted mid-run — I typed the wrong subject (gardener, not beekeeper). Logged and kept visible, but excluded from the analysis so it can’t flatter the directed condition."
+    }
+  ]
+}

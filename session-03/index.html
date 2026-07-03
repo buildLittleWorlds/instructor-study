@@ -3,314 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fitted or Veneer? — Instructor's Study, Session 3</title>
+<title>Attention Spotlight — Instructor's Study, Session 3</title>
 <style>
   :root {
-    --ink: #22222a;
-    --muted: #6b6b76;
-    --paper: #fdfcf9;
-    --card: #ffffff;
-    --line: #e3e0d8;
-    --accent: #2f6f5e;
-    --accent-soft: #e7f1ee;
-    --warn: #a8582f;
-    --mark: #fff3b8;
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f; --glow:#f4c04e;
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; font-size: 1.05rem; }
-  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
-  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
-  h2 { font-size: 1.3rem; margin: 2.8rem 0 .8rem; border-top: 1px solid var(--line); padding-top: 1.6rem; }
-  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.8rem; }
-  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
-  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
-  .briefs { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
-  .briefs li { margin: .3rem 0; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
-  .card .cid { font-family: system-ui, sans-serif; font-size: .75rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
-  .card .true-label { display: none; float: right; font-family: system-ui, sans-serif; font-size: .78rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; background: var(--accent); color: #fff; }
-  .card mark { background: var(--mark); padding: 0 .1em; border-radius: 2px; }
-  .picker { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .8rem; }
-  .picker button, .vote button {
-    font-family: system-ui, sans-serif; font-size: .85rem; cursor: pointer;
-    border: 1.5px solid var(--accent); background: #fff; color: var(--accent);
-    border-radius: 999px; padding: .4rem .85rem;
-  }
-  .picker button:hover:not(:disabled), .vote button:hover:not(:disabled) { background: var(--accent-soft); }
-  .picker button.sel, .vote button.sel { background: var(--accent); color: #fff; }
-  .picker button:disabled, .vote button:disabled { cursor: default; opacity: .55; }
-  .picker button.sel:disabled, .vote button.sel:disabled { opacity: 1; }
-  .match-result { display: none; margin-top: .6rem; font-family: system-ui, sans-serif; font-size: .85rem; font-weight: 600; }
-  .match-result.right { color: var(--accent); }
-  .match-result.wrong { color: var(--warn); }
-  .vote { display: none; margin-top: .8rem; padding-top: .8rem; border-top: 1px dashed var(--line); font-family: system-ui, sans-serif; font-size: .88rem; }
-  .vote .vbtns { display: flex; gap: .5rem; margin-top: .5rem; flex-wrap: wrap; }
-  .bigbtn { font-family: system-ui, sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; border-radius: 8px; padding: .7rem 1.4rem; background: var(--accent); color: #fff; }
-  .bigbtn:disabled { background: #b8c9c4; cursor: default; }
-  .ghost { background: #fff; color: var(--accent); border: 1.5px solid var(--accent); }
-  .scoreline { font-family: system-ui, sans-serif; font-weight: 600; margin: 1rem 0; display: none; }
-  #bones, #tallies { display: none; }
-  .bone-list { font-family: system-ui, sans-serif; font-size: .9rem; }
-  .bone-list li { margin: .25rem 0; }
-  .tally-table { width: 100%; border-collapse: collapse; font-family: system-ui, sans-serif; font-size: .88rem; margin: 1rem 0; }
-  .tally-table th, .tally-table td { padding: .45rem .5rem; border-bottom: 1px solid var(--line); text-align: left; }
-  .exportbox { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; font-family: system-ui, sans-serif; font-size: .92rem; display: none; }
-  .exportbox input { font-size: .95rem; padding: .4rem .6rem; border: 1px solid var(--line); border-radius: 6px; margin-right: .5rem; }
-  .exportbox textarea { width: 100%; height: 6rem; margin-top: .7rem; font-family: ui-monospace, monospace; font-size: .78rem; display: none; }
-  .methodbox { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
-  .methodbox .mv { font-family: system-ui, sans-serif; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
-  .authorship { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
-  .limit { border-left: 4px solid var(--warn); padding: .7rem 1.1rem; background: #faf3ee; margin: 1.2rem 0; }
-  .try { border: 2px dashed var(--accent); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
-  .cliff { font-size: 1.15rem; font-style: italic; margin: 2rem 0 0; }
-  .err { color: var(--warn); font-family: system-ui, sans-serif; }
-  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .sentence { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1.1rem 1.2rem; margin:1rem 0; font-size:1.3rem; line-height:2.1; }
+  .tok { padding:.05em .18em; border-radius:5px; transition:background .2s, box-shadow .2s, opacity .2s; }
+  .tok.focus { cursor:pointer; border-bottom:2px dotted var(--accent); }
+  .tok.focus:hover { background:var(--accent-soft); }
+  .tok.active { background:var(--accent); color:#fff; box-shadow:0 0 0 2px var(--accent); }
+  .tok.dim { opacity:.35; }
+  .caption { font-family:system-ui,sans-serif; font-size:.92rem; color:var(--ink); margin-top:.6rem; padding-top:.6rem; border-top:1px dashed var(--line); display:none; }
+  .caption .mn { font-weight:700; color:var(--accent); }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  button:hover { background:var(--accent-soft); }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  .err { color:var(--warn); font-family:system-ui,sans-serif; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
 </style>
 </head>
 <body>
 <main>
   <div class="kicker">The Instructor's Study · Session 3 · The False Mean project</div>
-  <h1>Fitted or Veneer?</h1>
-  <div class="byline">Daniel — AI + Research, Level 2 · Youth Horizons Learning</div>
+  <h1>Attention Spotlight</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
 
   <div class="thesis">
-    <strong>Thesis.</strong> Attention lets a model read every word in the light of every other — so a stated audience <em>should</em> change everything about its answer. Sometimes it does. And sometimes the model re-dresses the same skeleton in new adjectives. This week's word is <strong>fit</strong>: quality that belongs to its purpose. The question is how deep the model's fit goes.
+    <strong>Thesis.</strong> A modern model reads every word in the light of every other word — a mechanism called <strong>attention</strong>. It never looks up a fixed meaning for a word; it <em>builds</em> the meaning on the spot from the words nearby. That's why the same word can mean opposite things two sentences apart, and it's the reason context can change everything an answer says.
   </div>
 
-  <p><strong>This week's question:</strong> when we hold a request constant and vary <em>only</em> the commission — who it's for, what it's for — does the model truly re-fit its answer, or just re-polish it?</p>
+  <p><strong>This week's question:</strong> can we actually watch a word decide what it means by looking at its neighbors?</p>
 
-  <h2>Part 1 — Match the commission</h2>
-  <p>One request, four commissions. The request stem never changed: <em id="stem"></em></p>
-  <p>The four commissions were:</p>
-  <ol class="briefs" id="briefs"></ol>
-  <p>Below are the four outputs, unlabeled and shuffled. <strong>Assign each output to the commission you think produced it.</strong></p>
+  <p class="note" id="instructions">Click any underlined word. The words it must pay attention to will light up.</p>
 
-  <div id="cards"><p class="note">Loading outputs…</p></div>
-  <button class="bigbtn" id="revealBtn" disabled>Assign all 4 to reveal</button>
-  <p class="scoreline" id="matchScore"></p>
+  <div id="sentences"></div>
 
-  <div id="part2" style="display:none">
-    <h2>Part 2 — Now the harder judgment</h2>
-    <p>Matching was Part 1 — and if you scored well, that tells us the adaptation is at least <em>visible on the surface</em>. The research question is deeper: for each output, judge whether the model <strong>truly re-fitted</strong> (what it notices, what it includes, how it is built — changed for this reader) or applied a <strong>re-polished veneer</strong> (same skeleton, swapped vocabulary). Vote on each card above.</p>
-    <p class="note">There is no answer key for this part. That is the point — this is exactly the kind of judgment my study needs criteria for. (Week 6.)</p>
-    <button class="bigbtn ghost" id="bonesBtn">Show the shared bones</button>
-    <div id="bones">
-      <p style="margin-top:1rem">Phrases that recur across supposedly different commissions — highlighted in the cards above:</p>
-      <ul class="bone-list" id="boneList"></ul>
-      <p>Four different readers, four different purposes — and the same bones keep surfacing. The commission changed the clothing. How much did it change the body?</p>
-    </div>
-    <div id="tallies"></div>
-    <div class="exportbox" id="exportbox">
-      <strong>Add your judgments to the study.</strong><br><br>
-      <label>Your initials: <input id="raterName" maxlength="12" placeholder="e.g. JT"></label>
-      <button class="bigbtn ghost" id="exportBtn">Copy my judgments</button>
-      <span class="note" id="exportMsg"></span>
-      <textarea id="exportFallback" readonly></textarea>
-    </div>
-  </div>
+  <h2>The same word, two minds</h2>
+  <p class="note">Click one of these to spotlight the tricky word in both sentences at once — and watch it reach for completely different neighbors.</p>
+  <div class="controls" id="compareControls"></div>
 
   <h2>Method</h2>
-  <div class="methodbox">
-    <p><span class="mv">Variable</span> — the commission clause: the single phrase naming who and what the description is for.</p>
-    <p><span class="mv">Controls</span> — everything else: the same fictional clock tower, the same request stem, one output per commission, same model, same settings, a fresh chat per run. <span id="methodMeta"></span></p>
-    <p><span class="mv">Measures</span> — (1) whether readers can match outputs to commissions blind; (2) readers' fitted-vs-veneer verdicts; (3) recurring phrases across all four outputs.</p>
-    <p class="note">This paragraph shape — one variable, named controls, stated measures — is the template for every method section in this course.</p>
-  </div>
+  <div class="method" id="method">Loading…</div>
 
   <h2>Interpretation</h2>
-  <p>The adaptation is real: the registers differ enough that most readers match all four commissions on the first try. But run the bones detector and the skeleton shows through — the same sentimental joints (<em>stood watch, generations</em>) hold up four supposedly different bodies. And notice the journal entry: its dates, architect's materials, and restoration history <strong>sound authoritative and are entirely invented</strong> — the tower is fictional. Fluent authority is part of the veneer. Fit, it seems, is real but shallow by default: the model adjusts the surface it shows each audience faster than it changes what it actually says.</p>
+  <p>Watch "bank" in the two sentences: it reaches for <em>river</em> and <em>current</em> in one, and <em>savings</em> and <em>money</em> in the other. The model didn't store two definitions and pick one — it grew the meaning fresh, each time, from whatever surrounded it. That is attention doing its job. And it's why the situation you hand a model — who the answer is for, what came before — really can reshape everything downstream. Meaning here is not a fixed label on a word; it's something computed live from the neighborhood.</p>
 
   <div class="limit">
-    <strong>Limitation.</strong> One object, one model, one output per commission — the recurring phrases could partly be coincidence at this sample size. "Fitted vs. veneer" is a fuzzy judgment with no rubric yet, so disagreement between raters here is expected and unmeasured. Making that judgment measurable is precisely where this study goes next.
+    <strong>Limitation.</strong> The glowing links are my illustration of <em>which</em> neighbors matter, not the exact numbers pulled from a real model's attention layers (a model spreads faint attention across every word, in many layers at once). The picture is true in shape — meaning is built from context — but it's a clean teaching diagram, not a raw readout.
   </div>
 
   <h2>Try it yourself</h2>
   <div class="try">
-    Hold one request constant in your own chat — a game tutorial, a recipe, a team recap — and vary only the audience: new player vs. veteran, beginner vs. chef, local fan vs. national reader. Then hunt for the phrase that survives <em>every</em> audience. That phrase is your model's veneer. Bring it to class.
+    Find your own two-faced word — "light," "match," "wave," "cold," "bat" — and write two short sentences that force opposite meanings. Ask your AI chat to define the word in each; watch it never even mention the "wrong" meaning. The neighbors did all the work.
   </div>
 
-  <p class="cliff">If quality depends on fit, is taste just personal preference — whatever each audience happens to like? <span class="note">(A design-industry CEO says no: taste is judgment experts can converge on. In Week 6, we test that claim on ourselves.)</span></p>
+  <p class="cliff">If meaning is built from context, then a model <em>should</em> reshape its whole answer when you change who it's for. Does it — or does it just re-decorate the same answer? <span class="note">(That's the judgment we start measuring next.)</span></p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
-    <p><strong>What AI helped with:</strong> generating the four descriptions (that was the experiment) and drafting this page's first HTML, which I revised.</p>
-    <p><strong>What I own:</strong> the choice of a fictional object (so invented authority would be visible as invention), the four commissions, the shared-phrase list (hand-identified — the detector only highlights what I told it to), the fitted/veneer framing, and the interpretation.</p>
+    <p><strong>What AI helped with:</strong> drafting this page's code and proposing example sentences, which I chose and trimmed.</p>
+    <p><strong>What I own:</strong> the sentence pairs, the decision of which neighbors to light up and how strongly, the framing of attention as "meaning built from neighbors," and the honesty note that these links are a teaching diagram.</p>
   </div>
 
-  <footer>Part of the class proceedings · The Instructor's Study, Session 3 of 12 · Data: <code>data/commissions.json</code>, <code>data/judgments.json</code></footer>
+  <footer>Part of the class proceedings · The Instructor's Study, Session 3 of 12 · Data: <code>data/sentences.json</code></footer>
 </main>
 
 <script>
-(async function () {
-  let data, jfile;
-  try {
-    [data, jfile] = await Promise.all([
-      fetch('data/commissions.json').then(r => r.json()),
-      fetch('data/judgments.json').then(r => r.json())
-    ]);
-  } catch (e) {
-    document.getElementById('cards').innerHTML =
-      '<p class="err">Could not load data files. Serve this folder over HTTP (e.g. <code>python3 -m http.server</code>) or view the deployed page.</p>';
-    return;
+(async function(){
+  let data;
+  try { data = await fetch('data/sentences.json').then(r=>r.json()); }
+  catch(e){ document.getElementById('sentences').innerHTML='<p class="err">Could not load the sentences. Serve this folder over HTTP or open the deployed page.</p>'; return; }
+
+  document.getElementById('instructions').textContent = data.instructions;
+  const wrap=document.getElementById('sentences');
+  const byId={};
+
+  data.sentences.forEach(s=>{
+    byId[s.id]=s;
+    const box=document.createElement('div'); box.className='sentence'; box.id='s-'+s.id;
+    const focusByIndex={}; s.focus.forEach(f=>focusByIndex[f.i]=f);
+    s.tokens.forEach((tok,i)=>{
+      const span=document.createElement('span'); span.className='tok'; span.textContent=tok+' ';
+      span.dataset.i=i;
+      if(focusByIndex[i]){ span.classList.add('focus'); span.addEventListener('click',()=>activate(s,focusByIndex[i])); }
+      box.appendChild(span);
+    });
+    const cap=document.createElement('div'); cap.className='caption'; cap.id='cap-'+s.id;
+    box.appendChild(cap);
+    wrap.appendChild(box);
+  });
+
+  function clearSentence(s){
+    const box=document.getElementById('s-'+s.id);
+    box.querySelectorAll('.tok').forEach(t=>t.classList.remove('active','dim') || (t.style.background=''));
+    box.querySelectorAll('.tok').forEach(t=>{ t.style.background=''; });
+    document.getElementById('cap-'+s.id).style.display='none';
   }
 
-  document.getElementById('stem').textContent = '“' + data.requestStem + '”';
-  document.getElementById('methodMeta').textContent = data.settings + ' Model: ' + data.model + '. Date: ' + data.date + '.';
-  const briefs = document.getElementById('briefs');
-  data.commissions.forEach(c => {
-    const li = document.createElement('li');
-    li.textContent = c.label;
-    briefs.appendChild(li);
-  });
-
-  /* ---------- Part 1: matching ---------- */
-  const shuffled = data.commissions.map(c => ({ c, s: Math.random() })).sort((a, b) => a.s - b.s).map(x => x.c);
-  const guesses = {};   // outputId -> guessed commission id
-  const verdicts = {};  // outputId -> 'fitted' | 'veneer'
-  const cardsEl = document.getElementById('cards');
-  cardsEl.innerHTML = '';
-  const revealBtn = document.getElementById('revealBtn');
-
-  function updateReveal() {
-    const done = Object.keys(guesses).length;
-    revealBtn.disabled = done !== data.commissions.length;
-    revealBtn.textContent = done === data.commissions.length ? 'Reveal the commissions' : 'Assign all 4 to reveal';
+  function activate(s, f){
+    clearSentence(s);
+    const box=document.getElementById('s-'+s.id);
+    const toks=box.querySelectorAll('.tok');
+    toks.forEach((t,idx)=>{
+      if(idx===f.i){ t.classList.add('active'); return; }
+      const w=f.attends[idx];
+      if(w){ t.style.background=`rgba(244,192,78,${(0.25+w*0.7).toFixed(2)})`; }
+      else { t.classList.add('dim'); }
+    });
+    const cap=document.getElementById('cap-'+s.id);
+    cap.innerHTML=`<span class="mn">${f.word} = ${f.meaning}.</span> ${f.caption}`;
+    cap.style.display='block';
   }
 
-  shuffled.forEach((c, idx) => {
-    const box = document.createElement('div');
-    box.className = 'card';
-    box.dataset.outputId = c.id;
-    box.innerHTML = '<span class="true-label">' + c.label + '</span>' +
-      '<div class="cid">Output ' + String.fromCharCode(65 + idx) + '</div>' +
-      '<p class="otext">' + c.output + '</p>';
-    const picker = document.createElement('div');
-    picker.className = 'picker';
-    data.commissions.forEach(target => {
-      const b = document.createElement('button');
-      b.textContent = target.label;
-      b.addEventListener('click', () => {
-        picker.querySelectorAll('button').forEach(x => x.classList.remove('sel'));
-        b.classList.add('sel');
-        guesses[c.id] = target.id;
-        updateReveal();
-      });
-      picker.appendChild(b);
+  // compare buttons
+  const cc=document.getElementById('compareControls');
+  data.comparePairs.forEach(pair=>{
+    const b=document.createElement('button'); b.textContent='Spotlight '+pair.label;
+    b.addEventListener('click',()=>{
+      pair.ids.forEach(id=>{ const s=byId[id]; const f=s.focus.find(f=>f.word===pair.word)||s.focus[0]; activate(s,f);
+        document.getElementById('s-'+id).scrollIntoView({behavior:'smooth',block:'center'}); });
     });
-    box.appendChild(picker);
-
-    const mr = document.createElement('div');
-    mr.className = 'match-result';
-    box.appendChild(mr);
-
-    const vote = document.createElement('div');
-    vote.className = 'vote';
-    vote.innerHTML = '<strong>Your judgment:</strong>';
-    const vb = document.createElement('div');
-    vb.className = 'vbtns';
-    [['fitted', 'Truly re-fitted'], ['veneer', 'Re-polished veneer']].forEach(([val, label]) => {
-      const b = document.createElement('button');
-      b.textContent = label;
-      b.addEventListener('click', () => {
-        vb.querySelectorAll('button').forEach(x => x.classList.remove('sel'));
-        b.classList.add('sel');
-        verdicts[c.id] = val;
-        if (Object.keys(verdicts).length === data.commissions.length) showTallies();
-      });
-      vb.appendChild(b);
-    });
-    vote.appendChild(vb);
-    box.appendChild(vote);
-    cardsEl.appendChild(box);
-  });
-  updateReveal();
-
-  revealBtn.addEventListener('click', () => {
-    revealBtn.style.display = 'none';
-    let right = 0;
-    document.querySelectorAll('#cards .card').forEach(box => {
-      const id = box.dataset.outputId;
-      box.querySelectorAll('.picker button').forEach(b => b.disabled = true);
-      box.querySelector('.true-label').style.display = 'inline-block';
-      const mr = box.querySelector('.match-result');
-      const ok = guesses[id] === id;
-      if (ok) right++;
-      mr.textContent = ok ? 'Matched correctly.' : 'Not this one.';
-      mr.className = 'match-result ' + (ok ? 'right' : 'wrong');
-      mr.style.display = 'block';
-      box.querySelector('.vote').style.display = 'block';
-    });
-    const s = document.getElementById('matchScore');
-    s.textContent = 'You matched ' + right + ' of 4. ' +
-      (right >= 3 ? 'So the adaptation is visible on the surface — now judge how deep it goes.'
-                  : 'Interesting — even the surface adaptation fooled you somewhere. Now judge how deep it goes.');
-    s.style.display = 'block';
-    document.getElementById('part2').style.display = 'block';
-    window.__matchRight = right;
+    cc.appendChild(b);
   });
 
-  /* ---------- shared bones ---------- */
-  document.getElementById('bonesBtn').addEventListener('click', () => {
-    const bones = document.getElementById('bones');
-    bones.style.display = 'block';
-    const list = document.getElementById('boneList');
-    list.innerHTML = '';
-    data.sharedPhrases.forEach(ph => {
-      let count = 0;
-      data.commissions.forEach(c => { if (c.output.toLowerCase().includes(ph.toLowerCase())) count++; });
-      const li = document.createElement('li');
-      li.innerHTML = '<mark>' + ph + '</mark> — in ' + count + ' of ' + data.commissions.length + ' outputs';
-      list.appendChild(li);
-    });
-    document.querySelectorAll('#cards .card').forEach(box => {
-      const p = box.querySelector('.otext');
-      let html = p.textContent;
-      data.sharedPhrases.forEach(ph => {
-        html = html.replace(new RegExp('(' + ph.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>');
-      });
-      p.innerHTML = html;
-    });
-  });
-
-  /* ---------- tallies + export ---------- */
-  function showTallies() {
-    const rows = jfile.judgments || [];
-    const el = document.getElementById('tallies');
-    el.style.display = 'block';
-    let h = '<h3 style="font-size:1.05rem;margin:1.6rem 0 .3rem">Verdicts so far (' +
-      new Set(rows.map(r => r.rater)).size + ' raters on file, plus you)</h3>' +
-      '<table class="tally-table"><tr><th>Output</th><th>Fitted</th><th>Veneer</th><th>Your verdict</th></tr>';
-    data.commissions.forEach(c => {
-      const f = rows.filter(r => r.outputId === c.id && r.verdict === 'fitted').length;
-      const v = rows.filter(r => r.outputId === c.id && r.verdict === 'veneer').length;
-      h += '<tr><td>' + c.label + '</td><td>' + f + '</td><td>' + v + '</td><td style="font-weight:700">' +
-        (verdicts[c.id] || '—') + '</td></tr>';
-    });
-    h += '</table><p class="note">Raters disagree — and without shared criteria we cannot even say what the disagreement means. Hold that problem: it is Week 6\'s whole job.</p>';
-    el.innerHTML = h;
-    document.getElementById('exportbox').style.display = 'block';
-  }
-
-  document.getElementById('exportBtn').addEventListener('click', async () => {
-    const name = (document.getElementById('raterName').value || 'anon').trim();
-    const rows = data.commissions.map(c => ({
-      rater: name,
-      outputId: c.id,
-      matchedCorrectly: guesses[c.id] === c.id,
-      verdict: verdicts[c.id] || null
-    }));
-    const blob = JSON.stringify(rows, null, 2);
-    const msg = document.getElementById('exportMsg');
-    try {
-      await navigator.clipboard.writeText(blob);
-      msg.textContent = 'Copied ' + rows.length + ' rows — send them to the author.';
-    } catch (e) {
-      const ta = document.getElementById('exportFallback');
-      ta.value = blob; ta.style.display = 'block'; ta.select();
-      msg.textContent = 'Clipboard blocked — copy the text below manually.';
-    }
-  });
+  document.getElementById('method').innerHTML =
+    `<p><strong>Setup.</strong> Each sentence contains a word (underlined) whose meaning is only settled by its neighbors. Click it and the words it must attend to light up, brighter for a stronger pull.</p>`+
+    `<p><strong>The compare pairs.</strong> The two "bank" sentences (and the two "springs") use the identical word in opposite meanings, so you can see attention rebuild the meaning from scratch each time.</p>`+
+    `<p class="note">${data.note}</p>`;
 })();
 </script>
 </body>

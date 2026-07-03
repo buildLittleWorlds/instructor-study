@@ -1,37 +1,27 @@
-# Session 3 Instructor Paper-App: Fitted or Veneer?
+# Session 3 Instructor Paper-App (v2): Attention Spotlight
 
-The Bridge artifact for Session 3 (strand W3). One request, four commissions (picture book / history journal / memorial program / theme-park brochure) for the same fictional clock tower. Readers match outputs to commissions blind, then make the week's real judgment - truly re-fitted, or re-polished veneer - with a "shared bones" detector that highlights the phrases recurring across all four outputs.
+The Bridge artifact for Session 3 (strand W3): **click a word, watch what it pays attention to light up.** The same word "bank" glows river/current in one sentence and savings/money in another — attention building meaning from neighbors, made visible. Genre: heatmap inspection. Fully static. (v1, "Fitted or Veneer?", is preserved in `../archive/session-03-v1/`.)
 
 ## Files
 
-- `index.html` - the paper-app (single file, vanilla JS, no dependencies).
-- `data/commissions.json` - the request stem, four commissions, four outputs, and the shared-phrase list.
-- `data/judgments.json` - accumulated reader judgments; class tallies recompute from this file.
+- `index.html` — the paper-app (vanilla JS, no dependencies).
+- `data/sentences.json` — five sentences with a focus word each, an authored attends-map (which neighbors glow and how strongly), meaning labels, captions, and two compare pairs (two "banks," two "springs").
 
-## Design notes worth keeping
+## Honesty framing (important)
 
-- **The object is fictional on purpose.** The journal output's confident dates and materials are model-invented - fluent authority as part of the veneer. Keep this property when you regenerate: pick a fictional object, never a real one.
-- **Part 1 is easy by design.** Matching proves surface adaptation exists; the paper's question is Part 2, where there is no answer key. The page says so - that gap is the setup for Week 6 (criteria and agreement).
-- **The bones detector only highlights what you tell it to.** After regenerating, reread the four outputs and update `sharedPhrases` with the recurring phrases you actually find (case-insensitive substring match). The counts compute live, so a phrase that hits 2 of 4 is fine to include.
+The glowing links are an **illustrative attention map** — hand-drawn to show which neighbors a model must connect to disambiguate the word, not weights extracted from a specific model's internals. The method note and limitation say this plainly. It's a true teaching diagram of how attention works, not a raw readout. If you ever wire in real attention weights (e.g., via a small model), swap the `attends` maps and update the note.
 
-## Before class: regenerate the data honestly
+## Before class
 
-1. Four fresh chats, same request stem, only the commission clause changed. Default settings.
-2. Paste outputs into `commissions.json`; fill `model` and `date`; delete the `note`.
-3. Re-hunt the shared phrases and update `sharedPhrases`.
-4. Reset `judgments.json` to `{ "judgments": [] }` - real rows arrive via the export button in class.
+Add or swap sentences freely in `data/sentences.json` — the page validates focus-word/index alignment at author time (see the build check). Keep at least one compare pair for the "same word, two minds" reveal, which is the paper's punch.
 
-## Preview and deploy
+## Preview & deploy
 
-Same as Sessions 1-2: `python3 -m http.server 8000` locally; deploy by pushing to the demo repo (`instructor-study/session-03/`) or Netlify Drop. Link the URL on the class proceedings page.
+`python3 -m http.server 8000` from this folder. Deploy by pushing (`session-03/`) — the existing URL now serves v2.
 
 ## Using it in the 15-minute Bridge
 
-1. (2 min) Narrowing move: "You just saw attention make context matter. My study needs to know how *deep* that adaptation goes - so we test fit against veneer."
-2. (7 min) Class matches the four outputs by shout-out (it will go fast - say why that's expected), then votes fitted/veneer on each. Click **Show the shared bones** last; let the highlighting land in silence for a beat.
-3. (4 min) Data moment: two volunteers export their judgments; commit; the tallies update. Point at the disagreement: without criteria, we can't even say what it means. Week 6 fixes that.
-4. (2 min) Cliffhanger on the page: is taste just preference, or judgment experts converge on? Leave it on screen going into the inquiry hour.
-
-## Session 3 duty
-
-Also the fallback rep core: the students' guess-the-audience rep is Part 1 + the method box on their own request and audiences. Their method sections copy this page's variable/controls/measures shape - that paragraph is the week's writing lesson.
+1. Narrowing move: "You'll learn attention reads each word in light of the others. Let's literally watch it."
+2. Click "bank" in the river sentence (water words glow), then in the savings sentence (money words glow). Then press **Spotlight the two banks** to show both at once.
+3. Land the point: the model never stored one meaning for "bank" — it grows the meaning fresh from context every time. That's why *who the answer is for* can reshape everything.
+4. Cliffhanger on the page: does the model truly reshape for a new audience, or just re-decorate? — the judgment we start measuring next.

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The False Mean — Instructor's Study, Session 2</title>
+<style>
+  :root {
+    --ink: #22222a;
+    --muted: #6b6b76;
+    --paper: #fdfcf9;
+    --card: #ffffff;
+    --line: #e3e0d8;
+    --accent: #2f6f5e;
+    --accent-soft: #e7f1ee;
+    --warn: #a8582f;
+    --cool: #4a7fb5;
+    --hot: #b54a4a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; font-size: 1.05rem; }
+  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
+  h2 { font-size: 1.3rem; margin: 2.8rem 0 .8rem; border-top: 1px solid var(--line); padding-top: 1.6rem; }
+  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.8rem; }
+  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
+  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
+  .card .cid { font-family: system-ui, sans-serif; font-size: .75rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+  .card .temp-badge { display: none; float: right; font-family: system-ui, sans-serif; font-size: .78rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; color: #fff; }
+  .rated .temp-badge, .revealed .temp-badge { }
+  .scales { margin-top: .8rem; display: grid; gap: .4rem; font-family: system-ui, sans-serif; font-size: .88rem; }
+  .scale { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; }
+  .scale .sl { width: 6.2rem; color: var(--muted); }
+  .scale button { width: 2.1rem; height: 2.1rem; border-radius: 6px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); font-family: system-ui, sans-serif; cursor: pointer; }
+  .scale button:hover:not(:disabled) { border-color: var(--accent); }
+  .scale button.sel { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .scale button:disabled { cursor: default; opacity: .6; }
+  .scale button.sel:disabled { opacity: 1; }
+  .bigbtn { font-family: system-ui, sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; border-radius: 8px; padding: .7rem 1.4rem; background: var(--accent); color: #fff; }
+  .bigbtn:disabled { background: #b8c9c4; cursor: default; }
+  .ghost { background: #fff; color: var(--accent); border: 1.5px solid var(--accent); }
+  .predict { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.4rem 0; }
+  .predict .opts { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .6rem; }
+  .predict .opts button { font-family: system-ui, sans-serif; border: 1.5px solid var(--accent); background: #fff; color: var(--accent); border-radius: 999px; padding: .45rem .95rem; cursor: pointer; }
+  .predict .opts button.chosen { background: var(--accent); color: #fff; }
+  .predict .opts button:disabled { cursor: default; opacity: .6; }
+  .predict .opts button.chosen:disabled { opacity: 1; }
+  #results { display: none; }
+  .avg-table { width: 100%; border-collapse: collapse; font-family: system-ui, sans-serif; font-size: .88rem; margin: 1rem 0; }
+  .avg-table th, .avg-table td { padding: .45rem .5rem; border-bottom: 1px solid var(--line); text-align: left; }
+  .mini-track { background: #f0ede5; border-radius: 4px; height: .9rem; width: 100%; max-width: 10rem; display: inline-block; vertical-align: middle; overflow: hidden; }
+  .mini-fill { height: 100%; border-radius: 4px; }
+  .s-fill { background: var(--cool); }
+  .c-fill { background: var(--accent); }
+  .exportbox { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; font-family: system-ui, sans-serif; font-size: .92rem; }
+  .exportbox input { font-size: .95rem; padding: .4rem .6rem; border: 1px solid var(--line); border-radius: 6px; margin-right: .5rem; }
+  .exportbox textarea { width: 100%; height: 6rem; margin-top: .7rem; font-family: ui-monospace, monospace; font-size: .78rem; display: none; }
+  .method, .authorship { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
+  .limit { border-left: 4px solid var(--warn); padding: .7rem 1.1rem; background: #faf3ee; margin: 1.2rem 0; }
+  .try { border: 2px dashed var(--accent); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+  .cliff { font-size: 1.15rem; font-style: italic; margin: 2rem 0 0; }
+  .err { color: var(--warn); font-family: system-ui, sans-serif; }
+  #progress { font-family: system-ui, sans-serif; font-weight: 600; margin: 1rem 0; }
+  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 2 · The False Mean project</div>
+  <h1>The False Mean</h1>
+  <div class="byline">Daniel — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <div class="thesis">
+    <strong>Thesis.</strong> A language model's default output is the <em>false mean</em>: fluent, polished, and average. Turning up randomness (the "temperature" setting) buys surprise — but it pays for it in coherence. Difference is cheap. Quality is not.
+  </div>
+
+  <p><strong>This week's question:</strong> as the model gets more random, do readers find its writing more surprising — and where does the writing start falling apart?</p>
+
+  <h2>Part 1 — Rate the cards, blind</h2>
+  <p>All ten cards below answer the same request: <em>“Describe an old library in two or three sentences.”</em> They were generated at five different temperature settings — the labels are hidden and the order is shuffled. Rate every card on two scales, 1 (low) to 5 (high):</p>
+  <p class="note"><strong>Surprise</strong> — did it show you something you couldn't have predicted? · <strong>Coherence</strong> — does it hold together as writing?</p>
+
+  <div id="gallery"><p class="note">Loading gallery…</p></div>
+  <p id="progress"></p>
+
+  <div class="predict" id="predictBox">
+    <strong>One prediction before the reveal:</strong> which setting do you expect produced the <em>best writing overall</em>?
+    <div class="opts">
+      <button data-p="low">Low randomness</button>
+      <button data-p="mid">Middle</button>
+      <button data-p="high">High randomness</button>
+    </div>
+  </div>
+
+  <button class="bigbtn" id="revealBtn" disabled>Rate all 10 cards to reveal</button>
+
+  <div id="results">
+    <h2>Part 2 — The reveal</h2>
+    <p>Temperature badges are now visible on every card above (<span style="color:var(--cool);font-weight:700">cool</span> = low, <span style="color:var(--hot);font-weight:700">hot</span> = high). Here is the curve your own ratings drew:</p>
+    <div id="myAverages"></div>
+    <p id="verdict"></p>
+    <div id="classAverages"></div>
+    <div class="exportbox">
+      <strong>Add your ratings to the study.</strong> Your judgments become rows in this paper's dataset — that is how the evidence below grows.<br><br>
+      <label>Your initials: <input id="raterName" maxlength="12" placeholder="e.g. JT"></label>
+      <button class="bigbtn ghost" id="exportBtn">Copy my ratings</button>
+      <span class="note" id="exportMsg"></span>
+      <textarea id="exportFallback" readonly></textarea>
+    </div>
+  </div>
+
+  <h2>Method</h2>
+  <div class="method" id="method">Loading…</div>
+
+  <h2>Interpretation</h2>
+  <p>Across raters so far, surprise climbs with temperature and coherence falls — two lines crossing. The writing that scores best <em>overall</em> sits in the middle: surprising enough to notice, coherent enough to trust. The extremes fail differently: low temperature gives near-twin answers (find the two cards that are almost the same sentence — that is the false mean showing itself), and high temperature gives dazzling fragments that stop meaning anything. <strong>More random is not more creative. It is just more random.</strong></p>
+
+  <div class="limit">
+    <strong>Limitation.</strong> One prompt, one model, two outputs per setting, and a small self-selected group of raters. Surprise and coherence are only two criteria of many — a real quality rubric arrives in Week 6. And note the exception that keeps this honest: occasionally a high-temperature card lands a genuinely great line. The curve is a tendency, not a law.
+  </div>
+
+  <h2>Try it yourself</h2>
+  <div class="try">
+    First, grab the dial itself: the companion toy <a href="playground/" style="color:var(--accent);font-weight:600">Loading the Dice</a> puts the real temperature math under your fingers — twelve words, one slider, and the whole mechanism visible. Then approximate the experiment in your own chat: regenerate the same prompt five times and see how much actually changes, or ask for <em>“five answers, from safest to wildest”</em> — is the wildest one better, or just noisier? Bring your best wild-but-good line to class; those exceptions are where the interesting questions live.
+  </div>
+
+  <p class="cliff">Randomness bought surprise and spent coherence — nothing here improved both at once. What could? <span class="note">(My bet, on the record in Week 5: a break made on purpose, for a reason. Not noise — judgment.)</span></p>
+
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>What AI helped with:</strong> generating the ten library descriptions (that was the experiment) and drafting this page's first HTML, which I revised.</p>
+    <p><strong>What I own:</strong> the two rating criteria (a deliberate simplification — and a limitation), the blind design, the shuffled presentation, the interpretation of the curve, and the decision to report the high-temperature exception rather than hide it.</p>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study, Session 2 of 12 · Data: <code>data/gallery.json</code>, <code>data/ratings.json</code></footer>
+</main>
+
+<script>
+(async function () {
+  let gal, ratingsFile;
+  try {
+    [gal, ratingsFile] = await Promise.all([
+      fetch('data/gallery.json').then(r => r.json()),
+      fetch('data/ratings.json').then(r => r.json())
+    ]);
+  } catch (e) {
+    document.getElementById('gallery').innerHTML =
+      '<p class="err">Could not load data files. Serve this folder over HTTP (e.g. <code>python3 -m http.server</code>) or view the deployed page.</p>';
+    return;
+  }
+
+  const tempColor = t => {
+    const temps = gal.temperatures, i = temps.indexOf(t), k = i / (temps.length - 1);
+    const mix = (a, b) => Math.round(a + (b - a) * k);
+    return 'rgb(' + mix(74, 181) + ',' + mix(127, 74) + ',' + mix(181, 74) + ')';
+  };
+
+  /* ---------- gallery ---------- */
+  const shuffled = gal.cards.map(c => ({ c, s: Math.random() })).sort((a, b) => a.s - b.s).map(x => x.c);
+  const my = {}; // cardId -> {surprise, coherence}
+  const galleryEl = document.getElementById('gallery');
+  galleryEl.innerHTML = '';
+  const progress = document.getElementById('progress');
+  const revealBtn = document.getElementById('revealBtn');
+
+  function updateProgress() {
+    const done = Object.values(my).filter(r => r.surprise && r.coherence).length;
+    progress.textContent = done + ' of ' + gal.cards.length + ' cards fully rated.';
+    revealBtn.disabled = done !== gal.cards.length;
+    if (done === gal.cards.length) revealBtn.textContent = 'Reveal the temperatures';
+  }
+
+  shuffled.forEach((c, idx) => {
+    my[c.id] = { surprise: 0, coherence: 0 };
+    const box = document.createElement('div');
+    box.className = 'card';
+    box.dataset.cardId = c.id;
+    const badge = '<span class="temp-badge" style="background:' + tempColor(c.temperature) + '">temp ' + c.temperature.toFixed(1) + '</span>';
+    box.innerHTML = badge + '<div class="cid">Card ' + (idx + 1) + '</div><p>' + c.text + '</p>';
+    const scales = document.createElement('div');
+    scales.className = 'scales';
+    ['surprise', 'coherence'].forEach(dim => {
+      const row = document.createElement('div');
+      row.className = 'scale';
+      row.innerHTML = '<span class="sl">' + dim[0].toUpperCase() + dim.slice(1) + '</span>';
+      for (let v = 1; v <= 5; v++) {
+        const b = document.createElement('button');
+        b.textContent = v;
+        b.addEventListener('click', () => {
+          row.querySelectorAll('button').forEach(x => x.classList.remove('sel'));
+          b.classList.add('sel');
+          my[c.id][dim] = v;
+          updateProgress();
+        });
+        row.appendChild(b);
+      }
+      scales.appendChild(row);
+    });
+    box.appendChild(scales);
+    galleryEl.appendChild(box);
+  });
+  updateProgress();
+
+  /* ---------- prediction ---------- */
+  let prediction = null;
+  document.querySelectorAll('#predictBox .opts button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#predictBox .opts button').forEach(x => x.classList.remove('chosen'));
+      b.classList.add('chosen');
+      prediction = b.dataset.p;
+    });
+  });
+
+  /* ---------- averages helpers ---------- */
+  const byTemp = rows => {
+    const acc = {};
+    gal.temperatures.forEach(t => acc[t] = { s: 0, c: 0, n: 0 });
+    rows.forEach(r => {
+      const card = gal.cards.find(x => x.id === r.cardId);
+      if (!card) return;
+      const a = acc[card.temperature];
+      a.s += r.surprise; a.c += r.coherence; a.n++;
+    });
+    return gal.temperatures.map(t => ({
+      t,
+      s: acc[t].n ? acc[t].s / acc[t].n : null,
+      c: acc[t].n ? acc[t].c / acc[t].n : null
+    }));
+  };
+
+  const avgTable = (title, rows) => {
+    let h = '<h3 style="font-size:1.05rem;margin:1.4rem 0 .3rem">' + title + '</h3>' +
+      '<table class="avg-table"><tr><th>Temp</th><th>Surprise</th><th>Coherence</th></tr>';
+    rows.forEach(r => {
+      const bar = (v, cls) => v == null ? '—' :
+        '<span class="mini-track"><span class="mini-fill ' + cls + '" style="width:' + (v * 20) + '%"></span></span> ' + v.toFixed(1);
+      h += '<tr><td style="font-weight:700;color:' + tempColor(r.t) + '">' + r.t.toFixed(1) + '</td>' +
+        '<td>' + bar(r.s, 's-fill') + '</td><td>' + bar(r.c, 'c-fill') + '</td></tr>';
+    });
+    return h + '</table>';
+  };
+
+  /* ---------- reveal ---------- */
+  revealBtn.addEventListener('click', () => {
+    revealBtn.style.display = 'none';
+    document.querySelectorAll('.scale button, #predictBox .opts button').forEach(b => b.disabled = true);
+    document.querySelectorAll('.temp-badge').forEach(el => el.style.display = 'inline-block');
+    document.getElementById('results').style.display = 'block';
+
+    const myRows = Object.entries(my).map(([cardId, r]) => ({ cardId, surprise: r.surprise, coherence: r.coherence }));
+    const mine = byTemp(myRows);
+    document.getElementById('myAverages').innerHTML = avgTable('Your averages by temperature', mine);
+
+    const best = mine.reduce((a, b) => (b.s + b.c > a.s + a.c ? b : a));
+    const bucket = t => t <= 0.7 ? 'low' : t >= 1.3 ? 'high' : 'mid';
+    const label = { low: 'low randomness', mid: 'the middle', high: 'high randomness' };
+    let v = 'By your own ratings, the best overall writing (surprise + coherence) came from <strong>temperature ' +
+      best.t.toFixed(1) + '</strong> — that is ' + label[bucket(best.t)] + '.';
+    if (prediction) {
+      v += bucket(best.t) === prediction
+        ? ' Your prediction was right.'
+        : ' You predicted ' + label[prediction] + ' — your own judgments disagreed with you, which is exactly why we rate blind.';
+    }
+    document.getElementById('verdict').innerHTML = v;
+
+    const classRows = (ratingsFile.ratings || []);
+    document.getElementById('classAverages').innerHTML = classRows.length
+      ? avgTable('Class averages so far (' + new Set(classRows.map(r => r.rater)).size + ' raters)', byTemp(classRows))
+      : '<p class="note">No class ratings collected yet — yours could be the first rows.</p>';
+
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  /* ---------- export ---------- */
+  document.getElementById('exportBtn').addEventListener('click', async () => {
+    const name = (document.getElementById('raterName').value || 'anon').trim();
+    const rows = Object.entries(my).map(([cardId, r]) =>
+      ({ rater: name, cardId, surprise: r.surprise, coherence: r.coherence }));
+    const blob = JSON.stringify(rows, null, 2);
+    const msg = document.getElementById('exportMsg');
+    try {
+      await navigator.clipboard.writeText(blob);
+      msg.textContent = 'Copied ' + rows.length + ' rows — send them to the author.';
+    } catch (e) {
+      const ta = document.getElementById('exportFallback');
+      ta.value = blob; ta.style.display = 'block'; ta.select();
+      msg.textContent = 'Clipboard blocked — copy the text below manually.';
+    }
+  });
+
+  /* ---------- method ---------- */
+  document.getElementById('method').innerHTML =
+    '<p><strong>Generation.</strong> Prompt: “' + gal.prompt + '” — ' + gal.settings +
+    ' Model: ' + gal.model + '. Date: ' + gal.date + '.</p>' +
+    '<p><strong>Rating.</strong> Readers rate all ten cards blind (labels hidden, order shuffled per visit) on surprise and coherence, 1–5. ' +
+    'Ratings are contributed through the copy button above and committed to <code>data/ratings.json</code>; the class averages recompute from that file on every load.</p>';
+})();
+</script>
+</body>
+</html>

@@ -3,299 +3,224 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The False Mean — Instructor's Study, Session 2</title>
+<title>The Garden of Forking Sentences — Instructor's Study, Session 2</title>
 <style>
   :root {
-    --ink: #22222a;
-    --muted: #6b6b76;
-    --paper: #fdfcf9;
-    --card: #ffffff;
-    --line: #e3e0d8;
-    --accent: #2f6f5e;
-    --accent-soft: #e7f1ee;
-    --warn: #a8582f;
-    --cool: #4a7fb5;
-    --hot: #b54a4a;
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f;
+    --cool:#4a7fb5; --hot:#b54a4a; --path:#c9781f;
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; font-size: 1.05rem; }
-  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
-  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
-  h2 { font-size: 1.3rem; margin: 2.8rem 0 .8rem; border-top: 1px solid var(--line); padding-top: 1.6rem; }
-  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.8rem; }
-  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
-  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
-  .card .cid { font-family: system-ui, sans-serif; font-size: .75rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
-  .card .temp-badge { display: none; float: right; font-family: system-ui, sans-serif; font-size: .78rem; font-weight: 700; padding: .1rem .6rem; border-radius: 999px; color: #fff; }
-  .rated .temp-badge, .revealed .temp-badge { }
-  .scales { margin-top: .8rem; display: grid; gap: .4rem; font-family: system-ui, sans-serif; font-size: .88rem; }
-  .scale { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; }
-  .scale .sl { width: 6.2rem; color: var(--muted); }
-  .scale button { width: 2.1rem; height: 2.1rem; border-radius: 6px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); font-family: system-ui, sans-serif; cursor: pointer; }
-  .scale button:hover:not(:disabled) { border-color: var(--accent); }
-  .scale button.sel { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .scale button:disabled { cursor: default; opacity: .6; }
-  .scale button.sel:disabled { opacity: 1; }
-  .bigbtn { font-family: system-ui, sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; border: none; border-radius: 8px; padding: .7rem 1.4rem; background: var(--accent); color: #fff; }
-  .bigbtn:disabled { background: #b8c9c4; cursor: default; }
-  .ghost { background: #fff; color: var(--accent); border: 1.5px solid var(--accent); }
-  .predict { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.1rem; margin: 1.4rem 0; }
-  .predict .opts { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .6rem; }
-  .predict .opts button { font-family: system-ui, sans-serif; border: 1.5px solid var(--accent); background: #fff; color: var(--accent); border-radius: 999px; padding: .45rem .95rem; cursor: pointer; }
-  .predict .opts button.chosen { background: var(--accent); color: #fff; }
-  .predict .opts button:disabled { cursor: default; opacity: .6; }
-  .predict .opts button.chosen:disabled { opacity: 1; }
-  #results { display: none; }
-  .avg-table { width: 100%; border-collapse: collapse; font-family: system-ui, sans-serif; font-size: .88rem; margin: 1rem 0; }
-  .avg-table th, .avg-table td { padding: .45rem .5rem; border-bottom: 1px solid var(--line); text-align: left; }
-  .mini-track { background: #f0ede5; border-radius: 4px; height: .9rem; width: 100%; max-width: 10rem; display: inline-block; vertical-align: middle; overflow: hidden; }
-  .mini-fill { height: 100%; border-radius: 4px; }
-  .s-fill { background: var(--cool); }
-  .c-fill { background: var(--accent); }
-  .exportbox { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; font-family: system-ui, sans-serif; font-size: .92rem; }
-  .exportbox input { font-size: .95rem; padding: .4rem .6rem; border: 1px solid var(--line); border-radius: 6px; margin-right: .5rem; }
-  .exportbox textarea { width: 100%; height: 6rem; margin-top: .7rem; font-family: ui-monospace, monospace; font-size: .78rem; display: none; }
-  .method, .authorship { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
-  .limit { border-left: 4px solid var(--warn); padding: .7rem 1.1rem; background: #faf3ee; margin: 1.2rem 0; }
-  .try { border: 2px dashed var(--accent); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
-  .cliff { font-size: 1.15rem; font-style: italic; margin: 2rem 0 0; }
-  .err { color: var(--warn); font-family: system-ui, sans-serif; }
-  #progress { font-family: system-ui, sans-serif; font-weight: 600; margin: 1rem 0; }
-  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .treewrap { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.5rem; margin:1rem 0; overflow-x:auto; }
+  svg#tree { display:block; min-width:600px; width:100%; height:auto; }
+  .twig { fill:none; }
+  .leaf-word { font-family:system-ui,sans-serif; font-size:11px; fill:var(--ink); cursor:default; }
+  .controls { display:flex; flex-wrap:wrap; gap:.8rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  .dial { display:flex; align-items:center; gap:.6rem; flex:1; min-width:14rem; }
+  .dial input[type=range]{ flex:1; accent-color:var(--accent); }
+  .tval { font-weight:700; width:6.5rem; }
+  .tval .lo { color:var(--cool); } .tval .hi { color:var(--hot); }
+  button { font-family:system-ui,sans-serif; font-size:.95rem; font-weight:600; cursor:pointer; border:none; border-radius:8px; padding:.6rem 1.2rem; background:var(--accent); color:#fff; }
+  button.ghost { background:#fff; color:var(--accent); border:1.5px solid var(--accent); }
+  .sentences { margin-top:1rem; }
+  .sentences .s { font-family:system-ui,sans-serif; font-size:.95rem; padding:.35rem .6rem; border-radius:6px; margin:.25rem 0; background:var(--card); border:1px solid var(--line); }
+  .sentences .s .badge { font-size:.72rem; font-weight:700; padding:.05rem .45rem; border-radius:999px; color:#fff; margin-right:.5rem; }
+  .stat { font-family:system-ui,sans-serif; font-weight:600; margin-top:.6rem; }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  .err { color:var(--warn); font-family:system-ui,sans-serif; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+  footer a { color:var(--accent); }
 </style>
 </head>
 <body>
 <main>
   <div class="kicker">The Instructor's Study · Session 2 · The False Mean project</div>
-  <h1>The False Mean</h1>
-  <div class="byline">Daniel — AI + Research, Level 2 · Youth Horizons Learning</div>
+  <h1>The Garden of Forking Sentences</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
 
   <div class="thesis">
-    <strong>Thesis.</strong> A language model's default output is the <em>false mean</em>: fluent, polished, and average. Turning up randomness (the "temperature" setting) buys surprise — but it pays for it in coherence. Difference is cheap. Quality is not.
+    <strong>Thesis.</strong> A model doesn't "write" a sentence so much as walk down a tree, choosing a likely next word at every fork. A setting called <strong>temperature</strong> changes how boldly it strays from the safest branch. Turn it down and the tree becomes a single trunk — the same sentence every time. Turn it up and it explodes into a wild bush. Difference is easy to buy. Quality is the hard part.
   </div>
 
-  <p><strong>This week's question:</strong> as the model gets more random, do readers find its writing more surprising — and where does the writing start falling apart?</p>
+  <p><strong>This week's question:</strong> what does temperature actually <em>do</em> to the sentences a model can produce — and where does "more surprising" turn into "less coherent"?</p>
 
-  <h2>Part 1 — Rate the cards, blind</h2>
-  <p>All ten cards below answer the same request: <em>“Describe an old library in two or three sentences.”</em> They were generated at five different temperature settings — the labels are hidden and the order is shuffled. Rate every card on two scales, 1 (low) to 5 (high):</p>
-  <p class="note"><strong>Surprise</strong> — did it show you something you couldn't have predicted? · <strong>Coherence</strong> — does it hold together as writing?</p>
+  <h2>The garden</h2>
+  <p class="note">Every path from the top down to a tip is one possible sentence beginning with "<span id="prompt"></span>…". Thicker, darker branches are the likelier words. Drag the temperature dial and watch the tree change shape.</p>
 
-  <div id="gallery"><p class="note">Loading gallery…</p></div>
-  <p id="progress"></p>
-
-  <div class="predict" id="predictBox">
-    <strong>One prediction before the reveal:</strong> which setting do you expect produced the <em>best writing overall</em>?
-    <div class="opts">
-      <button data-p="low">Low randomness</button>
-      <button data-p="mid">Middle</button>
-      <button data-p="high">High randomness</button>
+  <div class="controls">
+    <div class="dial">
+      <span>cold</span>
+      <input type="range" id="temp" min="0.2" max="1.8" step="0.05" value="0.8">
+      <span>hot</span>
+      <span class="tval" id="tval">T = 0.80</span>
     </div>
   </div>
-
-  <button class="bigbtn" id="revealBtn" disabled>Rate all 10 cards to reveal</button>
-
-  <div id="results">
-    <h2>Part 2 — The reveal</h2>
-    <p>Temperature badges are now visible on every card above (<span style="color:var(--cool);font-weight:700">cool</span> = low, <span style="color:var(--hot);font-weight:700">hot</span> = high). Here is the curve your own ratings drew:</p>
-    <div id="myAverages"></div>
-    <p id="verdict"></p>
-    <div id="classAverages"></div>
-    <div class="exportbox">
-      <strong>Add your ratings to the study.</strong> Your judgments become rows in this paper's dataset — that is how the evidence below grows.<br><br>
-      <label>Your initials: <input id="raterName" maxlength="12" placeholder="e.g. JT"></label>
-      <button class="bigbtn ghost" id="exportBtn">Copy my ratings</button>
-      <span class="note" id="exportMsg"></span>
-      <textarea id="exportFallback" readonly></textarea>
-    </div>
+  <div class="treewrap">
+    <svg id="tree" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" aria-label="A branching tree of sentences"></svg>
   </div>
+
+  <h2>Grow a sentence</h2>
+  <p class="note">Press the button to let the model "write" — it takes a weighted random walk down the tree at the current temperature. Do it many times and watch what happens.</p>
+  <div class="controls">
+    <button id="sampleBtn">Grow a sentence</button>
+    <button id="sample10Btn" class="ghost">Grow 10</button>
+    <button id="clearBtn" class="ghost">Clear</button>
+  </div>
+  <p class="stat" id="stat"></p>
+  <div class="sentences" id="sentences"></div>
 
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
 
   <h2>Interpretation</h2>
-  <p>Across raters so far, surprise climbs with temperature and coherence falls — two lines crossing. The writing that scores best <em>overall</em> sits in the middle: surprising enough to notice, coherent enough to trust. The extremes fail differently: low temperature gives near-twin answers (find the two cards that are almost the same sentence — that is the false mean showing itself), and high temperature gives dazzling fragments that stop meaning anything. <strong>More random is not more creative. It is just more random.</strong></p>
+  <p>At a cold temperature the walk almost always takes the fattest branch at every fork, so you get the same sane, dull sentence again and again — the model's <strong>false mean</strong>. Crank the heat and the shy branches (<em>"breathing," "underwater," "furious"</em>) start winning often enough to appear — some delightful, some nonsense. The count of distinct sentences climbs fast. But notice what climbing randomness does <em>not</em> do: it never invents a new branch. Every wild sentence was already in the tree; temperature only changes how often we visit the strange tips. More random is not more creative — it's just more willing to wander.</p>
 
   <div class="limit">
-    <strong>Limitation.</strong> One prompt, one model, two outputs per setting, and a small self-selected group of raters. Surprise and coherence are only two criteria of many — a real quality rubric arrives in Week 6. And note the exception that keeps this honest: occasionally a high-temperature card lands a genuinely great line. The curve is a tendency, not a law.
+    <strong>Limitation.</strong> This is a tiny, hand-built tree with made-up probabilities; a real model chooses from tens of thousands of words at every step and rebuilds the whole tree after each one. The shape of the lesson is right — cold repeats, hot scatters — but the numbers here are an illustration, not a measurement.
   </div>
 
   <h2>Try it yourself</h2>
   <div class="try">
-    First, grab the dial itself: the companion toy <a href="playground/" style="color:var(--accent);font-weight:600">Loading the Dice</a> puts the real temperature math under your fingers — twelve words, one slider, and the whole mechanism visible. Then approximate the experiment in your own chat: regenerate the same prompt five times and see how much actually changes, or ask for <em>“five answers, from safest to wildest”</em> — is the wildest one better, or just noisier? Bring your best wild-but-good line to class; those exceptions are where the interesting questions live.
+    In your own AI chat, run one prompt five times and count how much really changes (that's low temperature at work). Then ask for "five versions, from safest to wildest." Somewhere in the wild ones is a line that's surprising <em>and</em> good — that rare tip is what the rest of this course is hunting for.
   </div>
 
-  <p class="cliff">Randomness bought surprise and spent coherence — nothing here improved both at once. What could? <span class="note">(My bet, on the record in Week 5: a break made on purpose, for a reason. Not noise — judgment.)</span></p>
+  <p class="cliff">Randomness gave us new sentences but never new ideas — every wild one was already on the tree. So where would a genuinely <em>better</em> sentence come from? <span class="note">(Hold that. It's the whole question.)</span></p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
-    <p><strong>What AI helped with:</strong> generating the ten library descriptions (that was the experiment) and drafting this page's first HTML, which I revised.</p>
-    <p><strong>What I own:</strong> the two rating criteria (a deliberate simplification — and a limitation), the blind design, the shuffled presentation, the interpretation of the curve, and the decision to report the high-temperature exception rather than hide it.</p>
+    <p><strong>What AI helped with:</strong> drafting this page's code and suggesting branch words, which I pruned and re-weighted.</p>
+    <p><strong>What I own:</strong> the tree's shape and probabilities, the choice to make temperature control both branch thickness and the random walk, and the reading that randomness reaches strange tips without ever adding new ones.</p>
   </div>
 
-  <footer>Part of the class proceedings · The Instructor's Study, Session 2 of 12 · Data: <code>data/gallery.json</code>, <code>data/ratings.json</code></footer>
+  <footer>Part of the class proceedings · The Instructor's Study, Session 2 of 12 · Data: <code>data/tree.json</code> · See also the raw dice: <a href="playground/">Loading the Dice</a></footer>
 </main>
 
 <script>
-(async function () {
-  let gal, ratingsFile;
-  try {
-    [gal, ratingsFile] = await Promise.all([
-      fetch('data/gallery.json').then(r => r.json()),
-      fetch('data/ratings.json').then(r => r.json())
-    ]);
-  } catch (e) {
-    document.getElementById('gallery').innerHTML =
-      '<p class="err">Could not load data files. Serve this folder over HTTP (e.g. <code>python3 -m http.server</code>) or view the deployed page.</p>';
-    return;
+(async function(){
+  let data;
+  try { data = await fetch('data/tree.json').then(r=>r.json()); }
+  catch(e){ document.getElementById('tree').innerHTML=''; document.querySelector('.treewrap').innerHTML='<p class="err">Could not load the tree data. Serve this folder over HTTP or open the deployed page.</p>'; return; }
+
+  document.getElementById('prompt').textContent = data.prompt;
+  const svg=document.getElementById('tree'), SVGNS="http://www.w3.org/2000/svg";
+  const W=600,H=420, tempEl=document.getElementById('temp');
+  let T=parseFloat(tempEl.value);
+
+  // assign layout positions: depth -> x, leaves spread over y
+  function leaves(node){ if(!node.children||!node.children.length) return [node]; return node.children.flatMap(leaves); }
+  function depthOf(node){ if(!node.children||!node.children.length) return 0; return 1+Math.max(...node.children.map(depthOf)); }
+  const maxDepth = depthOf(data.root);
+  const allLeaves = leaves(data.root);
+  const colX = d => 30 + d*( (W-90) / Math.max(1,maxDepth) );
+
+  // temper a set of sibling probabilities: p^(1/T) renormalized
+  function temper(children){
+    const raw=children.map(c=>Math.pow(c.p, 1/T));
+    const sum=raw.reduce((a,b)=>a+b,0)||1;
+    return raw.map(r=>r/sum);
   }
 
-  const tempColor = t => {
-    const temps = gal.temperatures, i = temps.indexOf(t), k = i / (temps.length - 1);
-    const mix = (a, b) => Math.round(a + (b - a) * k);
-    return 'rgb(' + mix(74, 181) + ',' + mix(127, 74) + ',' + mix(181, 74) + ')';
-  };
+  // assign y positions by recursively spreading leaves
+  let yCursor;
+  function layout(node, depth){
+    node._x=colX(depth);
+    if(!node.children||!node.children.length){ node._y = yCursor; yCursor += rowH; return; }
+    node.children.forEach(c=>layout(c,depth+1));
+    node._y = node.children.reduce((s,c)=>s+c._y,0)/node.children.length;
+  }
+  let rowH;
+  function relayout(){ rowH=(H-40)/Math.max(1,allLeaves.length); yCursor=30; layout(data.root,0); }
 
-  /* ---------- gallery ---------- */
-  const shuffled = gal.cards.map(c => ({ c, s: Math.random() })).sort((a, b) => a.s - b.s).map(x => x.c);
-  const my = {}; // cardId -> {surprise, coherence}
-  const galleryEl = document.getElementById('gallery');
-  galleryEl.innerHTML = '';
-  const progress = document.getElementById('progress');
-  const revealBtn = document.getElementById('revealBtn');
-
-  function updateProgress() {
-    const done = Object.values(my).filter(r => r.surprise && r.coherence).length;
-    progress.textContent = done + ' of ' + gal.cards.length + ' cards fully rated.';
-    revealBtn.disabled = done !== gal.cards.length;
-    if (done === gal.cards.length) revealBtn.textContent = 'Reveal the temperatures';
+  function render(){
+    relayout();
+    svg.innerHTML='';
+    drawNode(data.root, null, 1);
+    // prompt label at root
+    const t=document.createElementNS(SVGNS,'text');
+    t.setAttribute('x',data.root._x-4); t.setAttribute('y',data.root._y-10);
+    t.setAttribute('class','leaf-word'); t.setAttribute('text-anchor','start'); t.setAttribute('font-style','italic');
+    t.textContent='“'+data.prompt+'…”'; svg.appendChild(t);
   }
 
-  shuffled.forEach((c, idx) => {
-    my[c.id] = { surprise: 0, coherence: 0 };
-    const box = document.createElement('div');
-    box.className = 'card';
-    box.dataset.cardId = c.id;
-    const badge = '<span class="temp-badge" style="background:' + tempColor(c.temperature) + '">temp ' + c.temperature.toFixed(1) + '</span>';
-    box.innerHTML = badge + '<div class="cid">Card ' + (idx + 1) + '</div><p>' + c.text + '</p>';
-    const scales = document.createElement('div');
-    scales.className = 'scales';
-    ['surprise', 'coherence'].forEach(dim => {
-      const row = document.createElement('div');
-      row.className = 'scale';
-      row.innerHTML = '<span class="sl">' + dim[0].toUpperCase() + dim.slice(1) + '</span>';
-      for (let v = 1; v <= 5; v++) {
-        const b = document.createElement('button');
-        b.textContent = v;
-        b.addEventListener('click', () => {
-          row.querySelectorAll('button').forEach(x => x.classList.remove('sel'));
-          b.classList.add('sel');
-          my[c.id][dim] = v;
-          updateProgress();
-        });
-        row.appendChild(b);
-      }
-      scales.appendChild(row);
-    });
-    box.appendChild(scales);
-    galleryEl.appendChild(box);
-  });
-  updateProgress();
-
-  /* ---------- prediction ---------- */
-  let prediction = null;
-  document.querySelectorAll('#predictBox .opts button').forEach(b => {
-    b.addEventListener('click', () => {
-      document.querySelectorAll('#predictBox .opts button').forEach(x => x.classList.remove('chosen'));
-      b.classList.add('chosen');
-      prediction = b.dataset.p;
-    });
-  });
-
-  /* ---------- averages helpers ---------- */
-  const byTemp = rows => {
-    const acc = {};
-    gal.temperatures.forEach(t => acc[t] = { s: 0, c: 0, n: 0 });
-    rows.forEach(r => {
-      const card = gal.cards.find(x => x.id === r.cardId);
-      if (!card) return;
-      const a = acc[card.temperature];
-      a.s += r.surprise; a.c += r.coherence; a.n++;
-    });
-    return gal.temperatures.map(t => ({
-      t,
-      s: acc[t].n ? acc[t].s / acc[t].n : null,
-      c: acc[t].n ? acc[t].c / acc[t].n : null
-    }));
-  };
-
-  const avgTable = (title, rows) => {
-    let h = '<h3 style="font-size:1.05rem;margin:1.4rem 0 .3rem">' + title + '</h3>' +
-      '<table class="avg-table"><tr><th>Temp</th><th>Surprise</th><th>Coherence</th></tr>';
-    rows.forEach(r => {
-      const bar = (v, cls) => v == null ? '—' :
-        '<span class="mini-track"><span class="mini-fill ' + cls + '" style="width:' + (v * 20) + '%"></span></span> ' + v.toFixed(1);
-      h += '<tr><td style="font-weight:700;color:' + tempColor(r.t) + '">' + r.t.toFixed(1) + '</td>' +
-        '<td>' + bar(r.s, 's-fill') + '</td><td>' + bar(r.c, 'c-fill') + '</td></tr>';
-    });
-    return h + '</table>';
-  };
-
-  /* ---------- reveal ---------- */
-  revealBtn.addEventListener('click', () => {
-    revealBtn.style.display = 'none';
-    document.querySelectorAll('.scale button, #predictBox .opts button').forEach(b => b.disabled = true);
-    document.querySelectorAll('.temp-badge').forEach(el => el.style.display = 'inline-block');
-    document.getElementById('results').style.display = 'block';
-
-    const myRows = Object.entries(my).map(([cardId, r]) => ({ cardId, surprise: r.surprise, coherence: r.coherence }));
-    const mine = byTemp(myRows);
-    document.getElementById('myAverages').innerHTML = avgTable('Your averages by temperature', mine);
-
-    const best = mine.reduce((a, b) => (b.s + b.c > a.s + a.c ? b : a));
-    const bucket = t => t <= 0.7 ? 'low' : t >= 1.3 ? 'high' : 'mid';
-    const label = { low: 'low randomness', mid: 'the middle', high: 'high randomness' };
-    let v = 'By your own ratings, the best overall writing (surprise + coherence) came from <strong>temperature ' +
-      best.t.toFixed(1) + '</strong> — that is ' + label[bucket(best.t)] + '.';
-    if (prediction) {
-      v += bucket(best.t) === prediction
-        ? ' Your prediction was right.'
-        : ' You predicted ' + label[prediction] + ' — your own judgments disagreed with you, which is exactly why we rate blind.';
+  function drawNode(node, parent, inheritedProb){
+    if(parent){
+      const tp = node._temperedP;
+      const width = 0.6 + tp*6;
+      const opacity = 0.15 + tp*0.8;
+      const path=document.createElementNS(SVGNS,'path');
+      const x1=parent._x, y1=parent._y, x2=node._x, y2=node._y;
+      const mx=(x1+x2)/2;
+      path.setAttribute('d',`M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`);
+      path.setAttribute('class','twig'); path.setAttribute('stroke','#2f6f5e');
+      path.setAttribute('stroke-width',width.toFixed(2)); path.setAttribute('opacity',opacity.toFixed(2));
+      path.dataset.node = node.word; node._pathEl=path;
+      svg.appendChild(path);
+      const t=document.createElementNS(SVGNS,'text');
+      t.setAttribute('x',x2+3); t.setAttribute('y',y2+3); t.setAttribute('class','leaf-word');
+      t.setAttribute('opacity', Math.max(0.25, opacity).toFixed(2));
+      t.textContent=node.word; svg.appendChild(t);
     }
-    document.getElementById('verdict').innerHTML = v;
-
-    const classRows = (ratingsFile.ratings || []);
-    document.getElementById('classAverages').innerHTML = classRows.length
-      ? avgTable('Class averages so far (' + new Set(classRows.map(r => r.rater)).size + ' raters)', byTemp(classRows))
-      : '<p class="note">No class ratings collected yet — yours could be the first rows.</p>';
-
-    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-  });
-
-  /* ---------- export ---------- */
-  document.getElementById('exportBtn').addEventListener('click', async () => {
-    const name = (document.getElementById('raterName').value || 'anon').trim();
-    const rows = Object.entries(my).map(([cardId, r]) =>
-      ({ rater: name, cardId, surprise: r.surprise, coherence: r.coherence }));
-    const blob = JSON.stringify(rows, null, 2);
-    const msg = document.getElementById('exportMsg');
-    try {
-      await navigator.clipboard.writeText(blob);
-      msg.textContent = 'Copied ' + rows.length + ' rows — send them to the author.';
-    } catch (e) {
-      const ta = document.getElementById('exportFallback');
-      ta.value = blob; ta.style.display = 'block'; ta.select();
-      msg.textContent = 'Clipboard blocked — copy the text below manually.';
+    if(node.children&&node.children.length){
+      const tp=temper(node.children);
+      node.children.forEach((c,i)=>{ c._temperedP=tp[i]; drawNode(c,node,inheritedProb*tp[i]); });
     }
+  }
+
+  tempEl.addEventListener('input',()=>{
+    T=parseFloat(tempEl.value);
+    const cls = T<=0.6?'lo':T>=1.2?'hi':'';
+    document.getElementById('tval').innerHTML = `T = <span class="${cls}">${T.toFixed(2)}</span>`;
+    render();
   });
 
-  /* ---------- method ---------- */
+  // ---- weighted random walk ----
+  const produced=[]; const seen=new Set();
+  function sampleOnce(){
+    let node=data.root, words=[];
+    while(node.children&&node.children.length){
+      const tp=temper(node.children);
+      let r=Math.random(), acc=0, pick=node.children[node.children.length-1];
+      for(let i=0;i<node.children.length;i++){ acc+=tp[i]; if(r<=acc){ pick=node.children[i]; break; } }
+      words.push(pick.word); node=pick;
+    }
+    return words;
+  }
+  function addSentence(){
+    const words=sampleOnce();
+    const sentence = data.prompt+' '+words.join(' ').replace(/ ([,.])/g,'$1');
+    produced.push(sentence); seen.add(sentence);
+    const cls=T<=0.6?'lo':T>=1.2?'hi':'';
+    const color=cls==='lo'?'var(--cool)':cls==='hi'?'var(--hot)':'var(--accent)';
+    const el=document.getElementById('sentences');
+    const div=document.createElement('div'); div.className='s';
+    div.innerHTML=`<span class="badge" style="background:${color}">T ${T.toFixed(1)}</span>${sentence}`;
+    el.insertBefore(div, el.firstChild);
+    document.getElementById('stat').textContent =
+      `${produced.length} sentence(s) grown · ${seen.size} of them distinct. At T=${T.toFixed(1)}, ${seen.size<=2?'the garden keeps handing you the same few paths.':'the garden is branching into real variety.'}`;
+  }
+  document.getElementById('sampleBtn').addEventListener('click',addSentence);
+  document.getElementById('sample10Btn').addEventListener('click',()=>{ for(let i=0;i<10;i++) addSentence(); });
+  document.getElementById('clearBtn').addEventListener('click',()=>{
+    produced.length=0; seen.clear(); document.getElementById('sentences').innerHTML=''; document.getElementById('stat').textContent='';
+  });
+
   document.getElementById('method').innerHTML =
-    '<p><strong>Generation.</strong> Prompt: “' + gal.prompt + '” — ' + gal.settings +
-    ' Model: ' + gal.model + '. Date: ' + gal.date + '.</p>' +
-    '<p><strong>Rating.</strong> Readers rate all ten cards blind (labels hidden, order shuffled per visit) on surprise and coherence, 1–5. ' +
-    'Ratings are contributed through the copy button above and committed to <code>data/ratings.json</code>; the class averages recompute from that file on every load.</p>';
+    `<p><strong>The tree.</strong> Prompt: “${data.prompt}…”. Each fork lists candidate next words with a base probability. Branch thickness and darkness show the tempered probability at the current temperature.</p>`+
+    `<p><strong>Temperature.</strong> Each probability is raised to the power 1/T and renormalized among its siblings — the exact move a real sampler makes. Low T sharpens toward the top choice; high T flattens everything toward equal. “Grow a sentence” takes a weighted random walk using those tempered odds.</p>`+
+    `<p class="note">${data.note}</p>`;
+
+  render();
 })();
 </script>
 </body>

@@ -1,52 +1,37 @@
-# Session 1 Instructor Paper-App: The Prototype Problem
+# Session 1 Instructor Paper-App (v2): The Map of Meaning
 
-The Bridge artifact for Session 1 (strand W1). A complete paper-app in miniature: thesis, method, two interactions, real evidence, limitation, try-it-yourself, authorship note, cliffhanger.
+The Bridge artifact for Session 1 (strand W1), rebuilt to open the course with a bang: a **live embedding model runs in the reader's browser** and places words — including the reader's own — on a 2-D map of meaning. Genre: explorable atlas. (v1, "The Prototype Problem," is preserved in `../archive/session-01-v1/`.)
 
 ## Files
 
-- `index.html` - the whole paper-app (single file, vanilla JS, no dependencies).
-- `data/study.json` - the infant-study prediction questions and revealed results (real numbers from the experiments table in the corpus).
-- `data/outputs.json` - the ten model outputs, hand-tagged features, and method fields.
+- `index.html` — the paper-app. Uses Transformers.js from CDN (ES module) with a graceful static fallback.
+- `data/words.json` — 36 words in 6 categories, the two meaning-axes (anchor words), the prototype category, and an approximate fallback layout used only if the model can't load.
 
-## Current class dataset
+## How it works
 
-The current deployed dataset in `data/outputs.json` was generated on 2026-07-03 with OpenAI GPT-5 via Codex, using the exact prompt in the artifact. The method field in the JSON states this directly so the page does not pretend these were from a different model or setup.
+On load it tries to run `Xenova/all-MiniLM-L6-v2` (~30 MB, cached after first load) in the browser. If it loads: every word is embedded, projected onto two semantic axes (made↔living, small↔big), and plotted; the reader can type any word and watch the real model place it. If it can't load (old device, no WebGPU/WASM, offline): the page shows the approximate fallback layout, clearly labelled, and disables only the "type your own word" box. Either way the paper is complete and honest.
 
-## Before class: regenerate the data honestly
+## 🚧 Device-test before class (important)
 
-If you want to rerun the example with another model before class, replace the current outputs so the artifact's method note is true:
+This is the course's first Tier-1 (live-model) page, so **test it on the weakest laptop a student might bring** before Session 1:
 
-1. Open ten fresh chats in your model of choice. Same prompt each time: *"Describe a beautiful room in two or three sentences."* Default settings.
-2. Paste each response into an `outputs[].text` field.
-3. Hand-tag features per output (keep the tags honest - tagging is a judgment call, and the authorship note says so).
-4. Fill in `model`, `date`, and `settings`.
-5. If the real tally differs from the draft (it will, somewhat), nothing else needs changing - the bars, top-5 scoring, and highlights all compute from the data.
+1. Open the deployed URL on a plain, older laptop with a normal browser.
+2. Confirm the status banner reaches "Live model loaded," the map fills in, and "place your own word" works.
+3. If it falls back on that device, decide whether to present live (your machine) and let students explore the fallback, or hold the live feature for a stronger-device week.
 
-## Preview locally
+Keep the precomputed fallback honest: if you change the word list, the fallback coordinates are just an approximate backup — the method note already says so.
 
-`fetch()` needs HTTP, so from this folder:
+## Preview & deploy
 
-```
-python3 -m http.server 8000
-```
-
-then open http://localhost:8000. (Double-clicking index.html will show a friendly error instead of the app.)
-
-## Deploy (pick one)
-
-**GitHub Pages** (course default): put this folder in your demo repo as `instructor-study/session-01/`, push, and it appears at `https://<you>.github.io/<repo>/instructor-study/session-01/`. One-time setup: repo Settings → Pages → Deploy from branch → main.
-
-**Netlify Drop** (fastest first deploy): drag this folder onto https://app.netlify.com/drop - live URL in ~10 seconds. Good for demonstrating "deployed" before GitHub is set up.
-
-Link the URL on the class proceedings page.
+`fetch()` and ES modules need HTTP: `python3 -m http.server 8000` from this folder, then open http://localhost:8000. Deploy by pushing to the repo (`session-01/`) — the existing URL now serves v2. GitHub Pages serves the CDN import fine.
 
 ## Using it in the 15-minute Bridge
 
-1. (2 min) Narrowing move: "You just learned embeddings average into prototypes. My study starts here: do *humans* anchor on prototypes too?"
-2. (7 min) Run Part 1 live - the class votes on each infant question before you click. Then Part 2 - the class calls out three feature picks, you commit them, reveal the tally.
-3. (4 min) Their predictions vs. the study = the data moment. Read the limitation aloud - modeling honest scope from day one.
-4. (2 min) The cliffhanger is on the page. Leave it on screen going into the inquiry hour.
+1. Narrowing move: "You'll learn meaning is a map of numbers. Watch a real network draw that map — then we hunt the center."
+2. Live: load the map on your screen; click a couple of words to show neighbors; press **Reveal the prototype** and let the centroid word land.
+3. Data moment: take a word from the class ("dragon," "sadness," someone's name), type it, and let the model place it live — ask the room to predict the neighborhood first.
+4. Cliffhanger on the page: *the model hands us the center every time — is the center any good?*
 
 ## Session 1 duty
 
-This artifact is also the fallback rep core: the students' predict-and-reveal rep is a simplified copy of Part 2 (their own prompt, their own tally).
+Still the fallback rep core: the students' predict-and-reveal rep can stay static (their own prompt + tally). The live map is the instructor showpiece; students meet Tier-1 by watching, not building, this week.

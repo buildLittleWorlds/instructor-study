@@ -1,0 +1,46 @@
+{
+  "note": "This paper is the hinge of my whole project. The candidate questions below are real — several are ones I actually considered and abandoned. The kill-tests and verdicts are my reasoning, laid out so you can practice the same narrowing.",
+  "wondering": "Something about AI writing feels off — too smooth, too same. But 'feels off' is not a research question. Watch it get sharpened.",
+  "verdicts": {
+    "testable":  { "label": "Testable ✓", "color": "#2f6f5e" },
+    "toobig":    { "label": "Too big",     "color": "#a8582f" },
+    "opinion":   { "label": "Just an opinion", "color": "#b0506a" },
+    "yardstick": { "label": "Needs a yardstick", "color": "#3f7fae" }
+  },
+  "candidates": [
+    { "id": "good", "text": "Is AI art actually any good?",
+      "verdict": "opinion", "kill": { "measure": "no", "data": "no", "surprise": "no" },
+      "why": "“Good” is never defined, and no result could change your mind. That’s a debate, not a study." },
+    { "id": "cliche", "text": "Does this model use more clichés than human writers do?",
+      "verdict": "testable", "kill": { "measure": "yes", "data": "yes", "surprise": "yes" },
+      "why": "You can count clichés, you can collect both kinds of text, and either answer would teach you something." },
+    { "id": "replace", "text": "Will AI replace all human writers?",
+      "verdict": "toobig", "kill": { "measure": "no", "data": "no", "surprise": "no" },
+      "why": "It’s about the whole future — nothing you could measure this month would settle it." },
+    { "id": "directed", "text": "Do readers rate a deliberate, purposeful break higher than the model’s default answer — and higher than a purely random one?",
+      "verdict": "testable", "kill": { "measure": "yes", "data": "yes", "surprise": "yes" },
+      "why": "Three clear conditions, a rating I can actually collect, and it pays off whichever way it lands. This is the one I keep.",
+      "survivor": true },
+    { "id": "temp", "text": "What’s the best temperature setting?",
+      "verdict": "yardstick", "kill": { "measure": "partly", "data": "yes", "surprise": "no" },
+      "why": "“Best” for what? Name the yardstick — most surprising? most coherent? best fit? — and this becomes testable." },
+    { "id": "soulless", "text": "Why does AI writing feel so soulless?",
+      "verdict": "toobig", "kill": { "measure": "no", "data": "no", "surprise": "no" },
+      "why": "Start from a symptom you can point to and count. “Soulless” is a feeling, not yet a measurement." },
+    { "id": "poem", "text": "Are this model’s poems more predictable than human poems?",
+      "verdict": "testable", "kill": { "measure": "yes", "data": "yes", "surprise": "yes" },
+      "why": "Predictability is measurable (can a reader guess the next word?), the texts are gettable, and either result is interesting." }
+  ],
+  "doorsPrompt": "Write the first line of a story about a lighthouse keeper.",
+  "doors": [
+    { "cond": "default",  "text": "The lighthouse keeper climbed the spiral stairs each night, lantern in hand, keeping watch over the dark and restless sea." },
+    { "cond": "random",   "text": "Lighthouse keeper: barnacle mayor of the vertical sea, his kettle screaming semaphore at a disinterested moon, the whole Tuesday tasting faintly of rope." },
+    { "cond": "directed", "text": "The lighthouse keeper had never once looked at the sea; his entire job, he had decided, was to be looked at — one yellow word the ships read to mean not yet, not here." }
+  ],
+  "swerves": {
+    "default":  { "name": "The false mean", "note": "Fluent, safe, and exactly what you’d expect: a keeper who watches the sea. The center of the map." },
+    "random":   { "name": "The random swerve", "note": "Different — but the difference is noise. Dazzling fragments that don’t hold together." },
+    "directed": { "name": "The true swerve", "note": "A break made on purpose, for a reason, that serves the whole: a keeper who is watched, not watching. This is my bet." }
+  },
+  "payoff": "Here’s why the question is worth asking: it pays off both ways. If readers rate the true swerve highest, then deliberate judgment beats both averageness and noise — randomness is not creativity. If they don’t, that’s a genuine surprise about how hard excellence is to commission. A good question can’t lose."
+}

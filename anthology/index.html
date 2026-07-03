@@ -168,6 +168,7 @@
         '<dt>What the reader gets to do</dt><dd>' + s.readerAction + '</dd>' +
         '<dt>What sits underneath</dt><dd>' + s.underneath + '</dd>' +
         '<dt>Pattern to borrow</dt><dd>' + s.borrow + '</dd>' +
+        (s.stack ? '<dt>How it\'s built &amp; deployed</dt><dd>' + s.stack + '</dd>' : '') +
         (s.credit ? '<dt>Made by</dt><dd>' + s.credit + '</dd>' : '') +
         '</dl>' +
         '<div class="ptags">' + s.patterns.map(p => '<span>' + p + '</span>').join('') + '</div>';

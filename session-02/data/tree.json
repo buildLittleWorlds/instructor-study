@@ -1,0 +1,65 @@
+{
+  "prompt": "The old house was",
+  "note": "The probabilities below are illustrative — hand-set to mimic the shape a real model produces (one likely word, a few plausible ones, a long shy tail). They are not measured from a specific model. Swap in real next-word probabilities and nothing else changes.",
+  "root": {
+    "word": "The old house was",
+    "children": [
+      { "word": "quiet", "p": 0.34, "children": [
+        { "word": "and", "p": 0.5, "children": [
+          { "word": "still", "p": 0.6 },
+          { "word": "empty", "p": 0.3 },
+          { "word": "waiting", "p": 0.1 }
+        ]},
+        { "word": ",", "p": 0.3, "children": [
+          { "word": "too", "p": 0.7 },
+          { "word": "somehow", "p": 0.3 }
+        ]},
+        { "word": "except", "p": 0.2, "children": [
+          { "word": "for", "p": 0.8 },
+          { "word": "when", "p": 0.2 }
+        ]}
+      ]},
+      { "word": "empty", "p": 0.24, "children": [
+        { "word": "and", "p": 0.55, "children": [
+          { "word": "cold", "p": 0.5 },
+          { "word": "dark", "p": 0.35 },
+          { "word": "listening", "p": 0.15 }
+        ]},
+        { "word": ",", "p": 0.45, "children": [
+          { "word": "or", "p": 0.5 },
+          { "word": "nearly", "p": 0.5 }
+        ]}
+      ]},
+      { "word": "dark", "p": 0.16, "children": [
+        { "word": "and", "p": 0.6, "children": [
+          { "word": "silent", "p": 0.6 },
+          { "word": "breathing", "p": 0.4 }
+        ]},
+        { "word": "inside", "p": 0.4, "children": [
+          { "word": ".", "p": 1.0 }
+        ]}
+      ]},
+      { "word": "breathing", "p": 0.09, "children": [
+        { "word": "softly", "p": 0.5 },
+        { "word": ",", "p": 0.5, "children": [
+          { "word": "almost", "p": 1.0 }
+        ]}
+      ]},
+      { "word": "a", "p": 0.1, "children": [
+        { "word": "museum", "p": 0.4 },
+        { "word": "throat", "p": 0.3 },
+        { "word": "question", "p": 0.3 }
+      ]},
+      { "word": "underwater", "p": 0.04, "children": [
+        { "word": ",", "p": 1.0, "children": [
+          { "word": "obviously", "p": 1.0 }
+        ]}
+      ]},
+      { "word": "furious", "p": 0.03, "children": [
+        { "word": "about", "p": 1.0, "children": [
+          { "word": "something", "p": 1.0 }
+        ]}
+      ]}
+    ]
+  }
+}

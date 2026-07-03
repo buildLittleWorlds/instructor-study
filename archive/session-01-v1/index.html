@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prototype Problem — Instructor's Study, Session 1</title>
+<style>
+  :root {
+    --ink: #22222a;
+    --muted: #6b6b76;
+    --paper: #fdfcf9;
+    --card: #ffffff;
+    --line: #e3e0d8;
+    --accent: #2f6f5e;
+    --accent-soft: #e7f1ee;
+    --warn: #a8582f;
+    --bar: #cfe3dd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height: 1.65; font-size: 1.05rem;
+  }
+  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
+  h2 { font-size: 1.3rem; margin: 2.8rem 0 .8rem; border-top: 1px solid var(--line); padding-top: 1.6rem; }
+  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.8rem; }
+  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
+  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
+  .q { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.1rem; margin: 1rem 0; }
+  .q p { margin: 0 0 .7rem; }
+  .opts { display: flex; flex-wrap: wrap; gap: .5rem; }
+  button {
+    font-family: system-ui, sans-serif; font-size: .92rem; cursor: pointer;
+    border: 1.5px solid var(--accent); background: #fff; color: var(--accent);
+    border-radius: 999px; padding: .45rem .95rem;
+  }
+  button:hover:not(:disabled) { background: var(--accent-soft); }
+  button:disabled { cursor: default; opacity: .55; }
+  button.chosen { background: var(--accent); color: #fff; opacity: 1; }
+  button.correct { border-width: 2.5px; opacity: 1; }
+  .explain { display: none; margin-top: .8rem; padding-top: .7rem; border-top: 1px dashed var(--line); font-size: .97rem; }
+  .verdict { font-family: system-ui, sans-serif; font-weight: 600; font-size: .85rem; }
+  .verdict.right { color: var(--accent); }
+  .verdict.wrong { color: var(--warn); }
+  .scoreline { font-family: system-ui, sans-serif; font-weight: 600; margin-top: 1rem; display: none; }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 1rem; }
+  .chips button.picked { background: var(--accent); color: #fff; }
+  #revealTally { display: block; margin: .5rem 0 0; padding: .55rem 1.2rem; font-weight: 600; }
+  .tally { display: none; margin-top: 1.4rem; }
+  .bar-row { display: grid; grid-template-columns: 11.5rem 1fr 3.2rem; gap: .6rem; align-items: center; margin: .35rem 0; font-family: system-ui, sans-serif; font-size: .88rem; cursor: pointer; }
+  .bar-row .label { text-align: right; }
+  .bar-track { background: #f0ede5; border-radius: 4px; height: 1.05rem; overflow: hidden; }
+  .bar-fill { background: var(--bar); height: 100%; border-radius: 4px; }
+  .bar-row.active .bar-fill { background: var(--accent); }
+  .bar-row .mark { font-weight: 700; }
+  .cards { margin-top: 1.4rem; display: grid; gap: .7rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 6px; padding: .8rem 1rem; font-size: .96rem; transition: opacity .15s; }
+  .card .rn { font-family: system-ui, sans-serif; font-size: .75rem; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+  .card.hit { border-left-color: var(--accent); background: #fbfdfc; }
+  .card.dim { opacity: .35; }
+  .method, .authorship { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
+  .limit { border-left: 4px solid var(--warn); padding: .7rem 1.1rem; background: #faf3ee; margin: 1.2rem 0; }
+  .try { border: 2px dashed var(--accent); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+  .cliff { font-size: 1.15rem; font-style: italic; margin: 2rem 0 0; }
+  .err { color: var(--warn); font-family: system-ui, sans-serif; }
+  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 1 · The False Mean project</div>
+  <h1>The Prototype Problem</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <div class="thesis">
+    <strong>Thesis.</strong> Human perception and language models both anchor on <em>prototypes</em> — the statistical center of the examples they have absorbed. Before we can ask whether AI writing is any good, we have to meet the average it keeps returning to.
+  </div>
+
+  <p><strong>This week's question:</strong> do people and language models share the same starting point — a built-in pull toward the prototype?</p>
+
+  <h2>Part 1 — Predict the infants</h2>
+  <p>A developmental psychology lab showed <strong>3–4-month-old infants</strong> pairs of animal faces and measured which face they looked at longer. Before you see the results, commit to a prediction on each question.</p>
+  <div id="quiz"><p class="note">Loading study data…</p></div>
+  <p class="scoreline" id="quizScore"></p>
+  <p id="takeaway" style="display:none"></p>
+
+  <h2>Part 2 — Predict the machine</h2>
+  <p>We asked a language model the same question ten times, in ten fresh conversations: <em>“Describe a beautiful room in two or three sentences.”</em> If the model anchors on a prototype, the ten “different” answers should keep reaching for the same furniture.</p>
+  <p><strong>Pick the three features you predict appear most often</strong> across the ten answers — then reveal the tally.</p>
+  <div class="chips" id="chips"><span class="note">Loading outputs…</span></div>
+  <button id="revealTally" disabled>Pick 3 to reveal the tally</button>
+
+  <div class="tally" id="tally">
+    <p class="scoreline" id="chipScore" style="display:block"></p>
+    <div id="bars"></div>
+    <p class="note">Click a bar to highlight the answers that contain that feature.</p>
+    <div class="cards" id="cards"></div>
+  </div>
+
+  <h2>Method</h2>
+  <div class="method" id="method">Loading…</div>
+
+  <h2>Interpretation</h2>
+  <p>Two very different systems, one behavior. Infants — with no training data we can inspect — look longer at faces near the attractive prototype, and the preference collapses when the structure is disrupted. A language model — which is, mathematically, a map of averages — reaches for the same windows, plants, and neutral tones no matter how many times we ask. In embedding terms: <strong>a prototype is a centroid</strong>, and the model's default answer lives near the centroid of everything it learned about "beautiful rooms."</p>
+
+  <div class="limit">
+    <strong>Limitation.</strong> Ten runs, one model, one prompt — a hint, not a proof. And the infant study concerns face perception, not room descriptions: the connection between the two is an <em>analogy about anchoring</em>, not an identity. Nothing here yet says whether the prototype is good, bad, or merely the starting point.
+  </div>
+
+  <h2>Try it yourself</h2>
+  <div class="try">
+    Open the AI chat you already use. Ask it — in three separate conversations — for <em>“a beautiful room”</em> (or a beautiful anything you care about: game level, sneaker, song). Count what repeats. Then try, politely, to escape the default: <em>“make it unusual.”</em> Watch what it does instead.
+  </div>
+
+  <p class="cliff">Babies like the prototype. The model <em>is</em> a prototype machine. So — is the average therefore good? <span class="note">(Next week: what happens when we force the model away from its center.)</span></p>
+
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>What AI helped with:</strong> generating the ten room descriptions (that was the experiment); drafting the first version of this page's HTML, which I revised.</p>
+    <p><strong>What I own:</strong> the question, the choice of study, the feature labels (hand-tagged — a judgment call you are welcome to dispute), the interpretation, and the limitation. The study data comes from published research; the reveal-numbers are quoted from it.</p>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study, Session 1 of 12 · Data: <code>data/study.json</code>, <code>data/outputs.json</code></footer>
+</main>
+
+<script>
+(async function () {
+  let study, out;
+  try {
+    [study, out] = await Promise.all([
+      fetch('data/study.json').then(r => r.json()),
+      fetch('data/outputs.json').then(r => r.json())
+    ]);
+  } catch (e) {
+    document.getElementById('quiz').innerHTML =
+      '<p class="err">Could not load data files. Serve this folder over HTTP (e.g. <code>python3 -m http.server</code>) or view the deployed page.</p>';
+    return;
+  }
+
+  /* ---------- Part 1: prediction quiz ---------- */
+  const quiz = document.getElementById('quiz');
+  quiz.innerHTML = '';
+  let answered = 0, correct = 0;
+  study.questions.forEach(q => {
+    const box = document.createElement('div');
+    box.className = 'q';
+    box.innerHTML = '<p>' + q.prompt + '</p>';
+    const opts = document.createElement('div');
+    opts.className = 'opts';
+    const explain = document.createElement('div');
+    explain.className = 'explain';
+    q.options.forEach((label, i) => {
+      const b = document.createElement('button');
+      b.textContent = label;
+      b.addEventListener('click', () => {
+        opts.querySelectorAll('button').forEach(x => x.disabled = true);
+        b.classList.add('chosen');
+        opts.querySelectorAll('button')[q.answer].classList.add('correct');
+        const right = i === q.answer;
+        if (right) correct++;
+        explain.innerHTML = '<span class="verdict ' + (right ? 'right">Your prediction was right.' : 'wrong">Not this time.') +
+          '</span> ' + q.explanation;
+        explain.style.display = 'block';
+        answered++;
+        if (answered === study.questions.length) {
+          const s = document.getElementById('quizScore');
+          s.textContent = 'You predicted ' + correct + ' of ' + study.questions.length + ' results correctly.';
+          s.style.display = 'block';
+          const t = document.getElementById('takeaway');
+          t.innerHTML = '<strong>Takeaway:</strong> ' + study.takeaway;
+          t.style.display = 'block';
+        }
+      });
+      opts.appendChild(b);
+    });
+    box.appendChild(opts);
+    box.appendChild(explain);
+    quiz.appendChild(box);
+  });
+
+  /* ---------- Part 2: predict the machine ---------- */
+  const counts = {};
+  out.features.forEach(f => counts[f] = 0);
+  out.outputs.forEach(o => o.features.forEach(f => { if (f in counts) counts[f]++; }));
+  const ranked = out.features.slice().sort((a, b) => counts[b] - counts[a]);
+  const top5 = new Set(ranked.slice(0, 5));
+  const allChips = out.features.concat(out.distractors)
+    .map(f => ({ f, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(x => x.f);
+
+  const chipsEl = document.getElementById('chips');
+  chipsEl.innerHTML = '';
+  const picked = new Set();
+  const revealBtn = document.getElementById('revealTally');
+  allChips.forEach(f => {
+    const b = document.createElement('button');
+    b.textContent = f;
+    b.addEventListener('click', () => {
+      if (picked.has(f)) { picked.delete(f); b.classList.remove('picked'); }
+      else if (picked.size < 3) { picked.add(f); b.classList.add('picked'); }
+      revealBtn.disabled = picked.size !== 3;
+      revealBtn.textContent = picked.size === 3 ? 'Reveal the tally' : 'Pick 3 to reveal the tally';
+    });
+    chipsEl.appendChild(b);
+  });
+
+  revealBtn.addEventListener('click', () => {
+    revealBtn.disabled = true;
+    chipsEl.querySelectorAll('button').forEach(b => b.disabled = true);
+    document.getElementById('tally').style.display = 'block';
+
+    const hits = [...picked].filter(f => top5.has(f)).length;
+    document.getElementById('chipScore').textContent =
+      hits + ' of your 3 picks were in the top 5. The model asked for “different” answers ten times — and returned to the same room.';
+
+    const bars = document.getElementById('bars');
+    ranked.forEach(f => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.dataset.feature = f;
+      const youPicked = picked.has(f);
+      row.innerHTML =
+        '<span class="label">' + f + (youPicked ? ' <span class="mark">•you</span>' : '') + '</span>' +
+        '<span class="bar-track"><span class="bar-fill" style="width:' + (counts[f] * 10) + '%"></span></span>' +
+        '<span>' + counts[f] + '/10</span>';
+      row.addEventListener('click', () => {
+        const on = !row.classList.contains('active');
+        bars.querySelectorAll('.bar-row').forEach(r => r.classList.remove('active'));
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('hit', 'dim'));
+        if (on) {
+          row.classList.add('active');
+          document.querySelectorAll('.card').forEach(c => {
+            if (c.dataset.features.split('|').includes(f)) c.classList.add('hit');
+            else c.classList.add('dim');
+          });
+        }
+      });
+      bars.appendChild(row);
+    });
+
+    const cards = document.getElementById('cards');
+    out.outputs.forEach(o => {
+      const c = document.createElement('div');
+      c.className = 'card';
+      c.dataset.features = o.features.join('|');
+      c.innerHTML = '<div class="rn">Run ' + o.run + '</div>' + o.text;
+      cards.appendChild(c);
+    });
+  });
+
+  /* ---------- Method ---------- */
+  document.getElementById('method').innerHTML =
+    '<p><strong>Machine side.</strong> Prompt: “' + out.prompt + '” — ' + out.settings +
+    ' Model: ' + out.model + '. Date: ' + out.date +
+    '. Feature labels were hand-tagged by the author; the tally is computed from those tags on this page.</p>' +
+    '<p><strong>Human side.</strong> ' + study.source +
+    '. Reveal numbers are quoted from the published experiments (preference = proportion of looking time toward the attractive face).</p>';
+})();
+</script>
+</body>
+</html>

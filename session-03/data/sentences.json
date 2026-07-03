@@ -1,0 +1,55 @@
+{
+  "note": "The glowing links below are an illustrative attention map — hand-drawn by the author to show which other words a model must connect to in order to pin down the meaning of the highlighted word. They are a teaching picture of how attention works, not weights pulled from one specific model's internals.",
+  "instructions": "Click any underlined word. The words it must 'pay attention to' will light up — brighter means a stronger pull.",
+  "sentences": [
+    {
+      "id": "river",
+      "tokens": ["I", "sat", "on", "the", "muddy", "river", "bank", "and", "watched", "the", "current"],
+      "focus": [
+        { "i": 6, "word": "bank", "meaning": "the edge of a river",
+          "caption": "Here 'bank' leans hard on 'river' and 'current' — water words. Same five letters, but the meaning is built from its neighbors.",
+          "attends": { "5": 1.0, "10": 0.7, "4": 0.5, "8": 0.3 } }
+      ]
+    },
+    {
+      "id": "savings",
+      "tokens": ["She", "kept", "all", "her", "money", "in", "a", "savings", "bank", "downtown"],
+      "focus": [
+        { "i": 8, "word": "bank", "meaning": "a place that holds money",
+          "caption": "Now the very same word 'bank' lights up 'savings' and 'money' instead. The model never stored one meaning for 'bank' — it computes the meaning fresh from context every time.",
+          "attends": { "7": 1.0, "4": 0.9, "1": 0.3 } }
+      ]
+    },
+    {
+      "id": "spring-season",
+      "tokens": ["After", "the", "long", "grey", "winter", ",", "spring", "finally", "arrived"],
+      "focus": [
+        { "i": 6, "word": "spring", "meaning": "the season",
+          "caption": "'winter' and 'arrived' pull 'spring' toward the season. No calendar needed — the surrounding words settle it.",
+          "attends": { "4": 1.0, "8": 0.6, "2": 0.3 } }
+      ]
+    },
+    {
+      "id": "spring-coil",
+      "tokens": ["A", "rusty", "spring", "poked", "up", "through", "the", "torn", "mattress"],
+      "focus": [
+        { "i": 2, "word": "spring", "meaning": "a metal coil",
+          "caption": "Swap the neighbors and 'spring' becomes a coil. 'mattress', 'rusty', and 'poked' do the disambiguating.",
+          "attends": { "8": 1.0, "1": 0.7, "3": 0.6 } }
+      ]
+    },
+    {
+      "id": "sharp",
+      "tokens": ["She", "gave", "a", "sharp", "reply", "and", "turned", "away"],
+      "focus": [
+        { "i": 3, "word": "sharp", "meaning": "harsh in tone (not a physical edge)",
+          "caption": "Nothing here is literally pointy. 'reply' and 'turned away' bend 'sharp' toward a feeling, not a blade.",
+          "attends": { "4": 1.0, "6": 0.6, "7": 0.4 } }
+      ]
+    }
+  ],
+  "comparePairs": [
+    { "word": "bank", "ids": ["river", "savings"], "label": "the two banks" },
+    { "word": "spring", "ids": ["spring-season", "spring-coil"], "label": "the two springs" }
+  ]
+}

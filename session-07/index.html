@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Run — Instructor's Study, Session 7</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f;
+    --default:#6b6b76; --random:#b0506a; --directed:#2f6f5e; --flag:#c9781f;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:50rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .toolbar { position:sticky; top:0; background:var(--paper); padding:.7rem 0; border-bottom:1px solid var(--line); z-index:5; font-family:system-ui,sans-serif; }
+  .chiprow { display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:.3rem 0; }
+  .chiprow button { font-size:.82rem; cursor:pointer; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:999px; padding:.3rem .75rem; }
+  .chiprow button.on { color:#fff; border-color:transparent; }
+  .chiprow input[type=text]{ font-size:.9rem; padding:.35rem .6rem; border:1px solid var(--line); border-radius:8px; min-width:9rem; }
+  .chiprow select { font-size:.85rem; padding:.35rem .5rem; border:1px solid var(--line); border-radius:8px; }
+  .count { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin:.5rem 0; }
+  .row { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.7rem .9rem; margin:.5rem 0; cursor:pointer; }
+  .row.hit { outline:2px solid var(--flag); }
+  .row .top { display:flex; align-items:center; gap:.6rem; }
+  .badge { font-family:system-ui,sans-serif; font-size:.72rem; font-weight:700; color:#fff; padding:.1rem .55rem; border-radius:999px; white-space:nowrap; }
+  .row .pr { font-family:system-ui,sans-serif; font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; }
+  .row .tot { margin-left:auto; font-family:system-ui,sans-serif; font-weight:700; }
+  .row .text { margin-top:.4rem; font-size:1rem; }
+  .row .breakdown { display:none; margin-top:.5rem; padding-top:.5rem; border-top:1px dashed var(--line); font-family:system-ui,sans-serif; font-size:.82rem; }
+  .row.open .breakdown { display:block; }
+  .crit-b { display:inline-flex; align-items:center; gap:.3rem; margin-right:.9rem; }
+  .crit-b .bar { width:3.2rem; height:.5rem; background:#f0ede5; border-radius:3px; overflow:hidden; display:inline-block; }
+  .crit-b .fill { height:100%; background:var(--accent); display:block; }
+  .row.flagged { border-color:var(--flag); background:#fdf6ec; }
+  .flagnote { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--warn); margin-top:.4rem; }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; margin:1rem 0; font-family:system-ui,sans-serif; }
+  .bigbtn { font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  .bigbtn.solid { background:var(--accent); color:#fff; border:none; }
+  .trapmsg,.sealmsg { font-family:system-ui,sans-serif; font-size:.9rem; margin-top:.5rem; display:none; }
+  .seal .opts { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.5rem; }
+  .seal .opts button { font-family:system-ui,sans-serif; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:999px; padding:.4rem .9rem; cursor:pointer; }
+  .seal .opts button.sealed { background:var(--accent); color:#fff; }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  .err { color:var(--warn); font-family:system-ui,sans-serif; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 7 · The False Mean project</div>
+  <h1>The Run</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <div class="thesis">
+    <strong>Thesis.</strong> One example proves nothing — you can always find a story that says whatever you want. The instrument only becomes trustworthy at <em>scale</em>: run every prompt through every condition, rate them all the same way, and log everything, including the mistakes. This page is the raw evidence of my study, before any averaging. Explore it.
+  </div>
+
+  <p><strong>This week's question:</strong> what does the whole body of evidence look like — all three conditions, every prompt, scored the same way — before I let myself compute a single average?</p>
+
+  <div class="toolbar">
+    <div class="chiprow" id="condChips"><span class="note">Condition:</span></div>
+    <div class="chiprow">
+      <span class="note">Sort:</span>
+      <select id="sort">
+        <option value="total">Total score (high → low)</option>
+        <option value="total-asc">Total score (low → high)</option>
+        <option value="fit">Fit</option>
+        <option value="form">Form</option>
+        <option value="surprise">Earned surprise</option>
+        <option value="return">Return</option>
+        <option value="prompt">Prompt (A–Z)</option>
+      </select>
+      <input type="text" id="search" placeholder="search the text…">
+      <label class="note"><input type="checkbox" id="showFlag" checked> show the flagged row</label>
+    </div>
+  </div>
+  <p class="count" id="count"></p>
+  <div id="list"></div>
+
+  <div class="controls">
+    <button class="bigbtn" id="trapBtn">Let me "prove" anything</button>
+  </div>
+  <p class="trapmsg" id="trapMsg"></p>
+
+  <h2>Seal your prediction</h2>
+  <div class="seal">
+    <p>You've seen the raw rows. <strong>Before I compute the averages next week — which condition do you bet wins overall?</strong></p>
+    <div class="opts" id="sealOpts"></div>
+    <p class="sealmsg" id="sealMsg"></p>
+  </div>
+
+  <h2>Method</h2>
+  <div class="method" id="method">Loading…</div>
+
+  <h2>Interpretation</h2>
+  <p>Scroll it sorted by total and you'll feel the temptation immediately: pick one dazzling row and you've "proven" your favorite condition. That's exactly why a single example is worthless as evidence — with two dozen rows I can argue any story I like. The discipline is to keep <em>all</em> of them, rate them the same way, and refuse to conclude until every row is counted. Notice too the flagged row: halfway through I typed the wrong subject. I didn't delete it and quietly move on — I logged it, left it visible, and excluded it from the analysis. Honest logging is what separates evidence from a highlight reel.</p>
+
+  <div class="limit">
+    <strong>Limitation.</strong> This is a small run with authored, illustrative text — a real study needs more prompts, more raters, and outputs actually generated by the model. And a dataset this size is fragile: one lucky row can tilt a small condition. Averaging carefully, and watching what a single outlier does to the result, is next week's whole job.
+  </div>
+
+  <h2>Try it yourself</h2>
+  <div class="try">
+    Take any question you're testing and resist the urge to keep your three best examples. Collect everything — the boring, the broken, the ones that went sideways — and log the mistakes on purpose. A dataset you can trust is one where you didn't get to choose what stayed.
+  </div>
+
+  <p class="cliff">The rows are in. My prediction is sealed, and so is yours. Next week we do the one thing this page refused to do: compute the averages, and see whether the true swerve actually won. <span class="note">(And what a single outlier can do to the answer.)</span></p>
+
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>What AI helped with:</strong> generating the candidate lines across the three conditions (that's the run) and drafting this page's code.</p>
+    <p><strong>What I own:</strong> the prompt set, the rubric scores, the decision to log and keep the drifted row instead of hiding it, and the rule that no average gets computed until the whole dataset is in.</p>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study, Session 7 of 12 · Data: <code>data/dataset.json</code></footer>
+</main>
+
+<script>
+(async function(){
+  let data;
+  try { data = await fetch('data/dataset.json').then(r=>r.json()); }
+  catch(e){ document.getElementById('list').innerHTML='<p class="err">Could not load the dataset. Serve this folder over HTTP or open the deployed page.</p>'; return; }
+
+  let activeCond=null, sortKey='total', search='', showFlag=true, hitIds=new Set();
+
+  // condition chips
+  const chips=document.getElementById('condChips');
+  const allBtn=document.createElement('button'); allBtn.textContent='all'; allBtn.className='on'; allBtn.style.background='var(--accent)';
+  allBtn.addEventListener('click',()=>{ activeCond=null; syncChips(); render(); }); chips.appendChild(allBtn);
+  Object.keys(data.conditions).forEach(k=>{ const c=data.conditions[k];
+    const b=document.createElement('button'); b.textContent=c.label; b.dataset.k=k;
+    b.addEventListener('click',()=>{ activeCond = activeCond===k?null:k; syncChips(); render(); }); chips.appendChild(b); });
+  function syncChips(){ chips.querySelectorAll('button').forEach(b=>{ const k=b.dataset.k;
+    const on = k? activeCond===k : activeCond===null; b.classList.toggle('on',on);
+    b.style.background = on ? (k? data.conditions[k].color : 'var(--accent)') : '#fff';
+    b.style.color = on ? '#fff' : 'var(--ink)'; }); }
+
+  document.getElementById('sort').addEventListener('change',e=>{ sortKey=e.target.value; render(); });
+  document.getElementById('search').addEventListener('input',e=>{ search=e.target.value.toLowerCase(); render(); });
+  document.getElementById('showFlag').addEventListener('change',e=>{ showFlag=e.target.checked; render(); });
+
+  function filtered(){
+    let rows=data.rows.filter(r=>{
+      if(!showFlag && r.flag) return false;
+      if(activeCond && r.condition!==activeCond) return false;
+      if(search && !(r.text.toLowerCase().includes(search) || r.prompt.toLowerCase().includes(search))) return false;
+      return true;
+    });
+    const cmp={ 'total':(a,b)=>b.total-a.total, 'total-asc':(a,b)=>a.total-b.total,
+      'fit':(a,b)=>b.fit-a.fit,'form':(a,b)=>b.form-a.form,'surprise':(a,b)=>b.surprise-a.surprise,'return':(a,b)=>b.return-a.return,
+      'prompt':(a,b)=>a.prompt.localeCompare(b.prompt)||a.condition.localeCompare(b.condition) };
+    return rows.sort(cmp[sortKey]);
+  }
+
+  function render(){
+    const rows=filtered(); const list=document.getElementById('list'); list.innerHTML='';
+    rows.forEach(r=>{
+      const c=data.conditions[r.condition];
+      const el=document.createElement('div'); el.className='row'+(r.flag?' flagged':'')+(hitIds.has(r.id)?' hit':'');
+      const crits=data.criteria.map(k=>`<span class="crit-b">${k[0].toUpperCase()+k.slice(1)} <span class="bar"><span class="fill" style="width:${r[k]*20}%"></span></span> ${r[k]}</span>`).join('');
+      el.innerHTML =
+        `<div class="top"><span class="badge" style="background:${c.color}">${c.label.split(' (')[0]}</span>`+
+        `<span class="pr">${r.prompt}</span><span class="tot">${r.total}/20</span></div>`+
+        `<div class="text">“${r.text}”</div>`+
+        (r.flag?`<div class="flagnote">⚑ ${r.flag}</div>`:'')+
+        `<div class="breakdown">${crits}</div>`;
+      el.addEventListener('click',()=>el.classList.toggle('open'));
+      list.appendChild(el);
+    });
+    document.getElementById('count').textContent = `Showing ${rows.length} of ${data.rows.length} rows${activeCond?' · '+data.conditions[activeCond].label:''}.`;
+  }
+
+  // cherry-pick trap
+  document.getElementById('trapBtn').addEventListener('click',()=>{
+    const clean=data.rows.filter(r=>!r.flag);
+    const bestDirected=clean.filter(r=>r.condition==='directed').sort((a,b)=>b.total-a.total)[0];
+    const worstDefault=clean.filter(r=>r.condition==='default').sort((a,b)=>a.total-b.total)[0];
+    hitIds=new Set([bestDirected.id, worstDefault.id]);
+    activeCond=null; search=''; document.getElementById('search').value=''; sortKey='total'; document.getElementById('sort').value='total';
+    syncChips(); render();
+    document.querySelector('.row.hit')?.scrollIntoView({behavior:'smooth',block:'center'});
+    const m=document.getElementById('trapMsg'); m.style.display='block';
+    m.innerHTML=`I just highlighted the single best <strong>directed</strong> line (${bestDirected.total}/20) and the single worst <strong>default</strong> (${worstDefault.total}/20). See? I've "proven" directed crushes default — by cherry-picking one of each. Anecdotes can argue anything. That's why the answer waits for <em>all</em> the rows, averaged (next week).`;
+  });
+
+  // seal a prediction
+  const sealOpts=document.getElementById('sealOpts');
+  let sealed=null; try { sealed=localStorage.getItem('run-seal'); } catch(e){}
+  Object.keys(data.conditions).forEach(k=>{ const b=document.createElement('button'); b.textContent=data.conditions[k].label.split(' (')[0]; b.dataset.k=k;
+    b.addEventListener('click',()=>{ sealed=k; try{ localStorage.setItem('run-seal',k); }catch(e){}
+      sealOpts.querySelectorAll('button').forEach(x=>x.classList.toggle('sealed', x===b));
+      const m=document.getElementById('sealMsg'); m.style.display='block';
+      m.innerHTML=`Sealed: you bet on <strong>${data.conditions[k].label}</strong>. No peeking at the averages until next week.`; });
+    if(sealed===k) b.classList.add('sealed'); sealOpts.appendChild(b); });
+  if(sealed){ const m=document.getElementById('sealMsg'); m.style.display='block'; m.innerHTML=`Sealed: you bet on <strong>${data.conditions[sealed].label}</strong>.`; }
+
+  document.getElementById('method').innerHTML =
+    `<p><strong>The run.</strong> Each of ${new Set(data.rows.map(r=>r.prompt)).size} prompts was sent through three conditions — default, high-temperature random, and a directed break — and every output was scored on the four rubric criteria (Fit, Form, Earned surprise, Return), 1–5 each, for a total out of 20.</p>`+
+    `<p><strong>The instrument.</strong> Filter by condition, sort by any criterion, search the text, and click a row to see its per-criterion breakdown. One row is flagged: the prompt drifted and it's excluded from analysis.</p>`+
+    `<p class="note">${data.note}</p>`;
+
+  syncChips(); render();
+})();
+</script>
+</body>
+</html>

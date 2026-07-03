@@ -1,0 +1,35 @@
+{
+  "note": "The texts below are illustrative. The AI answers were written to show the tells a preference-tuned model tends to produce; the human notes are deliberately idiosyncratic. The sameness score and phrase counts on the page are COMPUTED live from these texts in your browser — they are real measurements of this sample, not hand-set numbers. Swap in your own collected texts and every number updates.",
+  "aiLabel": "AI answers (8 unrelated prompts, one model)",
+  "humanLabel": "Human notes (8 people, same prompts)",
+  "phrases": [
+    "it's important to",
+    "whether you're",
+    "ultimately",
+    "the journey",
+    "in today's fast-paced world",
+    "truly",
+    "remember",
+    "success"
+  ],
+  "ai": [
+    { "prompt": "Advice for a nervous first day", "text": "Starting something new can feel overwhelming, but it's important to remember that everyone was a beginner once. Whether you're stepping into a classroom or an office, take a deep breath and trust the journey. Ultimately, success comes to those who show up and keep going." },
+    { "prompt": "Describe a sunset", "text": "As the day comes to a close, the sky transforms into a breathtaking tapestry of colors. It's important to pause and remember that every ending holds its own quiet beauty. Whether you're watching alone or with loved ones, these moments are truly special." },
+    { "prompt": "Why teamwork matters", "text": "In today's fast-paced world, teamwork is more important than ever. When individuals come together on the journey, they can achieve far more than they ever could alone. Ultimately, collaboration is the foundation of lasting success." },
+    { "prompt": "Tips for studying", "text": "Effective studying is all about consistency and balance. It's important to break your work into steps and remember to take breaks. Whether you're preparing for a test or learning a new skill, small habits truly make a big difference." },
+    { "prompt": "A short pep talk", "text": "Believe in yourself, because you are capable of more than you know. Every challenge is an opportunity to grow, and setbacks are simply part of the journey. Ultimately, success is within your reach if you remember to keep going." },
+    { "prompt": "Thoughts on kindness", "text": "Kindness is a small act that can make a world of difference. Whether you're offering a smile or a helping hand, it's important to remember these moments truly matter. Ultimately, compassion is what connects us all." },
+    { "prompt": "Reflect on failure", "text": "Failure is not the opposite of success — it's a stepping stone on the journey. It's important to remember that every mistake is a chance to learn and grow. Whether you're facing a big setback or a small one, these lessons shape who you become." },
+    { "prompt": "A note about nature", "text": "Spending time in nature is a wonderful way to recharge. Whether you're hiking a trail or sitting in a park, it's important to remember the world offers a peaceful escape. Ultimately, these moments remind us what truly matters." }
+  ],
+  "human": [
+    { "prompt": "Advice for a nervous first day", "text": "My first day I spilled coffee on the printer and a guy named Dev showed me which drawer hides the good pens. Nobody mentioned the fire drill at ten." },
+    { "prompt": "Describe a sunset", "text": "The sunset tonight was the exact orange of the traffic cones outside my window. It lasted four minutes and then a cloud ate it." },
+    { "prompt": "Why teamwork matters", "text": "Our group project only worked because Priya made a spreadsheet and threatened us with it. Mostly it's one person with a spreadsheet." },
+    { "prompt": "Tips for studying", "text": "I study by explaining things to my cat. She's unimpressed but it works. Flashcards on the bus, never at a desk." },
+    { "prompt": "A short pep talk", "text": "You are going to be fine. Eat something. Text me after." },
+    { "prompt": "Thoughts on kindness", "text": "The bus driver waited an extra ten seconds for the man running with the umbrella. Small thing. I thought about it the whole ride home." },
+    { "prompt": "Reflect on failure", "text": "I failed my driving test twice and hit the same cone both times. Now I park like a surgeon and I am smug about it." },
+    { "prompt": "A note about nature", "text": "There is a rock by the river where the water sounds different. I don't know why. I go there when my head is loud." }
+  ]
+}

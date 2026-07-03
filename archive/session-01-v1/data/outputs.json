@@ -1,0 +1,78 @@
+{
+  "prompt": "Describe a beautiful room in two or three sentences.",
+  "model": "OpenAI GPT-5 via Codex",
+  "date": "2026-07-03",
+  "settings": "Ten independent draft completions generated in this Codex implementation pass from the exact prompt, with default assistant behavior and no instruction to include specific room features. Feature tags were added by hand after generation.",
+  "features": [
+    "natural light",
+    "large windows",
+    "soft neutral tones",
+    "plants or greenery",
+    "cozy textiles",
+    "wood elements",
+    "books",
+    "fireplace",
+    "view of nature",
+    "uncluttered space",
+    "dark moody walls"
+  ],
+  "distractors": [
+    "bold clashing colors",
+    "neon lighting",
+    "ornate gold detail",
+    "collections and clutter",
+    "loud patterns"
+  ],
+  "outputs": [
+    {
+      "run": 1,
+      "text": "A beautiful room feels calm before it feels expensive: morning light spills through tall windows, a linen sofa sits low against a warm wall, and one healthy plant softens the corner. Nothing shouts, but every surface looks chosen.",
+      "features": ["natural light", "large windows", "soft neutral tones", "plants or greenery", "uncluttered space"]
+    },
+    {
+      "run": 2,
+      "text": "The room has wide windows, pale wood floors, and shelves with books, ceramics, and trailing greenery. A cream rug and a few textured pillows make it feel lived in without feeling crowded.",
+      "features": ["natural light", "large windows", "wood elements", "books", "plants or greenery", "cozy textiles", "soft neutral tones"]
+    },
+    {
+      "run": 3,
+      "text": "A beautiful room gives your eye somewhere to rest: white curtains, sunlight on a woven rug, and a deep chair beside a small table. Outside the window, trees make the space feel connected to something larger.",
+      "features": ["natural light", "soft neutral tones", "cozy textiles", "large windows", "view of nature"]
+    },
+    {
+      "run": 4,
+      "text": "The room is open and uncluttered, with large windows, a warm wood table, and a few plants placed where the light actually reaches them. A single painting gives the room a center without making it feel staged.",
+      "features": ["natural light", "large windows", "wood elements", "plants or greenery", "uncluttered space"]
+    },
+    {
+      "run": 5,
+      "text": "A fireplace anchors one wall, with bookshelves on both sides and a worn armchair pulled close enough to read in. Afternoon light catches a wool blanket on the sofa and makes the whole room feel hospitable.",
+      "features": ["fireplace", "books", "natural light", "cozy textiles"]
+    },
+    {
+      "run": 6,
+      "text": "The room uses quiet colors--ivory, sand, and gray-green--so the textures matter more: linen curtains, a handwoven rug, and a smooth wooden bench. A tall plant near the window keeps the room from feeling too controlled.",
+      "features": ["soft neutral tones", "natural light", "large windows", "plants or greenery", "cozy textiles", "wood elements"]
+    },
+    {
+      "run": 7,
+      "text": "A beautiful room feels personal but not chaotic: a desk with a few meaningful objects, a wall of books, and a window seat with light falling across it. The best detail is one odd lamp that makes the otherwise calm space feel human.",
+      "features": ["books", "large windows", "natural light", "uncluttered space"]
+    },
+    {
+      "run": 8,
+      "text": "French doors open toward a small garden, and the room borrows its color from that view: green leaves, warm wood, and soft white fabric. The beauty is in the way the inside and outside seem to continue each other.",
+      "features": ["large windows", "view of nature", "wood elements", "soft neutral tones", "plants or greenery"]
+    },
+    {
+      "run": 9,
+      "text": "Even a darker room can be beautiful if it feels intentional: deep blue walls, warm lamplight, heavy curtains, and a brass-framed mirror that catches a little glow. A small stack of books and a soft chair make it inviting rather than severe.",
+      "features": ["dark moody walls", "books", "cozy textiles"]
+    },
+    {
+      "run": 10,
+      "text": "A beautiful room combines simplicity and welcome: big windows, plants near the sill, shelves with a few books and bowls, and a neutral sofa that looks comfortable enough to use. The room feels designed for attention, not display.",
+      "features": ["natural light", "large windows", "plants or greenery", "books", "soft neutral tones", "uncluttered space"]
+    }
+  ]
+}

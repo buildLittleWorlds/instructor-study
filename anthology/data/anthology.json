@@ -1,10 +1,22 @@
 {
   "note": "The growing, canonical copy of the course anthology. Add a specimen = append one row and push. Wings: core (the founding collection), acquisition (added during the course), cohort (student work, first names only, accessioned by class vote).",
   "patterns": [
-    "prediction reveal", "blind comparison", "parameter gallery", "simulation sandbox",
-    "break & repair", "atlas / map", "walkthrough", "living dashboard", "many paths",
-    "memory checkpoint", "app-first", "claim ladder", "evidence cards", "research map",
-    "argument game", "scroll essay"
+    "prediction reveal",
+    "blind comparison",
+    "parameter gallery",
+    "simulation sandbox",
+    "break & repair",
+    "atlas / map",
+    "walkthrough",
+    "living dashboard",
+    "many paths",
+    "memory checkpoint",
+    "app-first",
+    "claim ladder",
+    "evidence cards",
+    "research map",
+    "argument game",
+    "scroll essay"
   ],
   "specimens": [
     {
@@ -15,7 +27,11 @@
       "readerAction": "Move through a research website with visual metaphors, algorithm explanation, benchmark controls, and links out to arXiv, Colab, and GitHub.",
       "underneath": "A current AI paper presented as an experience: finding, intuition, algorithm, demo, implementation.",
       "borrow": "Click to reveal the landscape — make the thesis visible before the formal method arrives.",
-      "patterns": ["app-first", "research map"]
+      "patterns": [
+        "app-first",
+        "research map"
+      ],
+      "stack": "Custom static HTML/JS (MIT hosting); method annex via Colab + GitHub"
     },
     {
       "id": "llm-reductionism",
@@ -25,7 +41,11 @@
       "readerAction": "Read a long public argument with embedded references, examples, images, and linked evidence.",
       "underneath": "A research essay carrying scholarly argument outside a PDF.",
       "borrow": "Claim ladder — each section answers one possible objection.",
-      "patterns": ["claim ladder", "evidence cards"]
+      "patterns": [
+        "claim ladder",
+        "evidence cards"
+      ],
+      "stack": "Zero-build: prose on a platform (LessWrong editor)"
     },
     {
       "id": "evolve-harness",
@@ -35,7 +55,10 @@
       "readerAction": "Encounter a paper-like argument inside a Hugging Face Space — the app surface and the exposition live together.",
       "underneath": "The paper lives inside the tool it describes.",
       "borrow": "App-first introduction — let the reader use the tool, then explain what happened.",
-      "patterns": ["app-first"]
+      "patterns": [
+        "app-first"
+      ],
+      "stack": "HF Space on the research-article-template — a turnkey paper-app scaffold"
     },
     {
       "id": "tsne",
@@ -45,7 +68,10 @@
       "readerAction": "Watch and compare t-SNE behavior across parameters and examples.",
       "underneath": "A peer-reviewed interactive article; the reader learns why static plots mislead by seeing the algorithm behave.",
       "borrow": "Parameter gallery — the same case under different settings.",
-      "patterns": ["parameter gallery"]
+      "patterns": [
+        "parameter gallery"
+      ],
+      "stack": "Distill template + D3.js; static site from a GitHub repo"
     },
     {
       "id": "growing-ca",
@@ -55,7 +81,11 @@
       "readerAction": "Damage a pattern, change the model type, and watch the system regenerate.",
       "underneath": "The interaction is the evidence: the reader directly experiences the phenomenon the paper studies.",
       "borrow": "Break it and watch recovery — let the reader perturb the system.",
-      "patterns": ["simulation sandbox", "break & repair"]
+      "patterns": [
+        "simulation sandbox",
+        "break & repair"
+      ],
+      "stack": "Live in-article model demos (WebGL); training notebooks on Colab (TensorFlow); Distill template"
     },
     {
       "id": "activation-atlas",
@@ -65,7 +95,10 @@
       "readerAction": "Inspect a visual atlas of network activations, moving between global overview and local examples.",
       "underneath": "A huge invisible model space turned into a browsable map.",
       "borrow": "Atlas view — arrange many examples spatially, let the reader inspect clusters.",
-      "patterns": ["atlas / map"]
+      "patterns": [
+        "atlas / map"
+      ],
+      "stack": "Massive offline compute → precomputed tiles + WebGL viewer; static delivery"
     },
     {
       "id": "bayes-opt",
@@ -75,7 +108,11 @@
       "readerAction": "Follow stepwise visual explanations of how a model chooses the next point to test.",
       "underneath": "An algorithm made to feel like a decision process, not just math.",
       "borrow": "Algorithm walkthrough — step, explain, visualize, repeat.",
-      "patterns": ["walkthrough", "simulation sandbox"]
+      "patterns": [
+        "walkthrough",
+        "simulation sandbox"
+      ],
+      "stack": "Distill template + D3 step-through visualizations; static"
     },
     {
       "id": "interactive-articles",
@@ -85,7 +122,11 @@
       "readerAction": "Read a research article about interactive articles while encountering the design patterns it describes.",
       "underneath": "The course's meta-reading: language for why interaction improves learning.",
       "borrow": "Design pattern catalog — name the pattern, show the pattern, say when to use it.",
-      "patterns": ["evidence cards", "memory checkpoint"]
+      "patterns": [
+        "evidence cards",
+        "memory checkpoint"
+      ],
+      "stack": "Distill template embedding many mini-demos — a catalog of stacks"
     },
     {
       "id": "quantum-country",
@@ -95,7 +136,10 @@
       "readerAction": "Read an essay with embedded questions and spaced repetition.",
       "underneath": "A paper that tries to change what the reader remembers over time.",
       "borrow": "Memory checkpoint — ask the reader to answer before continuing.",
-      "patterns": ["memory checkpoint"]
+      "patterns": [
+        "memory checkpoint"
+      ],
+      "stack": "Custom mnemonic-medium engine with spaced-repetition backend (the collection's one true server)"
     },
     {
       "id": "seeing-theory",
@@ -105,7 +149,11 @@
       "readerAction": "Explore probability and statistics through interactive visual chapters.",
       "underneath": "A whole subject re-presented as manipulable visual intuition.",
       "borrow": "Visual concept lab — turn a formula into a small playground.",
-      "patterns": ["simulation sandbox", "parameter gallery"]
+      "patterns": [
+        "simulation sandbox",
+        "parameter gallery"
+      ],
+      "stack": "D3.js chapters on a static site — archived for years and still fully working"
     },
     {
       "id": "boba",
@@ -115,7 +163,10 @@
       "readerAction": "Study a system for authoring and reviewing many plausible analysis paths.",
       "underneath": "Research method made inspectable through an interface.",
       "borrow": "Many paths view — show how different choices lead to different results.",
-      "patterns": ["many paths"]
+      "patterns": [
+        "many paths"
+      ],
+      "stack": "Python multiverse engine + visualization frontend (research prototype)"
     },
     {
       "id": "argo-scholar",
@@ -125,7 +176,10 @@
       "readerAction": "Explore scholarly literature through an interactive graph connected to live paper data.",
       "underneath": "A paper about an app for exploring papers.",
       "borrow": "Expandable research map — start with one node, grow the field.",
-      "patterns": ["research map"]
+      "patterns": [
+        "research map"
+      ],
+      "stack": "Open-source JS graph app over Semantic Scholar's live API — deployed on GitHub Pages (poloclub.github.io), state shareable as a URL"
     },
     {
       "id": "helm",
@@ -135,7 +189,10 @@
       "readerAction": "Move from a benchmark paper into a living results dashboard.",
       "underneath": "The paper-app as an ongoing public evidence surface.",
       "borrow": "Living benchmark table — give readers filters and comparisons across evidence.",
-      "patterns": ["living dashboard"]
+      "patterns": [
+        "living dashboard"
+      ],
+      "stack": "Offline Python eval pipeline → JSON → client-rendered React dashboard (view-source shows almost nothing: the data draws the page)"
     },
     {
       "id": "papervoyager",
@@ -145,7 +202,11 @@
       "readerAction": "Encounter the idea that papers can be converted into executable interactive web systems.",
       "underneath": "The future this course prepares students for: papers becoming experiences, simulations, tools.",
       "borrow": "Mechanism reconstruction — turn a paper's moving parts into controls.",
-      "patterns": ["research map", "walkthrough"]
+      "patterns": [
+        "research map",
+        "walkthrough"
+      ],
+      "stack": "VLM pipeline converting papers into interactive web apps"
     },
     {
       "id": "polygons",
@@ -155,7 +216,11 @@
       "readerAction": "Drag unhappy shapes into new homes and watch a whole society segregate — then try to undo it.",
       "underneath": "A playable version of Schelling's segregation model; the paper's claim is a game you lose.",
       "borrow": "Argument game — the reader's own play produces the evidence for the thesis.",
-      "patterns": ["argument game", "simulation sandbox"]
+      "patterns": [
+        "argument game",
+        "simulation sandbox"
+      ],
+      "stack": "Playable post: hand-built JS sims embedded as iframes; open-source with a remix ecosystem (forks, translations, ports)"
     },
     {
       "id": "trust",
@@ -165,7 +230,12 @@
       "readerAction": "Play iterated game-theory tournaments against different strategies and watch cooperation evolve or collapse.",
       "underneath": "Axelrod's tournaments rebuilt as a 30-minute playable essay.",
       "borrow": "Tournament reveal — let the reader bet on a strategy before the simulation runs.",
-      "patterns": ["argument game", "prediction reveal", "walkthrough"]
+      "patterns": [
+        "argument game",
+        "prediction reveal",
+        "walkthrough"
+      ],
+      "stack": "Custom JS game engine; open-source on GitHub; static"
     },
     {
       "id": "mechanical-watch",
@@ -175,7 +245,11 @@
       "readerAction": "Drag, spin, and disassemble every figure in a long-form explanation of how a watch works.",
       "underneath": "Every diagram is a live 3D simulation; nothing is a static image.",
       "borrow": "Draggable figure — any diagram you were going to paste, make it turnable instead.",
-      "patterns": ["simulation sandbox", "walkthrough"]
+      "patterns": [
+        "simulation sandbox",
+        "walkthrough"
+      ],
+      "stack": "Hand-written WebGL + vanilla JS; every figure a live 3D sim; static personal site"
     },
     {
       "id": "deep-sea",
@@ -185,7 +259,11 @@
       "readerAction": "Scroll downward through the ocean, meter by meter, until the bottom.",
       "underneath": "An argument about scale where the scrollbar itself is the evidence.",
       "borrow": "Scroll essay — let distance, time, or quantity map onto the reader's own scrolling.",
-      "patterns": ["scroll essay", "atlas / map"]
+      "patterns": [
+        "scroll essay",
+        "atlas / map"
+      ],
+      "stack": "Custom JS scrollytelling; static site"
     }
   ]
 }
