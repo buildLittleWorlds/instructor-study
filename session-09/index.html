@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Four Corners — Instructor's Study, Session 9</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f;
+    --fm:#6b6b76; --rs:#b0506a; --cf:#4a6fa5; --ts:#2f6f5e; --flag:#c9781f;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:50rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .err { color:var(--warn); font-family:system-ui,sans-serif; }
+  .axes { font-family:system-ui,sans-serif; font-size:.9rem; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; margin:1rem 0; font-family:system-ui,sans-serif; }
+  .cell { border:2px solid var(--line); border-radius:8px; min-height:6.5rem; padding:.6rem .7rem; background:var(--card); }
+  .cell h3 { margin:0 0 .1rem; font-size:.92rem; }
+  .cell .def { font-size:.76rem; color:var(--muted); margin-bottom:.4rem; }
+  .cell .chips { display:flex; flex-wrap:wrap; gap:.3rem; }
+  .chip { font-size:.75rem; font-weight:700; color:#fff; border-radius:999px; padding:.1rem .55rem; }
+  .chip.match { outline:2px solid var(--accent); }
+  .chip.miss { outline:2px dashed var(--warn); }
+  .axislab { text-align:center; font-family:system-ui,sans-serif; font-size:.78rem; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); }
+  .sortcard { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.8rem 1rem; margin:.7rem 0; }
+  .sortcard .num { font-family:system-ui,sans-serif; font-size:.75rem; font-weight:700; color:var(--muted); }
+  .sortcard .text { margin:.3rem 0 .6rem; }
+  .picks { display:flex; flex-wrap:wrap; gap:.4rem; font-family:system-ui,sans-serif; }
+  .picks button { font-size:.78rem; cursor:pointer; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:999px; padding:.3rem .7rem; }
+  .picks button.on { color:#fff; border-color:transparent; }
+  .verdictline { display:none; font-family:system-ui,sans-serif; font-size:.83rem; margin-top:.55rem; padding-top:.55rem; border-top:1px dashed var(--line); }
+  .votebar { display:flex; align-items:center; gap:.4rem; margin:.2rem 0; }
+  .votebar .vb { height:.5rem; border-radius:3px; }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1.2rem 0; font-family:system-ui,sans-serif; }
+  .bigbtn { font-size:.95rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:var(--accent); color:#fff; border-radius:8px; padding:.55rem 1.1rem; }
+  .bigbtn.ghost { background:#fff; color:var(--accent); }
+  .bigbtn:disabled { opacity:.45; cursor:not-allowed; }
+  .progress { font-family:system-ui,sans-serif; font-size:.88rem; color:var(--muted); }
+  .summary { display:none; background:var(--accent-soft); border-left:4px solid var(--accent); padding:.8rem 1.1rem; margin:1rem 0; font-family:system-ui,sans-serif; }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .method ul { margin:.5rem 0 0; padding-left:1.2rem; }
+  .method li { margin:.35rem 0; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 9 · The False Mean project</div>
+  <h1>The Four Corners</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <div class="thesis">
+    <strong>Thesis.</strong> An argument written in research language is a map a stranger can walk alone: name your axes, define your corners, and let the reader place the evidence themselves — <em>before</em> you tell them where the room put it. This page is my study's whole claim, redrawn as a map with four corners. Sort the cards. Then we compare.
+  </div>
+
+  <p><strong>This week's question:</strong> given only the words on the card — no scores, no labels — do readers put quality where my study says it lives? And when the room disagrees with the card's origin, which should I believe?</p>
+
+  <h2>The map</h2>
+  <p>Two questions locate any piece of writing on this map. <em>Left to right:</em> does it do the expected thing, or does it break an expectation? <em>Bottom to top:</em> do its choices serve the whole — does every part have a job — or is it just gesturing? Those two axes give four corners, and you already know their names.</p>
+
+  <div class="axislab">↑ choices serve the whole</div>
+  <div class="grid" id="grid"></div>
+  <div class="axislab">expected ← → unexpected · (bottom row: choices serve weakly)</div>
+
+  <h2>Sort the cards</h2>
+  <p>Eight short passages, same territory as the run. For each one, pick a corner. No scores are shown and none of these cards is labeled — that is the point. When all eight are placed, copy your sorting for the class chat <em>before</em> you reveal anything.</p>
+  <div id="cards"><span class="note">Loading the cards…</span></div>
+
+  <div class="controls">
+    <span class="progress" id="progress">Sorted 0 of 8.</span>
+    <button class="bigbtn ghost" id="copyBtn" disabled>Copy my sorting</button>
+    <button class="bigbtn" id="revealBtn" disabled>Reveal the room's answer</button>
+  </div>
+  <div class="summary" id="summary"></div>
+
+  <h2>Method</h2>
+  <div class="method">
+    <ul>
+      <li><strong>Items:</strong> six of the eight cards are rows from the study's run, fetched by id from <code>../session-07/data/dataset.json</code> at load — their texts are never copied into this page, so the cards cannot drift from the evidence. Two cards are classic-form specimens I wrote myself, and the reveal says which.</li>
+      <li><strong>The answer key is a room, not me:</strong> the consensus in <code>data/consensus.json</code> is the class's own sorting, collected with the copy-my-sorting button and tallied per card. <span id="consNote" class="note"></span></li>
+      <li><strong>Order matters:</strong> the page lets you export your sorting before the reveal, because a prediction recorded after the answer is not a prediction.</li>
+      <li><strong>Agreement is computed in your browser</strong> — your placements against the room's majority, card by card.</li>
+    </ul>
+  </div>
+
+  <h2>Interpretation</h2>
+  <p>Watch what the room does to provenance. The card that came from the <em>directed</em> condition with the weakest score tends to land in <strong>classic form</strong> — the commission asked for a break, and the room couldn't find one, so the label "directed" earned it nothing. And the random condition's one dazzling card splits the room almost evenly between <strong>the random swerve</strong> and <strong>the true swerve</strong> — noise can wear purpose's clothes for one sentence at a time. That is why this study rates outputs blind and in bulk: where a card <em>came from</em> and where it <em>belongs</em> are different facts, and only the second one is about quality.</p>
+  <p>Notice also what this page is practicing: research language. A marketing sentence says "readers loved the true swerve." A research sentence says how many, out of how many, judged blind, disagreeing where — and then says what that cannot show. The reveal above gives you the second kind of sentence, every time.</p>
+
+  <div class="limit">
+    <strong>Limitation.</strong> A consensus of one class is a room, not the world — eleven sorters can share a blind spot. Forced corners hide honest "in between" placements. The two classic-form cards were written by me, which means I planted the specimens I then asked the room to certify. And style is a leak: some cards may be sorted by their AI-flavored phrasing rather than their quality, which this design cannot fully separate.
+  </div>
+
+  <h2>Try it yourself</h2>
+  <div class="try">
+    Take four outputs from your own study and name your own two axes — the two questions your claim actually turns on. Make a friend sort your outputs before they see your labels. Every card where they disagree with you is not an error: it is your next paragraph.
+  </div>
+
+  <p class="cliff">The room and I mostly agree about where quality lives on this map. Next week I hand the same job to a machine: my rubric, my items, an AI as the judge. Will it find the true swerve — or will it reward polish, and vote for its own reflection?</p>
+
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>What AI helped with:</strong> drafting this page's code, and generating the run cards themselves (that was the study). The illustrative consensus tallies shipped before class are authored guesses, labeled as such in their file.</p>
+    <p style="margin-bottom:0"><strong>What I own:</strong> the two axes and their definitions, the choice of which eight cards make the argument sortable — including the two troublemakers — the two classic-form specimens written by hand, and the rule that your sorting gets copied before the answer gets revealed.</p>
+  </div>
+
+  <footer>Part of the class proceedings · The Instructor's Study, Session 9 of 12 · Data: <code>data/items.json</code> + <code>data/consensus.json</code> + rows from <code>../session-07/data/dataset.json</code> (unchanged)</footer>
+</main>
+
+<script>
+(async function(){
+  const $ = id => document.getElementById(id);
+  const QUADS = [
+    { k:'cf', name:'Classic form',     def:'expected · serves strongly',  color:'var(--cf)', col:1, row:1 },
+    { k:'ts', name:'The true swerve',  def:'unexpected · serves strongly',color:'var(--ts)', col:2, row:1 },
+    { k:'fm', name:'The false mean',   def:'expected · serves weakly',    color:'var(--fm)', col:1, row:2 },
+    { k:'rs', name:'The random swerve',def:'unexpected · serves weakly',  color:'var(--rs)', col:2, row:2 }
+  ];
+  const qByKey = {}; QUADS.forEach(q => qByKey[q.k]=q);
+
+  let run, itemsFile, cons;
+  try {
+    run       = await fetch('../session-07/data/dataset.json').then(r=>{ if(!r.ok) throw 0; return r.json(); });
+    itemsFile = await fetch('data/items.json').then(r=>{ if(!r.ok) throw 0; return r.json(); });
+    cons      = await fetch('data/consensus.json').then(r=>{ if(!r.ok) throw 0; return r.json(); });
+  } catch(e){
+    $('cards').innerHTML = '<p class="err">Could not load the data files. Serve the repo root over HTTP or open the deployed page.</p>';
+    return;
+  }
+
+  const rowById = {}; run.rows.forEach(r => rowById[r.id]=r);
+  const items = itemsFile.items.map(it => {
+    if (it.source === 'run'){
+      const r = rowById[it.rowId];
+      return r ? { id:it.id, text:r.text, prompt:r.prompt, source:'run', condition:r.condition, rowId:it.rowId } : null;
+    }
+    return { id:it.id, text:it.text, prompt:it.prompt, source:'authored' };
+  }).filter(Boolean);
+
+  if (cons.note) $('consNote').textContent = '(Right now its own file says: “' + cons.note.split('.')[0] + '.”)';
+
+  // ---- build the grid ----
+  QUADS.forEach(q => {
+    const cell = document.createElement('div'); cell.className='cell'; cell.id='cell-'+q.k;
+    cell.style.gridColumn=q.col; cell.style.gridRow=q.row; cell.style.borderColor=q.color;
+    cell.innerHTML = '<h3 style="color:'+q.color+'">'+q.name+'</h3><div class="def">'+q.def+'</div><div class="chips" id="chips-'+q.k+'"></div>';
+    $('grid').appendChild(cell);
+  });
+
+  // ---- build the sort cards ----
+  const placements = {};
+  const cardsBox = $('cards'); cardsBox.innerHTML='';
+  items.forEach((it, idx) => {
+    const c = document.createElement('div'); c.className='sortcard'; c.id='card-'+it.id;
+    let btns='';
+    QUADS.forEach(q => { btns += '<button data-item="'+it.id+'" data-q="'+q.k+'">'+q.name+'</button>'; });
+    c.innerHTML = '<div class="num">Card '+(idx+1)+' of '+items.length+'</div>'
+      + '<div class="text">'+it.text+'</div>'
+      + '<div class="picks">'+btns+'</div>'
+      + '<div class="verdictline" id="vl-'+it.id+'"></div>';
+    cardsBox.appendChild(c);
+  });
+
+  function refresh(){
+    QUADS.forEach(q => { $('chips-'+q.k).innerHTML=''; });
+    items.forEach((it, idx) => {
+      const q = placements[it.id];
+      if (q){
+        const chip = document.createElement('span'); chip.className='chip'; chip.id='chip-'+it.id;
+        chip.style.background = qByKey[q].color; chip.textContent = idx+1;
+        $('chips-'+q).appendChild(chip);
+      }
+      document.querySelectorAll('#card-'+it.id+' .picks button').forEach(b => {
+        const on = placements[it.id]===b.dataset.q;
+        b.classList.toggle('on', on);
+        b.style.background = on ? qByKey[b.dataset.q].color : '';
+      });
+    });
+    const n = Object.keys(placements).length;
+    $('progress').textContent = 'Sorted '+n+' of '+items.length+'.';
+    $('copyBtn').disabled = n!==items.length;
+    $('revealBtn').disabled = n!==items.length || revealed;
+  }
+
+  let revealed = false;
+  cardsBox.addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b || revealed) return;
+    placements[b.dataset.item] = b.dataset.q;
+    refresh();
+  });
+
+  // ---- copy my sorting (the export trick) ----
+  $('copyBtn').addEventListener('click', async () => {
+    const blob = JSON.stringify({ session:9, sorting:placements }, null, 1);
+    try { await navigator.clipboard.writeText(blob); $('copyBtn').textContent='Copied — paste it in the class chat'; }
+    catch(e){ window.prompt('Copy this and paste it in the class chat:', blob); }
+  });
+
+  // ---- reveal ----
+  function majority(votes){
+    let best=null, bestV=-1;
+    QUADS.forEach(q => { const v=votes[q.k]||0; if(v>bestV){ bestV=v; best=q.k; } });
+    return best;
+  }
+  const provText = it => it.source==='authored'
+    ? 'Origin: written by me, as a classic-form specimen.'
+    : 'Origin: the ' + it.condition.toUpperCase() + ' condition of the run (row ' + it.rowId + ', prompt “' + it.prompt + '”).';
+
+  $('revealBtn').addEventListener('click', () => {
+    revealed = true;
+    refresh();
+    let matches = 0;
+    items.forEach(it => {
+      const votes = cons.votes[it.id] || {};
+      const maj = majority(votes);
+      const mine = placements[it.id];
+      const hit = mine===maj; if (hit) matches++;
+      const chip = $('chip-'+it.id);
+      if (chip) chip.classList.add(hit ? 'match' : 'miss');
+      let bars='';
+      QUADS.forEach(q => {
+        const v = votes[q.k]||0;
+        const w = cons.n ? Math.round(v/cons.n*100) : 0;
+        bars += '<div class="votebar"><span style="width:8.5rem">'+q.name+'</span><span class="vb" style="width:'+Math.max(w,2)+'%;background:'+q.color+'"></span><span>'+v+'</span></div>';
+      });
+      const vl = $('vl-'+it.id);
+      vl.style.display='block';
+      vl.innerHTML = '<strong>The room says: '+qByKey[maj].name+'</strong>'
+        + (hit ? ' — you agreed.' : ' — you said '+qByKey[mine].name+'.')
+        + '<br>' + provText(it) + bars;
+    });
+    const s = $('summary');
+    s.style.display='block';
+    s.innerHTML = '<strong>You matched the room on '+matches+' of '+items.length+' cards ('+Math.round(matches/items.length*100)+'%).</strong> '
+      + 'Where you split from the consensus, look at the origin line before deciding who is wrong — the room has blind spots too, and naming them is research.';
+    $('revealBtn').disabled = true;
+  });
+
+  refresh();
+})();
+</script>
+</body>
+</html>

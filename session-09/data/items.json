@@ -1,0 +1,15 @@
+{
+  "note": "Six items are rows from the study's run, fetched by id from ../session-07/data/dataset.json at load (their texts are not copied here, so they cannot drift from the evidence). Two items are classic-form specimens I wrote myself, marked source:'authored' — the limitation says what that costs.",
+  "items": [
+    { "id": "i1", "source": "run", "rowId": "r01" },
+    { "id": "i2", "source": "run", "rowId": "r03" },
+    { "id": "i3", "source": "run", "rowId": "r04" },
+    { "id": "i4", "source": "run", "rowId": "r05" },
+    { "id": "i5", "source": "run", "rowId": "r20" },
+    { "id": "i6", "source": "run", "rowId": "r24" },
+    { "id": "i7", "source": "authored", "prompt": "piano tuner",
+      "text": "The piano tuner worked by ear alone, coaxing each string back to the note it had been made to hold." },
+    { "id": "i8", "source": "authored", "prompt": "night nurse",
+      "text": "The night nurse moved from bed to bed like a lamplighter, leaving each patient a little easier than she found them." }
+  ]
+}

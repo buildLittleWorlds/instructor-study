@@ -1,0 +1,14 @@
+{
+  "note": "Illustrative consensus, authored to show the shape of a real room's answer — REPLACE with the actual class sorting collected in the Session 9 data moment (students sort, click 'Copy my sorting', paste in chat; tally the quadrants per item here). Until then the reveal compares the reader to a plausible room, and says so.",
+  "n": 11,
+  "votes": {
+    "i1": { "fm": 9, "rs": 0, "cf": 2, "ts": 0 },
+    "i2": { "fm": 0, "rs": 1, "cf": 1, "ts": 9 },
+    "i3": { "fm": 7, "rs": 0, "cf": 4, "ts": 0 },
+    "i4": { "fm": 0, "rs": 10, "cf": 0, "ts": 1 },
+    "i5": { "fm": 0, "rs": 6, "cf": 0, "ts": 5 },
+    "i6": { "fm": 2, "rs": 0, "cf": 5, "ts": 4 },
+    "i7": { "fm": 3, "rs": 0, "cf": 8, "ts": 0 },
+    "i8": { "fm": 3, "rs": 0, "cf": 7, "ts": 1 }
+  }
+}
