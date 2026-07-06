@@ -82,10 +82,14 @@
   </div>
 
   <h2>Part 2 — Three doors</h2>
-  <p>So this is my locked study. To run it I need three versions of one answer. Here are three first lines for the same prompt — <em>"<span id="doorsPrompt"></span>"</em> — produced three different ways. Match each to how you think it was made, then reveal.</p>
+  <p>So this is my locked study. To run it I need three versions of one answer. Here are three first lines for the same prompt — <em>"<span id="doorsPrompt"></span>"</em> — produced three different ways. Two jobs, both <strong>before</strong> the reveal: match each line to how you think it was made, and star the one that would actually make you read on. That star is a blind data point in my real study.</p>
   <div class="doors" id="doors"></div>
-  <button class="bigbtn" id="revealDoors" disabled>Assign all three to reveal</button>
+  <button class="bigbtn" id="revealDoors" disabled>Assign all three + star one to reveal</button>
   <div class="payoff" id="payoff"></div>
+  <div class="controls" id="pilotWrap" style="display:none;margin-top:.8rem;font-family:system-ui,sans-serif">
+    <button class="bigbtn" id="pilotExport" style="background:#fff;color:var(--accent);border:1.5px solid var(--accent)">Copy my pilot row (JSON)</button>
+    <span class="note" id="pilotMsg"> — your blind preference + matches: one real row for the study.</span>
+  </div>
 
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
@@ -172,22 +176,43 @@
   // ---- Part 2: doors ----
   const shuffled = data.doors.map(d=>({d,s:Math.random()})).sort((a,b)=>a.s-b.s).map(x=>x.d);
   const assigned = {}; // cond of card -> chosen label
+  let starred = null;  // cond of the line the reader would read on (picked blind)
   const doorsEl=document.getElementById('doors'); doorsEl.innerHTML='';
   const condLabels = { default:'The default', random:'Cranked-up randomness', directed:'A directed break' };
+  function gateReveal(){
+    const ready = Object.keys(assigned).length===shuffled.length && starred!==null;
+    const btn=document.getElementById('revealDoors');
+    btn.disabled = !ready;
+    if(ready) btn.textContent='Reveal the three doors';
+  }
   shuffled.forEach((card,idx)=>{
     const el=document.createElement('div'); el.className='door'; el.dataset.cond=card.cond;
-    el.innerHTML = `<div class="dn">Line ${String.fromCharCode(65+idx)}</div><div class="dtext">${card.text}</div>`;
+    el.innerHTML = `<div class="dn">Line ${String.fromCharCode(65+idx)} <span class="starlab" style="display:none;color:var(--you,#c9781f)">★ your pick</span></div><div class="dtext">${card.text}</div>`;
     const assign=document.createElement('div'); assign.className='assign';
     Object.keys(condLabels).forEach(k=>{
       const b=document.createElement('button'); b.textContent=condLabels[k]; b.dataset.k=k;
       b.addEventListener('click',()=>{
-        assign.querySelectorAll('button').forEach(x=>x.classList.toggle('sel', x===b));
+        assign.querySelectorAll('button:not(.star)').forEach(x=>x.classList.toggle('sel', x===b));
         assigned[card.cond]=k;
-        document.getElementById('revealDoors').disabled = Object.keys(assigned).length!==shuffled.length;
-        if(Object.keys(assigned).length===shuffled.length) document.getElementById('revealDoors').textContent='Reveal the three doors';
+        gateReveal();
       });
       assign.appendChild(b);
     });
+    // the blind-preference star (the pilot's real dependent variable)
+    const star=document.createElement('button'); star.className='star'; star.textContent='☆ I\'d read on';
+    star.style.cssText='margin-left:auto;border-color:#c9781f;color:#c9781f';
+    star.addEventListener('click',()=>{
+      starred=card.cond;
+      document.querySelectorAll('.door').forEach(d=>{
+        const isMe = d.dataset.cond===card.cond;
+        d.querySelector('.star').textContent = isMe ? '★ my pick' : '☆ I\'d read on';
+        d.querySelector('.star').style.background = isMe ? '#c9781f' : '#fff';
+        d.querySelector('.star').style.color = isMe ? '#fff' : '#c9781f';
+        d.querySelector('.starlab').style.display = isMe ? 'inline' : 'none';
+      });
+      gateReveal();
+    });
+    assign.appendChild(star);
     el.appendChild(assign);
     const v=document.createElement('div'); v.className='verdict2'; el.appendChild(v);
     doorsEl.appendChild(el);
@@ -201,16 +226,33 @@
       el.classList.add('revealed');
       const v=el.querySelector('.verdict2');
       v.innerHTML = `<span class="sw" style="color:var(--${cond})">${sw.name}${condLabels[cond]?` — made by ${condLabels[cond].toLowerCase()}`:''}.</span> ${sw.note} `+
-        `<span class="mark ${right?'right':'wrong'}">${right?'You matched it.':'Not this one.'}</span>`;
+        `<span class="mark ${right?'right':'wrong'}">${right?'You matched it.':'Not this one.'}</span>`+
+        (starred===cond?` <span class="mark right">★ And blind, this is the one you'd read on.</span>`:'');
       v.style.display='block';
     });
-    const p=document.getElementById('payoff'); p.textContent=data.payoff; p.style.display='block';
-    p.scrollIntoView({behavior:'smooth', block:'center'});
+    const p=document.getElementById('payoff');
+    const prefName=data.swerves[starred].name.toLowerCase();
+    p.innerHTML = `<strong>Your blind vote:</strong> before you knew how any line was made, you starred the <strong>${prefName}</strong>. That's one real pilot row for the study — multiply it by a class and you have data. `+data.payoff;
+    p.style.display='block';
+    document.getElementById('pilotWrap').style.display='flex';
+    p.scrollIntoView?.({behavior:'smooth', block:'center'});
+  });
+
+  document.getElementById('pilotExport').addEventListener('click',async ()=>{
+    const matches={}; Object.keys(condLabels).forEach(k=>matches[k]=assigned[k]===k);
+    const row={paper:'Question Zero',session:5,exported:new Date().toISOString().slice(0,10),
+      blindPreference:starred, preferenceName:data.swerves[starred].name,
+      matchedConditions:matches, matchScore:Object.values(matches).filter(Boolean).length+'/3'};
+    const blob=JSON.stringify(row,null,1);
+    const msg=document.getElementById('pilotMsg');
+    try{ await navigator.clipboard.writeText(blob); msg.textContent=' Copied — paste your row into the scratchpad.'; }
+    catch(e){ window.prompt('Copy this JSON:', blob); }
   });
 
   document.getElementById('method').innerHTML =
     `<p><strong>The kill-tests.</strong> A question earns a place only if it passes three: you can measure it, you can get the data, and either outcome would surprise you. Fail one and it's an opinion, too big, or missing a yardstick.</p>`+
     `<p><strong>The three conditions.</strong> DEFAULT = the model's standard answer (the false mean). RANDOM = the same prompt at high temperature (difference by noise). DIRECTED = the model told to break one expectation on purpose, for a reason (the candidate true swerve).</p>`+
+    `<p><strong>The pilot row.</strong> Your star is collected <em>before</em> the reveal, so it's a blind preference among the three conditions — exactly the judgment the full study measures at scale. The "copy my pilot row" button hands you your own data point; a classroom of them is a real pilot.</p>`+
     `<p class="note">${data.note}</p>`;
 })();
 </script>

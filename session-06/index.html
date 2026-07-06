@@ -28,6 +28,13 @@
   .rate button:hover:not(:disabled){ border-color:var(--accent); }
   .rate button.sel { background:var(--accent); border-color:var(--accent); color:#fff; }
   .rate button:disabled { opacity:.6; cursor:default; } .rate button.sel:disabled { opacity:1; }
+  .critrate { display:grid; grid-template-columns:9.5rem 1fr; gap:.4rem; align-items:center; margin:.35rem 0; }
+  .critrate .cl { font-family:system-ui,sans-serif; font-size:.8rem; font-weight:600; color:var(--accent); text-align:right; }
+  .critrate .rate button { width:1.8rem; height:1.8rem; font-size:.8rem; }
+  .chip { display:none; font-family:system-ui,sans-serif; font-size:.85rem; font-weight:700; color:var(--accent); margin-top:.4rem; }
+  .critag { display:none; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.8rem 1rem; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  .critag .worst { color:var(--warn); font-weight:700; }
+  .exportrow { display:none; gap:.6rem; align-items:center; flex-wrap:wrap; margin:.8rem 0; font-family:system-ui,sans-serif; }
   .axis { position:relative; height:2.4rem; margin:.7rem 0 .2rem; display:none; }
   .axis .line { position:absolute; top:1.5rem; left:4%; right:4%; height:2px; background:var(--line); }
   .axis .tick { position:absolute; top:1.9rem; transform:translateX(-50%); font-family:system-ui,sans-serif; font-size:.7rem; color:var(--muted); }
@@ -77,14 +84,21 @@
   </div>
 
   <div id="roundB">
-    <h2>Round 2 — Rate the same three, now with the rubric</h2>
-    <p>Exact same openings. Same you. This time, hold each one against the four criteria above before you choose a number.</p>
+    <h2>Round 2 — Rate the same three, criterion by criterion</h2>
+    <p>Exact same openings. Same you. This time you don't give one number — you rate each of the four criteria separately, and your overall score is their average. This is the exact instrument my study runs at scale next week.</p>
     <div id="roundBItems"></div>
-    <button class="bigbtn" id="revealB" disabled>Rate all three to see how we agree now</button>
+    <button class="bigbtn" id="revealB" disabled>Rate every criterion to see how we agree now</button>
     <p class="agtag" id="agB"></p>
   </div>
 
+  <div class="critag" id="critAgree"></div>
+
   <div class="headline" id="headline"></div>
+
+  <div class="exportrow" id="exportRow">
+    <button class="bigbtn" id="exportBtn" style="background:#fff;color:var(--accent);border:1.5px solid var(--accent)">Copy my two-round ratings (JSON)</button>
+    <span class="note" id="exportMsg">— gut + per-criterion rows, ready for the class panel swap-in.</span>
+  </div>
 
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
@@ -172,7 +186,7 @@
     renderRubric();
     document.getElementById('rubric').style.display='block';
     document.getElementById('roundB').style.display='block';
-    document.getElementById('roundB').scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('roundB').scrollIntoView?.({behavior:'smooth', block:'start'});
   });
 
   function renderRubric(){
@@ -181,29 +195,81 @@
       d.innerHTML=`<b>${c.name}.</b> ${c.definition} <span class="anchors">(1 = ${c.s1}; 5 = ${c.s5})</span>`; cl.appendChild(d); });
   }
 
-  // Round B (built lazily so items appear under the rubric)
+  // Round B (built lazily so items appear under the rubric) — per-criterion instrument
+  const critIds = data.rubric.map(c=>c.id);
   const rB=document.getElementById('roundBItems');
-  data.items.forEach(it=> rB.appendChild(itemCard(it,'B',readerB,()=>{
-    document.getElementById('revealB').disabled = Object.keys(readerB).length!==data.items.length;
-    if(Object.keys(readerB).length===data.items.length) document.getElementById('revealB').textContent='See how we agree now';
-  })));
+  function readerOverall(id){ const r=readerB[id]; return critIds.reduce((s,c)=>s+r[c],0)/critIds.length; }
+  function rubricCard(item){
+    const card=document.createElement('div'); card.className='item'; card.id='B-'+item.id;
+    card.innerHTML=`<div class="opening">“${item.text}”</div>`;
+    readerB[item.id]={};
+    data.rubric.forEach(c=>{
+      const row=document.createElement('div'); row.className='critrate';
+      const lab=document.createElement('div'); lab.className='cl'; lab.textContent=c.name; lab.title=c.definition; row.appendChild(lab);
+      const rate=document.createElement('div'); rate.className='rate';
+      for(let v=1; v<=5; v++){ const b=document.createElement('button'); b.textContent=v;
+        b.addEventListener('click',()=>{ rate.querySelectorAll('button').forEach(x=>x.classList.remove('sel')); b.classList.add('sel');
+          readerB[item.id][c.id]=v; onRubricChange(item); });
+        rate.appendChild(b); }
+      row.appendChild(rate);
+      card.appendChild(row);
+    });
+    const chip=document.createElement('div'); chip.className='chip'; chip.id='chip-'+item.id; card.appendChild(chip);
+    const axis=document.createElement('div'); axis.className='axis'; axis.id='axis-B-'+item.id;
+    axis.innerHTML='<div class="line"></div>'+[1,2,3,4,5].map(v=>`<span class="tick" style="left:${4+(v-1)/4*92}%">${v}</span>`).join('');
+    card.appendChild(axis);
+    const ag=document.createElement('div'); ag.className='agtag'; ag.id='ag-B-'+item.id; card.appendChild(ag);
+    return card;
+  }
+  function onRubricChange(item){
+    if(critIds.every(c=>readerB[item.id][c]!==undefined)){
+      const chip=document.getElementById('chip-'+item.id);
+      chip.style.display='block';
+      chip.textContent='Your rubric score: '+readerOverall(item.id).toFixed(2)+' (average of your four criteria)';
+    }
+    const done=data.items.every(it=>critIds.every(c=>readerB[it.id] && readerB[it.id][c]!==undefined));
+    document.getElementById('revealB').disabled=!done;
+    if(done) document.getElementById('revealB').textContent='See how we agree now';
+  }
+  data.items.forEach(it=> rB.appendChild(rubricCard(it)));
 
   document.getElementById('revealB').addEventListener('click',()=>{
     document.getElementById('revealB').disabled=true;
     document.querySelectorAll('#roundBItems .rate button').forEach(b=>b.disabled=true);
-    data.items.forEach(it=> plot('B',it,it.trained,readerB[it.id],'var(--hi)'));
-    const overall=data.items.map(it=>agreePct(it.trained.concat([readerB[it.id]]))).reduce((a,b)=>a+b)/data.items.length;
+    data.items.forEach(it=> plot('B',it,it.trained,readerOverall(it.id),'var(--hi)'));
+    const overall=data.items.map(it=>agreePct(it.trained.concat([readerOverall(it.id)]))).reduce((a,b)=>a+b)/data.items.length;
     const el=document.getElementById('agB'); el.style.display='block';
     el.innerHTML=`With the rubric, agreement jumped to <strong>${Math.round(overall*100)}%</strong>.`;
+    // per-criterion agreement: where do the judges (you included) still wobble?
+    const perCrit = data.rubric.map(c=>{
+      const avg=data.items.map(it=>agreePct(it.trainedByCrit[c.id].concat([readerB[it.id][c.id]]))).reduce((a,b)=>a+b)/data.items.length;
+      return {id:c.id, name:c.name, pct:Math.round(avg*100)};
+    });
+    const worst=perCrit.reduce((w,c)=>c.pct<w.pct?c:w, perCrit[0]);
+    window.__worstCrit=worst;
+    const ca=document.getElementById('critAgree'); ca.style.display='block';
+    ca.innerHTML=`<strong>Where does the panel (you included) still wobble?</strong> `+
+      perCrit.map(c=>`${c.name} <strong>${c.pct}%</strong>`).join(' · ')+
+      `.<br>Your worst-agreeing criterion: <span class="worst">${worst.name} (${worst.pct}%)</span> — that's this week's class question. Post it.`;
     const a=Math.round((window.__agA||0)*100), b=Math.round(overall*100);
     const h=document.getElementById('headline'); h.style.display='block';
     h.innerHTML=`Same three openings. Same you. Agreement went from <span class="big">${a}%</span> to <span class="big">${b}%</span> — and the only thing that changed was having criteria. That jump is how taste becomes evidence.`;
-    h.scrollIntoView({behavior:'smooth', block:'center'});
+    document.getElementById('exportRow').style.display='flex';
+    h.scrollIntoView?.({behavior:'smooth', block:'center'});
+  });
+
+  document.getElementById('exportBtn').addEventListener('click',async ()=>{
+    const rows=data.items.map(it=>({item:it.id, gut:readerA[it.id], perCriterion:readerB[it.id], rubricOverall:+readerOverall(it.id).toFixed(2)}));
+    const blob=JSON.stringify({paper:'The Agreement Machine',session:6,exported:new Date().toISOString().slice(0,10),
+      rows, worstCriterion:(window.__worstCrit||{}).name},null,1);
+    const msg=document.getElementById('exportMsg');
+    try{ await navigator.clipboard.writeText(blob); msg.textContent='— copied. Paste your rows into the scratchpad for the class panel.'; }
+    catch(e){ window.prompt('Copy this JSON:', blob); }
   });
 
   document.getElementById('method').innerHTML =
-    `<p><strong>The design.</strong> Three story openings, rated 1–5 twice: once on gut feeling, once against a four-criterion rubric. Two illustrative panels stand in for an untrained group and a trained group; your own ratings join each.</p>`+
-    `<p><strong>Agreement.</strong> For each opening we look at every pair of judges and count how often they land within one point of each other, then average. Higher = the judges are converging.</p>`+
+    `<p><strong>The design.</strong> Three story openings, rated twice: once on gut feeling (one 1–5 number), once with the instrument — each of the four criteria rated 1–5 separately, your overall being their average. Two illustrative panels stand in for an untrained group and a trained group; your own ratings join each.</p>`+
+    `<p><strong>Agreement.</strong> For each opening we look at every pair of judges and count how often they land within one point of each other, then average. The same math runs per criterion, which is how the page finds the panel's — and your — <em>worst-agreeing criterion</em>.</p>`+
     `<p class="note">${data.note}</p>`;
 })();
 </script>

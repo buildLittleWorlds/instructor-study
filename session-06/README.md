@@ -11,6 +11,10 @@ The Bridge artifact for Session 6 (strand W6): a **calibration lab**. The reader
 
 Agreement = share of rater-pairs that land within one point of each other, computed in the browser (the reader's own rating is added to each panel). Verified: untrained panels average ~49% agreement (scores spread 1–5); trained panels hit 100% (tight) while still discriminating quality by item (cliché low, pigeon high, Monday mid). The rubric doesn't flatten — it converges *and* separates.
 
+**Per-criterion Round 2 (added 2026-07-05).** Round 2 is now the actual instrument: the reader rates Fit / Form / Earned surprise / Return separately (1–5 each) and their overall is the average — exactly the per-criterion judgment the W7 run collects at scale. `rubric.json` now carries illustrative per-criterion trained panels (`trainedByCrit`), authored so each judge's four criteria round to their overall (verified programmatically — the page never contradicts itself). After the reveal the page shows per-criterion agreement and names **your worst-agreeing criterion** — which is exactly this week's Classroom question, so the paper feeds the discussion directly. Earned surprise and Return are authored as the wobbliest (98% panel-only vs 100%), matching the truth that surprise is the hardest judgment to train.
+
+**Export (added 2026-07-05).** "Copy my two-round ratings (JSON)" appears with the headline — gut + per-criterion rows per opening. Collect the class's exports and you have the real panels for the swap-in below.
+
 ## The clean-design note (honesty)
 
 The paper rates the same items twice, which means Round 2 is nudged by having seen them. The limitation says this plainly and points to the cleaner design the panels actually model: separate untrained and trained groups on the items. It also flags the deeper truth — agreement makes a judgment *usable as evidence*, not automatically *correct*.
@@ -31,5 +35,6 @@ Replace the illustrative panels with real class ratings: have students rate the 
 
 1. Narrowing move: "Last week I said I couldn't just ask 'which is best.' Here's the fix — and you're the panel."
 2. Round 1 live: class rates the pigeon opening on gut; collect the spread aloud (it'll run 2–5). "That's not evidence, that's chaos."
-3. Reveal the rubric, rate Round 2, watch the numbers converge; land the headline: same items, same you, agreement jumped because of criteria.
-4. Cliffhanger on the page: now point the yardstick at a hundred outputs — the run (→ Week 7).
+3. Reveal the rubric, rate Round 2 criterion by criterion, watch the numbers converge; land the headline: same items, same you, agreement jumped because of criteria.
+4. Data moment: everyone clicks **Copy my two-round ratings** and pastes into the scratchpad (those rows become the real panels in `rubric.json`), and posts their **worst-agreeing criterion** to the class question — expect "Earned surprise" to dominate, and ask why.
+5. Cliffhanger on the page: now point the yardstick at a hundred outputs — the run (→ Week 7).

@@ -202,7 +202,7 @@
 
   // ---- copy my sorting (the export trick) ----
   $('copyBtn').addEventListener('click', async () => {
-    const blob = JSON.stringify({ session:9, sorting:placements }, null, 1);
+    const blob = JSON.stringify({ paper:'The Four Corners', session:9, exported:new Date().toISOString().slice(0,10), sorting:placements }, null, 1);
     try { await navigator.clipboard.writeText(blob); $('copyBtn').textContent='Copied — paste it in the class chat'; }
     catch(e){ window.prompt('Copy this and paste it in the class chat:', blob); }
   });
@@ -240,10 +240,33 @@
         + (hit ? ' — you agreed.' : ' — you said '+qByKey[mine].name+'.')
         + '<br>' + provText(it) + bars;
     });
+    // where did the misses concentrate? name the border
+    const borders = {};
+    items.forEach(it => {
+      const maj = majority(cons.votes[it.id]||{}), mine = placements[it.id];
+      if (mine!==maj){
+        const key = [mine,maj].sort().join('+');
+        borders[key] = (borders[key]||0)+1;
+      }
+    });
+    let borderLine = '';
+    const bKeys = Object.keys(borders);
+    if (matches===items.length){
+      borderLine = ' You and the room drew the same map, corner for corner.';
+    } else if (bKeys.length){
+      const top = bKeys.sort((a,b)=>borders[b]-borders[a])[0];
+      const [q1,q2] = top.split('+');
+      const bare = k => qByKey[k].name.toLowerCase().replace(/^the /,'');
+      const onTop = borders[top], total = items.length - matches;
+      borderLine = ' '+(onTop===total && total>1 ? 'Every one of your misses' : onTop>1 ? onTop+' of your '+total+' misses' : (total===1?'Your one miss':'One of your misses'))
+        + ' sits on the <strong>'+bare(q1)+' ↔ '+bare(q2)+'</strong> border'
+        + (top==='rs+ts' ? ' — the exact border this whole study lives on.' : ' — that border is where your next paragraph is.');
+    }
     const s = $('summary');
     s.style.display='block';
     s.innerHTML = '<strong>You matched the room on '+matches+' of '+items.length+' cards ('+Math.round(matches/items.length*100)+'%).</strong> '
-      + 'Where you split from the consensus, look at the origin line before deciding who is wrong — the room has blind spots too, and naming them is research.';
+      + 'Where you split from the consensus, look at the origin line before deciding who is wrong — the room has blind spots too, and naming them is research.'
+      + borderLine;
     $('revealBtn').disabled = true;
   });
 

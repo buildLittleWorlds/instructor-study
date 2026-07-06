@@ -104,6 +104,18 @@
       <div class="walkout" id="walkOut"></div>
     </div>
 
+    <h2>Could this be luck?</h2>
+    <p>One more skeptic to satisfy. Suppose the condition labels meant <em>nothing</em> — that "default," "random," and "directed" were just names stuck onto the 24 scores at random. How often would pure chance hand some condition a lead as big as the real one? There's a way to ask: shuffle the labels, re-deal the same scores into three groups of eight, and measure the shuffled winner's lead. A thousand times.</p>
+    <div class="card" style="margin:1rem 0">
+      <button class="bigbtn" id="shuffleBtn">Shuffle the labels 1,000 times</button>
+      <div id="shuffleOut" style="display:none;margin-top:.9rem;font-family:system-ui,sans-serif">
+        <div id="shuffleHist" style="display:flex;align-items:flex-end;gap:2px;height:5.5rem;margin:.6rem 0 .2rem"></div>
+        <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted)"><span>0</span><span>winner's lead in a shuffled world (points out of 20)</span><span id="histMax"></span></div>
+        <p id="shuffleVerdict" style="margin:.7rem 0 0;font-size:.95rem"></p>
+        <p class="note" style="margin:.4rem 0 0">This asks one narrow question — could random labeling fake a gap this big? — and answers only that. Every limitation below still stands.</p>
+      </div>
+    </div>
+
     <h2>The two sentences</h2>
     <p>Every finding travels as a pair: the strongest pattern, and what it does <em>not</em> prove. Here is my first sentence. Before you read my second, write your own.</p>
     <div class="sent">
@@ -126,6 +138,7 @@
       <li><strong>Default path:</strong> the flagged drift row is <em>excluded</em> (including it flatters my favorite condition — the exclusion rule was set last week, before any average existed), and scores are aggregated by simple mean.</li>
       <li><strong>Everything is computed in your browser at load.</strong> Every number in the prose below is injected from that same computation — nothing is typed in by hand, so the words cannot disagree with the data.</li>
       <li><strong>Data honesty:</strong> <span id="dataNote">the dataset's own note appears here when it loads.</span></li>
+      <li><strong>The shuffle test:</strong> "Could this be luck?" permutes the condition labels over the same 24 totals (groups stay 8/8/8) a thousand times and records the shuffled winner's lead each time — a straight permutation test, run fresh in your browser every click.</li>
       <li><strong>The menu is authored too:</strong> I chose which three rows earned toggles and which five yardsticks made the list. See the limitation.</li>
     </ul>
   </div>
@@ -326,6 +339,41 @@
     $('iSurD').textContent = fmt(sur.vals.directed);
     if (data.note) $('dataNote').textContent = '“' + data.note + '”';
   })();
+
+  // ---- could this be luck? (permutation test on the default path) ----
+  $('shuffleBtn').addEventListener('click',()=>{
+    const totals = core.map(r=>r.total);            // same 24 scores, flag excluded (the standing rule)
+    const obs = (()=>{ const b=compute({flagIn:false,dropLucky:false,dropWeak:false,crit:'total',agg:'mean'});
+      const o=CONDS.slice().sort((a,c)=>b.vals[c]-b.vals[a]); return b.vals[o[0]]-b.vals[o[1]]; })();
+    const N=1000, leads=[]; let asBig=0;
+    for(let t=0;t<N;t++){
+      const shuf=totals.slice();
+      for(let i=shuf.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [shuf[i],shuf[j]]=[shuf[j],shuf[i]]; }
+      const g=[mean(shuf.slice(0,8)), mean(shuf.slice(8,16)), mean(shuf.slice(16,24))].sort((a,b)=>b-a);
+      const lead=g[0]-g[1];
+      leads.push(lead);
+      if(lead>=obs-1e-9) asBig++;
+    }
+    // histogram: half-point buckets from 0 to max(obs, observed shuffles)+0.5
+    const hMax=Math.max(obs, ...leads)+0.5;
+    const nb=Math.ceil(hMax/0.5), buckets=new Array(nb).fill(0);
+    leads.forEach(l=>buckets[Math.min(nb-1,Math.floor(l/0.5))]++);
+    const peak=Math.max(...buckets,1);
+    const hist=$('shuffleHist'); hist.innerHTML='';
+    const obsBucket=Math.min(nb-1,Math.floor(obs/0.5));
+    buckets.forEach((b,i)=>{
+      const bar=document.createElement('div');
+      bar.style.cssText='flex:1;border-radius:2px 2px 0 0;background:'+(i===obsBucket?'var(--directed)':'#d8d4c8')+';height:'+Math.max(2,b/peak*100)+'%';
+      bar.title=(i*0.5).toFixed(1)+'–'+((i+1)*0.5).toFixed(1)+' pts: '+b+' of '+N;
+      hist.appendChild(bar);
+    });
+    $('histMax').textContent=hMax.toFixed(1);
+    $('shuffleVerdict').innerHTML = '<strong>In '+N.toLocaleString()+' shuffled worlds, the biggest lead chance ever produced was '
+      + fmt(Math.max(...leads)) + ' points.</strong> The real run\'s lead is <strong>'+fmt(obs)+'</strong> (the green bucket'
+      + (asBig===0 ? ' — chance never got there, not once' : ' — chance matched it '+asBig+' of '+N.toLocaleString()+' times')
+      + '). A gap like this is not the kind luck makes.';
+    $('shuffleOut').style.display='block';
+  });
 
   // ---- the two sentences ----
   $('dnpBtn').addEventListener('click',()=>{ $('dnpMine').style.display='block'; });

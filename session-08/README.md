@@ -17,7 +17,8 @@ Default path (flagged drift row excluded, mean of totals): **directed 19.0 · de
 1. **Envelopes before results** — the reveal is gated behind opening the sealed predictions (reader's own seal read from localStorage, mine, and the class tally). Prediction-before-reveal, practiced on ourselves.
 2. **The outlier toggles** — include the flagged drift row (it *flatters* directed — honesty costs), drop random's luckiest row, drop directed's weakest. The bars barely breathe: that's what robust feels like.
 3. **The one flip path** — judged by earned surprise alone, random edges directed. The winner-changed counter and the walk-all-80 summary make the fragility/robustness boundary exact.
-4. **The two sentences** — reader writes their own does-not-prove sentence before seeing mine; copy button reuses the export pattern.
+4. **The shuffle test (added 2026-07-05)** — "Could this be luck?" runs a real permutation test in-browser: condition labels shuffled over the same 24 totals a thousand times, histogram of shuffled winners' leads with the real 7.4-point lead marked. Chance tops out around ~2 points and never reaches 7.4 — inference by simulation, no formulas, honest caveat attached ("answers one narrow question only").
+5. **The two sentences** — reader writes their own does-not-prove sentence before seeing mine; copy button reuses the export pattern.
 
 ## Honesty
 

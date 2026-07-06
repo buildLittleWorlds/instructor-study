@@ -92,6 +92,15 @@
   </div>
   <p class="trapmsg" id="trapMsg"></p>
 
+  <h2>The panel booth — rate five rows blind</h2>
+  <p class="note">This is how the dataset grows. Five rows drawn at random, shown the way a real panelist sees them: no condition label, no existing scores. Rate each on the four criteria you trained on last week, then copy your rows for the class dataset.</p>
+  <div class="controls">
+    <button class="bigbtn solid" id="boothBtn">Draw my five rows</button>
+    <button class="bigbtn" id="boothCopy" disabled>Copy my 5 ratings (JSON)</button>
+    <span class="note" id="boothMsg"></span>
+  </div>
+  <div id="booth"></div>
+
   <h2>Seal your prediction</h2>
   <div class="seal">
     <p>You've seen the raw rows. <strong>Before I compute the averages next week — which condition do you bet wins overall?</strong></p>
@@ -193,20 +202,79 @@
     m.innerHTML=`I just highlighted the single best <strong>directed</strong> line (${bestDirected.total}/20) and the single worst <strong>default</strong> (${worstDefault.total}/20). See? I've "proven" directed crushes default — by cherry-picking one of each. Anecdotes can argue anything. That's why the answer waits for <em>all</em> the rows, averaged (next week).`;
   });
 
+  // ---- the panel booth: blind-rate 5 rows (the class-dataset data moment) ----
+  const CRIT_DEFS={fit:'Fit', form:'Form', surprise:'Earned surprise', return:'Return'};
+  let boothRows=[]; const boothRatings={};
+  function boothDone(){ return boothRows.length && boothRows.every(r=>['fit','form','surprise','return'].every(c=>boothRatings[r.id]&&boothRatings[r.id][c]!==undefined)); }
+  document.getElementById('boothBtn').addEventListener('click',()=>{
+    const pool=data.rows.filter(r=>!r.flag);
+    boothRows=pool.map(r=>({r,s:Math.random()})).sort((a,b)=>a.s-b.s).slice(0,5).map(x=>x.r);
+    Object.keys(boothRatings).forEach(k=>delete boothRatings[k]);
+    const box=document.getElementById('booth'); box.innerHTML='';
+    boothRows.forEach((r,i)=>{
+      boothRatings[r.id]={};
+      const card=document.createElement('div'); card.className='row';
+      card.style.cursor='default';
+      let rates='';
+      Object.keys(CRIT_DEFS).forEach(c=>{
+        rates+=`<div style="display:grid;grid-template-columns:8.5rem 1fr;gap:.4rem;align-items:center;margin:.25rem 0;font-family:system-ui,sans-serif;font-size:.82rem">`+
+          `<span style="text-align:right;font-weight:600;color:var(--accent)">${CRIT_DEFS[c]}</span><span class="br" data-row="${r.id}" data-c="${c}">`+
+          [1,2,3,4,5].map(v=>`<button data-v="${v}" style="width:1.8rem;height:1.8rem;margin-right:.25rem;border-radius:6px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-family:system-ui,sans-serif">${v}</button>`).join('')+
+          `</span></div>`;
+      });
+      card.innerHTML=`<div class="top"><span class="pr">Blind row ${i+1} of 5 · prompt: ${r.prompt}</span></div>`+
+        `<div class="text">“${r.text}”</div><div style="margin-top:.5rem">${rates}</div>`;
+      box.appendChild(card);
+    });
+    box.querySelectorAll('.br button').forEach(b=>{
+      b.addEventListener('click',()=>{
+        const wrap=b.closest('.br');
+        wrap.querySelectorAll('button').forEach(x=>{x.style.background='#fff';x.style.color='var(--ink)';x.style.borderColor='var(--line)';});
+        b.style.background='var(--accent)'; b.style.color='#fff'; b.style.borderColor='var(--accent)';
+        boothRatings[wrap.dataset.row][wrap.dataset.c]=+b.dataset.v;
+        document.getElementById('boothCopy').disabled=!boothDone();
+        if(boothDone()) document.getElementById('boothMsg').textContent='All five rated — copy your rows.';
+      });
+    });
+    document.getElementById('boothBtn').textContent='Redraw five rows';
+    document.getElementById('boothCopy').disabled=true;
+    document.getElementById('boothMsg').textContent='';
+  });
+  document.getElementById('boothCopy').addEventListener('click',async ()=>{
+    const blob=JSON.stringify({paper:'The Run',session:7,exported:new Date().toISOString().slice(0,10),
+      ratings:boothRows.map(r=>({rowId:r.id, ...boothRatings[r.id]}))},null,1);
+    const m=document.getElementById('boothMsg');
+    try{ await navigator.clipboard.writeText(blob); m.textContent='Copied — paste into the class chat; your five rows join the run.'; }
+    catch(e){ window.prompt('Copy this JSON:', blob); }
+  });
+
   // seal a prediction
   const sealOpts=document.getElementById('sealOpts');
   let sealed=null; try { sealed=localStorage.getItem('run-seal'); } catch(e){}
+  function sealLine(k){
+    return `Sealed: you bet on <strong>${data.conditions[k].label}</strong>. No peeking at the averages until next week. `+
+      `<button id="sealCopy" style="font-family:system-ui,sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:.25rem .7rem">Copy my seal (JSON)</button>`;
+  }
+  function wireSealCopy(){
+    const btn=document.getElementById('sealCopy'); if(!btn) return;
+    btn.addEventListener('click',async ()=>{
+      const blob=JSON.stringify({paper:'The Run',session:7,exported:new Date().toISOString().slice(0,10),seal:sealed},null,1);
+      try{ await navigator.clipboard.writeText(blob); btn.textContent='Copied — into the chat'; }
+      catch(e){ window.prompt('Copy this JSON:', blob); }
+    });
+  }
   Object.keys(data.conditions).forEach(k=>{ const b=document.createElement('button'); b.textContent=data.conditions[k].label.split(' (')[0]; b.dataset.k=k;
     b.addEventListener('click',()=>{ sealed=k; try{ localStorage.setItem('run-seal',k); }catch(e){}
       sealOpts.querySelectorAll('button').forEach(x=>x.classList.toggle('sealed', x===b));
       const m=document.getElementById('sealMsg'); m.style.display='block';
-      m.innerHTML=`Sealed: you bet on <strong>${data.conditions[k].label}</strong>. No peeking at the averages until next week.`; });
+      m.innerHTML=sealLine(k); wireSealCopy(); });
     if(sealed===k) b.classList.add('sealed'); sealOpts.appendChild(b); });
-  if(sealed){ const m=document.getElementById('sealMsg'); m.style.display='block'; m.innerHTML=`Sealed: you bet on <strong>${data.conditions[sealed].label}</strong>.`; }
+  if(sealed){ const m=document.getElementById('sealMsg'); m.style.display='block'; m.innerHTML=sealLine(sealed); wireSealCopy(); }
 
   document.getElementById('method').innerHTML =
     `<p><strong>The run.</strong> Each of ${new Set(data.rows.map(r=>r.prompt)).size} prompts was sent through three conditions — default, high-temperature random, and a directed break — and every output was scored on the four rubric criteria (Fit, Form, Earned surprise, Return), 1–5 each, for a total out of 20.</p>`+
     `<p><strong>The instrument.</strong> Filter by condition, sort by any criterion, search the text, and click a row to see its per-criterion breakdown. One row is flagged: the prompt drifted and it's excluded from analysis.</p>`+
+    `<p><strong>The panel booth.</strong> The booth deals five unflagged rows blind — no condition, no scores — and collects your four-criterion ratings in the same shape as the dataset's rows, so a classroom of copied booth exports becomes the run's real panel. Your sealed prediction has its own copy button for the same reason: next week's envelopes are built from what the room seals today.</p>`+
     `<p class="note">${data.note}</p>`;
 
   syncChips(); render();

@@ -19,7 +19,7 @@ The Bridge artifact for Session 10 (strand W10): a **judge-vs-panel duel** — a
 ## Teaching moves built in
 
 1. **Crown your judge** — predict the machine's winner before any bars render (prediction-before-reveal, third week running).
-2. **Blind sidings** — the three hardest splits shown with anonymized verdicts (A/B alternates which is the machine); reader sides first, learns identities after; copy-my-sidings reuses the export trick as the class data moment.
+2. **Blind sidings** — the three hardest splits shown with anonymized verdicts (A/B alternates which is the machine); reader sides first, learns identities after; copy-my-sidings reuses the export trick as the class data moment. (2026-07-05: export standardized to the `{paper, session, exported, …}` envelope + a `sidedWithHumans` tally, so class chat pastes are one consistent shape to count.)
 3. **The two notes** — confession vs judgment, same facts, toggle; the judgment version doubles as this paper's actual authorship note ("write the second kind").
 4. **Symmetric humility** — the limitation states that when judge and panel split, nothing proves the humans right.
 

@@ -11,10 +11,12 @@ The Bridge artifact for Session 7 (strand W7): a **filterable evidence corpus** 
 
 Verified pattern, drift row excluded: default mean ~11.6/20 (tight, reliable-mediocre — the false mean), random ~11.5 (wide 8–15, one rare spike — the piano-tuner line), directed ~19.0 (high, with an honest weak outlier at 16). Random's best beats every default; directed's worst still beats them — **real overlap**, so Week 8's reveal is a genuine analysis, not a foregone landslide. The page never prints these means; sorting by total lets the reader *feel* the shape without the formal average.
 
-## Two teaching moves built in
+## Teaching moves built in
 
 1. **The cherry-pick trap** — a button highlights the single best directed row and worst default row, "proving" directed wins by anecdote, then names the trick: that's exactly why you keep and average everything.
 2. **The flagged drift row** — mid-run the prompt drifted (wrong subject); it's logged, left visible, and excluded from analysis. Honest logging, not a highlight reel (the strand's W7 watch-for, made literal).
+3. **The panel booth (added 2026-07-05)** — deals five unflagged rows **blind** (no condition badge, no existing scores) and collects four-criterion ratings with **Copy my 5 ratings (JSON)**. This is the strand's W7 data moment ("every student blind-rates 5 items = 40–60 rows in one sitting") built into the page: a classroom of booth exports IS the real panel for `dataset.json`.
+4. **Copy my seal (added 2026-07-05)** — the sealed prediction now exports too, so the real class tallies for Session 8's `predictions.json` can actually be collected (previously the seal lived only in each device's localStorage).
 
 ## Honesty
 
@@ -33,4 +35,5 @@ Do the real run: batch-generate outputs across the three conditions (your key, s
 1. Narrowing move: "I have a yardstick judges agree on. Now watch what happens when I point it at everything — not my three favorites."
 2. Sort by total, then hit the cherry-pick trap live: "I can prove anything with one row. That's the disease. Scale is the cure."
 3. Show the flagged drift row: "I broke my own protocol here. I didn't hide it — I logged it."
-4. Everyone seals a prediction. Cliffhanger on the page: next week we compute the averages — and see what one outlier does. (→ Week 8, The Results Rep.)
+4. Data moment (~5 min): everyone opens the **panel booth**, blind-rates their five dealt rows, and pastes their **Copy my 5 ratings** JSON into the chat — 40–60 real panel rows in one sitting. Then everyone seals a prediction and pastes **Copy my seal** too (those tallies become `session-08/data/predictions.json`).
+5. Cliffhanger on the page: next week we compute the averages — and see what one outlier does. (→ Week 8, The Results Rep.)

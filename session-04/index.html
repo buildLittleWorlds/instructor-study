@@ -92,12 +92,26 @@
       <div class="lab"><span id="huLab"></span><span id="huPct"></span></div>
       <div class="track"><div class="fill human" id="huBar" style="width:0"></div></div>
     </div>
+    <div class="meter">
+      <div class="lab"><span>Control: AI ↔ Human overlap (any AI answer vs. any human note)</span><span id="xPct"></span></div>
+      <div class="track"><div class="fill" id="xBar" style="width:0;background:#9aa6b2"></div></div>
+    </div>
     <p class="verdict" id="verdict"></p>
 
     <h2>Where the sameness lives: the tells</h2>
     <p class="note">Stock phrases counted across both sets — the model's fingerprints. Click any row to light up every text that uses it.</p>
     <div class="legend"><span><b style="background:var(--ai)"></b> AI</span><span><b style="background:var(--human)"></b> Human</span></div>
     <div class="chart" id="chart"></div>
+
+    <h3 style="font-size:1.05rem;margin:1.4rem 0 .3rem">Hunt your own tell</h3>
+    <p class="note">Think you've spotted another fingerprint? Type any word or phrase and the dashboard counts it across both sets, live.</p>
+    <div class="controls" style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;font-family:system-ui,sans-serif">
+      <input type="text" id="huntInput" placeholder='e.g. "tapestry", "deep breath"…' style="font-size:.95rem;padding:.45rem .7rem;border:1px solid var(--line);border-radius:8px;min-width:14rem">
+      <button id="huntBtn" style="font-family:system-ui,sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:.5rem 1rem">Count it</button>
+      <button id="huntExport" disabled style="font-family:system-ui,sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:.5rem 1rem;opacity:.5">Copy the hunt (JSON)</button>
+      <span class="note" id="huntMsg"></span>
+    </div>
+    <div class="chart" id="huntChart"></div>
 
     <h2>The evidence underneath</h2>
     <div class="cols">
@@ -113,7 +127,7 @@
   <p>The two bars usually aren't close. The AI answers share a large slice of their vocabulary with one another even though the prompts have nothing in common — a sunset, a study tip, a pep talk all reach for <em>journey, ultimately, it's important to remember, truly.</em> The human notes barely overlap at all, because each person grabbed something concrete and specific: a spilled coffee, a traffic-cone orange, a cat. That gap is <strong>consensus slop</strong> made visible. And it raises the real question behind the mechanism: the model sounds this way because it was tuned toward what raters rewarded — so <em>whose</em> preferences, and <em>what</em> did they reward, to sand every answer down to the same shape?</p>
 
   <div class="limit">
-    <strong>Limitation.</strong> Sameness here is measured by shared vocabulary — a rough, surface proxy. Two texts can share few words yet still feel identical in rhythm and stance, which this misses; a deeper version would compare meaning with embeddings, not words. And the texts are a small, authored sample. The direction is real and repeatable; the exact percentages are just this sample's.
+    <strong>Limitation.</strong> Sameness here is measured by shared vocabulary — a rough, surface proxy. Two texts can share few words yet still feel identical in rhythm and stance, which this misses; a deeper version would compare meaning with embeddings, not words. The AI answers are also longer than the human notes, which inflates overlap — that's why the control bar exists (it stays low, so length isn't the story). And the texts are a small, authored sample. The direction is real and repeatable; the exact percentages are just this sample's.
   </div>
 
   <h2>Try it yourself</h2>
@@ -144,6 +158,10 @@
   const jac=(a,b)=>{ const A=new Set(a),B=new Set(b); let inter=0; for(const x of A) if(B.has(x)) inter++; const uni=new Set([...A,...B]).size; return uni?inter/uni:0; };
   const avgPair=set=>{ const ws=set.map(t=>words(t.text)); let s=0,n=0; for(let i=0;i<ws.length;i++)for(let j=i+1;j<ws.length;j++){s+=jac(ws[i],ws[j]);n++;} return n?s/n:0; };
   const aiSame=avgPair(data.ai), huSame=avgPair(data.human);
+  // control: how much does an AI answer overlap a HUMAN note to the same kind of prompt?
+  const crossSame=(()=>{ const wa=data.ai.map(t=>words(t.text)), wh=data.human.map(t=>words(t.text));
+    let s=0,n=0; for(const a of wa)for(const h of wh){s+=jac(a,h);n++;} return n?s/n:0; })();
+  const avgWords=set=>Math.round(set.map(t=>words(t.text).length).reduce((a,b)=>a+b,0)/set.length);
 
   // ---- render text columns (optionally highlight a phrase) ----
   function esc(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
@@ -178,6 +196,48 @@
     });
   }
 
+  // ---- hunt your own tell (the class data moment) ----
+  const hunted=[];
+  function renderHunt(){
+    const el=document.getElementById('huntChart'); el.innerHTML='';
+    const maxN=data.ai.length;
+    hunted.forEach(h=>{
+      const row=document.createElement('div'); row.className='prow';
+      row.innerHTML=`<div class="phrase">"${h.phrase}" <span style="color:var(--accent)">★</span></div>`+
+        `<div class="bars">`+
+        `<div class="b ai" style="width:${Math.max(6,h.ai/maxN*100)}%"><span>${h.ai}</span></div>`+
+        `<div class="b human" style="width:${Math.max(6,h.human/maxN*100)}%"><span>${h.human}</span></div>`+
+        `</div>`;
+      row.addEventListener('click',()=>{
+        document.querySelectorAll('.prow').forEach(r=>r.classList.toggle('sel', r===row));
+        renderCols(h.phrase);
+      });
+      el.appendChild(row);
+    });
+  }
+  function huntPhrase(){
+    const raw=document.getElementById('huntInput').value.trim().toLowerCase();
+    const msg=document.getElementById('huntMsg');
+    if(!raw){ return; }
+    if(hunted.find(h=>h.phrase===raw)){ msg.textContent='Already on the board.'; return; }
+    const a=countIn(data.ai,raw), h=countIn(data.human,raw);
+    hunted.push({phrase:raw, ai:a, human:h});
+    renderHunt(); renderCols(raw);
+    msg.textContent = a+h===0 ? 'Nobody uses it — try another.' :
+      a>0&&h===0 ? 'AI-only. You found a tell.' :
+      h>0&&a===0 ? 'Human-only — the opposite of a tell.' : 'Both sets use it.';
+    document.getElementById('huntInput').value='';
+    const ex=document.getElementById('huntExport'); ex.disabled=false; ex.style.opacity='1';
+  }
+  document.getElementById('huntBtn').addEventListener('click',huntPhrase);
+  document.getElementById('huntInput').addEventListener('keydown',e=>{ if(e.key==='Enter') huntPhrase(); });
+  document.getElementById('huntExport').addEventListener('click',async ()=>{
+    const blob=JSON.stringify({paper:'The Slop Detector',session:4,exported:new Date().toISOString().slice(0,10),hunt:hunted},null,1);
+    const msg=document.getElementById('huntMsg');
+    try{ await navigator.clipboard.writeText(blob); msg.textContent=`Copied ${hunted.length} hunted phrase(s) — paste into the scratchpad.`; }
+    catch(e){ window.prompt('Copy this JSON:', blob); }
+  });
+
   // ---- prediction → reveal ----
   let predicted=null;
   document.querySelectorAll('#predict button').forEach(b=>{
@@ -194,13 +254,15 @@
     document.getElementById('huLab').textContent=data.humanLabel;
     document.getElementById('colheadAi').textContent=data.aiLabel;
     document.getElementById('colheadHuman').textContent=data.humanLabel;
-    const aiPct=(aiSame*100), huPct=(huSame*100);
+    const aiPct=(aiSame*100), huPct=(huSame*100), xPct=(crossSame*100);
     document.getElementById('aiPct').textContent=aiPct.toFixed(1)+'% alike';
     document.getElementById('huPct').textContent=huPct.toFixed(1)+'% alike';
+    document.getElementById('xPct').textContent=xPct.toFixed(1)+'% alike';
     // scale bars to the larger value for visibility
-    const scale=Math.max(aiPct,huPct,1);
+    const scale=Math.max(aiPct,huPct,xPct,1);
     setTimeout(()=>{ document.getElementById('aiBar').style.width=(aiPct/scale*100)+'%';
-      document.getElementById('huBar').style.width=(huPct/scale*100)+'%'; },60);
+      document.getElementById('huBar').style.width=(huPct/scale*100)+'%';
+      document.getElementById('xBar').style.width=(xPct/scale*100)+'%'; },60);
     const ratio=huSame>0?(aiSame/huSame):Infinity;
     const ratioTxt=ratio===Infinity?'far':(ratio.toFixed(0)+'×');
     const right = (predicted==='ai-lot' && ratio>=3) || (predicted==='ai-little' && ratio>1 && ratio<3);
@@ -208,13 +270,14 @@
       `The AI answers are about <strong>${ratioTxt} more alike</strong> to each other than the human notes are. `+
       (predicted?(right?'Your prediction was right.':'More lopsided than most people guess — that gap is the slop.'):'');
     renderChart(); renderCols(null);
-    document.getElementById('results').scrollIntoView({behavior:'smooth'});
+    document.getElementById('results').scrollIntoView?.({behavior:'smooth'});
   }
 
   document.getElementById('method').innerHTML =
     `<p><strong>The sample.</strong> ${data.ai.length} AI answers and ${data.human.length} human notes, to the same ${data.ai.length} unrelated prompts.</p>`+
     `<p><strong>Sameness.</strong> For each set we take every pair of texts, compute the share of meaningful words they have in common (a Jaccard overlap, ignoring tiny stop-words), and average it. Higher = the texts recycle more of the same vocabulary.</p>`+
-    `<p><strong>The tells.</strong> We count a fixed list of stock phrases across both sets. Everything is computed in your browser from <code>data/slop.json</code>. ${data.note}</p>`;
+    `<p><strong>The control.</strong> The AI answers are longer (≈${avgWords(data.ai)} vs ≈${avgWords(data.human)} content words), and longer texts get more chances to overlap. So we also compute the cross overlap — every AI answer against every human note. If length alone drove the gap, that control bar would be high too. It's ${(crossSame*100).toFixed(1)}%: the AI answers resemble <em>each other</em> ${Math.round(aiSame/crossSame)}× more than they resemble a human answering the same prompt.</p>`+
+    `<p><strong>The tells.</strong> We count a fixed list of stock phrases across both sets — and any phrase you hunt yourself. Everything is computed in your browser from <code>data/slop.json</code>. ${data.note}</p>`;
 })();
 </script>
 </body>

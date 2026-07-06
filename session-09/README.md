@@ -23,6 +23,7 @@ Corners: *classic form* (expected/strong), *the true swerve* (unexpected/strong)
 1. **Copy before reveal** — "Copy my sorting" unlocks at 8/8; the reveal is a separate second step. A prediction recorded after the answer is not a prediction.
 2. **Provenance revealed last** — each card's origin (condition + row id, or "written by me") appears only inside the reveal, under the room's votes.
 3. **Research language modeled** — the summary reports matches/total judged blind, and sends disagreement to the origin line instead of calling either side wrong.
+4. **The border readout (added 2026-07-05)** — after the reveal, the summary names *where* the reader's misses concentrated (e.g., "your one miss sits on the random swerve ↔ true swerve border — the exact border this whole study lives on"). The export now carries the standard `{paper, session, exported, …}` envelope like every other paper's.
 
 ## Honesty
 

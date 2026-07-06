@@ -1,17 +1,35 @@
 {
-  "note": "The panels below are illustrative — two small groups rating the same three openings, one on gut feeling and one using the rubric. The agreement numbers on the page are COMPUTED from these ratings in your browser (share of rater-pairs landing within one point). Swap in your class's real ratings and every number updates.",
+  "note": "The panels below are illustrative — two small groups rating the same three openings, one on gut feeling and one using the rubric. The trained panel's per-criterion scores are illustrative too, authored so that each judge's four criteria average to their overall score. The agreement numbers on the page are COMPUTED from these ratings in your browser (share of rater-pairs landing within one point). Swap in your class's real ratings — the export button below the headline collects exactly the right shape — and every number updates.",
   "rubric": [
-    { "name": "Fit", "definition": "Does it suit its job — an opening that makes you want the next line?", "s1": "wrong tool for the job", "s5": "exactly right for its purpose" },
-    { "name": "Form", "definition": "Do the parts work together — rhythm, image, and sense pulling one way?", "s1": "parts fight each other", "s5": "every word earns its place" },
-    { "name": "Earned surprise", "definition": "Is the unexpected part doing real work, or just being weird?", "s1": "no surprise, or random weirdness", "s5": "a surprise that opens the whole story" },
-    { "name": "Return", "definition": "Would you willingly read it a second time?", "s1": "once was plenty", "s5": "better the second time" }
+    { "id": "fit", "name": "Fit", "definition": "Does it suit its job — an opening that makes you want the next line?", "s1": "wrong tool for the job", "s5": "exactly right for its purpose" },
+    { "id": "form", "name": "Form", "definition": "Do the parts work together — rhythm, image, and sense pulling one way?", "s1": "parts fight each other", "s5": "every word earns its place" },
+    { "id": "surprise", "name": "Earned surprise", "definition": "Is the unexpected part doing real work, or just being weird?", "s1": "no surprise, or random weirdness", "s5": "a surprise that opens the whole story" },
+    { "id": "return", "name": "Return", "definition": "Would you willingly read it a second time?", "s1": "once was plenty", "s5": "better the second time" }
   ],
   "items": [
     { "id": "storm", "text": "It was a dark and stormy night, and Sarah couldn't sleep.",
-      "untrained": [2, 4, 3, 5, 2, 4], "trained": [2, 2, 3, 2, 2, 2] },
+      "untrained": [2, 4, 3, 5, 2, 4], "trained": [2, 2, 3, 2, 2, 2],
+      "trainedByCrit": {
+        "fit":      [2, 3, 3, 2, 2, 3],
+        "form":     [3, 2, 3, 2, 3, 2],
+        "surprise": [1, 1, 2, 2, 1, 2],
+        "return":   [2, 2, 3, 2, 1, 2]
+      } },
     { "id": "pigeon", "text": "The last time I saw my father, he was teaching a pigeon to trust him.",
-      "untrained": [5, 3, 5, 2, 4, 3], "trained": [5, 4, 5, 5, 4, 5] },
+      "untrained": [5, 3, 5, 2, 4, 3], "trained": [5, 4, 5, 5, 4, 5],
+      "trainedByCrit": {
+        "fit":      [5, 4, 5, 5, 4, 4],
+        "form":     [5, 4, 4, 5, 4, 5],
+        "surprise": [5, 5, 5, 5, 4, 5],
+        "return":   [5, 4, 5, 4, 4, 5]
+      } },
     { "id": "monday", "text": "Monday arrived like a returned library book: overdue, faintly damp, and nobody's favorite.",
-      "untrained": [4, 1, 5, 2, 5, 3], "trained": [4, 4, 3, 4, 4, 4] }
+      "untrained": [4, 1, 5, 2, 5, 3], "trained": [4, 4, 3, 4, 4, 4],
+      "trainedByCrit": {
+        "fit":      [4, 4, 3, 4, 3, 4],
+        "form":     [4, 5, 4, 4, 4, 4],
+        "surprise": [4, 4, 3, 5, 4, 4],
+        "return":   [4, 3, 3, 3, 4, 4]
+      } }
   ]
 }

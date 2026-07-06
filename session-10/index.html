@@ -287,7 +287,9 @@
     });
   });
   $('sideCopy').addEventListener('click', async () => {
-    const blob = JSON.stringify({ session:10, sidings:sidings }, null, 1);
+    const withHumans = Object.values(sidings).filter(v=>v==='humans').length;
+    const blob = JSON.stringify({ paper:'The Second Opinion', session:10, exported:new Date().toISOString().slice(0,10),
+      sidings:sidings, sidedWithHumans:withHumans+' of '+Object.keys(sidings).length }, null, 1);
     try { await navigator.clipboard.writeText(blob); $('sideCopy').textContent='Copied — paste it in the class chat'; }
     catch(e){ window.prompt('Copy this and paste it in the class chat:', blob); }
   });
