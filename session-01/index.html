@@ -18,12 +18,13 @@
   .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
   .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
   .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
-  .mapwrap { position:relative; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.5rem; margin:1rem 0; }
-  svg#map { width:100%; height:auto; display:block; touch-action:none; }
+  .mapplate { width:min(78rem, calc(100vw - 2rem)); margin:1rem 50% 0; transform:translateX(-50%); }
+  .mapwrap { position:relative; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.75rem; margin:0; overflow-x:auto; }
+  svg#map { width:100%; min-width:58rem; height:auto; display:block; touch-action:none; }
   .dot { cursor:pointer; }
-  .lbl { font-family:system-ui,sans-serif; font-size:9px; fill:var(--ink); pointer-events:none; }
+  .lbl { font-family:system-ui,sans-serif; font-size:10.5px; fill:var(--ink); stroke:#fff; stroke-width:3px; stroke-linejoin:round; paint-order:stroke fill; pointer-events:none; }
   .dim { opacity:.18; }
-  .legend { display:flex; flex-wrap:wrap; gap:.4rem .9rem; font-family:system-ui,sans-serif; font-size:.82rem; margin:.4rem .3rem 0; }
+  .legend { display:flex; flex-wrap:wrap; gap:.4rem .9rem; font-family:system-ui,sans-serif; font-size:.82rem; margin:.5rem .3rem 0; }
   .legend span { display:inline-flex; align-items:center; gap:.35rem; }
   .swatch { width:.7rem; height:.7rem; border-radius:50%; display:inline-block; }
   .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
@@ -62,12 +63,14 @@
 
   <h2>The map</h2>
   <p class="note">Each dot is a word, placed by a real embedding model. Click any dot to see its nearest neighbors. Words that mean similar things sit close together.</p>
-  <div class="mapwrap">
-    <svg id="map" viewBox="0 0 600 460" xmlns="http://www.w3.org/2000/svg" aria-label="A map of words"></svg>
+  <div class="mapplate">
+    <div class="mapwrap">
+      <svg id="map" viewBox="0 0 980 560" xmlns="http://www.w3.org/2000/svg" aria-label="A map of words"></svg>
+    </div>
+    <div class="legend" id="legend"></div>
+    <p class="readout" id="readout">Loading the map…</p>
+    <div class="neighbors" id="neighbors"></div>
   </div>
-  <div class="legend" id="legend"></div>
-  <p class="readout" id="readout">Loading the map…</p>
-  <div class="neighbors" id="neighbors"></div>
 
   <div class="controls">
     <button id="protoBtn" disabled>Reveal the prototype (Animals)</button>
@@ -121,7 +124,7 @@ const neighborsEl = document.getElementById('neighbors');
 const userReadoutEl = document.getElementById('userReadout');
 const svg = document.getElementById('map');
 const SVGNS = "http://www.w3.org/2000/svg";
-const W = 600, H = 460, PAD = 40;
+const W = 980, H = 560, PAD = 70;
 
 let data, catColor = {}, coords = {}, vectors = {}, live = false, extractor = null, proj = null;
 
@@ -224,8 +227,38 @@ function buildLegend(){
     s.innerHTML=`<span class="swatch" style="background:${c.color}"></span>${c.label}`; el.appendChild(s); });
 }
 
+function estimateLabelWidth(word){ return Math.max(22, word.length * 6.2 + 6); }
+function labelBox(pos, word){
+  const width = estimateLabelWidth(word), height = 14;
+  let left = pos.x;
+  if(pos.anchor === 'end') left = pos.x - width;
+  if(pos.anchor === 'middle') left = pos.x - width/2;
+  return {left, right:left+width, top:pos.y-height+3, bottom:pos.y+4};
+}
+function overlapArea(a,b){
+  const w = Math.max(0, Math.min(a.right,b.right) - Math.max(a.left,b.left));
+  const h = Math.max(0, Math.min(a.bottom,b.bottom) - Math.max(a.top,b.top));
+  return w*h;
+}
+function chooseLabelPosition(word, x, y, placed){
+  const candidates = [
+    {dx:12,dy:4,anchor:'start'}, {dx:12,dy:-12,anchor:'start'}, {dx:12,dy:20,anchor:'start'},
+    {dx:-12,dy:4,anchor:'end'}, {dx:-12,dy:-12,anchor:'end'}, {dx:-12,dy:20,anchor:'end'},
+    {dx:0,dy:-18,anchor:'middle'}, {dx:0,dy:27,anchor:'middle'}
+  ].map(c => ({x:x+c.dx, y:y+c.dy, anchor:c.anchor, dist:Math.hypot(c.dx,c.dy)}));
+  return candidates.map(c => {
+    const box = labelBox(c, word);
+    const outside =
+      Math.max(0, 6-box.left) + Math.max(0, box.right-(W-6)) +
+      Math.max(0, 6-box.top) + Math.max(0, box.bottom-(H-6));
+    const overlap = placed.reduce((s,p)=>s+overlapArea(box,p.box),0);
+    return {...c, box, score:overlap*20 + outside*30 + c.dist};
+  }).sort((a,b)=>a.score-b.score)[0];
+}
+
 function render(){
   svg.innerHTML='';
+  const labelQueue = [];
   for(const w of data.words){
     const [x,y]=px(w.word);
     const c=document.createElementNS(SVGNS,'circle');
@@ -233,10 +266,16 @@ function render(){
     c.setAttribute('fill',catColor[w.cat].color); c.setAttribute('class','dot'); c.dataset.word=w.word;
     c.addEventListener('click',()=>selectWord(w.word));
     svg.appendChild(c);
-    const t=document.createElementNS(SVGNS,'text');
-    t.setAttribute('x',x+8); t.setAttribute('y',y+3); t.setAttribute('class','lbl'); t.textContent=w.word;
-    svg.appendChild(t);
+    labelQueue.push({word:w.word, x, y});
   }
+  const placed = [];
+  labelQueue.sort((a,b)=>a.y-b.y || a.x-b.x).forEach(item => {
+    const pos = chooseLabelPosition(item.word, item.x, item.y, placed);
+    const t=document.createElementNS(SVGNS,'text');
+    t.setAttribute('x',pos.x); t.setAttribute('y',pos.y); t.setAttribute('text-anchor',pos.anchor); t.setAttribute('class','lbl'); t.textContent=item.word;
+    svg.appendChild(t);
+    placed.push({word:item.word, box:pos.box});
+  });
 }
 
 function nearest(word, k){
