@@ -1,6 +1,6 @@
 {
   "note": "The glowing links below are an illustrative attention map — hand-drawn by the author to show which other words a model must connect to in order to pin down the meaning of the highlighted word. They are a teaching picture of how attention works, not weights pulled from one specific model's internals.",
-  "instructions": "Click any underlined word. The words it must 'pay attention to' will light up — brighter means a stronger pull.",
+  "instructions": "Click any underlined word — then, before the answer glows, pick the 2–3 words YOU think it needs. Reveal to see how your instincts match the map (brighter means a stronger pull).",
   "sentences": [
     {
       "id": "river",

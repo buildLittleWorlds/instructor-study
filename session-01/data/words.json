@@ -1,341 +1,330 @@
 {
-  "model": "Xenova/all-MiniLM-L6-v2 (a small sentence-embedding model, ~30 MB, run in your browser via Transformers.js)",
-  "note": "When the live model loads, every position on the map is computed by projecting the model’s real 384-number embeddings onto two meaning-axes (see method). If the model cannot load, the page falls back to an approximate hand-arranged layout, clearly labelled as a backup.",
-  "axes": {
-    "x": {
-      "pos": "animal",
-      "neg": "tool",
-      "label": "made ↔ living"
-    },
-    "y": {
-      "pos": "huge",
-      "neg": "tiny",
-      "label": "small ↔ big"
-    }
+ "model": "Xenova/all-MiniLM-L6-v2 (a small sentence-embedding model, ~30 MB, run in your browser via Transformers.js)",
+ "note": "When the live model loads, every position is computed fresh in your browser: the model embeds each word into 384 numbers and the page projects them onto the viewing angle described in the method. If the model cannot load, the page shows the same layout precomputed with the identical model and projection (baked 2026-07-05) — real data, just not computed live — and only \"place your own word\" is disabled.",
+ "categories": [
+  {
+   "id": "animals",
+   "label": "Animals",
+   "color": "#2f6f5e"
   },
-  "categories": [
-    {
-      "id": "animals",
-      "label": "Animals",
-      "color": "#2f6f5e"
-    },
-    {
-      "id": "places",
-      "label": "Places",
-      "color": "#3f7fae"
-    },
-    {
-      "id": "foods",
-      "label": "Foods",
-      "color": "#c08a2e"
-    },
-    {
-      "id": "tools",
-      "label": "Tools",
-      "color": "#7a6a8a"
-    },
-    {
-      "id": "feelings",
-      "label": "Feelings",
-      "color": "#b0506a"
-    },
-    {
-      "id": "abstract",
-      "label": "Ideas",
-      "color": "#5566b5"
-    }
-  ],
-  "prototypeCategory": "animals",
-  "words": [
-    {
-      "word": "cat",
-      "cat": "animals"
-    },
-    {
-      "word": "dog",
-      "cat": "animals"
-    },
-    {
-      "word": "tiger",
-      "cat": "animals"
-    },
-    {
-      "word": "whale",
-      "cat": "animals"
-    },
-    {
-      "word": "eagle",
-      "cat": "animals"
-    },
-    {
-      "word": "mouse",
-      "cat": "animals"
-    },
-    {
-      "word": "forest",
-      "cat": "places"
-    },
-    {
-      "word": "city",
-      "cat": "places"
-    },
-    {
-      "word": "ocean",
-      "cat": "places"
-    },
-    {
-      "word": "desert",
-      "cat": "places"
-    },
-    {
-      "word": "island",
-      "cat": "places"
-    },
-    {
-      "word": "castle",
-      "cat": "places"
-    },
-    {
-      "word": "pizza",
-      "cat": "foods"
-    },
-    {
-      "word": "apple",
-      "cat": "foods"
-    },
-    {
-      "word": "bread",
-      "cat": "foods"
-    },
-    {
-      "word": "honey",
-      "cat": "foods"
-    },
-    {
-      "word": "pepper",
-      "cat": "foods"
-    },
-    {
-      "word": "soup",
-      "cat": "foods"
-    },
-    {
-      "word": "hammer",
-      "cat": "tools"
-    },
-    {
-      "word": "wrench",
-      "cat": "tools"
-    },
-    {
-      "word": "needle",
-      "cat": "tools"
-    },
-    {
-      "word": "engine",
-      "cat": "tools"
-    },
-    {
-      "word": "ladder",
-      "cat": "tools"
-    },
-    {
-      "word": "spoon",
-      "cat": "tools"
-    },
-    {
-      "word": "joy",
-      "cat": "feelings"
-    },
-    {
-      "word": "fear",
-      "cat": "feelings"
-    },
-    {
-      "word": "anger",
-      "cat": "feelings"
-    },
-    {
-      "word": "love",
-      "cat": "feelings"
-    },
-    {
-      "word": "grief",
-      "cat": "feelings"
-    },
-    {
-      "word": "hope",
-      "cat": "feelings"
-    },
-    {
-      "word": "freedom",
-      "cat": "abstract"
-    },
-    {
-      "word": "justice",
-      "cat": "abstract"
-    },
-    {
-      "word": "time",
-      "cat": "abstract"
-    },
-    {
-      "word": "luck",
-      "cat": "abstract"
-    },
-    {
-      "word": "truth",
-      "cat": "abstract"
-    },
-    {
-      "word": "chaos",
-      "cat": "abstract"
-    }
-  ],
-  "fallbackCoords": {
-    "cat": [
-      0.816,
-      0.553
-    ],
-    "dog": [
-      0.763,
-      0.776
-    ],
-    "tiger": [
-      0.531,
-      0.728
-    ],
-    "whale": [
-      0.337,
-      0.525
-    ],
-    "eagle": [
-      0.455,
-      0.316
-    ],
-    "mouse": [
-      0.658,
-      0.44
-    ],
-    "forest": [
-      0.976,
-      -0.131
-    ],
-    "city": [
-      0.783,
-      -0.022
-    ],
-    "ocean": [
-      0.649,
-      -0.042
-    ],
-    "desert": [
-      0.435,
-      -0.188
-    ],
-    "island": [
-      0.606,
-      -0.317
-    ],
-    "castle": [
-      0.846,
-      -0.337
-    ],
-    "pizza": [
-      0.281,
-      -0.728
-    ],
-    "apple": [
-      0.25,
-      -0.526
-    ],
-    "bread": [
-      0.018,
-      -0.467
-    ],
-    "honey": [
-      -0.081,
-      -0.703
-    ],
-    "pepper": [
-      0.039,
-      -0.897
-    ],
-    "soup": [
-      0.278,
-      -0.92
-    ],
-    "hammer": [
-      -0.387,
-      -0.508
-    ],
-    "wrench": [
-      -0.537,
-      -0.352
-    ],
-    "needle": [
-      -0.723,
-      -0.321
-    ],
-    "engine": [
-      -0.799,
-      -0.534
-    ],
-    "ladder": [
-      -0.76,
-      -0.732
-    ],
-    "spoon": [
-      -0.491,
-      -0.7
-    ],
-    "joy": [
-      -0.468,
-      0.198
-    ],
-    "fear": [
-      -0.596,
-      0.377
-    ],
-    "anger": [
-      -0.809,
-      0.355
-    ],
-    "love": [
-      -0.857,
-      0.222
-    ],
-    "grief": [
-      -0.821,
-      -0.012
-    ],
-    "hope": [
-      -0.619,
-      0.009
-    ],
-    "freedom": [
-      0.124,
-      0.758
-    ],
-    "justice": [
-      0.004,
-      0.892
-    ],
-    "time": [
-      -0.223,
-      0.944
-    ],
-    "luck": [
-      -0.297,
-      0.746
-    ],
-    "truth": [
-      -0.227,
-      0.508
-    ],
-    "chaos": [
-      -0.036,
-      0.624
-    ]
+  {
+   "id": "places",
+   "label": "Places",
+   "color": "#3f7fae"
+  },
+  {
+   "id": "foods",
+   "label": "Foods",
+   "color": "#c08a2e"
+  },
+  {
+   "id": "tools",
+   "label": "Tools",
+   "color": "#7a6a8a"
+  },
+  {
+   "id": "feelings",
+   "label": "Feelings",
+   "color": "#b0506a"
+  },
+  {
+   "id": "abstract",
+   "label": "Ideas",
+   "color": "#5566b5"
   }
+ ],
+ "prototypeCategory": "animals",
+ "fallbackPrototype": "cat",
+ "words": [
+  {
+   "word": "cat",
+   "cat": "animals"
+  },
+  {
+   "word": "dog",
+   "cat": "animals"
+  },
+  {
+   "word": "tiger",
+   "cat": "animals"
+  },
+  {
+   "word": "whale",
+   "cat": "animals"
+  },
+  {
+   "word": "eagle",
+   "cat": "animals"
+  },
+  {
+   "word": "mouse",
+   "cat": "animals"
+  },
+  {
+   "word": "forest",
+   "cat": "places"
+  },
+  {
+   "word": "city",
+   "cat": "places"
+  },
+  {
+   "word": "ocean",
+   "cat": "places"
+  },
+  {
+   "word": "desert",
+   "cat": "places"
+  },
+  {
+   "word": "island",
+   "cat": "places"
+  },
+  {
+   "word": "castle",
+   "cat": "places"
+  },
+  {
+   "word": "pizza",
+   "cat": "foods"
+  },
+  {
+   "word": "apple",
+   "cat": "foods"
+  },
+  {
+   "word": "bread",
+   "cat": "foods"
+  },
+  {
+   "word": "honey",
+   "cat": "foods"
+  },
+  {
+   "word": "pepper",
+   "cat": "foods"
+  },
+  {
+   "word": "soup",
+   "cat": "foods"
+  },
+  {
+   "word": "hammer",
+   "cat": "tools"
+  },
+  {
+   "word": "wrench",
+   "cat": "tools"
+  },
+  {
+   "word": "needle",
+   "cat": "tools"
+  },
+  {
+   "word": "engine",
+   "cat": "tools"
+  },
+  {
+   "word": "ladder",
+   "cat": "tools"
+  },
+  {
+   "word": "spoon",
+   "cat": "tools"
+  },
+  {
+   "word": "joy",
+   "cat": "feelings"
+  },
+  {
+   "word": "fear",
+   "cat": "feelings"
+  },
+  {
+   "word": "anger",
+   "cat": "feelings"
+  },
+  {
+   "word": "love",
+   "cat": "feelings"
+  },
+  {
+   "word": "grief",
+   "cat": "feelings"
+  },
+  {
+   "word": "hope",
+   "cat": "feelings"
+  },
+  {
+   "word": "freedom",
+   "cat": "abstract"
+  },
+  {
+   "word": "justice",
+   "cat": "abstract"
+  },
+  {
+   "word": "time",
+   "cat": "abstract"
+  },
+  {
+   "word": "luck",
+   "cat": "abstract"
+  },
+  {
+   "word": "truth",
+   "cat": "abstract"
+  },
+  {
+   "word": "chaos",
+   "cat": "abstract"
+  }
+ ],
+ "fallbackCoords": {
+  "cat": [
+   -0.197,
+   -0.092
+  ],
+  "dog": [
+   -0.1338,
+   -0.0583
+  ],
+  "tiger": [
+   -0.1813,
+   -0.0097
+  ],
+  "whale": [
+   -0.1663,
+   0.1205
+  ],
+  "eagle": [
+   -0.2091,
+   -0.0134
+  ],
+  "mouse": [
+   -0.1913,
+   -0.1204
+  ],
+  "forest": [
+   -0.1896,
+   0.3823
+  ],
+  "city": [
+   -0.1962,
+   0.3597
+  ],
+  "ocean": [
+   -0.2164,
+   0.3576
+  ],
+  "desert": [
+   -0.1863,
+   0.408
+  ],
+  "island": [
+   -0.2302,
+   0.4365
+  ],
+  "castle": [
+   -0.1807,
+   0.3582
+  ],
+  "pizza": [
+   -0.0778,
+   -0.2054
+  ],
+  "apple": [
+   -0.136,
+   -0.117
+  ],
+  "bread": [
+   -0.1528,
+   -0.1758
+  ],
+  "honey": [
+   0.0658,
+   -0.1428
+  ],
+  "pepper": [
+   -0.0928,
+   -0.2211
+  ],
+  "soup": [
+   -0.0855,
+   -0.2121
+  ],
+  "hammer": [
+   -0.1609,
+   -0.272
+  ],
+  "wrench": [
+   -0.1519,
+   -0.3576
+  ],
+  "needle": [
+   -0.081,
+   -0.2385
+  ],
+  "engine": [
+   -0.1695,
+   -0.181
+  ],
+  "ladder": [
+   -0.0906,
+   -0.1086
+  ],
+  "spoon": [
+   -0.1927,
+   -0.3686
+  ],
+  "joy": [
+   0.3938,
+   0.0446
+  ],
+  "fear": [
+   0.3548,
+   0.0563
+  ],
+  "anger": [
+   0.3436,
+   -0.0139
+  ],
+  "love": [
+   0.399,
+   -0.031
+  ],
+  "grief": [
+   0.335,
+   0.0215
+  ],
+  "hope": [
+   0.4152,
+   0.0651
+  ],
+  "freedom": [
+   0.1956,
+   0.0742
+  ],
+  "justice": [
+   0.2354,
+   0.0457
+  ],
+  "time": [
+   0.197,
+   0.0072
+  ],
+  "luck": [
+   0.2783,
+   0.0219
+  ],
+  "truth": [
+   0.2567,
+   0.0789
+  ],
+  "chaos": [
+   0.1994,
+   0.101
+  ]
+ }
 }

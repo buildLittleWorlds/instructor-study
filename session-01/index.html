@@ -81,6 +81,10 @@
     <button id="placeBtn" disabled>Place it</button>
   </div>
   <p class="readout" id="userReadout"></p>
+  <div class="controls">
+    <button id="exportBtn" disabled>Copy today's class words (JSON)</button>
+    <span class="note" id="exportMsg">— every word the room places, with its neighborhood: the study's first rows.</span>
+  </div>
 
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
@@ -89,7 +93,7 @@
   <p>The map isn't decoration — it's the model's actual sense of meaning, flattened from 384 dimensions down to two so our eyes can read it. Animals land near animals, feelings near feelings, without anyone telling the model what a category is; it learned the neighborhoods from how words are used. And inside each neighborhood there's a center of gravity. The word closest to that center is the most "average" member — the <strong>prototype</strong>. When you later ask a model for "an animal" or "a beautiful room," this is where its first answer comes from: the middle of the map.</p>
 
   <div class="limit">
-    <strong>Limitation.</strong> Squashing 384 dimensions into 2 loses a lot — two dots that look close on this flat map might be farther apart in the real space, and the two axes are just one choice of many. This is a faithful <em>sketch</em> of the model's meaning-space, not a perfect photograph. It shows that meaning has structure; it doesn't capture all of it.
+    <strong>Limitation.</strong> Squashing 384 dimensions into 2 loses a lot — two dots that look close on this flat map might be farther apart in the real space, and the viewing angle is chosen to spread <em>my</em> six groups; a different angle would tell a different story. (Click a word and watch: its truest neighbors sometimes aren't the dots beside it — that gap is the flattening, visible.) This is a faithful <em>sketch</em> of the model's meaning-space, not a perfect photograph.
   </div>
 
   <h2>Try it yourself</h2>
@@ -102,14 +106,14 @@
   <h2>Authorship note</h2>
   <div class="authorship">
     <p><strong>What AI helped with:</strong> the embedding model does the real work of placing words — that <em>is</em> the experiment. AI also drafted this page's first code, which I revised.</p>
-    <p><strong>What I own:</strong> the word list and its categories, the two meaning-axes I chose to project onto, the decision to define a prototype as the word nearest a cluster's center, and every sentence of the interpretation and limitation.</p>
+    <p><strong>What I own:</strong> the word list and the six categories (which define the map's viewing angle), the decision to define a prototype as the word nearest a cluster's center, and every sentence of the interpretation and limitation.</p>
   </div>
 
   <footer>Part of the class proceedings · The Instructor's Study, Session 1 of 12 · Data: <code>data/words.json</code> · Model runs in your browser via <a href="https://huggingface.co/docs/transformers.js" target="_blank" rel="noopener">Transformers.js</a></footer>
 </main>
 
 <script type="module">
-import { pipeline } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers";
+import { pipeline } from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0";
 
 const statusEl = document.getElementById('status');
 const readoutEl = document.getElementById('readout');
@@ -119,15 +123,50 @@ const svg = document.getElementById('map');
 const SVGNS = "http://www.w3.org/2000/svg";
 const W = 600, H = 460, PAD = 40;
 
-let data, catColor = {}, coords = {}, vectors = {}, live = false;
+let data, catColor = {}, coords = {}, vectors = {}, live = false, extractor = null, proj = null;
 
 function setStatus(cls, msg){ statusEl.className = 'status ' + cls; statusEl.textContent = msg; }
 function renderMethod(){
   if(!data) return;
   document.getElementById('method').innerHTML =
-    `<p><strong>Model.</strong> ${data.model} Every word — the 36 on the map, the axis anchors, and any word you type — is embedded by the same model.</p>`+
-    `<p><strong>The two axes.</strong> The horizontal axis is the direction from “${data.axes.x.neg}” toward “${data.axes.x.pos}” (${data.axes.x.label}); the vertical axis, from “${data.axes.y.neg}” toward “${data.axes.y.pos}” (${data.axes.y.label}), straightened to be independent of the first. Each word’s position is how far it leans along each axis.</p>`+
-    `<p><strong>Prototype.</strong> For a category, we average its members’ embeddings to get a center, then pick the member closest to it. ${data.note}</p>`;
+    `<p><strong>Model.</strong> ${data.model} Every word — the 36 on the map and any word you type — is embedded by the same model.</p>`+
+    `<p><strong>The viewing angle.</strong> 384 dimensions can't be drawn, so the page finds the flat viewing angle that best spreads the six word-groups apart — the two directions along which their centers differ most — and projects every word onto it. The six groups are my choice; every position is the model's. A word you type is dropped through the identical projection.</p>`+
+    `<p><strong>Prototype.</strong> For a category, we average its members’ embeddings to get a center, then pick the member closest to it (measured in the full 384-dimensional space, not on the flattened map).</p>`+
+    `<p class="note">${data.note}</p>`;
+}
+
+// Find the 2-D plane that best separates the category centers (deterministic).
+function computeProjection(words, vecs){
+  const dim = vecs[words[0].word].length;
+  const byCat = {};
+  words.forEach(w => (byCat[w.cat] ??= []).push(w.word));
+  const cents = Object.values(byCat).map(ws => {
+    const c = new Array(dim).fill(0);
+    ws.forEach(w => vecs[w].forEach((v,i) => c[i] += v/ws.length));
+    return c;
+  });
+  const gm = new Array(dim).fill(0);
+  cents.forEach(c => c.forEach((v,i) => gm[i] += v/cents.length));
+  const B = cents.map(c => c.map((v,i) => v - gm[i]));
+  function topDir(prev){
+    let v = new Array(dim).fill(0).map((_,i) => Math.sin(i+1)); // fixed start → same map every load
+    for(let it=0; it<80; it++){
+      if(prev){ const d = dot(v,prev); v = v.map((x,i) => x - d*prev[i]); }
+      const bv = B.map(r => dot(r,v));
+      const w = new Array(dim).fill(0);
+      B.forEach((r,k) => r.forEach((x,i) => w[i] += bv[k]*x));
+      const m = Math.sqrt(dot(w,w)) || 1;
+      v = w.map(x => x/m);
+    }
+    if(prev){ const d = dot(v,prev); v = norm(v.map((x,i) => x - d*prev[i])); }
+    return v;
+  }
+  let p1 = topDir(null), p2 = topDir(p1);
+  const pr = (vec,p) => dot(vec,p) - dot(gm,p);
+  // canonical orientation, so the layout matches the precomputed fallback
+  if(vecs['joy'] && pr(vecs['joy'],p1) < 0) p1 = p1.map(x => -x);
+  if(vecs['forest'] && pr(vecs['forest'],p2) < 0) p2 = p2.map(x => -x);
+  return { project: vec => [pr(vec,p1), pr(vec,p2)] };
 }
 
 (async function(){
@@ -139,29 +178,24 @@ function renderMethod(){
 
   // Try the live model; fall back gracefully.
   try {
-    const extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
+    extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
       progress_callback: e => { if(e.status==='progress' && e.progress) setStatus('load', `Downloading the model… ${Math.round(e.progress)}%`); }
     });
     setStatus('load','Model ready — embedding the words…');
     const embed = async t => Array.from((await extractor(t, { pooling:'mean', normalize:true })).data);
-    // embed every word + the 4 axis anchors
     for(const w of data.words) vectors[w.word] = await embed(w.word);
-    const ax = {}; for(const a of [data.axes.x.pos,data.axes.x.neg,data.axes.y.pos,data.axes.y.neg]) ax[a]=await embed(a);
-    let axX = sub(ax[data.axes.x.pos], ax[data.axes.x.neg]); axX = norm(axX);
-    let axY = sub(ax[data.axes.y.pos], ax[data.axes.y.neg]);
-    axY = norm(sub(axY, scale(axX, dot(axY,axX)))); // orthogonalize Y against X
-    window.__axes = {axX, axY};
-    for(const w of data.words) coords[w.word] = [dot(vectors[w.word],axX), dot(vectors[w.word],axY)];
+    proj = computeProjection(data.words, vectors);
+    for(const w of data.words) coords[w.word] = proj.project(vectors[w.word]);
     fitCoords();
     live = true;
     setStatus('ok','Live model loaded. Every dot is placed by a real neural network. Type your own word below.');
     document.getElementById('wordInput').disabled = false;
     document.getElementById('placeBtn').disabled = false;
   } catch(err){
-    // fallback: approximate hand-arranged layout
+    // fallback: the same layout, precomputed with the identical model + projection
     for(const w of data.words) coords[w.word] = data.fallbackCoords[w.word];
     fitCoords();
-    setStatus('fb','The live model could not load on this device, so the map is showing an approximate backup layout. The idea still holds — but "place your own word" needs the model.');
+    setStatus('fb','The live model could not load on this device, so the map is showing the same layout precomputed with the identical model — real data, just not computed live. Only "place your own word" needs the model.');
   }
   document.getElementById('protoBtn').disabled = false;
   render();
@@ -242,9 +276,8 @@ document.getElementById('protoBtn').addEventListener('click',()=>{
     members.forEach(m=>vectors[m].forEach((v,i)=>cen[i]+=v)); for(let i=0;i<dim;i++) cen[i]/=members.length;
     proto = members.map(m=>({m,d:-dot(vectors[m],cen)})).sort((a,b)=>a.d-b.d)[0].m;
   } else {
-    const cx=members.reduce((s,m)=>s+coords[m][0],0)/members.length;
-    const cy=members.reduce((s,m)=>s+coords[m][1],0)/members.length;
-    proto = members.map(m=>({m,d:(coords[m][0]-cx)**2+(coords[m][1]-cy)**2})).sort((a,b)=>a.d-b.d)[0].m;
+    // precomputed with the live model (full 384-d space), so both modes tell the same truth
+    proto = data.fallbackPrototype;
   }
   // mark it
   svg.querySelectorAll('.protoring').forEach(r=>r.remove());
@@ -257,15 +290,14 @@ document.getElementById('protoBtn').addEventListener('click',()=>{
 });
 
 // ---- place your own word ----
+const placedWords = [];
 async function placeUserWord(){
   const raw = document.getElementById('wordInput').value.trim();
-  if(!raw || !live) return;
+  if(!raw || !live || !extractor) return;
   userReadoutEl.textContent = `Embedding "${raw}"…`;
   try {
-    const extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
     const vec = Array.from((await extractor(raw,{pooling:'mean',normalize:true})).data);
-    const {axX,axY} = window.__axes;
-    coords[raw] = [dot(vec,axX), dot(vec,axY)]; vectors[raw] = vec;
+    coords[raw] = proj.project(vec); vectors[raw] = vec;
     if(!data.words.find(w=>w.word===raw)) data.words.push({word:raw, cat:'__user'});
     catColor['__user'] = {color:'#c9781f', label:'You'};
     fitCoords(); render();
@@ -275,12 +307,27 @@ async function placeUserWord(){
     star.setAttribute('fill','#c9781f');star.setAttribute('stroke','#fff');star.setAttribute('stroke-width','2');
     svg.appendChild(star);
     const nbrs = nearest(raw,4);
-    userReadoutEl.innerHTML = `<strong>${raw}</strong> landed nearest: ${nbrs.join(', ')}. Is that the neighborhood you expected?`;
+    const bestSim = Math.max(...nbrs.map(n=>dot(vec,vectors[n])));
+    const weak = bestSim < 0.42 ? ' <em>(Honestly, nothing on this small map is very close to it — it wants a neighborhood these 36 words don’t have.)</em>' : '';
+    userReadoutEl.innerHTML = `<strong>${raw}</strong> landed nearest: ${nbrs.join(', ')}.${weak} Is that the neighborhood you expected?`;
     selectWord(raw);
+    if(!placedWords.find(p=>p.word===raw)) placedWords.push({word:raw, neighbors:nbrs, closeness:+bestSim.toFixed(2)});
+    document.getElementById('exportBtn').disabled = false;
   } catch(e){ userReadoutEl.textContent = 'Could not embed that word — the model may still be loading.'; }
 }
 document.getElementById('placeBtn').addEventListener('click', placeUserWord);
 document.getElementById('wordInput').addEventListener('keydown', e=>{ if(e.key==='Enter') placeUserWord(); });
+
+// ---- export the class's words (the course's copy-your-data trick, planted in week 1) ----
+document.getElementById('exportBtn').addEventListener('click', async ()=>{
+  const blob = JSON.stringify({
+    paper:'The Map of Meaning', session:1, exported:new Date().toISOString().slice(0,10),
+    classWords: placedWords
+  }, null, 1);
+  const msg = document.getElementById('exportMsg');
+  try { await navigator.clipboard.writeText(blob); msg.textContent = `Copied ${placedWords.length} word(s) — paste into the class scratchpad.`; }
+  catch(e){ window.prompt('Copy this JSON:', blob); msg.textContent = ''; }
+});
 
 </script>
 </body>

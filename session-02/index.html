@@ -61,7 +61,7 @@
   <div class="controls">
     <div class="dial">
       <span>cold</span>
-      <input type="range" id="temp" min="0.2" max="1.8" step="0.05" value="0.8">
+      <input type="range" id="temp" min="0.1" max="1.8" step="0.05" value="0.8">
       <span>hot</span>
       <span class="tval" id="tval">T = 0.80</span>
     </div>
@@ -71,7 +71,7 @@
   </div>
 
   <h2>Grow a sentence</h2>
-  <p class="note">Press the button to let the model "write" — it takes a weighted random walk down the tree at the current temperature. Do it many times and watch what happens.</p>
+  <p class="note">Press the button to let the model "write" — it takes a weighted random walk down the tree at the current temperature, and the branches it walks flash orange on the tree above. Grow 10 cold and watch the same path light up again and again; grow 10 hot and watch the flashes scatter across the bush.</p>
   <div class="controls">
     <button id="sampleBtn">Grow a sentence</button>
     <button id="sample10Btn" class="ghost">Grow 10</button>
@@ -186,18 +186,47 @@
 
   // ---- weighted random walk ----
   const produced=[]; const seen=new Set();
+  let flashSeq=0;
   function sampleOnce(){
-    let node=data.root, words=[];
+    let node=data.root, words=[], picks=[];
     while(node.children&&node.children.length){
       const tp=temper(node.children);
       let r=Math.random(), acc=0, pick=node.children[node.children.length-1];
       for(let i=0;i<node.children.length;i++){ acc+=tp[i]; if(r<=acc){ pick=node.children[i]; break; } }
-      words.push(pick.word); node=pick;
+      words.push(pick.word); picks.push(pick); node=pick;
     }
-    return words;
+    return {words, picks};
+  }
+  // light up the branches the walk just took, then let them fade back
+  function flashPath(picks){
+    picks.forEach(n=>{
+      const el=n._pathEl; if(!el) return;
+      const id=++flashSeq; el._flashId=id;
+      if(el._origW===undefined){ el._origW=el.getAttribute('stroke-width'); el._origO=el.getAttribute('opacity'); }
+      el.setAttribute('stroke','var(--path)');
+      el.setAttribute('stroke-width', Math.max(3, parseFloat(el._origW)).toFixed(2));
+      el.setAttribute('opacity','0.95');
+      setTimeout(()=>{ if(el._flashId!==id || !el.isConnected) return;
+        el.setAttribute('stroke','#2f6f5e');
+        el.setAttribute('stroke-width', el._origW);
+        el.setAttribute('opacity', el._origO);
+      }, 700);
+    });
+  }
+  function updateStat(batch){
+    const overall=`${produced.length} grown, ${seen.size} distinct in all`;
+    if(batch){
+      const verdict = batch.distinct <= Math.max(1, Math.round(batch.total*0.3)) ? ' — the garden keeps handing back the same few paths.'
+        : batch.distinct >= Math.round(batch.total*0.7) ? ' — the garden is branching into real variety.' : '.';
+      document.getElementById('stat').textContent =
+        `This batch at T=${batch.t}: ${batch.distinct} distinct in ${batch.total}${verdict} (${overall}.)`;
+    } else {
+      document.getElementById('stat').textContent = overall + '.';
+    }
   }
   function addSentence(){
-    const words=sampleOnce();
+    const {words,picks}=sampleOnce();
+    flashPath(picks);
     const sentence = data.prompt+' '+words.join(' ').replace(/ ([,.])/g,'$1');
     produced.push(sentence); seen.add(sentence);
     const cls=T<=0.6?'lo':T>=1.2?'hi':'';
@@ -206,11 +235,17 @@
     const div=document.createElement('div'); div.className='s';
     div.innerHTML=`<span class="badge" style="background:${color}">T ${T.toFixed(1)}</span>${sentence}`;
     el.insertBefore(div, el.firstChild);
-    document.getElementById('stat').textContent =
-      `${produced.length} sentence(s) grown · ${seen.size} of them distinct. At T=${T.toFixed(1)}, ${seen.size<=2?'the garden keeps handing you the same few paths.':'the garden is branching into real variety.'}`;
+    return sentence;
   }
-  document.getElementById('sampleBtn').addEventListener('click',addSentence);
-  document.getElementById('sample10Btn').addEventListener('click',()=>{ for(let i=0;i<10;i++) addSentence(); });
+  document.getElementById('sampleBtn').addEventListener('click',()=>{ addSentence(); updateStat(null); });
+  document.getElementById('sample10Btn').addEventListener('click',()=>{
+    const t=T.toFixed(1), batch=new Set(); let done=0;
+    for(let i=0;i<10;i++){
+      setTimeout(()=>{ batch.add(addSentence()); done++;
+        if(done===10) updateStat({t, total:10, distinct:batch.size});
+      }, i*140);
+    }
+  });
   document.getElementById('clearBtn').addEventListener('click',()=>{
     produced.length=0; seen.clear(); document.getElementById('sentences').innerHTML=''; document.getElementById('stat').textContent='';
   });

@@ -1,6 +1,6 @@
 # Session 3 Instructor Paper-App (v2): Attention Spotlight
 
-The Bridge artifact for Session 3 (strand W3): **click a word, watch what it pays attention to light up.** The same word "bank" glows river/current in one sentence and savings/money in another — attention building meaning from neighbors, made visible. Genre: heatmap inspection. Fully static. (v1, "Fitted or Veneer?", is preserved in `../archive/session-03-v1/`.)
+The Bridge artifact for Session 3 (strand W3): **guess what a word needs, then watch what it pays attention to light up.** Clicking an underlined word now enters *guess mode* — the reader picks the 2–3 neighbors they think settle its meaning, then reveals, keeps their picks ringed over the glowing answer, and gets a score against the three strongest links ("You matched 2 of 3"). Predict-before-look, the course's signature habit, built into the page. The same word "bank" glows river/current in one sentence and savings/money in another — attention building meaning from neighbors, made visible. Genre: heatmap inspection. Fully static. (v1, "Fitted or Veneer?", is preserved in `../archive/session-03-v1/`.)
 
 ## Files
 
@@ -21,7 +21,7 @@ Add or swap sentences freely in `data/sentences.json` — the page validates foc
 
 ## Using it in the 15-minute Bridge
 
-1. Narrowing move: "You'll learn attention reads each word in light of the others. Let's literally watch it."
-2. Click "bank" in the river sentence (water words glow), then in the savings sentence (money words glow). Then press **Spotlight the two banks** to show both at once.
+1. Narrowing move: "You'll learn attention reads each word in light of the others. Let's literally watch it — but you guess first."
+2. Click "bank" in the river sentence and make the room call out picks before you reveal; the score line ("matched 2 of 3") is the beat. Data moment: everyone opens the page, guesses the savings-bank sentence themselves, and posts their score in the chat — a 30-second tally of how well human instinct matches the map. Then press **Spotlight the two banks** to show both at once.
 3. Land the point: the model never stored one meaning for "bank" — it grows the meaning fresh from context every time. That's why *who the answer is for* can reshape everything.
 4. Cliffhanger on the page: does the model truly reshape for a new audience, or just re-decorate? — the judgment we start measuring next.

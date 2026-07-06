@@ -24,6 +24,11 @@
   .tok.focus:hover { background:var(--accent-soft); }
   .tok.active { background:var(--accent); color:#fff; box-shadow:0 0 0 2px var(--accent); }
   .tok.dim { opacity:.35; }
+  .tok.guessable { cursor:pointer; }
+  .tok.guessable:hover { background:#f0ede5; }
+  .tok.pick { box-shadow:0 0 0 2px var(--accent); border-radius:5px; }
+  button.mini { font-size:.8rem; padding:.15rem .6rem; margin-left:.3rem; }
+  button.ghostmini { border-color:var(--muted); color:var(--muted); }
   .caption { font-family:system-ui,sans-serif; font-size:.92rem; color:var(--ink); margin-top:.6rem; padding-top:.6rem; border-top:1px dashed var(--line); display:none; }
   .caption .mn { font-weight:700; color:var(--accent); }
   .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
@@ -93,6 +98,8 @@
   const wrap=document.getElementById('sentences');
   const byId={};
 
+  let guess=null; // {s, f, picked:Set of token indices}
+
   data.sentences.forEach(s=>{
     byId[s.id]=s;
     const box=document.createElement('div'); box.className='sentence'; box.id='s-'+s.id;
@@ -100,7 +107,11 @@
     s.tokens.forEach((tok,i)=>{
       const span=document.createElement('span'); span.className='tok'; span.textContent=tok+' ';
       span.dataset.i=i;
-      if(focusByIndex[i]){ span.classList.add('focus'); span.addEventListener('click',()=>activate(s,focusByIndex[i])); }
+      if(focusByIndex[i]) span.classList.add('focus');
+      span.addEventListener('click',()=>{
+        if(guess && guess.s.id===s.id && i!==guess.f.i){ togglePick(span,i); return; }
+        if(focusByIndex[i]) enterGuess(s,focusByIndex[i]);
+      });
       box.appendChild(span);
     });
     const cap=document.createElement('div'); cap.className='caption'; cap.id='cap-'+s.id;
@@ -110,12 +121,52 @@
 
   function clearSentence(s){
     const box=document.getElementById('s-'+s.id);
-    box.querySelectorAll('.tok').forEach(t=>t.classList.remove('active','dim') || (t.style.background=''));
-    box.querySelectorAll('.tok').forEach(t=>{ t.style.background=''; });
+    box.querySelectorAll('.tok').forEach(t=>{ t.classList.remove('active','dim','guessable','pick'); t.style.background=''; });
     document.getElementById('cap-'+s.id).style.display='none';
   }
 
+  // ---- guess first, then reveal (predict-before-look, the course's habit) ----
+  function enterGuess(s,f){
+    if(guess){ clearSentence(guess.s); guess=null; }
+    clearSentence(s);
+    guess={s,f,picked:new Set()};
+    const box=document.getElementById('s-'+s.id);
+    box.querySelectorAll('.tok').forEach((t,idx)=>{
+      if(idx===f.i){ t.classList.add('active'); return; }
+      t.classList.add('guessable');
+    });
+    const cap=document.getElementById('cap-'+s.id);
+    cap.innerHTML=`<span class="mn">Your turn first:</span> click the 2–3 words you think “${f.word}” needs most to settle its meaning. <span id="guessHint"></span>`+
+      `<button class="mini" id="revealBtn">Reveal the map</button><button class="mini ghostmini" id="skipBtn">just show me</button>`;
+    cap.style.display='block';
+    document.getElementById('revealBtn').addEventListener('click',()=>reveal(false));
+    document.getElementById('skipBtn').addEventListener('click',()=>reveal(true));
+  }
+
+  function togglePick(span,i){
+    if(guess.picked.has(i)){ guess.picked.delete(i); span.classList.remove('pick'); }
+    else if(guess.picked.size>=3){ const h=document.getElementById('guessHint'); if(h) h.textContent='(three picks max — unclick one to change your mind) '; return; }
+    else { guess.picked.add(i); span.classList.add('pick'); }
+    const h=document.getElementById('guessHint'); if(h && guess.picked.size<=3) h.textContent='';
+  }
+
+  function reveal(skipped){
+    if(!guess) return;
+    const {s,f,picked}=guess; guess=null;
+    const target=Object.entries(f.attends).map(([i,w])=>({i:+i,w})).sort((a,b)=>b.w-a.w).slice(0,3).map(x=>x.i);
+    activate(s,f);
+    const box=document.getElementById('s-'+s.id);
+    const toks=box.querySelectorAll('.tok');
+    picked.forEach(i=>toks[i].classList.add('pick')); // your guesses stay ringed over the answer
+    if(!skipped && picked.size){
+      const hits=[...picked].filter(i=>target.includes(i)).length;
+      const cap=document.getElementById('cap-'+s.id);
+      cap.innerHTML+=` <span class="mn">You matched ${hits} of the ${target.length} strongest links${hits===target.length?' — perfect':''}.</span> Post your score in the class chat.`;
+    }
+  }
+
   function activate(s, f){
+    if(guess){ clearSentence(guess.s); guess=null; } // a direct reveal abandons any guess in progress
     clearSentence(s);
     const box=document.getElementById('s-'+s.id);
     const toks=box.querySelectorAll('.tok');
@@ -136,13 +187,13 @@
     const b=document.createElement('button'); b.textContent='Spotlight '+pair.label;
     b.addEventListener('click',()=>{
       pair.ids.forEach(id=>{ const s=byId[id]; const f=s.focus.find(f=>f.word===pair.word)||s.focus[0]; activate(s,f);
-        document.getElementById('s-'+id).scrollIntoView({behavior:'smooth',block:'center'}); });
+        document.getElementById('s-'+id).scrollIntoView?.({behavior:'smooth',block:'center'}); });
     });
     cc.appendChild(b);
   });
 
   document.getElementById('method').innerHTML =
-    `<p><strong>Setup.</strong> Each sentence contains a word (underlined) whose meaning is only settled by its neighbors. Click it and the words it must attend to light up, brighter for a stronger pull.</p>`+
+    `<p><strong>Setup.</strong> Each sentence contains a word (underlined) whose meaning is only settled by its neighbors. Click it, pick the neighbors <em>you</em> think it needs, then reveal: the words it must attend to light up (brighter = stronger pull), your picks stay ringed on top, and you're scored against the three strongest links.</p>`+
     `<p><strong>The compare pairs.</strong> The two "bank" sentences (and the two "springs") use the identical word in opposite meanings, so you can see attention rebuild the meaning from scratch each time.</p>`+
     `<p class="note">${data.note}</p>`;
 })();

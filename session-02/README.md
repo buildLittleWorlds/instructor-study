@@ -1,6 +1,6 @@
 # Session 2 Instructor Paper-App (v2): The Garden of Forking Sentences
 
-The Bridge artifact for Session 2 (strand W2): a **probability tree you grow**. Every path from top to tip is one possible sentence; a temperature dial reshapes the whole tree from a narrow trunk (cold) to a wild bush (hot); a "grow a sentence" button takes a weighted random walk so the reader watches cold repeat and hot scatter. Genre: many-paths / generative tree. Fully static. (v1, "The False Mean" blind gallery, is preserved in `../archive/session-02-v1/`. The companion toy `playground/` — Loading the Dice — is unchanged and still linked.)
+The Bridge artifact for Session 2 (strand W2): a **probability tree you grow**. Every path from top to tip is one possible sentence; a temperature dial reshapes the whole tree from a narrow trunk (cold) to a wild bush (hot); a "grow a sentence" button takes a weighted random walk — and **the walked branches flash orange on the tree**, so cold visibly re-lights the same trunk while hot scatters flashes across the bush. Batches report their own tally ("This batch at T=0.4: 2 distinct in 10") so the cold/hot contrast doesn't get buried in the running total. Genre: many-paths / generative tree. Fully static. (v1, "The False Mean" blind gallery, is preserved in `../archive/session-02-v1/`. The companion toy `playground/` — Loading the Dice — is unchanged and still linked.)
 
 ## Files
 
@@ -22,6 +22,6 @@ The tree's probabilities are illustrative (hand-set to mimic a real distribution
 ## Using it in the 15-minute Bridge
 
 1. Narrowing move: "You saw temperature widen the dice. Here's what it does to whole sentences."
-2. Drag the dial cold and press **Grow 10** — the same sentence keeps coming back (the false mean). Drag it hot and press **Grow 10** — the distinct-sentence counter climbs and the whale/underwater tips appear.
+2. Drag the dial **fully cold (T=0.1)** and press **Grow 10** — the same trunk flashes over and over and the batch line reads "1–2 distinct in 10" (the false mean; verified by simulation, the "same few paths" verdict fires >99% of the time down there). Drag it hot and press **Grow 10** — the flashes scatter, the batch counter jumps, and the strange tips appear ("a museum," "underwater, obviously").
 3. Land the point: every wild sentence was already on the tree; heat never adds a branch. Randomness ≠ new ideas.
 4. Cliffhanger on the page: where would a genuinely *better* sentence come from?
