@@ -264,6 +264,36 @@
         "atlas / map"
       ],
       "stack": "Custom JS scrollytelling; static site"
+    },
+    {
+      "id": "structured-4d-model",
+      "wing": "acquisition",
+      "title": "Structured 4D Latent Predictive Model",
+      "url": "https://structured-4d-model.github.io/",
+      "readerAction": "Step through predicted 3D futures, compare observed point clouds with model rollouts, and watch real robot executions.",
+      "underneath": "A robotics planner that predicts the future 3D structure of a scene from multi-view images and text instructions, then turns those futures into actions.",
+      "borrow": "Future unroll viewer — let the reader scrub through what the model thinks will happen next.",
+      "patterns": [
+        "simulation sandbox",
+        "walkthrough",
+        "prediction reveal"
+      ],
+      "stack": "Research project page with embedded 3D/point-cloud viewers, execution videos, arXiv paper, and GitHub code; static paper site around heavy offline model outputs"
+    },
+    {
+      "id": "global-workspace",
+      "wing": "acquisition",
+      "title": "A Global Workspace in Language Models",
+      "url": "https://www.anthropic.com/research/global-workspace",
+      "readerAction": "Inspect examples where Claude's silent J-space contains intermediate thoughts, then see what happens when researchers read, erase, or swap those internal patterns.",
+      "underneath": "An interpretability method, the Jacobian lens, that finds reportable internal representations and tests whether they mediate reasoning, self-monitoring, and safety-relevant behavior.",
+      "borrow": "Hidden-state audit — show the public answer beside the private trace that explains or challenges it.",
+      "patterns": [
+        "atlas / map",
+        "evidence cards",
+        "break & repair"
+      ],
+      "stack": "Anthropic research article plus full Transformer Circuits paper, open-source implementation, expert commentary, and Neuronpedia demo"
     }
   ]
 }
