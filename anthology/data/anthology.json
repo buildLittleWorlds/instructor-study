@@ -294,6 +294,22 @@
         "break & repair"
       ],
       "stack": "Anthropic research article plus full Transformer Circuits paper, open-source implementation, expert commentary, and Neuronpedia demo"
+    },
+    {
+      "id": "cells-to-pixels",
+      "wing": "acquisition",
+      "title": "Neural Cellular Automata: From Cells to Pixels",
+      "url": "https://cells2pixels.github.io/",
+      "readerAction": "Paint, damage, and reseed living textures that regrow in real time at full-screen sharpness — then compare the coarse grid of cells against the crisp surface it produces.",
+      "underneath": "The 2026 sequel to the growing lizard, with Mordvintsev on the author list: the CA stays small, but each cell becomes a tiny local neural field, so a lightweight decoder can render the same self-organizing world at any resolution.",
+      "borrow": "Coarse engine, fine skin — keep the simulation small and legible, let a separate rendering layer supply the beauty, and show the reader both layers.",
+      "patterns": [
+        "simulation sandbox",
+        "break & repair",
+        "parameter gallery"
+      ],
+      "stack": "Static project page with real-time in-browser WebGL demos; method annex via arXiv + PyTorch code on GitHub (SIGGRAPH 2026)",
+      "credit": "Pajouheshgar, Xu, Abbasi, Mordvintsev, Jakob & Süsstrunk — EPFL + Google Research"
     }
   ]
 }
