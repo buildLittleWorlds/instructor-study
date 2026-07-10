@@ -249,7 +249,7 @@
         <tr><td>Current state</td><td>The living and dead cells on the grid</td><td>The prompt and tokens generated so far</td></tr>
         <tr><td>What is fixed?</td><td>The hand-written <code>B3/S23</code> rule</td><td>The learned model weights that produce next-token scores</td></tr>
         <tr><td>Where can randomness enter?</td><td>The starting board, or an explicitly added noisy update</td><td>Sampling from the next-token distribution</td></tr>
-        <tr><td>What does temperature do?</td><td>Nothing in standard Conway; this lab's noise is <em>not</em> temperature</td><td>Reshapes the sampling distribution toward safer or less likely tokens without retraining the model</td></tr>
+        <tr><td>What does temperature do?</td><td>Nothing in standard Conway; this lab's noise is <em>not</em> temperature</td><td>Makes the sampling distribution sharper or flatter without changing the learned weights</td></tr>
       </tbody>
     </table>
     <div class="guardrail"><strong>Accuracy guardrail:</strong> a transformer is not a cellular automaton. We are using Conway as a counter-model so we can ask the same diagnostic questions—what is the state, what is the rule, what information is available, and where does randomness enter—while keeping the differences visible.</div>
