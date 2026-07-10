@@ -1,6 +1,6 @@
 # Session 6 Instructor Paper-App: The Agreement Machine
 
-The Bridge artifact for Session 6 (strand W6): a **calibration lab**. The reader rates the same three story openings twice — once on gut feeling, once with a four-criterion rubric — and watches their agreement with the panel jump from ~49% to 100%. Genre: reader-as-subject calibration experiment. This is the sixth deliberately-different form: map (S1), tree (S2), spotlight (S3), dashboard (S4), forge (S5), calibration lab (S6). Fully static.
+An instructor-only **calibration lab**. The reader tries the same three story openings twice — once on gut feeling and once with named criteria — to see how the definition of success changes a judgment. The page is fully static and does not collect or export ratings.
 
 ## Files
 
@@ -11,23 +11,19 @@ The Bridge artifact for Session 6 (strand W6): a **calibration lab**. The reader
 
 Agreement = share of rater-pairs that land within one point of each other, computed in the browser (the reader's own rating is added to each panel). Verified: untrained panels average ~49% agreement (scores spread 1–5); trained panels hit 100% (tight) while still discriminating quality by item (cliché low, pigeon high, Monday mid). The rubric doesn't flatten — it converges *and* separates.
 
-**Per-criterion Round 2 (added 2026-07-05).** Round 2 is now the actual instrument: the reader rates Fit / Form / Earned surprise / Return separately (1–5 each) and their overall is the average — exactly the per-criterion judgment the W7 run collects at scale. `rubric.json` now carries illustrative per-criterion trained panels (`trainedByCrit`), authored so each judge's four criteria round to their overall (verified programmatically — the page never contradicts itself). After the reveal the page shows per-criterion agreement and names **your worst-agreeing criterion** — which is exactly this week's Classroom question, so the paper feeds the discussion directly. Earned surprise and Return are authored as the wobbliest (98% panel-only vs 100%), matching the truth that surprise is the hardest judgment to train.
-
-**Export (added 2026-07-05).** "Copy my two-round ratings (JSON)" appears with the headline — gut + per-criterion rows per opening. Collect the class's exports and you have the real panels for the swap-in below.
+**Per-criterion Round 2:** the reader considers Fit / Form / Earned surprise / Return separately. `rubric.json` carries illustrative panels so the page can compute the contrast locally. After the reveal, the page names which criterion remains least settled.
 
 ## The clean-design note (honesty)
 
 The paper rates the same items twice, which means Round 2 is nudged by having seen them. The limitation says this plainly and points to the cleaner design the panels actually model: separate untrained and trained groups on the items. It also flags the deeper truth — agreement makes a judgment *usable as evidence*, not automatically *correct*.
 
-## The rubric (used all strand)
+## The rubric
 
-Fit · Form · Earned surprise · Return — the four-criterion excellence rubric the instructor's study uses to judge the three conditions from Session 5. Weeks 7–8 apply it at scale (the run) and analyze the results.
+Fit · Form · Earned surprise · Return are one instructor-created example of how naming criteria changes what a test can see. Students do not need to use these criteria in their own projects.
 
-## Before class (stronger)
+## Before class
 
-Replace the illustrative panels with real class ratings: have students rate the three openings on gut, then on the rubric, and paste the numbers into `rubric.json` (via the export pattern from earlier weeks). The page then shows the class's own agreement jump.
-
-> **v4 boundary:** keep this replacement optional. The page is an instructor example; students are not a standing ratings panel.
+Test the shipped interaction and use one item to introduce the idea that different definitions of success produce different judgments. Keep the illustrative panels; students are not a standing ratings panel.
 
 ## Cellular automata evaluation callback (under 5 minutes)
 

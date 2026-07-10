@@ -1,6 +1,6 @@
 # Session 4 Instructor Paper-App: The Slop Detector
 
-An instructor-only **living dashboard** that makes one learned behavior visible: repeated stock language across unrelated prompts. The reader predicts, inspects the computed comparison, and tests phrases against the shipped sample. Students are not asked to reproduce the dashboard or contribute data.
+The Bridge artifact for Session 4 (strand W4): a **living dashboard** that measures "slop." The reader predicts, then the page *computes live* how much a model's answers to eight unrelated prompts repeat themselves versus eight humans' answers — and lets them click each stock-phrase tell to see the evidence underneath. Genre: living dashboard (HELM-style), the course's first data-viz object. Fully static. This is the fourth deliberately-different form: map (S1), tree (S2), spotlight (S3), dashboard (S4).
 
 ## Files
 
@@ -13,15 +13,15 @@ Sameness = average pairwise Jaccard overlap of content words within a set (stop-
 
 **Control bar (added 2026-07-05):** the page now also computes the **AI ↔ Human cross overlap (0.8%)** and discloses the length gap (≈22 vs ≈13 content words) in the method — the pre-emptive answer to "aren't the AI ones just longer?" The AI answers resemble each other ~15× more than they resemble a human answering the same prompt.
 
-**Hunt your own tell:** a live phrase-tester under the chart lets a reader type any phrase and see AI-versus-human counts with text highlighting. Nothing is collected, copied, or submitted.
+**Hunt your own tell (added 2026-07-05):** a live phrase-tester under the chart — type any phrase, get AI-vs-human counts + text highlighting, then **Copy the hunt (JSON)** for the scratchpad. This is the strand's W4 data moment ("class hunts two more stock phrases live; counts go into your data") built into the page.
 
 ## Honesty framing
 
 The texts are illustrative (the AI answers written to show real tells; the human notes deliberately idiosyncratic), but the numbers on the page are honest measurements *of this sample* — the method note and limitation say exactly that, and flag that shared-vocabulary is a surface proxy (a deeper version compares meaning with embeddings — the natural Tier-1 upgrade, "The Sameness Atlas, Live," in the tech backlog).
 
-## Before class (optional instructor extension)
+## Before class (optional, stronger)
 
-An instructor may replace the illustrative sample with a separately prepared, ethically sourced comparison. Keep that preparation outside the student workflow and update the page's data note honestly.
+Collect real data: send one model 8 genuinely unrelated prompts, and ask 8 people the same prompts. Paste both into `slop.json`. The dashboard then reports your class's own slop measurement — a far better demo than authored text.
 
 > **v4 boundary:** real-data replacement is optional instructor work. Do not turn it into student data collection.
 
@@ -42,3 +42,5 @@ Use the Growing/Persistent/Regenerating distinction: growth-only systems may dec
 3. Reveal the existing bars and click one stock-phrase tell.
 4. Ask whose preferences and training experiences shaped the repeated behavior.
 5. Release students to make one behavior in their own app more intentional. Do not collect class phrase rows or require a dashboard.
+
+**Checkpoint A** (rep review of Sessions 1–4) happens after this session — instructor-facing, not part of the paper.

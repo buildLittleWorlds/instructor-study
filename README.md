@@ -1,40 +1,46 @@
-# The Instructor's Study
+# Instructor Examples - Curiosity-Driven Paper-App Studio
 
-Weekly paper-apps for *The False Mean* — the instructor's research strand for AI + Research Level 2 (Youth Horizons Learning). Each session folder is a complete, self-contained static paper-app: prose, evidence, and interaction on one page, with its dataset in the page's own `data/` folder.
+This repository contains public instructor examples and the Paper-App Anthology for AI + Research Level 2.
 
 **Live site:** https://buildlittleworlds.github.io/instructor-study/
 
-## Structure
+## Course boundary
 
+These pages make AI ideas visible and show what a sophisticated paper-app can become. They are possibility space, not a numbered student checklist.
+
+The normal student path is simpler: choose a curiosity, direct AI to build one useful interaction, test it, add a short explanation, and publish one public URL. Students do not have to reproduce an instructor page's topic, method, data, or technical stack.
+
+## Active structure
+
+```text
+index.html                 landing page for current examples
+anthology/                 idea museum and interaction-pattern collection
+proceedings/               optional instructor-curated showcase
+session-01/                The Map of Meaning
+session-02/                probability tree, sampling toy, and randomness lab
+session-03/                Attention Spotlight
+session-04/                The Slop Detector - instructor-only computed comparison
+session-06/                The Agreement Machine - instructor-only criteria demo
+session-10/                The Second Opinion - authorship and responsibility
+archive/                   historical instructor artifacts; not course authority
 ```
-index.html            landing page linking everything
-proceedings/          class gallery - student paper-apps as they ship
-anthology/            the museum - filterable specimen collection (grows weekly)
-session-01/           The Prototype Problem      (embeddings & prototypes)
-session-02/           The False Mean             (probability & temperature)
-session-02/playground/  Loading the Dice - temperature sampling toy
-session-03/           Attention Spotlight        (attention & context)
-session-04/ ...       added weekly, each in a different formal genre
-```
 
-**Form of the week:** each session's paper deliberately inhabits a different anthology genre - predict-reveal (1), blind gallery + sandbox toy (2), evidence cards (3), atlas (4), app-first (5), living dashboard (6), filterable corpus (7), many-paths (8), interactive sorter (9), judge-vs-panel duel (10). One study, many forms.
+Sessions 5 and 7-9 are intentionally absent from the active sequence. Their previous continuous-study versions are archived. Rebuild them one at a time from the parent course's `session-build-specs.md` before restoring an active link.
 
-Each session folder has its own README covering: how to regenerate the data honestly before class, the in-class data loop (export button → paste → commit → reload), and the 15-minute Bridge run-of-show.
+## Data and interaction rule
 
-## Deploy
-
-GitHub Pages, from the `main` branch root. Every folder is plain HTML/JS/JSON — no build step, no server, no API keys. New sessions deploy by pushing a new folder.
+Current instructor pages may compute from shipped illustrative data or run a model in the browser. They do not ask students to export ratings, paste JSON, supply a shared panel, or update a class dataset.
 
 ## Local preview
 
-`fetch()` needs HTTP, so from the repo root:
+Several pages use `fetch()`. From this repository root, run:
 
-```
+```text
 python3 -m http.server 8000
 ```
 
-then open http://localhost:8000.
+Then open http://localhost:8000.
 
-## The weekly data loop
+## Deploy
 
-Readers rate/judge on the page and click the export button; their rows arrive as JSON; the author pastes them into that session's `data/` file and pushes. The class-average sections recompute on load. No spreadsheets, no forms, no backend — the app is the spreadsheet.
+GitHub Pages serves the `main` branch root. This local cleanup does not authorize a commit, push, or deployment.

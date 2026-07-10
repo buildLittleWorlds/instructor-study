@@ -1,5 +1,5 @@
 {
-  "note": "The texts below are illustrative. The AI answers were written to show the tells a preference-tuned model tends to produce; the human notes are deliberately idiosyncratic. The sameness score and phrase counts are computed live in the browser from this shipped sample. Visitor input is not collected, exported, or submitted.",
+  "note": "The texts below are illustrative. The AI answers were written to show the tells a preference-tuned model tends to produce; the human notes are deliberately idiosyncratic. The sameness score and phrase counts on the page are COMPUTED live from these texts in your browser — they are real measurements of this sample, not hand-set numbers. Swap in your own collected texts and every number updates.",
   "aiLabel": "AI answers (8 unrelated prompts, one model)",
   "humanLabel": "Human notes (8 people, same prompts)",
   "phrases": [

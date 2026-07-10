@@ -1,9 +1,19 @@
-# Archive — v1 instructor papers
+# Archive - Instructor Paper-App History
 
-The first versions of the Session 1–3 instructor papers, kept for reference. They were competent but formally similar to one another (all "predict → rate → reveal" instruments). v2 replaced them at the live URLs with three deliberately different objects (a map, a tree, a spotlight) to open the course with more range.
+Historical instructor artifacts kept for reference. Nothing here defines the active student workflow.
 
-- `session-01-v1/` — The Prototype Problem (infant-study prediction + beautiful-room feature tally). Contains the real GPT-5 dataset generated 2026-07-03.
-- `session-02-v1/` — The False Mean (blind temperature rating gallery + export-ratings pattern).
-- `session-03-v1/` — Fitted or Veneer? (match-the-commission cards + shared-bones detector).
+## Early v1 papers
 
-To restore any of them, copy its `index.html` and `data/` back over the live `session-0X/` folder. Nothing here is served publicly (the landing page links only the live session folders).
+The first versions of the Session 1-3 instructor papers were formally similar to one another (all "predict, rate, reveal" instruments). Later versions replaced them at the active session URLs with a map, a tree, and a spotlight.
+
+- `session-01-v1/` - The Prototype Problem.
+- `session-02-v1/` - The False Mean blind-rating gallery.
+- `session-03-v1/` - Fitted or Veneer?
+
+## Curiosity pivot
+
+- `2026-07-10-curiosity-pivot-later-session-chain/` preserves the retired continuous-study Sessions 5 and 7-9, the old Session 10 judge/panel chain, the Session 4 and 6 pre-cleanup pages, and the previous site shell.
+
+Do not restore an archived page by copying it over an active session. Rebuild from the parent course's current `CURRICULUM_NORTH_STAR.md` and `session-build-specs.md`, then borrow only the interaction or technical idea that still helps.
+
+The active landing page does not link into this archive. Because GitHub Pages serves repository files, a direct archive URL may still be reachable after a future push; absence from the active navigation, not secrecy, is the boundary.

@@ -1,5 +1,5 @@
 {
-  "note": "The panels below are illustrative — two small groups rating the same three openings, one on gut feeling and one using the rubric. The per-criterion scores are authored so the page can compute the comparison in the browser. Visitor choices stay local and are not collected, exported, or submitted.",
+  "note": "The panels below are illustrative — two small groups rating the same three openings, one on gut feeling and one using the rubric. The trained panel's per-criterion scores are illustrative too, authored so that each judge's four criteria average to their overall score. The agreement numbers on the page are COMPUTED from these ratings in your browser (share of rater-pairs landing within one point). Swap in your class's real ratings — the export button below the headline collects exactly the right shape — and every number updates.",
   "rubric": [
     { "id": "fit", "name": "Fit", "definition": "Does it suit its job — an opening that makes you want the next line?", "s1": "wrong tool for the job", "s5": "exactly right for its purpose" },
     { "id": "form", "name": "Form", "definition": "Do the parts work together — rhythm, image, and sense pulling one way?", "s1": "parts fight each other", "s5": "every word earns its place" },

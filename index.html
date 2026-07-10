@@ -3,116 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Instructor's Study — The False Mean project</title>
+<title>Instructor Examples - Curiosity-Driven Paper-App Studio</title>
 <style>
   :root {
-    --ink: #22222a; --muted: #6b6b76; --paper: #fdfcf9; --card: #ffffff;
-    --line: #e3e0d8; --accent: #2f6f5e; --accent-soft: #e7f1ee; --warn: #a8582f;
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee;
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, 'Times New Roman', serif; line-height: 1.65; font-size: 1.05rem; }
-  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
-  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
-  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.8rem; }
-  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
-  .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
-  a.session { display: block; text-decoration: none; color: inherit; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; padding: 1rem 1.2rem; margin: 1rem 0; }
-  a.session:hover { background: var(--accent-soft); }
-  a.session .sk { font-family: system-ui, sans-serif; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
-  a.session h2 { margin: .15rem 0 .3rem; font-size: 1.25rem; }
-  a.session p { margin: 0; font-size: .95rem; color: var(--muted); }
-  .soon { background: var(--card); border: 1px dashed var(--line); border-radius: 8px; padding: .8rem 1.2rem; margin: 1rem 0; color: var(--muted); font-family: system-ui, sans-serif; font-size: .9rem; }
-  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,"Times New Roman",serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:46rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2.2rem; line-height:1.15; margin:0 0 .4rem; }
+  .kicker,.note,.session .sk,.soon,footer { font-family:system-ui,sans-serif; }
+  .kicker { font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.8rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:1rem 1.1rem; margin:1.4rem 0 2rem; }
+  .note { font-size:.86rem; color:var(--muted); }
+  .session { display:block; text-decoration:none; color:inherit; background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0; }
+  .session:hover { background:var(--accent-soft); }
+  .session .sk { font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+  .session h2 { margin:.15rem 0 .3rem; font-size:1.25rem; }
+  .session p { margin:0; font-size:.95rem; color:var(--muted); }
+  .soon { background:var(--card); border:1px dashed var(--line); border-radius:10px; padding:.9rem 1.1rem; margin:1.2rem 0; color:var(--muted); font-size:.9rem; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); }
 </style>
 </head>
 <body>
 <main>
-  <div class="kicker">AI + Research · Level 2 · Youth Horizons Learning</div>
-  <h1>The Instructor's Study</h1>
-  <div class="byline">Daniel — one paper-app per week, built in public, alongside the class</div>
+  <div class="kicker">AI + Research Level 2 · Youth Horizons Learning</div>
+  <h1>Instructor Examples</h1>
+  <div class="byline">Paper-apps that make one AI idea visible at a time</div>
 
   <div class="thesis">
-    <strong>The project:</strong> <em>The False Mean — Can You Tell Excellence from Polish?</em>
-    A twelve-week study of prototypes, randomness, and taste in language-model writing, conducted as a series of small deployed paper-apps. Each one is a complete argument you can read <em>and</em> test.
-    <p class="note"><strong>Course boundary:</strong> this is the instructor's advanced project and possibility space. Student paper-apps begin with curiosity, one interaction, and an explanation; they do not have to copy this study's ratings, datasets, or research structure.</p>
+    These are demonstrations and idea generators. Student projects begin with a curiosity, one working interaction, a short explanation, and a public URL. Students do not have to copy an example's topic, data, method, or technical complexity.
   </div>
 
-  <a class="session" href="proceedings/">
-    <span class="sk">Class proceedings</span>
-    <h2>Paper-App Studio Gallery</h2>
-    <p>The public index for student paper-apps as they ship across the course.</p>
+  <a class="session" href="anthology/">
+    <span class="sk">The idea museum</span>
+    <h2>The Anthology</h2>
+    <p>Browse twenty-one interactive explanations and research artifacts. Notice what the reader can do, then borrow one small interaction pattern for a different idea.</p>
   </a>
 
-  <a class="session" href="anthology/">
-    <span class="sk">The museum</span>
-    <h2>The Anthology</h2>
-    <p>A growing collection of experimental paper-apps — filter by interaction pattern, steal what you like, nominate new specimens.</p>
+  <a class="session" href="proceedings/">
+    <span class="sk">Optional public display</span>
+    <h2>Paper-App Studio Gallery</h2>
+    <p>An instructor-curated place for public student examples when sharing is useful and approved. It is not a submission form or a one-app-per-session requirement.</p>
   </a>
 
   <a class="session" href="session-01/">
-    <span class="sk">Session 1 · Embeddings and prototypes</span>
+    <span class="sk">Idea 1 · Embeddings and prototypes</span>
     <h2>The Map of Meaning</h2>
-    <p>A real neural network draws a map of words — and places yours on it. Roam the geography and find the prototype at a cluster's center.</p>
+    <p>A real neural network draws a map of words and places a reader's word on it. Roam the geography and inspect the center of a cluster.</p>
   </a>
 
   <a class="session" href="session-02/randomness-lab/">
-    <span class="sk">Session 2 · Probability and temperature</span>
+    <span class="sk">Idea 2 · Probability and temperature</span>
     <h2>Where Does Randomness Enter?</h2>
-    <p>Restart the same Game of Life seed, randomize its beginning, then add a noisy update. From there, move to the dice and sentence garden to see what temperature changes—and what it does not.</p>
+    <p>Separate a system's starting state, update rule, and execution-time randomness, then compare them with language-model sampling.</p>
   </a>
 
   <a class="session" href="session-03/">
-    <span class="sk">Session 3 · Attention and context</span>
+    <span class="sk">Idea 3 · Attention and context</span>
     <h2>Attention Spotlight</h2>
-    <p>Change the visible context, guess which words settle an ambiguous meaning, and reveal the instructor's hand-authored teaching cues.</p>
+    <p>Change the visible context, guess which words settle an ambiguous meaning, and reveal hand-authored teaching cues.</p>
   </a>
 
   <a class="session" href="session-04/">
-    <span class="sk">Session 4 · Pretraining, RLHF & slop</span>
+    <span class="sk">Idea 4 · Training and learned behavior</span>
     <h2>The Slop Detector</h2>
-    <p>Predict, then measure: a model's answers to eight unrelated prompts turn out ~49× more alike than eight humans'. Click each tell to see the evidence.</p>
-  </a>
-
-  <a class="session" href="session-05/">
-    <span class="sk">Session 5 · From surprise to research question · the hinge</span>
-    <h2>Question Zero</h2>
-    <p>Kill-test seven research questions, watch one survive, then meet the three doors — the false mean, the random swerve, and the true swerve — that lock my whole study.</p>
+    <p>Inspect a computed comparison of repeated vocabulary in an illustrative sample. The page demonstrates an instructor method but collects no class data.</p>
   </a>
 
   <a class="session" href="session-06/">
-    <span class="sk">Session 6 · Evaluation, criteria & agreement</span>
+    <span class="sk">Idea 5 · Evaluation and robustness</span>
     <h2>The Agreement Machine</h2>
-    <p>Rate three openings on gut, then with a rubric, and watch your agreement with the panel leap from chaos to near-total — the moment taste turns into evidence.</p>
-  </a>
-
-  <a class="session" href="session-07/">
-    <span class="sk">Session 7 · Evidence at scale &amp; honest logging</span>
-    <h2>The Run</h2>
-    <p>Explore the whole dataset — every prompt, all three conditions, scored the same way. Try to "prove" anything with one row, then seal your bet before the averages.</p>
-  </a>
-
-  <a class="session" href="session-08/">
-    <span class="sk">Session 8 · Analysis &amp; the honest average</span>
-    <h2>The Reveal</h2>
-    <p>Open the sealed envelopes, then the averages Session 7 refused to compute — and take the wheel: eighty analysis paths, three outlier toggles, and the one honest path where the winner flips.</p>
-  </a>
-
-  <a class="session" href="session-09/">
-    <span class="sk">Session 9 · Writing the argument</span>
-    <h2>The Four Corners</h2>
-    <p>The study's whole claim, redrawn as a map: sort eight unlabeled passages into the false mean, the random swerve, classic form, or the true swerve — then see where the room disagreed with you.</p>
+    <p>See how named criteria change a judgment, then transfer the lesson to one concrete success check for a student-built app.</p>
   </a>
 
   <a class="session" href="session-10/">
-    <span class="sk">Session 10 · Judging the judge &amp; authorship</span>
+    <span class="sk">Idea 6 · AI evaluation and authorship</span>
     <h2>The Second Opinion</h2>
-    <p>An AI judge scores my study with my own rubric. Crown its winner before you look, side with a verdict blind — and see exactly which criteria a machine can check, and which stay human.</p>
+    <p>Compare an apology for using AI with an authorship note that documents direction, testing, revision, and responsibility.</p>
   </a>
 
-  <div class="soon">Sessions 11–12 arrive weekly: role reversal · showcase.</div>
+  <div class="soon"><strong>Sessions 5 and 7-9:</strong> previous versions are archived because they belonged to the retired class-ratings and dataset sequence. New instructor examples will return only after they are rebuilt from the curiosity-driven session specifications.</div>
 
-  <footer>Part of the Curiosity-Driven Paper-App Studio · instructor examples may use advanced research machinery; student projects begin with curiosity, building, explanation, and a public URL.</footer>
+  <footer>Curiosity-Driven Paper-App Studio · instructor examples are possibilities, not student checklists.</footer>
 </main>
 </body>
 </html>

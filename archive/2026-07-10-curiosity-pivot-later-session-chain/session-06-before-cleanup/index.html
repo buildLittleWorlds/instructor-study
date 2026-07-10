@@ -70,8 +70,6 @@
     <strong>Thesis.</strong> "Quality" sounds hopelessly personal — until you notice that trained judges, given clear criteria, start to <em>agree</em>. That agreement is the whole trick: it turns a feeling into evidence. This page is a small machine for watching it happen — to you.
   </div>
 
-  <p class="note"><strong>Course boundary:</strong> this is an instructor demonstration. Your choices stay in this browser tab; nothing is collected, exported, or submitted.</p>
-
   <p><strong>This week's question:</strong> can defining what we mean by "good" make a room full of people rate the same writing the same way?</p>
 
   <h2>Round 1 — Rate on gut feeling</h2>
@@ -87,7 +85,7 @@
 
   <div id="roundB">
     <h2>Round 2 — Rate the same three, criterion by criterion</h2>
-    <p>Exact same openings. Same you. This time you rate four criteria separately and the page computes an overall score. The point is to notice how named criteria change what you see.</p>
+    <p>Exact same openings. Same you. This time you don't give one number — you rate each of the four criteria separately, and your overall score is their average. This is the exact instrument my study runs at scale next week.</p>
     <div id="roundBItems"></div>
     <button class="bigbtn" id="revealB" disabled>Rate every criterion to see how we agree now</button>
     <p class="agtag" id="agB"></p>
@@ -96,6 +94,11 @@
   <div class="critag" id="critAgree"></div>
 
   <div class="headline" id="headline"></div>
+
+  <div class="exportrow" id="exportRow">
+    <button class="bigbtn" id="exportBtn" style="background:#fff;color:var(--accent);border:1.5px solid var(--accent)">Copy my two-round ratings (JSON)</button>
+    <span class="note" id="exportMsg">— gut + per-criterion rows, ready for the class panel swap-in.</span>
+  </div>
 
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
@@ -109,10 +112,10 @@
 
   <h2>Try it yourself</h2>
   <div class="try">
-    Pick one behavior in an app you care about. Write two different success checks for it — for example, "responds quickly" and "explains itself clearly." Test both. Notice how the yardstick changes what you decide to improve.
+    Grab a friend and three short things — song lyrics, tweets, opening lines. Rate them 1–5 apart, then compare: how far off are you? Now write one sentence defining what "good" means for that kind of thing, rate again, and re-compare. Watch the gap shrink.
   </div>
 
-  <p class="cliff">A success check does not need to become a class rating system. Its job is to help a builder decide what to test and what to improve next.</p>
+  <p class="cliff">Now I have a yardstick that judges agree on. The obvious next move: point it at a hundred outputs across my three conditions and see which one actually wins. <span class="note">(That's the run — next week.)</span></p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
@@ -120,7 +123,7 @@
     <p><strong>What I own:</strong> the four criteria and their scale anchors, the two-round calibration design, the choice to measure agreement as "how often two judges land within a point," and the honesty that agreement is not the same as being right.</p>
   </div>
 
-  <footer>Instructor example · Curiosity-Driven Paper-App Studio · Data: <code>data/rubric.json</code></footer>
+  <footer>Part of the class proceedings · The Instructor's Study, Session 6 of 12 · Data: <code>data/rubric.json</code></footer>
 </main>
 
 <script>
@@ -247,11 +250,21 @@
     const ca=document.getElementById('critAgree'); ca.style.display='block';
     ca.innerHTML=`<strong>Where does the panel (you included) still wobble?</strong> `+
       perCrit.map(c=>`${c.name} <strong>${c.pct}%</strong>`).join(' · ')+
-      `.<br>Your least-settled criterion: <span class="worst">${worst.name} (${worst.pct}%)</span>. Notice what that criterion makes harder to judge.`;
+      `.<br>Your worst-agreeing criterion: <span class="worst">${worst.name} (${worst.pct}%)</span> — that's this week's class question. Post it.`;
     const a=Math.round((window.__agA||0)*100), b=Math.round(overall*100);
     const h=document.getElementById('headline'); h.style.display='block';
     h.innerHTML=`Same three openings. Same you. Agreement went from <span class="big">${a}%</span> to <span class="big">${b}%</span> — and the only thing that changed was having criteria. That jump is how taste becomes evidence.`;
+    document.getElementById('exportRow').style.display='flex';
     h.scrollIntoView?.({behavior:'smooth', block:'center'});
+  });
+
+  document.getElementById('exportBtn').addEventListener('click',async ()=>{
+    const rows=data.items.map(it=>({item:it.id, gut:readerA[it.id], perCriterion:readerB[it.id], rubricOverall:+readerOverall(it.id).toFixed(2)}));
+    const blob=JSON.stringify({paper:'The Agreement Machine',session:6,exported:new Date().toISOString().slice(0,10),
+      rows, worstCriterion:(window.__worstCrit||{}).name},null,1);
+    const msg=document.getElementById('exportMsg');
+    try{ await navigator.clipboard.writeText(blob); msg.textContent='— copied. Paste your rows into the scratchpad for the class panel.'; }
+    catch(e){ window.prompt('Copy this JSON:', blob); }
   });
 
   document.getElementById('method').innerHTML =

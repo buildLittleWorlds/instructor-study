@@ -68,8 +68,6 @@
     <strong>Thesis.</strong> After a model learns language, it's tuned toward answers people preferred — a process called RLHF. A documented side effect is <em>mode collapse</em>: the outputs get more and more alike, no matter how different the questions. The field's word for the result is <strong>consensus slop</strong> — fluent, polished, and eerily the same. If it's real, we should be able to <em>measure</em> it.
   </div>
 
-  <p class="note"><strong>Course boundary:</strong> this is an instructor demonstration. It uses an illustrative sample to make learned repetition visible. It does not collect, export, or submit visitor input.</p>
-
   <p><strong>This week's question:</strong> are a model's answers to eight unrelated prompts measurably more alike than eight humans' answers to the same prompts?</p>
 
   <h2>Predict first</h2>
@@ -110,6 +108,7 @@
     <div class="controls" style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;font-family:system-ui,sans-serif">
       <input type="text" id="huntInput" placeholder='e.g. "tapestry", "deep breath"…' style="font-size:.95rem;padding:.45rem .7rem;border:1px solid var(--line);border-radius:8px;min-width:14rem">
       <button id="huntBtn" style="font-family:system-ui,sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:.5rem 1rem">Count it</button>
+      <button id="huntExport" disabled style="font-family:system-ui,sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;border:1.5px solid var(--accent);background:#fff;color:var(--accent);border-radius:8px;padding:.5rem 1rem;opacity:.5">Copy the hunt (JSON)</button>
       <span class="note" id="huntMsg"></span>
     </div>
     <div class="chart" id="huntChart"></div>
@@ -136,7 +135,7 @@
     Give your AI chat five prompts that have nothing to do with each other and read the answers back to back. Hunt for the phrase that shows up in all five — that's your model's tell. Then ask it to "avoid clichés and be original," and watch what <em>new</em> repeated phrase appears instead.
   </div>
 
-  <p class="cliff">The obvious fix is "make it weirder." But if you just crank the strangeness, you may get a different sameness — edgy slop instead of safe slop. The useful studio question is smaller: what behavior did your prompt encourage, and what one change could make it more intentional?</p>
+  <p class="cliff">The obvious fix is "make it weirder." But if you just crank the strangeness, you get a different sameness — edgy slop instead of safe slop. So what actually beats slop? <span class="note">(That question is where my real research begins — next week.)</span></p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
@@ -144,7 +143,7 @@
     <p><strong>What I own:</strong> the choice of prompts, the human notes I collected, the stock-phrase list, the decision to measure sameness by shared vocabulary (and to say plainly that it's a surface proxy), and the reading that slop is a symptom of what raters rewarded.</p>
   </div>
 
-  <footer>Instructor example · Curiosity-Driven Paper-App Studio · Data: <code>data/slop.json</code></footer>
+  <footer>Part of the class proceedings · The Instructor's Study, Session 4 of 12 · Data: <code>data/slop.json</code></footer>
 </main>
 
 <script>
@@ -197,7 +196,7 @@
     });
   }
 
-  // ---- hunt your own tell (local reader exploration only) ----
+  // ---- hunt your own tell (the class data moment) ----
   const hunted=[];
   function renderHunt(){
     const el=document.getElementById('huntChart'); el.innerHTML='';
@@ -228,9 +227,16 @@
       a>0&&h===0 ? 'AI-only. You found a tell.' :
       h>0&&a===0 ? 'Human-only — the opposite of a tell.' : 'Both sets use it.';
     document.getElementById('huntInput').value='';
+    const ex=document.getElementById('huntExport'); ex.disabled=false; ex.style.opacity='1';
   }
   document.getElementById('huntBtn').addEventListener('click',huntPhrase);
   document.getElementById('huntInput').addEventListener('keydown',e=>{ if(e.key==='Enter') huntPhrase(); });
+  document.getElementById('huntExport').addEventListener('click',async ()=>{
+    const blob=JSON.stringify({paper:'The Slop Detector',session:4,exported:new Date().toISOString().slice(0,10),hunt:hunted},null,1);
+    const msg=document.getElementById('huntMsg');
+    try{ await navigator.clipboard.writeText(blob); msg.textContent=`Copied ${hunted.length} hunted phrase(s) — paste into the scratchpad.`; }
+    catch(e){ window.prompt('Copy this JSON:', blob); }
+  });
 
   // ---- prediction → reveal ----
   let predicted=null;

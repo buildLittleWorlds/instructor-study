@@ -5,50 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paper-App Studio Gallery</title>
 <style>
-  :root {
-    --ink: #22222a; --muted: #6b6b76; --paper: #fdfcf9; --card: #ffffff;
-    --line: #e3e0d8; --accent: #2f6f5e; --accent-soft: #e7f1ee;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Georgia, "Times New Roman", serif; line-height: 1.65; font-size: 1.05rem; }
-  main { max-width: 48rem; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
-  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 .4rem; }
-  h2 { font-size: 1.3rem; margin: 2.2rem 0 .8rem; border-top: 1px solid var(--line); padding-top: 1.4rem; }
-  .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
-  .byline { color: var(--muted); font-style: italic; margin-bottom: 1.8rem; }
-  .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
-  .grid { display: grid; gap: .8rem; margin-top: 1rem; }
-  .student { display: block; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; padding: .9rem 1rem; text-decoration: none; color: inherit; }
-  .student:hover { background: var(--accent-soft); }
-  .student strong { display: block; font-family: system-ui, sans-serif; }
-  .student span { display: block; color: var(--muted); font-size: .94rem; }
-  .empty { background: var(--card); border: 1px dashed var(--line); border-radius: 8px; padding: 1rem; color: var(--muted); font-family: system-ui, sans-serif; }
-  footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
+  :root { --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#fff; --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,"Times New Roman",serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2.1rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.2rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.4rem; }
+  .kicker,.note,.empty,footer { font-family:system-ui,sans-serif; }
+  .kicker { font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.8rem; }
+  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:1rem 1.1rem; margin:1.4rem 0; }
+  .note { font-size:.88rem; color:var(--muted); }
+  .grid { display:grid; gap:.8rem; margin-top:1rem; }
+  .student { display:block; background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:8px; padding:.9rem 1rem; text-decoration:none; color:inherit; }
+  .student strong { display:block; font-family:system-ui,sans-serif; }
+  .student span { display:block; color:var(--muted); font-size:.94rem; }
+  .empty { background:var(--card); border:1px dashed var(--line); border-radius:8px; padding:1rem; color:var(--muted); }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); }
 </style>
 </head>
 <body>
 <main>
   <div class="kicker">AI + Research Level 2 · Paper-App Studio</div>
   <h1>Paper-App Studio Gallery</h1>
-  <div class="byline">One deployed experimental paper-app per session.</div>
+  <div class="byline">An optional public display of selected paper-apps</div>
 
   <div class="thesis">
-    This page is the class proceedings: the public index of paper-apps students ship during the course. Students submit their deployed URLs in Google Classroom; the instructor adds approved public links here.
+    Students submit their public project URL through the current Classroom assignment. Appearance in this gallery is optional, instructor-curated, and never required once per session. Only approved public links should be added here.
   </div>
 
-  <h2>Session 1 · Guess the Default</h2>
-  <p>After students submit their deployed Session 1 URLs in the Classroom "Ship it" assignment, their public links will appear here.</p>
-  <div class="grid" aria-label="Session 1 student paper-app links">
-    <div class="empty">No student links yet. This gallery is a display board, not a submission form. Submit your URL in Classroom; the instructor will add approved links here.</div>
+  <h2>Cohort examples</h2>
+  <div class="grid" aria-label="Selected student paper-app links">
+    <div class="empty">No cohort examples are displayed yet. This page is a display board, not a submission form.</div>
   </div>
 
-  <h2>Instructor Study</h2>
+  <h2>Instructor example</h2>
   <a class="student" href="../session-01/">
     <strong>The Map of Meaning</strong>
-    <span>Instructor paper-app for Session 1: a live embedding model maps 36 words in the browser, reveals the prototype at each cluster's center, and places the class's own words.</span>
+    <span>A live embedding model maps words in the browser and turns the idea of a prototype into a place a reader can explore.</span>
   </a>
 
-  <footer>Built for Youth Horizons Learning · updated as each paper-app ships.</footer>
+  <p class="note">A future showcase may include one strong public artifact per student, but the active course does not require a gallery update or a new app every week.</p>
+
+  <footer>Built for Youth Horizons Learning · sharing remains optional and instructor-controlled.</footer>
 </main>
 </body>
 </html>
