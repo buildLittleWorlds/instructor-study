@@ -13,7 +13,7 @@ On load it tries to run `Xenova/all-MiniLM-L6-v2` (~30 MB, cached after first lo
 
 *Why not the old two anchor-axes (made↔living × small↔big)?* Measured with the real model, that projection gave only 13/36 words a same-category nearest neighbor on screen — the middle of the map was a blob. The centroid-spreading angle gives 29/36 and visibly distinct regions (remaining mix-ups are mostly foods↔tools, which the limitation now turns into a teachable point).
 
-There's also an in-week-1 data moment: after class words are placed live, **"Copy today's class words (JSON)"** copies every placed word + its neighborhood — paste it into the shared scratchpad. That's the export trick (the course's data-collection method) planted in Session 1, and your study's first rows.
+The reader can place any word and immediately inspect its nearest neighbors. The interaction ends there: it does not collect, export, or share visitor input.
 
 ## 🚧 Device-test before class (important)
 
@@ -33,9 +33,9 @@ Keep the precomputed fallback honest: if you change the word list, regenerate `f
 
 1. Narrowing move: "You'll learn meaning is a map of numbers. Watch a real network draw that map — then we hunt the center."
 2. Live: load the map on your screen; click a couple of words to show neighbors; press **Reveal the prototype** and let the centroid word land.
-3. Data moment: take words from the class ("dragon," "sadness," someone's name), type each, and let the model place it live — ask the room to predict the neighborhood first. Then press **Copy today's class words (JSON)** and paste the rows into the shared scratchpad: their judgments just became the study's first data. (Demo tip: words with plausible neighborhoods — dragon, sadness, sushi, volcano — land beautifully; a far-from-everything word like "xylophone" triggers the page's honest "nothing here is close" line, which is its own teachable beat.)
+3. Curiosity moment: take a few words from the room ("dragon," "sadness," "sushi," "volcano"), predict their neighborhoods, and place them live. A far-from-everything word like "xylophone" triggers the page's honest "nothing here is close" line. Discuss the surprise; do not turn it into a collection task.
 4. Cliffhanger on the page: *the model hands us the center every time — is the center any good?*
 
-## Session 1 duty
+## Current course role
 
-Still the fallback rep core: the students' predict-and-reveal rep can stay static (their own prompt + tally). The live map is the instructor showpiece; students meet Tier-1 by watching, not building, this week.
+This page remains an optional instructor example for embeddings and prototypes. It is not a student template and does not define Session 1 catch-up work. The session actually taught centered on AI-directed Game of Life builds and GitHub Pages deployment.

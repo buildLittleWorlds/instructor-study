@@ -84,10 +84,6 @@
     <button id="placeBtn" disabled>Place it</button>
   </div>
   <p class="readout" id="userReadout"></p>
-  <div class="controls">
-    <button id="exportBtn" disabled>Copy today's class words (JSON)</button>
-    <span class="note" id="exportMsg">— every word the room places, with its neighborhood: the study's first rows.</span>
-  </div>
 
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
@@ -329,7 +325,6 @@ document.getElementById('protoBtn').addEventListener('click',()=>{
 });
 
 // ---- place your own word ----
-const placedWords = [];
 async function placeUserWord(){
   const raw = document.getElementById('wordInput').value.trim();
   if(!raw || !live || !extractor) return;
@@ -350,23 +345,10 @@ async function placeUserWord(){
     const weak = bestSim < 0.42 ? ' <em>(Honestly, nothing on this small map is very close to it — it wants a neighborhood these 36 words don’t have.)</em>' : '';
     userReadoutEl.innerHTML = `<strong>${raw}</strong> landed nearest: ${nbrs.join(', ')}.${weak} Is that the neighborhood you expected?`;
     selectWord(raw);
-    if(!placedWords.find(p=>p.word===raw)) placedWords.push({word:raw, neighbors:nbrs, closeness:+bestSim.toFixed(2)});
-    document.getElementById('exportBtn').disabled = false;
   } catch(e){ userReadoutEl.textContent = 'Could not embed that word — the model may still be loading.'; }
 }
 document.getElementById('placeBtn').addEventListener('click', placeUserWord);
 document.getElementById('wordInput').addEventListener('keydown', e=>{ if(e.key==='Enter') placeUserWord(); });
-
-// ---- export the class's words (the course's copy-your-data trick, planted in week 1) ----
-document.getElementById('exportBtn').addEventListener('click', async ()=>{
-  const blob = JSON.stringify({
-    paper:'The Map of Meaning', session:1, exported:new Date().toISOString().slice(0,10),
-    classWords: placedWords
-  }, null, 1);
-  const msg = document.getElementById('exportMsg');
-  try { await navigator.clipboard.writeText(blob); msg.textContent = `Copied ${placedWords.length} word(s) — paste into the class scratchpad.`; }
-  catch(e){ window.prompt('Copy this JSON:', blob); msg.textContent = ''; }
-});
 
 </script>
 </body>
