@@ -16,7 +16,7 @@
   h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
   .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
   .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
-  .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .curiosity { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1rem 0 1.6rem; }
   .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
   .sentence { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1.1rem 1.2rem; margin:1rem 0; font-size:1.3rem; line-height:2.1; }
   .tok { padding:.05em .18em; border-radius:5px; transition:background .2s, box-shadow .2s, opacity .2s; }
@@ -24,6 +24,7 @@
   .tok.focus:hover { background:var(--accent-soft); }
   .tok.active { background:var(--accent); color:#fff; box-shadow:0 0 0 2px var(--accent); }
   .tok.dim { opacity:.35; }
+  .tok.outside { opacity:.09; pointer-events:none; }
   .tok.guessable { cursor:pointer; }
   .tok.guessable:hover { background:#f0ede5; }
   .tok.pick { box-shadow:0 0 0 2px var(--accent); border-radius:5px; }
@@ -32,9 +33,13 @@
   .caption { font-family:system-ui,sans-serif; font-size:.92rem; color:var(--ink); margin-top:.6rem; padding-top:.6rem; border-top:1px dashed var(--line); display:none; }
   .caption .mn { font-weight:700; color:var(--accent); }
   .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  .window-panel { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.9rem 1rem; margin:1rem 0 1.4rem; }
+  .window-panel p { margin:.2rem 0 .6rem; }
+  .window-status { font-family:system-ui,sans-serif; font-size:.88rem; color:var(--muted); margin:.5rem 0 0; }
   button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
   button:hover { background:var(--accent-soft); }
-  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  button[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  .diagram,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
   .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
   .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
   .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
@@ -44,48 +49,59 @@
 </head>
 <body>
 <main>
-  <div class="kicker">The Instructor's Study · Session 3 · The False Mean project</div>
+  <div class="kicker">The Instructor's Study · Session 3</div>
   <h1>Attention Spotlight</h1>
   <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
 
-  <div class="thesis">
-    <strong>Thesis.</strong> A modern model reads every word in the light of every other word — a mechanism called <strong>attention</strong>. It never looks up a fixed meaning for a word; it <em>builds</em> the meaning on the spot from the words nearby. That's why the same word can mean opposite things two sentences apart, and it's the reason context can change everything an answer says.
+  <h2>What made me curious</h2>
+  <div class="curiosity">
+    The word <strong>bank</strong> can mean a river's edge or a place that holds money. I wanted an interaction that lets a reader feel how surrounding words help settle which meaning fits.
   </div>
 
-  <p><strong>This week's question:</strong> can we actually watch a word decide what it means by looking at its neighbors?</p>
+  <h2>What to notice</h2>
+  <p>Transformer attention allows information at one token position to connect with information at other positions inside the permitted context. Those connections help create context-sensitive representations: the same word can behave differently in different sentences.</p>
 
-  <p class="note" id="instructions">Click any underlined word. The words it must pay attention to will light up.</p>
+  <div class="limit">
+    <strong>A counter-model, not an equivalence.</strong> A Conway's Game of Life cell checks eight immediate neighbors, and influence travels farther through repeated steps. A transformer token can connect to a distant position through attention. A transformer is not a cellular automaton, and a CA neighborhood is not attention.
+  </div>
+
+  <div class="window-panel">
+    <p><strong>Context window:</strong> change how much of each sentence is visible around the underlined word.</p>
+    <div class="controls" id="windowControls">
+      <button type="button" data-radius="1">One neighbor</button>
+      <button type="button" data-radius="3">Three neighbors</button>
+      <button type="button" data-radius="all" aria-pressed="true">Whole sentence</button>
+    </div>
+    <p class="window-status" id="windowStatus">Whole sentence visible. Notice which useful clues are close and which are farther away.</p>
+  </div>
+
+  <p class="note" id="instructions">Click any underlined word, choose useful context words, and reveal the teaching diagram.</p>
 
   <div id="sentences"></div>
 
-  <h2>The same word, two minds</h2>
+  <h3>The same word, two contexts</h3>
   <p class="note">Click one of these to spotlight the tricky word in both sentences at once — and watch it reach for completely different neighbors.</p>
   <div class="controls" id="compareControls"></div>
 
-  <h2>Method</h2>
-  <div class="method" id="method">Loading…</div>
-
-  <h2>Interpretation</h2>
-  <p>Watch "bank" in the two sentences: it reaches for <em>river</em> and <em>current</em> in one, and <em>savings</em> and <em>money</em> in the other. The model didn't store two definitions and pick one — it grew the meaning fresh, each time, from whatever surrounded it. That is attention doing its job. And it's why the situation you hand a model — who the answer is for, what came before — really can reshape everything downstream. Meaning here is not a fixed label on a word; it's something computed live from the neighborhood.</p>
+  <h2>How this teaching diagram was made</h2>
+  <div class="diagram" id="diagramNote">Loading…</div>
 
   <div class="limit">
-    <strong>Limitation.</strong> The glowing links are my illustration of <em>which</em> neighbors matter, not the exact numbers pulled from a real model's attention layers (a model spreads faint attention across every word, in many layers at once). The picture is true in shape — meaning is built from context — but it's a clean teaching diagram, not a raw readout.
+    <strong>Accuracy note.</strong> This page does not extract attention weights from a model. Real transformers use many attention heads across many layers, and a glowing word should not be treated as a complete explanation of a model's reasoning. This is a hand-authored illustration of context clues that a reader can inspect and question.
   </div>
 
-  <h2>Try it yourself</h2>
+  <h2>What I would try next</h2>
   <div class="try">
-    Find your own two-faced word — "light," "match," "wave," "cold," "bat" — and write two short sentences that force opposite meanings. Ask your AI chat to define the word in each; watch it never even mention the "wrong" meaning. The neighbors did all the work.
+    Add a sentence where the strongest clue is much farther from the underlined word, or add a control that reveals the sentence one word at a time. I would ask whether readers change their guesses as the context window widens.
   </div>
 
-  <p class="cliff">If meaning is built from context, then a model <em>should</em> reshape its whole answer when you change who it's for. Does it — or does it just re-decorate the same answer? <span class="note">(That's the judgment we start measuring next.)</span></p>
-
-  <h2>Authorship note</h2>
+  <h2>What I chose and how AI helped</h2>
   <div class="authorship">
-    <p><strong>What AI helped with:</strong> drafting this page's code and proposing example sentences, which I chose and trimmed.</p>
-    <p><strong>What I own:</strong> the sentence pairs, the decision of which neighbors to light up and how strongly, the framing of attention as "meaning built from neighbors," and the honesty note that these links are a teaching diagram.</p>
+    <p><strong>AI helped with:</strong> drafting the page's code and proposing possible example sentences.</p>
+    <p><strong>I chose:</strong> the sentence pairs, which context cues the diagram highlights, the context-window interaction, the wording, and the decision to label the diagram honestly rather than present it as model data.</p>
   </div>
 
-  <footer>Part of the class proceedings · The Instructor's Study, Session 3 of 12 · Data: <code>data/sentences.json</code></footer>
+  <footer>The Instructor's Study · Session 3 of 12 · Static page · Teaching cues: <code>data/sentences.json</code></footer>
 </main>
 
 <script>
@@ -109,6 +125,7 @@
       span.dataset.i=i;
       if(focusByIndex[i]) span.classList.add('focus');
       span.addEventListener('click',()=>{
+        if(span.classList.contains('outside')) return;
         if(guess && guess.s.id===s.id && i!==guess.f.i){ togglePick(span,i); return; }
         if(focusByIndex[i]) enterGuess(s,focusByIndex[i]);
       });
@@ -118,6 +135,33 @@
     box.appendChild(cap);
     wrap.appendChild(box);
   });
+
+  let windowRadius='all';
+
+  function applyWindow(radius){
+    windowRadius=radius;
+    data.sentences.forEach(s=>{
+      const focusIndex=s.focus[0].i;
+      const box=document.getElementById('s-'+s.id);
+      box.querySelectorAll('.tok').forEach((t,idx)=>{
+        const outside=radius!=='all' && Math.abs(idx-focusIndex)>radius;
+        t.classList.toggle('outside',outside);
+      });
+    });
+    document.querySelectorAll('#windowControls button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.radius===String(radius))));
+    const status=document.getElementById('windowStatus');
+    status.textContent=radius==='all'
+      ? 'Whole sentence visible. Notice which useful clues are close and which are farther away.'
+      : radius===1
+        ? 'Only one word on each side is visible. Some meanings are still uncertain because useful clues are hidden.'
+        : 'Three words on each side are visible. More clues appear, but the rest of the sentence is still outside the window.';
+  }
+
+  document.querySelectorAll('#windowControls button').forEach(b=>b.addEventListener('click',()=>{
+    if(guess){ clearSentence(guess.s); guess=null; }
+    applyWindow(b.dataset.radius==='all'?'all':Number(b.dataset.radius));
+  }));
+  applyWindow('all');
 
   function clearSentence(s){
     const box=document.getElementById('s-'+s.id);
@@ -133,6 +177,7 @@
     const box=document.getElementById('s-'+s.id);
     box.querySelectorAll('.tok').forEach((t,idx)=>{
       if(idx===f.i){ t.classList.add('active'); return; }
+      if(t.classList.contains('outside')) return;
       t.classList.add('guessable');
     });
     const cap=document.getElementById('cap-'+s.id);
@@ -153,7 +198,7 @@
   function reveal(skipped){
     if(!guess) return;
     const {s,f,picked}=guess; guess=null;
-    const target=Object.entries(f.attends).map(([i,w])=>({i:+i,w})).sort((a,b)=>b.w-a.w).slice(0,3).map(x=>x.i);
+    const target=Object.entries(f.cues).map(([i,w])=>({i:+i,w})).sort((a,b)=>b.w-a.w).slice(0,3).map(x=>x.i);
     activate(s,f);
     const box=document.getElementById('s-'+s.id);
     const toks=box.querySelectorAll('.tok');
@@ -161,7 +206,7 @@
     if(!skipped && picked.size){
       const hits=[...picked].filter(i=>target.includes(i)).length;
       const cap=document.getElementById('cap-'+s.id);
-      cap.innerHTML+=` <span class="mn">You matched ${hits} of the ${target.length} strongest links${hits===target.length?' — perfect':''}.</span> Post your score in the class chat.`;
+      cap.innerHTML+=` <span class="mn">You matched ${hits} of the ${target.length} strongest teaching cues${hits===target.length?' — perfect':''}.</span>`;
     }
   }
 
@@ -172,7 +217,7 @@
     const toks=box.querySelectorAll('.tok');
     toks.forEach((t,idx)=>{
       if(idx===f.i){ t.classList.add('active'); return; }
-      const w=f.attends[idx];
+      const w=f.cues[idx];
       if(w){ t.style.background=`rgba(244,192,78,${(0.25+w*0.7).toFixed(2)})`; }
       else { t.classList.add('dim'); }
     });
@@ -192,9 +237,9 @@
     cc.appendChild(b);
   });
 
-  document.getElementById('method').innerHTML =
-    `<p><strong>Setup.</strong> Each sentence contains a word (underlined) whose meaning is only settled by its neighbors. Click it, pick the neighbors <em>you</em> think it needs, then reveal: the words it must attend to light up (brighter = stronger pull), your picks stay ringed on top, and you're scored against the three strongest links.</p>`+
-    `<p><strong>The compare pairs.</strong> The two "bank" sentences (and the two "springs") use the identical word in opposite meanings, so you can see attention rebuild the meaning from scratch each time.</p>`+
+  document.getElementById('diagramNote').innerHTML =
+    `<p>Each underlined word has a small set of context cues stored in <code>data/sentences.json</code>. I chose those cues and their brightness to make a readable teaching picture. Your guesses stay ringed so you can compare your reading with mine.</p>`+
+    `<p>The two “bank” sentences and two “spring” sentences use the same spelling in different contexts. The compare buttons place those authored diagrams side by side.</p>`+
     `<p class="note">${data.note}</p>`;
 })();
 </script>

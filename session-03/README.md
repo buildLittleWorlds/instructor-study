@@ -1,19 +1,21 @@
-# Session 3 Instructor Paper-App (v2): Attention Spotlight
+# Session 3 Instructor Paper-App (v3): Attention Spotlight
 
-The Bridge artifact for Session 3 (strand W3): **guess what a word needs, then watch what it pays attention to light up.** Clicking an underlined word now enters *guess mode* — the reader picks the 2–3 neighbors they think settle its meaning, then reveals, keeps their picks ringed over the glowing answer, and gets a score against the three strongest links ("You matched 2 of 3"). Predict-before-look, the course's signature habit, built into the page. The same word "bank" glows river/current in one sentence and savings/money in another — attention building meaning from neighbors, made visible. Genre: heatmap inspection. Fully static. (v1, "Fitted or Veneer?", is preserved in `../archive/session-03-v1/`.)
+The Session 3 instructor example asks readers to guess which context words help settle an ambiguous word, then compare their reading with a hand-authored teaching diagram. The same word “bank” uses different cues in a river sentence and a savings sentence. The new context-window control lets the instructor show one neighbor, three neighbors, or the whole sentence before the reveal.
+
+This is an instructor example and idea generator. Students build any small app they care about; they do not reproduce the diagram, submit scores, or run a context experiment.
 
 ## Files
 
 - `index.html` — the paper-app (vanilla JS, no dependencies).
-- `data/sentences.json` — five sentences with a focus word each, an authored attends-map (which neighbors glow and how strongly), meaning labels, captions, and two compare pairs (two "banks," two "springs").
+- `data/sentences.json` — five sentences with a focus word, an authored cue map, meaning labels, captions, and two compare pairs.
 
 ## Honesty framing (important)
 
-The glowing links are an **illustrative attention map** — hand-drawn to show which neighbors a model must connect to disambiguate the word, not weights extracted from a specific model's internals. The method note and limitation say this plainly. It's a true teaching diagram of how attention works, not a raw readout. If you ever wire in real attention weights (e.g., via a small model), swap the `attends` maps and update the note.
+The glowing cues are hand-authored context clues, not attention weights extracted from a model. Real transformers use many attention heads across many layers, and attention weights are not a complete explanation of model reasoning. The page labels this limitation next to the interaction.
 
 ## Before class
 
-Add or swap sentences freely in `data/sentences.json` — the page validates focus-word/index alignment at author time (see the build check). Keep at least one compare pair for the "same word, two minds" reveal, which is the paper's punch.
+Add or swap sentences in `data/sentences.json`. Keep at least one compare pair for the same-word/different-context reveal. Test all three context-window settings after changing token indexes.
 
 ## Cellular automata counter-model (5 minutes)
 
@@ -28,6 +30,7 @@ Land: **How does what a unit can see change what the whole system can do?** Do n
 ## Using it in the 15-minute Bridge
 
 1. Use the cellular-automata contrast above.
-2. Click "bank" in the river sentence and let the room guess two useful context words before revealing.
-3. Press **Spotlight the two banks** and compare the different neighborhoods of meaning.
-4. Land: context reshapes meaning. Release students to free-choice builds; they do not need to submit scores or build attention cards.
+2. Start with **One neighbor**, then widen the context window.
+3. Click “bank” in the river sentence and let the room guess two useful context words before revealing.
+4. Press **Spotlight the two banks** and compare the two authored cue maps.
+5. State that the diagram is illustrative, then release students to free-choice builds.

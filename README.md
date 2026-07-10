@@ -13,7 +13,7 @@ anthology/            the museum - filterable specimen collection (grows weekly)
 session-01/           The Prototype Problem      (embeddings & prototypes)
 session-02/           The False Mean             (probability & temperature)
 session-02/playground/  Loading the Dice - temperature sampling toy
-session-03/           Fitted or Veneer?          (attention & context)
+session-03/           Attention Spotlight        (attention & context)
 session-04/ ...       added weekly, each in a different formal genre
 ```
 

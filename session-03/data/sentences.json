@@ -1,14 +1,14 @@
 {
-  "note": "The glowing links below are an illustrative attention map — hand-drawn by the author to show which other words a model must connect to in order to pin down the meaning of the highlighted word. They are a teaching picture of how attention works, not weights pulled from one specific model's internals.",
-  "instructions": "Click any underlined word — then, before the answer glows, pick the 2–3 words YOU think it needs. Reveal to see how your instincts match the map (brighter means a stronger pull).",
+  "note": "The glowing cues are hand-authored by the instructor. They illustrate context words that help a reader settle a meaning; they are not attention weights extracted from a model.",
+  "instructions": "Click any underlined word. Before revealing the teaching diagram, pick the 2–3 visible context words you think are most useful.",
   "sentences": [
     {
       "id": "river",
       "tokens": ["I", "sat", "on", "the", "muddy", "river", "bank", "and", "watched", "the", "current"],
       "focus": [
         { "i": 6, "word": "bank", "meaning": "the edge of a river",
-          "caption": "Here 'bank' leans hard on 'river' and 'current' — water words. Same five letters, but the meaning is built from its neighbors.",
-          "attends": { "5": 1.0, "10": 0.7, "4": 0.5, "8": 0.3 } }
+          "caption": "In this teaching diagram, 'river' and 'current' are the strongest water clues. Same five letters, different context.",
+          "cues": { "5": 1.0, "10": 0.7, "4": 0.5, "8": 0.3 } }
       ]
     },
     {
@@ -16,8 +16,8 @@
       "tokens": ["She", "kept", "all", "her", "money", "in", "a", "savings", "bank", "downtown"],
       "focus": [
         { "i": 8, "word": "bank", "meaning": "a place that holds money",
-          "caption": "Now the very same word 'bank' lights up 'savings' and 'money' instead. The model never stored one meaning for 'bank' — it computes the meaning fresh from context every time.",
-          "attends": { "7": 1.0, "4": 0.9, "1": 0.3 } }
+          "caption": "Here 'savings' and 'money' are the strongest financial clues. The same spelling now supports a different meaning.",
+          "cues": { "7": 1.0, "4": 0.9, "1": 0.3 } }
       ]
     },
     {
@@ -25,8 +25,8 @@
       "tokens": ["After", "the", "long", "grey", "winter", ",", "spring", "finally", "arrived"],
       "focus": [
         { "i": 6, "word": "spring", "meaning": "the season",
-          "caption": "'winter' and 'arrived' pull 'spring' toward the season. No calendar needed — the surrounding words settle it.",
-          "attends": { "4": 1.0, "8": 0.6, "2": 0.3 } }
+          "caption": "'Winter' and 'arrived' are useful clues for reading 'spring' as the season.",
+          "cues": { "4": 1.0, "8": 0.6, "2": 0.3 } }
       ]
     },
     {
@@ -34,8 +34,8 @@
       "tokens": ["A", "rusty", "spring", "poked", "up", "through", "the", "torn", "mattress"],
       "focus": [
         { "i": 2, "word": "spring", "meaning": "a metal coil",
-          "caption": "Swap the neighbors and 'spring' becomes a coil. 'mattress', 'rusty', and 'poked' do the disambiguating.",
-          "attends": { "8": 1.0, "1": 0.7, "3": 0.6 } }
+          "caption": "'Mattress', 'rusty', and 'poked' are useful clues for reading 'spring' as a coil.",
+          "cues": { "8": 1.0, "1": 0.7, "3": 0.6 } }
       ]
     },
     {
@@ -43,8 +43,8 @@
       "tokens": ["She", "gave", "a", "sharp", "reply", "and", "turned", "away"],
       "focus": [
         { "i": 3, "word": "sharp", "meaning": "harsh in tone (not a physical edge)",
-          "caption": "Nothing here is literally pointy. 'reply' and 'turned away' bend 'sharp' toward a feeling, not a blade.",
-          "attends": { "4": 1.0, "6": 0.6, "7": 0.4 } }
+          "caption": "Nothing here is literally pointy. 'Reply' and 'turned away' support a meaning about tone, not a blade.",
+          "cues": { "4": 1.0, "6": 0.6, "7": 0.4 } }
       ]
     }
   ],
