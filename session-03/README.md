@@ -15,13 +15,19 @@ The glowing links are an **illustrative attention map** — hand-drawn to show w
 
 Add or swap sentences freely in `data/sentences.json` — the page validates focus-word/index alignment at author time (see the build check). Keep at least one compare pair for the "same word, two minds" reveal, which is the paper's punch.
 
+## Cellular automata counter-model (5 minutes)
+
+Before Attention Spotlight, return briefly to Game of Life: a Conway cell can inspect only its eight immediate neighbors; a neural cellular automaton uses a local `3×3` neighborhood plus hidden state; local influence spreads over repeated steps. Contrast that with a transformer token connecting to distant tokens in its allowed context through attention.
+
+Land: **How does what a unit can see change what the whole system can do?** Do not call CA neighbors "attention"; local propagation versus long-distance connection is the contrast.
+
 ## Preview & deploy
 
 `python3 -m http.server 8000` from this folder. Deploy by pushing (`session-03/`) — the existing URL now serves v2.
 
 ## Using it in the 15-minute Bridge
 
-1. Narrowing move: "You'll learn attention reads each word in light of the others. Let's literally watch it — but you guess first."
-2. Click "bank" in the river sentence and make the room call out picks before you reveal; the score line ("matched 2 of 3") is the beat. Data moment: everyone opens the page, guesses the savings-bank sentence themselves, and posts their score in the chat — a 30-second tally of how well human instinct matches the map. Then press **Spotlight the two banks** to show both at once.
-3. Land the point: the model never stored one meaning for "bank" — it grows the meaning fresh from context every time. That's why *who the answer is for* can reshape everything.
-4. Cliffhanger on the page: does the model truly reshape for a new audience, or just re-decorate? — the judgment we start measuring next.
+1. Use the cellular-automata contrast above.
+2. Click "bank" in the river sentence and let the room guess two useful context words before revealing.
+3. Press **Spotlight the two banks** and compare the different neighborhoods of meaning.
+4. Land: context reshapes meaning. Release students to free-choice builds; they do not need to submit scores or build attention cards.

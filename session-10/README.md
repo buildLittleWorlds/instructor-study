@@ -33,14 +33,20 @@ Judge scores are authored-illustrative, labeled in `judge.json` and quoted on th
 2. Re-read the interpretation after: the compressed-lead + polish-bonus story must match what the real run shows (the numbers update themselves; the three named splits might not).
 3. Update the Six Ideas card 6 draft in Classroom with this page's link before publishing it.
 
+> **v4 boundary:** the real judge run is optional instructor work. Student requirements focus on authorship and responsibility, not reproducing the panel comparison.
+
+## Cellular automata authorship callback (under 5 minutes)
+
+Return to the Session 1 Game of Life build and name the layers: Conway chose the rule; the student chose the idea and directed AI; AI generated code; the computer executed it; the pattern emerged from repeated updates. No single layer explains authorship by itself. Frame authorship as responsibility for choosing, testing, revising, explaining, and publishing the final artifact—not as a claim that the student typed every line.
+
 ## Preview & deploy
 
 Serve the **repo root** (the page fetches `../session-07/`): `python3 -m http.server 8000` from `instructor-study/`, then open `/session-10/`. Deploy by pushing (`session-10/`).
 
 ## Using it in the 15-minute Bridge
 
-1. Narrowing move: "You've rated, and you've watched a room converge. Today the question is whether the machine that wrote the words can also judge them."
-2. Class crowns their judge (chat votes), then the duel: let the compressed lead and the 58% land.
-3. Blind sidings live — the class sides with A or B before identities drop; copy-my-sidings into the chat.
-4. The authorship demo: toggle confession → note. One line: "Both are true. One apologizes, one takes responsibility. Write the second kind." (Students draft their own notes from their AI Help Records in the studio hour; **Checkpoint C grade after session**.)
-5. Cliffhanger on the page: next week the class breaks my project. (→ Week 11, role reversal.)
+1. Use the Game of Life authorship layers above.
+2. Briefly show that an AI judge can disagree with a human panel; do not collect new class ratings.
+3. Use the confession-versus-judgment toggle as the central interaction.
+4. Land: "Both notes can be factually true. One apologizes; one documents responsibility. Write the second kind."
+5. Students add authorship notes grounded in real choices and tests.

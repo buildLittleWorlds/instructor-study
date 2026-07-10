@@ -23,17 +23,24 @@ The texts are illustrative (the AI answers written to show real tells; the human
 
 Collect real data: send one model 8 genuinely unrelated prompts, and ask 8 people the same prompts. Paste both into `slop.json`. The dashboard then reports your class's own slop measurement — a far better demo than authored text.
 
+> **v4 boundary:** real-data replacement is optional instructor work. Do not turn it into student data collection.
+
+## Cellular automata counter-model (5 minutes)
+
+Contrast three sources of rules: Conway's `B3/S23` was written by a person; Growing Neural Cellular Automata share one local neural update rule learned through a target and training experience; language-model pretraining and RLHF also shape learned behavior through objectives and examples, though the architecture and task are different.
+
+Use the Growing/Persistent/Regenerating distinction: growth-only systems may decay or explode; persistence training encourages stability; damage during training strengthens regeneration. Land: **If nobody wrote the final behavior line by line, what shaped it?**
+
 ## Preview & deploy
 
 `python3 -m http.server 8000` from this folder. Deploy by pushing (`session-04/`). Link it on the landing page and the Six Ideas card #4.
 
 ## Using it in the 15-minute Bridge
 
-1. Narrowing move: "You learned RLHF tunes models toward what raters liked, and the side effect is sameness. Let's measure it."
-2. Read three AI answers to unrelated prompts aloud — let the room *hear* the sameness before the numbers.
-3. Take the class prediction (which repeats more, by how much?), then reveal the bars: ~49× is a gasp.
-4. Click a tell ("it's important to remember") to light up every AI text that uses it. Discussion beat: whose preferences trained this?
-4b. Data moment: the class calls out suspected tells; type each into **Hunt your own tell** live ("tapestry"? "deep breath"? "journey"?), watch the counts land, then **Copy the hunt** and paste it into the scratchpad — their finds are now data. If someone asks whether the AI texts are just longer, point at the control bar: that's the answer, measured.
-5. Cliffhanger on the page: "make it weirder" just makes edgy slop — so what actually beats slop? (→ Week 5, the real research question.)
+1. Use the learned-rule counter-model above.
+2. Read three AI answers to unrelated prompts aloud and let the room hear the sameness.
+3. Reveal the existing bars and click one stock-phrase tell.
+4. Ask whose preferences and training experiences shaped the repeated behavior.
+5. Release students to make one behavior in their own app more intentional. Do not collect class phrase rows or require a dashboard.
 
 **Checkpoint A** (rep review of Sessions 1–4) happens after this session — instructor-facing, not part of the paper.

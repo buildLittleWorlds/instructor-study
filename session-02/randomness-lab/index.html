@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Where Does Randomness Enter? — Game of Life Lab</title>
+  <style>
+    :root {
+      --ink: #17211d;
+      --muted: #5d6c65;
+      --paper: #f7f5ee;
+      --panel: #fffdf8;
+      --line: #d9d7cd;
+      --green: #126b4d;
+      --green-soft: #dceee5;
+      --orange: #d8662a;
+      --orange-soft: #f9e5d8;
+      --blue: #315f91;
+      --shadow: 0 16px 45px rgba(23, 33, 29, .09);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 5%, rgba(18, 107, 77, .09), transparent 28rem),
+        var(--paper);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main { width: min(1120px, calc(100% - 28px)); margin: 0 auto; padding: 42px 0 70px; }
+    h1, h2, h3 { line-height: 1.12; }
+    h1 { max-width: 900px; margin: .25rem 0 .8rem; font-size: clamp(2.3rem, 6vw, 5.4rem); letter-spacing: -.045em; }
+    h2 { margin: 0 0 .8rem; font-size: clamp(1.5rem, 3vw, 2.2rem); }
+    h3 { margin: 0 0 .4rem; font-size: 1.02rem; }
+    p { max-width: 78ch; }
+    a { color: var(--blue); }
+    .kicker { color: var(--green); font-weight: 800; letter-spacing: .09em; text-transform: uppercase; font-size: .8rem; }
+    .lede { max-width: 820px; color: var(--muted); font-size: 1.15rem; }
+    .question {
+      margin: 24px 0 30px;
+      padding: 18px 20px;
+      border-left: 5px solid var(--orange);
+      background: var(--orange-soft);
+      font: 700 clamp(1.05rem, 2.5vw, 1.35rem)/1.4 Georgia, serif;
+    }
+    .lab {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(280px, .75fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .canvas-card, .control-card, .card, .compare {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .canvas-card { padding: 12px; }
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      background: #eff2ed;
+      cursor: crosshair;
+      touch-action: manipulation;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .stat { padding: 9px 10px; border-radius: 10px; background: #f0f0e9; }
+    .stat span { display: block; color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+    .stat strong { font-variant-numeric: tabular-nums; }
+    .control-card { padding: 18px; }
+    .rule {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--green-soft);
+    }
+    .rule code { font-size: 1.15rem; font-weight: 900; color: var(--green); }
+    .controls { display: grid; gap: 9px; margin-top: 14px; }
+    .button-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    button {
+      min-height: 44px;
+      border: 1px solid var(--green);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #fff;
+      background: var(--green);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    button.secondary { color: var(--green); background: #fff; }
+    button.orange { border-color: var(--orange); color: #fff; background: var(--orange); }
+    button:hover { filter: brightness(.97); transform: translateY(-1px); }
+    label { display: grid; gap: 5px; color: var(--muted); font-size: .9rem; }
+    input[type="range"] { width: 100%; accent-color: var(--orange); }
+    .noise-box {
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px solid #efb995;
+      border-radius: 12px;
+      background: var(--orange-soft);
+    }
+    .noise-box strong { color: #963e11; }
+    .status {
+      min-height: 3.5em;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 34px 0;
+    }
+    .card { padding: 18px; box-shadow: none; }
+    .card .number {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--green);
+      font-weight: 900;
+    }
+    .card:nth-child(2) .number { background: var(--orange); }
+    .card:nth-child(3) .number { background: var(--blue); }
+    .card p { margin-bottom: 0; color: var(--muted); }
+    .compare { padding: 22px; margin-top: 34px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--green); font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+    td:first-child { width: 18%; font-weight: 800; }
+    .guardrail {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: #eef2f7;
+      color: #354658;
+    }
+    .next-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .next-links a {
+      display: inline-block;
+      border: 1px solid var(--blue);
+      border-radius: 999px;
+      padding: 8px 13px;
+      text-decoration: none;
+      font-weight: 750;
+    }
+    footer { margin-top: 38px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+    @media (max-width: 820px) {
+      .lab, .source-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      table, tbody, tr, th, td { display: block; }
+      thead { display: none; }
+      td { border-bottom: 0; padding: 7px 0; }
+      tr { padding: 12px 0; border-bottom: 1px solid var(--line); }
+      td:first-child { width: auto; color: var(--green); }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="kicker">Instructor build · Session 2 · Cellular automata counter-model</div>
+  <h1>Where does randomness enter?</h1>
+  <p class="lede">Conway's Game of Life can look wild, but with the same starting board and the same rule it always follows the same future. Use this lab to separate three things that are easy to blur together: the starting state, the update rule, and randomness during execution.</p>
+  <div class="question">When a system surprises us, did the surprise come from its input, its rules, or randomness while it ran?</div>
+
+  <section class="lab" aria-label="Game of Life randomness laboratory">
+    <div class="canvas-card">
+      <canvas id="life" width="960" height="640" aria-label="Interactive Game of Life grid. Click a cell to toggle it."></canvas>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><span>Generation</span><strong id="generation">0</strong></div>
+        <div class="stat"><span>Living cells</span><strong id="living">5</strong></div>
+        <div class="stat"><span>Last noise flips</span><strong id="flips">0</strong></div>
+        <div class="stat"><span>Grid fingerprint</span><strong id="hash">—</strong></div>
+      </div>
+    </div>
+
+    <aside class="control-card">
+      <div class="rule">
+        <div><strong>Standard Conway rule</strong><br><small>Birth at 3 · survive at 2 or 3</small></div>
+        <code>B3/S23</code>
+      </div>
+
+      <div class="controls">
+        <div class="button-row">
+          <button id="run" data-testid="run">Run</button>
+          <button id="step" class="secondary" data-testid="step">Step once</button>
+        </div>
+        <button id="restart" class="secondary" data-testid="restart">Restart same seed: R-pentomino</button>
+        <button id="random" class="secondary" data-testid="random">New random board</button>
+        <button id="verify" class="secondary" data-testid="verify">Verify repeatability at 40 steps</button>
+        <div class="button-row">
+          <button id="clear" class="secondary">Clear board</button>
+          <button id="pause" class="secondary">Pause</button>
+        </div>
+        <label>Speed: <strong><span id="speedValue">6</span> steps/second</strong>
+          <input id="speed" type="range" min="2" max="20" step="1" value="6">
+        </label>
+      </div>
+
+      <div class="noise-box">
+        <label><strong>Noisy variant — not standard Conway's Game of Life</strong>
+          Execution noise: <span><strong id="noiseValue">0.00%</strong> chance that each cell flips after the normal Conway step</span>
+          <input id="noise" data-testid="noise" type="range" min="0" max="1.5" step="0.05" value="0">
+        </label>
+      </div>
+      <p id="status" class="status" aria-live="polite">Fixed seed loaded. Noise is 0%, so this is exact deterministic Conway behavior.</p>
+    </aside>
+  </section>
+
+  <section class="source-grid" aria-label="Three sources of different behavior">
+    <article class="card">
+      <span class="number">1</span>
+      <h3>Change the starting state</h3>
+      <p><strong>New random board</strong> changes the input but keeps <code>B3/S23</code> fixed. Different beginnings can produce different worlds without changing the system.</p>
+    </article>
+    <article class="card">
+      <span class="number">2</span>
+      <h3>Add randomness while it runs</h3>
+      <p>The noise control flips cells only <em>after</em> the normal update. That creates a deliberately noisy cellular automaton. It is useful for comparison, but it is not standard Conway.</p>
+    </article>
+    <article class="card">
+      <span class="number">3</span>
+      <h3>Change the rule</h3>
+      <p>This lab does not change the rule. If we replaced <code>B3/S23</code>, we would be studying a different cellular automaton—not merely a more random run of the same one.</p>
+    </article>
+  </section>
+
+  <section class="compare">
+    <h2>Now compare it with a language model</h2>
+    <table>
+      <thead><tr><th>Question</th><th>Game of Life</th><th>Language model at inference</th></tr></thead>
+      <tbody>
+        <tr><td>Current state</td><td>The living and dead cells on the grid</td><td>The prompt and tokens generated so far</td></tr>
+        <tr><td>What is fixed?</td><td>The hand-written <code>B3/S23</code> rule</td><td>The learned model weights that produce next-token scores</td></tr>
+        <tr><td>Where can randomness enter?</td><td>The starting board, or an explicitly added noisy update</td><td>Sampling from the next-token distribution</td></tr>
+        <tr><td>What does temperature do?</td><td>Nothing in standard Conway; this lab's noise is <em>not</em> temperature</td><td>Reshapes the sampling distribution toward safer or less likely tokens without retraining the model</td></tr>
+      </tbody>
+    </table>
+    <div class="guardrail"><strong>Accuracy guardrail:</strong> a transformer is not a cellular automaton. We are using Conway as a counter-model so we can ask the same diagnostic questions—what is the state, what is the rule, what information is available, and where does randomness enter—while keeping the differences visible.</div>
+    <div class="next-links">
+      <a href="../playground/">Next: Loading the Dice</a>
+      <a href="../">Then: The Garden of Forking Sentences</a>
+      <a href="https://distill.pub/2020/growing-ca/">Anthology specimen: Growing Neural Cellular Automata</a>
+    </div>
+  </section>
+
+  <footer>
+    <strong>Method note.</strong> The grid uses ordinary finite-boundary Conway updates when execution noise is 0%. The optional noise is applied afterward and labeled as a variant. The fixed R-pentomino makes repeatability visible; the fingerprint is a compact checksum of the current board, not a scientific measurement. Built as a static page with no API, backend, account, or data collection.
+  </footer>
+</main>
+
+<script>
+(() => {
+  'use strict';
+  const canvas = document.getElementById('life');
+  const ctx = canvas.getContext('2d');
+  const COLS = 48;
+  const ROWS = 32;
+  const CELL = canvas.width / COLS;
+  const DENSITY = 0.22;
+  const fixedSeed = new Uint8Array(COLS * ROWS);
+  const seedX = Math.floor(COLS / 2) - 1;
+  const seedY = Math.floor(ROWS / 2) - 1;
+  [[1,0], [2,0], [0,1], [1,1], [1,2]].forEach(([dx, dy]) => {
+    fixedSeed[(seedY + dy) * COLS + seedX + dx] = 1;
+  });
+
+  let grid = fixedSeed.slice();
+  let generation = 0;
+  let running = false;
+  let timer = null;
+  let lastFlips = 0;
+  let source = 'fixed';
+
+  const els = {
+    generation: document.getElementById('generation'),
+    living: document.getElementById('living'),
+    flips: document.getElementById('flips'),
+    hash: document.getElementById('hash'),
+    status: document.getElementById('status'),
+    run: document.getElementById('run'),
+    speed: document.getElementById('speed'),
+    speedValue: document.getElementById('speedValue'),
+    noise: document.getElementById('noise'),
+    noiseValue: document.getElementById('noiseValue')
+  };
+
+  function index(x, y) { return y * COLS + x; }
+
+  function standardStep(input) {
+    const output = new Uint8Array(input.length);
+    for (let y = 0; y < ROWS; y++) {
+      for (let x = 0; x < COLS; x++) {
+        let neighbors = 0;
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            if (dx === 0 && dy === 0) continue;
+            const nx = x + dx;
+            const ny = y + dy;
+            if (nx >= 0 && nx < COLS && ny >= 0 && ny < ROWS) neighbors += input[index(nx, ny)];
+          }
+        }
+        const alive = input[index(x, y)] === 1;
+        output[index(x, y)] = neighbors === 3 || (alive && neighbors === 2) ? 1 : 0;
+      }
+    }
+    return output;
+  }
+
+  function gridHash(input) {
+    let hash = 0x811c9dc5;
+    for (let i = 0; i < input.length; i++) {
+      hash ^= input[i] + (i & 255);
+      hash = Math.imul(hash, 0x01000193);
+    }
+    return (hash >>> 0).toString(16).padStart(8, '0');
+  }
+
+  function setNoise(value) {
+    els.noise.value = String(value);
+    els.noiseValue.textContent = Number(value).toFixed(2) + '%';
+  }
+
+  function stop() {
+    running = false;
+    els.run.textContent = 'Run';
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  function start() {
+    stop();
+    running = true;
+    els.run.textContent = 'Pause';
+    timer = setInterval(advance, 1000 / Number(els.speed.value));
+  }
+
+  function resetClockAndNoise(message) {
+    stop();
+    generation = 0;
+    lastFlips = 0;
+    setNoise(0);
+    els.status.textContent = message;
+  }
+
+  function loadFixedSeed() {
+    grid = fixedSeed.slice();
+    source = 'fixed';
+    resetClockAndNoise('Fixed R-pentomino loaded. Noise reset to 0%, so repeating this run will produce the same history.');
+    render();
+  }
+
+  function randomize() {
+    grid = new Uint8Array(COLS * ROWS);
+    for (let i = 0; i < grid.length; i++) grid[i] = Math.random() < DENSITY ? 1 : 0;
+    source = 'random';
+    resetClockAndNoise('A new random starting state is loaded. The B3/S23 rule is unchanged and noise is 0%.');
+    render();
+  }
+
+  function clearBoard() {
+    grid = new Uint8Array(COLS * ROWS);
+    source = 'edited';
+    resetClockAndNoise('Board cleared. Click cells to create a new starting state; the rule remains B3/S23.');
+    render();
+  }
+
+  function advance() {
+    grid = standardStep(grid);
+    const p = Number(els.noise.value) / 100;
+    lastFlips = 0;
+    if (p > 0) {
+      for (let i = 0; i < grid.length; i++) {
+        if (Math.random() < p) {
+          grid[i] = grid[i] ? 0 : 1;
+          lastFlips++;
+        }
+      }
+    }
+    generation++;
+    render();
+  }
+
+  function draw() {
+    ctx.fillStyle = '#eff2ed';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = 'rgba(23,33,29,.075)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x <= COLS; x++) {
+      ctx.beginPath(); ctx.moveTo(x * CELL, 0); ctx.lineTo(x * CELL, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y <= ROWS; y++) {
+      ctx.beginPath(); ctx.moveTo(0, y * CELL); ctx.lineTo(canvas.width, y * CELL); ctx.stroke();
+    }
+    ctx.fillStyle = Number(els.noise.value) > 0 ? '#d8662a' : '#126b4d';
+    for (let y = 0; y < ROWS; y++) {
+      for (let x = 0; x < COLS; x++) {
+        if (grid[index(x, y)]) ctx.fillRect(x * CELL + 1.5, y * CELL + 1.5, CELL - 3, CELL - 3);
+      }
+    }
+  }
+
+  function render() {
+    draw();
+    els.generation.textContent = generation;
+    els.living.textContent = grid.reduce((sum, cell) => sum + cell, 0);
+    els.flips.textContent = lastFlips;
+    els.hash.textContent = gridHash(grid);
+  }
+
+  function verifyRepeatability() {
+    let first = fixedSeed.slice();
+    let second = fixedSeed.slice();
+    for (let i = 0; i < 40; i++) {
+      first = standardStep(first);
+      second = standardStep(second);
+    }
+    const firstHash = gridHash(first);
+    const secondHash = gridHash(second);
+    els.status.textContent = firstHash === secondHash
+      ? `Repeatability verified: two separate 40-step runs from the R-pentomino both reached fingerprint ${firstHash}.`
+      : 'Repeatability check failed. The two standard Conway runs diverged.';
+  }
+
+  els.run.addEventListener('click', () => running ? stop() : start());
+  document.getElementById('pause').addEventListener('click', stop);
+  document.getElementById('step').addEventListener('click', () => { stop(); advance(); });
+  document.getElementById('restart').addEventListener('click', loadFixedSeed);
+  document.getElementById('random').addEventListener('click', randomize);
+  document.getElementById('clear').addEventListener('click', clearBoard);
+  document.getElementById('verify').addEventListener('click', verifyRepeatability);
+  els.speed.addEventListener('input', () => {
+    els.speedValue.textContent = els.speed.value;
+    if (running) start();
+  });
+  els.noise.addEventListener('input', () => {
+    els.noiseValue.textContent = Number(els.noise.value).toFixed(2) + '%';
+    els.status.textContent = Number(els.noise.value) === 0
+      ? 'Noise is 0%. Updates now follow exact deterministic Conway B3/S23.'
+      : 'Noise is active. Cells may flip after the normal Conway step, so this is a noisy variant—not standard Game of Life.';
+  });
+  canvas.addEventListener('click', event => {
+    stop();
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((event.clientX - rect.left) / rect.width * COLS);
+    const y = Math.floor((event.clientY - rect.top) / rect.height * ROWS);
+    if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
+      grid[index(x, y)] = grid[index(x, y)] ? 0 : 1;
+      source = 'edited';
+      generation = 0;
+      lastFlips = 0;
+      els.status.textContent = 'You changed the starting state by hand. The B3/S23 rule is still fixed.';
+      render();
+    }
+  });
+
+  window.__randomnessLab = Object.freeze({
+    get generation() { return generation; },
+    get hash() { return gridHash(grid); },
+    get noisePercent() { return Number(els.noise.value); },
+    get source() { return source; },
+    fixedHashAfter(steps) {
+      let test = fixedSeed.slice();
+      for (let i = 0; i < steps; i++) test = standardStep(test);
+      return gridHash(test);
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

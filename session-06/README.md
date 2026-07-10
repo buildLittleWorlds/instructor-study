@@ -27,14 +27,19 @@ Fit · Form · Earned surprise · Return — the four-criterion excellence rubri
 
 Replace the illustrative panels with real class ratings: have students rate the three openings on gut, then on the rubric, and paste the numbers into `rubric.json` (via the export pattern from earlier weeks). The page then shows the class's own agreement jump.
 
+> **v4 boundary:** keep this replacement optional. The page is an instructor example; students are not a standing ratings panel.
+
+## Cellular automata evaluation callback (under 5 minutes)
+
+Use Growing Neural Cellular Automata to distinguish three tests: can the system reach the target once, remain stable, and recover after damage? The point is not to collect class ratings. The point is that **success depends on which behavior you test**, and one impressive demonstration does not establish robustness.
+
 ## Preview & deploy
 
 `python3 -m http.server 8000` from this folder. Deploy by pushing (`session-06/`). Link on the landing page and Six Ideas card #5.
 
 ## Using it in the 15-minute Bridge
 
-1. Narrowing move: "Last week I said I couldn't just ask 'which is best.' Here's the fix — and you're the panel."
-2. Round 1 live: class rates the pigeon opening on gut; collect the spread aloud (it'll run 2–5). "That's not evidence, that's chaos."
-3. Reveal the rubric, rate Round 2 criterion by criterion, watch the numbers converge; land the headline: same items, same you, agreement jumped because of criteria.
-4. Data moment: everyone clicks **Copy my two-round ratings** and pastes into the scratchpad (those rows become the real panels in `rubric.json`), and posts their **worst-agreeing criterion** to the class question — expect "Earned surprise" to dominate, and ask why.
-5. Cliffhanger on the page: now point the yardstick at a hundred outputs — the run (→ Week 7).
+1. Use the grow/persist/regenerate callback above.
+2. Demonstrate one item in the Agreement Machine to show that different criteria answer different questions.
+3. Ask each student to name one success check for their own app: loads, responds, recovers, explains itself, or handles an unusual input.
+4. Do not collect class ratings, exports, or agreement rows.
