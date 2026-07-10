@@ -40,11 +40,6 @@
   .ptags { margin-top: .7rem; display: flex; flex-wrap: wrap; gap: .35rem; }
   .ptags span { font-family: system-ui, sans-serif; font-size: .74rem; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: .15rem .6rem; }
   .empty-wing { border: 1px dashed var(--line); border-radius: 8px; padding: 1rem 1.2rem; color: var(--muted); font-family: system-ui, sans-serif; font-size: .9rem; }
-  .nominate { background: var(--card); border: 2px dashed var(--accent); border-radius: 8px; padding: 1.1rem 1.2rem; margin: 1.4rem 0; font-family: system-ui, sans-serif; font-size: .92rem; }
-  .nominate input, .nominate select { width: 100%; font-size: .95rem; padding: .45rem .6rem; border: 1px solid var(--line); border-radius: 6px; margin: .25rem 0 .7rem; background: #fff; }
-  .nominate label { font-weight: 600; font-size: .85rem; }
-  .bigbtn { font-family: system-ui, sans-serif; font-size: .95rem; font-weight: 600; cursor: pointer; border: none; border-radius: 8px; padding: .6rem 1.2rem; background: var(--accent); color: #fff; }
-  .nominate textarea { width: 100%; height: 5rem; margin-top: .6rem; font-family: ui-monospace, monospace; font-size: .78rem; display: none; }
   .err { color: var(--warn); font-family: system-ui, sans-serif; }
   footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
 </style>
@@ -57,10 +52,9 @@
 
   <div class="thesis">
     Every specimen here is a piece of research or explanation that a reader can <strong>do something to</strong>.
-    When you visit one, answer four questions: What does the reader get to do? How does the interaction strengthen
-    the argument? What evidence or system sits underneath? What pattern could I borrow at smaller scale?
+    Wander until something catches your attention, then ask two questions: What can the reader do? What could I borrow at a much smaller scale?
   </div>
-  <p class="note">The collection grows all course long. New acquisitions get added weekly — and the best student paper-apps are accessioned into the Cohort Wing by class vote.</p>
+  <p class="note">This is an idea museum, not an assignment or submission form.</p>
 
   <div class="filters">
     <span class="note">Filter by wing:</span>
@@ -72,24 +66,8 @@
   <p class="count" id="count"></p>
   <div id="cabinet"><p class="note">Loading the collection…</p></div>
 
-  <h2>Nominate a specimen</h2>
-  <div class="nominate">
-    Found something that belongs in the museum — an interactive essay, a playable argument, a strange research object?
-    Fill this in and click the button; it copies a ready-to-add entry. Paste it into the class chat or Classroom.
-    <div style="margin-top: .8rem">
-      <label>Title</label><input id="nTitle" placeholder="e.g. The Evolution of Trust">
-      <label>Link</label><input id="nUrl" placeholder="https://…">
-      <label>What does the reader get to do?</label><input id="nAction" placeholder="e.g. play tournaments against strategies and watch cooperation evolve">
-      <label>Closest pattern</label><select id="nPattern"></select>
-      <label>Your first name</label><input id="nWho" maxlength="20" placeholder="e.g. Maya">
-      <button class="bigbtn" id="nominateBtn">Copy my nomination</button>
-      <span class="note" id="nMsg"></span>
-      <textarea id="nFallback" readonly></textarea>
-    </div>
-  </div>
-
   <footer>
-    Part of the class proceedings · The collection lives in <code>data/anthology.json</code> — adding a specimen is adding one row.
+    Part of the class proceedings · Browse for ideas, then build something smaller in your own way.
     · <a href="../" style="color:var(--accent)">The Instructor's Study</a>
   </footer>
 </main>
@@ -177,41 +155,10 @@
     if (activeWings.has('cohort') && !data.specimens.some(s => s.wing === 'cohort')) {
       const d = document.createElement('div');
       d.className = 'empty-wing';
-      d.textContent = 'The Cohort Wing is empty — for now. The best paper-apps made in this course get accessioned here by class vote, credited by first name. One of them could be yours.';
+      d.textContent = 'The Cohort Wing is empty for now. Student examples may be added later by the instructor.';
       cab.appendChild(d);
     }
   }
-
-  const sel = document.getElementById('nPattern');
-  data.patterns.forEach(p => {
-    const o = document.createElement('option');
-    o.value = p; o.textContent = p;
-    sel.appendChild(o);
-  });
-
-  document.getElementById('nominateBtn').addEventListener('click', async () => {
-    const row = {
-      id: (document.getElementById('nTitle').value || 'untitled').toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40),
-      wing: 'acquisition',
-      title: document.getElementById('nTitle').value || 'Untitled',
-      url: document.getElementById('nUrl').value || '',
-      readerAction: document.getElementById('nAction').value || '',
-      underneath: '',
-      borrow: '',
-      patterns: [sel.value],
-      nominatedBy: (document.getElementById('nWho').value || 'anon').trim()
-    };
-    const blob = JSON.stringify(row, null, 2);
-    const msg = document.getElementById('nMsg');
-    try {
-      await navigator.clipboard.writeText(blob);
-      msg.textContent = 'Copied — paste it in the class chat or Classroom.';
-    } catch (e) {
-      const ta = document.getElementById('nFallback');
-      ta.value = blob; ta.style.display = 'block'; ta.select();
-      msg.textContent = 'Clipboard blocked — copy the text below manually.';
-    }
-  });
 
   syncPatternChips();
   render();
