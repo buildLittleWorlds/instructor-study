@@ -18,6 +18,7 @@
   .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
   .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
   .thesis { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1.4rem 0; }
+  .question { border-left:4px solid var(--warn); background:#faf3ee; padding:.9rem 1.1rem; margin:1.4rem 0; font-weight:700; }
   .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
   .treewrap { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.5rem; margin:1rem 0; overflow-x:auto; }
   svg#tree { display:block; min-width:600px; width:100%; height:auto; }
@@ -35,12 +36,17 @@
   .sentences .s .badge { font-size:.72rem; font-weight:700; padding:.05rem .45rem; border-radius:999px; color:#fff; margin-right:.5rem; }
   .stat { font-family:system-ui,sans-serif; font-weight:600; margin-top:.6rem; }
   .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .callback { background:#f3f6fa; border:1px solid #cdd9e5; border-radius:8px; padding:1rem 1.2rem; margin:1.3rem 0; }
+  .callback h3 { margin:0 0 .5rem; font-family:system-ui,sans-serif; font-size:1rem; color:var(--cool); }
+  .dials { display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem; margin:.9rem 0; font-family:system-ui,sans-serif; font-size:.78rem; }
+  .dials span { padding:.6rem; border-radius:6px; background:#fff; border:1px solid #cdd9e5; text-align:center; }
   .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
   .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
   .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
   .err { color:var(--warn); font-family:system-ui,sans-serif; }
   footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
   footer a { color:var(--accent); }
+  @media (max-width:560px) { .dials { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -49,15 +55,17 @@
   <h1>The Garden of Forking Sentences</h1>
   <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
 
-  <div class="try">
-    <strong>Start with the counter-model:</strong> before changing the temperature dial, use the <a href="randomness-lab/">Game of Life randomness lab</a> to separate a system's starting state, its update rule, and randomness during execution. Then return here to see where language-model temperature fits—and where the analogy stops.
-  </div>
-
   <div class="thesis">
-    <strong>Thesis.</strong> A model doesn't "write" a sentence so much as walk down a tree, choosing a likely next word at every fork. A setting called <strong>temperature</strong> changes how boldly it strays from the safest branch. Turn it down and the tree becomes a single trunk — the same sentence every time. Turn it up and it explodes into a wild bush. Difference is easy to buy. Quality is the hard part.
+    <strong>Thesis.</strong> During sampled generation, a model repeatedly computes next-token scores and a sampler chooses a branch. This toy freezes a small set of possible forks into a tree. <strong>Temperature</strong> changes how strongly sampling favors the safest branch. Turn it down and the tree approaches a single trunk—the safest sentence nearly every time. Turn it up and more branches become competitive. Difference is easy to buy. Quality is the hard part.
   </div>
 
-  <p><strong>This week's question:</strong> what does temperature actually <em>do</em> to the sentences a model can produce — and where does "more surprising" turn into "less coherent"?</p>
+  <div class="question"><strong>This week’s question:</strong> When a system surprises us, did the surprise come from its input, its rule/learned parameters, or randomness while it ran?</div>
+
+  <p><strong>Sampling subquestion:</strong> what does temperature actually <em>do</em> to the sentences a model can produce—and where does “more surprising” turn into “less coherent”?</p>
+
+  <div class="try">
+    <strong>Start with the counter-model:</strong> use the <a href="randomness-lab/">Game of Life randomness lab</a> to separate starting state, update rule, and runtime randomness. Then return here to locate temperature precisely—and to see why a transformer is not a cellular automaton.
+  </div>
 
   <h2>The garden</h2>
   <p class="note">Every path from the top down to a tip is one possible sentence beginning with "<span id="prompt"></span>…". Thicker, darker branches are the likelier words. Drag the temperature dial and watch the tree change shape.</p>
@@ -84,27 +92,38 @@
   <p class="stat" id="stat"></p>
   <div class="sentences" id="sentences"></div>
 
+  <div class="callback">
+    <h3>Callback: this tree shows sampling paths, not transformer architecture</h3>
+    <p>The branches visualize candidate next-token choices and their illustrative probabilities. They are not attention heads, transformer layers, or measured internal states. Before sampling, a transformer has already used continuous, high-dimensional token vectors to compute the scores.</p>
+    <div class="dials" aria-label="The transformer side of the three design dials">
+      <span><strong>Neighborhood</strong><br>global attention inside a hard context window</span>
+      <span><strong>Rule</strong><br>shared across positions within a layer, different across layers</span>
+      <span><strong>Iteration</strong><br>fixed-depth pass; autoregression feeds tokens back</span>
+    </div>
+    <p class="note">Temperature acts on the next-token distribution after the forward pass. It does not change learned parameters, add knowledge, or behave like a random Life board. Manipulate the comparison in <a href="randomness-lab/#dynamics-title">the Life lab’s Three Dials module</a>.</p>
+  </div>
+
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
 
   <h2>Interpretation</h2>
-  <p>At a cold temperature the walk almost always takes the fattest branch at every fork, so you get the same sane, dull sentence again and again — the model's <strong>false mean</strong>. Crank the heat and the shy branches (<em>"breathing," "underwater," "furious"</em>) start winning often enough to appear — some delightful, some nonsense. The count of distinct sentences climbs fast. But notice what climbing randomness does <em>not</em> do: it never invents a new branch. Every wild sentence was already in the tree; temperature only changes how often we visit the strange tips. More random is not more creative — it's just more willing to wander.</p>
+  <p>At a cold temperature the walk usually takes the fattest branch at every fork, so the same safe paths recur. Crank the heat and shy branches (<em>“breathing,” “underwater,” “furious”</em>) win more often—some delightful, some nonsense. The count of distinct sentences climbs, but randomness never invents a new branch. Temperature changes how often this toy visits existing tips; it supplies neither new knowledge nor a quality judgment.</p>
+  <p>The deeper parallel is iteration over state. Life repeatedly updates a grid; a language model repeatedly extends an external token tape through autoregression. Neither one CA update nor one transformer layer is universal by itself. Universal computation requires iteration over a memory surface that can keep growing—the grid or token tape. Within one transformer layer, the same learned function is shared across positions; across layers, the learned rule normally changes.</p>
 
   <div class="limit">
-    <strong>Limitation.</strong> This is a tiny, hand-built tree with made-up probabilities; a real model chooses from tens of thousands of words at every step and rebuilds the whole tree after each one. The shape of the lesson is right — cold repeats, hot scatters — but the numbers here are an illustration, not a measurement.
+    <strong>Limitation.</strong> This is a tiny, hand-built tree with illustrative probabilities; it is not measured from a specific model. A real model recomputes scores over a model-specific vocabulary after each token. The tree omits attention, continuous hidden vectors, learned parameters, and the hard context window. A transformer is not a cellular automaton: it differs in neighborhood, rule across layers, and iteration. Conway’s one-bit handwritten rule does not model learned hidden state; use a <em>neural CA</em> for that comparison.
   </div>
 
   <h2>Try it yourself</h2>
   <div class="try">
-    In your own AI chat, run one prompt five times and count how much really changes (that's low temperature at work). Then ask for "five versions, from safest to wildest." Somewhere in the wild ones is a line that's surprising <em>and</em> good — that rare tip is what the rest of this course is hunting for.
+    In an AI chat, run one prompt five times and count what changes—but do not infer a hidden temperature setting from repetition alone. Then ask for “five versions, from safest to wildest” and judge which differences are merely unusual versus genuinely useful. If your interface exposes temperature, record the setting; otherwise label it unknown.
   </div>
 
-  <p class="cliff">Randomness gave us new sentences but never new ideas — every wild one was already on the tree. So where would a genuinely <em>better</em> sentence come from? <span class="note">(Hold that. It's the whole question.)</span></p>
+  <p class="cliff">Temperature changes which branch wins. But before sampling, how did every token help shape those branch weights? If one position can see everything in its context at once, what becomes possible? <span class="note">Next: <strong>Attention Spotlight</strong>, Session 3.</span></p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
-    <p><strong>What AI helped with:</strong> drafting this page's code and suggesting branch words, which I pruned and re-weighted.</p>
-    <p><strong>What I own:</strong> the tree's shape and probabilities, the choice to make temperature control both branch thickness and the random walk, and the reading that randomness reaches strange tips without ever adding new ones.</p>
+    <p>AI assisted with code and explanatory drafts; Dr. Plate chose the tree, weights, temperature experiment, counter-model, guardrails, and interpretation.</p>
   </div>
 
   <footer>Instructor example · Curiosity-Driven Paper-App Studio · Data: <code>data/tree.json</code> · Begin with <a href="randomness-lab/">Where Does Randomness Enter?</a> · See also the raw dice: <a href="playground/">Loading the Dice</a></footer>
@@ -113,7 +132,7 @@
 <script>
 (async function(){
   let data;
-  try { data = await fetch('data/tree.json').then(r=>r.json()); }
+  try { data = await fetch('data/tree.json', { cache: 'no-store' }).then(r=>r.json()); }
   catch(e){ document.getElementById('tree').innerHTML=''; document.querySelector('.treewrap').innerHTML='<p class="err">Could not load the tree data. Serve this folder over HTTP or open the deployed page.</p>'; return; }
 
   document.getElementById('prompt').textContent = data.prompt;
@@ -256,7 +275,7 @@
 
   document.getElementById('method').innerHTML =
     `<p><strong>The tree.</strong> Prompt: “${data.prompt}…”. Each fork lists candidate next words with a base probability. Branch thickness and darkness show the tempered probability at the current temperature.</p>`+
-    `<p><strong>Temperature.</strong> Each probability is raised to the power 1/T and renormalized among its siblings — the exact move a real sampler makes. Low T sharpens toward the top choice; high T flattens everything toward equal. “Grow a sentence” takes a weighted random walk using those tempered odds.</p>`+
+    `<p><strong>Temperature.</strong> Each probability is raised to the power 1/T and renormalized among its siblings. This is equivalent to dividing logits by T and applying softmax when no additional filters intervene. Low T sharpens toward the top choice; high T flattens toward equal. “Grow a sentence” takes a weighted random walk using those tempered odds.</p>`+
     `<p class="note">${data.note}</p>`;
 
   render();

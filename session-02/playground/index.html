@@ -18,6 +18,7 @@
   .kicker { font-family: system-ui, sans-serif; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
   .byline { color: var(--muted); font-style: italic; margin-bottom: 1.6rem; }
   .thesis { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.1rem; margin: 1.4rem 0; }
+  .question { border-left: 4px solid var(--warn); background: #faf3ee; padding: .9rem 1.1rem; margin: 1.4rem 0; font-weight: 700; }
   .note { font-family: system-ui, sans-serif; font-size: .85rem; color: var(--muted); }
   .lab { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1.2rem; margin: 1.4rem 0; }
   .context { font-size: 1.15rem; margin-bottom: 1rem; }
@@ -37,10 +38,16 @@
   .draws .tok.rare { background: #f6e3d5; }
   .readout { font-family: system-ui, sans-serif; font-size: .9rem; font-weight: 600; margin-top: .7rem; }
   .method, .authorship { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.2rem; font-size: .95rem; }
+  .callback { background: #f3f6fa; border: 1px solid #cdd9e5; border-radius: 8px; padding: 1rem 1.2rem; margin: 1.3rem 0; }
+  .callback h3 { margin: 0 0 .5rem; font-family: system-ui, sans-serif; font-size: 1rem; color: var(--cool); }
+  .dials { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin: .9rem 0; font-family: system-ui, sans-serif; font-size: .78rem; }
+  .dials span { padding: .6rem; border-radius: 6px; background: #fff; border: 1px solid #cdd9e5; text-align: center; }
   .limit { border-left: 4px solid var(--warn); padding: .7rem 1.1rem; background: #faf3ee; margin: 1.2rem 0; }
+  .try { border: 2px dashed var(--accent); border-radius: 8px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
   .cliff { font-size: 1.1rem; font-style: italic; margin: 2rem 0 0; }
   footer { margin-top: 3rem; border-top: 1px solid var(--line); padding-top: 1rem; font-size: .85rem; color: var(--muted); font-family: system-ui, sans-serif; }
   footer a { color: var(--accent); }
+  @media (max-width: 560px) { .dials { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -50,10 +57,12 @@
   <div class="byline">A toy you can play with instead of a paragraph you can read</div>
 
   <div class="thesis">
-    <strong>The claim, playable:</strong> a language model writes by rolling weighted dice over possible next words.
-    Temperature doesn't add ideas — it only reshapes the weights. Drag the dial and watch: the distribution flattens
+    <strong>The claim, playable:</strong> after a language model computes next-token scores, a sampler can choose by rolling weighted dice.
+    Temperature doesn't add ideas—it only reshapes the weights. Drag the dial and watch: the distribution flattens
     or sharpens, but the <em>same twelve words</em> are all it ever had.
   </div>
+
+  <div class="question"><strong>This week’s question:</strong> When a system surprises us, did the surprise come from its input, its rule/learned parameters, or randomness while it ran?</div>
 
   <div class="lab">
     <p class="context">“The old library was <span class="blank" id="drawn">___</span>”</p>
@@ -72,23 +81,37 @@
     <p class="readout" id="readout"></p>
   </div>
 
-  <p>Three things to try, in order: drag the dial to <strong>0.1</strong> and roll 20 times (meet the false mean — the same word, almost every roll). Drag to <strong>2.0</strong> and roll 20 (everything possible, nothing chosen). Then hunt for the dial position where the rolls feel <em>interestingly varied but still sane</em> — and notice that you, the reader, just reinvented the quality curve from <a href="../">the main paper</a>.</p>
+  <h2>Interpretation</h2>
+  <p>Low temperature concentrates the weight on the safest words; high temperature gives the tail more chances to win. The possible words do not change. Temperature neither edits the learned model nor adds knowledge—it changes only the odds used when sampling the next token.</p>
+
+  <div class="callback">
+    <h3>Callback: the dice are not the whole transformer</h3>
+    <p>The transformer’s forward pass first computes next-token scores from continuous, high-dimensional token states. This toy begins only at the sampling step. A random starting board in Life is <strong>not</strong> temperature, and the deliberately noisy Life variant is not temperature either.</p>
+    <div class="dials" aria-label="The transformer side of the three design dials">
+      <span><strong>Neighborhood</strong><br>global attention inside a hard context window</span>
+      <span><strong>Rule</strong><br>shared across positions within a layer, different across layers</span>
+      <span><strong>Iteration</strong><br>fixed-depth pass; autoregression feeds tokens back</span>
+    </div>
+    <p class="note">A transformer is not a cellular automaton. Manipulate all three differences in <a href="../randomness-lab/#dynamics-title">the Life lab’s Three Dials module</a>.</p>
+  </div>
 
   <h2>Method</h2>
   <div class="method">
-    <p>Twelve candidate next words with hand-set base probabilities (roughly the shape a real model produces for this context: one dominant choice, a few plausible ones, a long tail). The dial applies the real temperature formula — each probability is raised to the power 1/T and renormalized — the same math running inside an actual model's sampler, just over 12 words instead of ~100,000.</p>
+    <p>Twelve candidate next words use hand-set illustrative base weights: one dominant choice, a few plausible ones, and a long tail. Rounded as written, they sum to 99.5%; the browser renormalizes them. The dial then applies the real temperature transformation—each weight is raised to the power 1/T and renormalized. Every displayed percentage and every roll is computed in-browser.</p>
   </div>
 
   <div class="limit">
-    <strong>Limitation.</strong> This is a toy: real models recompute the entire distribution after every word, conditioned on everything so far, and their tail is fifty thousand words deep. The toy shows the mechanism, not the scale — and nothing about the mechanism tells you which word is <em>best</em>. The dice know probabilities, not quality.
+    <strong>Limitation.</strong> This is a toy: real models recompute a distribution over a model-specific vocabulary after every token, conditioned on the available context. The toy shows the temperature mechanism, not the architecture, vocabulary scale, learned scores, or quality. The dice know probabilities, not which word is <em>best</em>.
   </div>
 
-  <p class="cliff">If the dial can't add ideas — only spread the dice — then where would <em>better</em> writing ever come from? <span class="note">(Back to <a href="../">the blind gallery</a>, where readers judge exactly that.)</span></p>
+  <h2>Try it yourself</h2>
+  <div class="try">Drag the dial to <strong>0.1</strong> and roll 20 times. Clear, move to <strong>2.0</strong>, and roll 20 again. Then hunt for the setting where the results feel varied but still plausible. Record the temperature, the number of distinct words, and one judgment the counter cannot make for you.</div>
+
+  <p class="cliff">Temperature changes which token wins. But before the dice are rolled, how did every token help compute those weights? If one position can see everything in its context at once, what becomes possible? <span class="note">Next: <strong>Attention Spotlight</strong>, Session 3.</span></p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
-    <p><strong>What AI helped with:</strong> drafting this page's first HTML and suggesting plausible base probabilities, which I adjusted.</p>
-    <p><strong>What I own:</strong> the twelve-word vocabulary, the framing of the dial as "loading the dice," the three-step reading path, and the decision to keep the toy honest about being a toy.</p>
+    <p>AI assisted with code and explanatory drafts; Dr. Plate chose the vocabulary, weights, “loading the dice” frame, experiment, guardrails, and interpretation.</p>
   </div>
 
   <footer>Instructor example · Curiosity-Driven Paper-App Studio · companion to <a href="../">Session 2: The Garden of Forking Sentences</a></footer>

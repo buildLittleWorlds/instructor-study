@@ -1,6 +1,6 @@
 {
   "prompt": "The old house was",
-  "note": "The probabilities below are illustrative — hand-set to mimic the shape a real model produces (one likely word, a few plausible ones, a long shy tail). They are not measured from a specific model. Swap in real next-word probabilities and nothing else changes.",
+  "note": "The probabilities below are illustrative — hand-set to mimic a common distribution shape (one likely word, a few plausible ones, a long shy tail). They are not measured from a specific model. A real model recomputes its distribution after every token; this fixed tree preserves only the temperature calculation.",
   "root": {
     "word": "The old house was",
     "children": [
