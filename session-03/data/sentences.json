@@ -1,55 +1,374 @@
 {
-  "note": "The glowing cues are hand-authored by the instructor. They illustrate context words that help a reader settle a meaning; they are not attention weights extracted from a model.",
-  "instructions": "Click any underlined word. Before revealing the teaching diagram, pick the 2–3 visible context words you think are most useful.",
-  "sentences": [
+ "note": "Two kinds of numbers live on this page. The glowing cues are hand-authored teaching diagrams — context words the instructor chose, not attention weights extracted from a model. The closeness engine's cosine similarities are real measurements, computed 2026-07-12 with the same model and settings as Session 1's Map of Meaning (Xenova/all-MiniLM-L6-v2, mean-pooled, normalized single words). Raw closeness is the material attention starts from; it is not attention.",
+ "instructions": "Click any underlined word. Before revealing the teaching diagram, pick the 2–3 visible context words you think are most useful.",
+ "modelSims": {
+  "model": "Xenova/all-MiniLM-L6-v2",
+  "computed": "2026-07-12",
+  "method": "cosine similarity of mean-pooled, normalized single-word embeddings — the same model and settings as Session 1's Map of Meaning. Regeneration script: see this session's README.",
+  "caveat": "Real measurements of context-free word closeness. NOT the model's attention weights: real attention computes similarity through learned query/key projections, in context, across many heads and layers.",
+  "sims": {
+   "bank": {
+    "i": 0.204,
+    "sat": 0.167,
+    "on": 0.24,
+    "the": 0.243,
+    "muddy": 0.25,
+    "river": 0.5,
+    "and": 0.218,
+    "watched": 0.197,
+    "current": 0.279,
+    "she": 0.23,
+    "kept": 0.326,
+    "all": 0.245,
+    "her": 0.244,
+    "money": 0.469,
+    "in": 0.324,
+    "a": 0.299,
+    "savings": 0.514,
+    "downtown": 0.322,
+    "after": 0.261,
+    "long": 0.166,
+    "grey": 0.26,
+    "winter": 0.188,
+    "finally": 0.23,
+    "arrived": 0.197,
+    "rusty": 0.137,
+    "poked": 0.126,
+    "up": 0.24,
+    "through": 0.291,
+    "torn": 0.207,
+    "mattress": 0.313,
+    "gave": 0.199,
+    "reply": 0.198,
+    "turned": 0.22,
+    "away": 0.257,
+    "knife": 0.306,
+    "sofa": 0.203
+   },
+   "spring": {
+    "i": 0.122,
+    "sat": 0.159,
+    "on": 0.225,
+    "the": 0.225,
+    "muddy": 0.223,
+    "river": 0.311,
+    "and": 0.196,
+    "watched": 0.149,
+    "current": 0.242,
+    "she": 0.186,
+    "kept": 0.203,
+    "all": 0.16,
+    "her": 0.227,
+    "money": 0.24,
+    "in": 0.293,
+    "a": 0.234,
+    "savings": 0.175,
+    "downtown": 0.267,
+    "after": 0.217,
+    "long": 0.214,
+    "grey": 0.178,
+    "winter": 0.605,
+    "finally": 0.198,
+    "arrived": 0.185,
+    "rusty": 0.303,
+    "poked": 0.307,
+    "up": 0.274,
+    "through": 0.182,
+    "torn": 0.267,
+    "mattress": 0.367,
+    "gave": 0.199,
+    "reply": 0.242,
+    "turned": 0.207,
+    "away": 0.352,
+    "knife": 0.243,
+    "sofa": 0.135
+   },
+   "sharp": {
+    "i": 0.263,
+    "sat": 0.302,
+    "on": 0.28,
+    "the": 0.32,
+    "muddy": 0.311,
+    "river": 0.256,
+    "and": 0.218,
+    "watched": 0.249,
+    "current": 0.342,
+    "she": 0.317,
+    "kept": 0.259,
+    "all": 0.229,
+    "her": 0.303,
+    "money": 0.212,
+    "in": 0.298,
+    "a": 0.399,
+    "savings": 0.223,
+    "downtown": 0.242,
+    "after": 0.279,
+    "long": 0.208,
+    "grey": 0.364,
+    "winter": 0.193,
+    "finally": 0.243,
+    "arrived": 0.24,
+    "rusty": 0.337,
+    "poked": 0.338,
+    "up": 0.254,
+    "through": 0.275,
+    "torn": 0.344,
+    "mattress": 0.28,
+    "gave": 0.258,
+    "reply": 0.249,
+    "turned": 0.281,
+    "away": 0.196,
+    "knife": 0.587,
+    "sofa": 0.264
+   }
+  }
+ },
+ "tornWord": {
+  "bank": {
+   "label": "water",
+   "a": [
+    "river",
+    "current"
+   ],
+   "labelB": "money",
+   "b": [
+    "money",
+    "savings"
+   ]
+  },
+  "spring": {
+   "label": "season",
+   "a": [
+    "winter",
+    "arrived"
+   ],
+   "labelB": "coil",
+   "b": [
+    "rusty",
+    "mattress"
+   ]
+  },
+  "sharp": {
+   "label": "tone",
+   "a": [
+    "reply",
+    "turned"
+   ],
+   "labelB": "edge",
+   "b": [
+    "knife"
+   ]
+  }
+ },
+ "sentences": [
+  {
+   "id": "river",
+   "tokens": [
+    "I",
+    "sat",
+    "on",
+    "the",
+    "muddy",
+    "river",
+    "bank",
+    "and",
+    "watched",
+    "the",
+    "current"
+   ],
+   "focus": [
     {
-      "id": "river",
-      "tokens": ["I", "sat", "on", "the", "muddy", "river", "bank", "and", "watched", "the", "current"],
-      "focus": [
-        { "i": 6, "word": "bank", "meaning": "the edge of a river",
-          "caption": "In this teaching diagram, 'river' and 'current' are the strongest water clues. Same five letters, different context.",
-          "cues": { "5": 1.0, "10": 0.7, "4": 0.5, "8": 0.3 } }
-      ]
-    },
-    {
-      "id": "savings",
-      "tokens": ["She", "kept", "all", "her", "money", "in", "a", "savings", "bank", "downtown"],
-      "focus": [
-        { "i": 8, "word": "bank", "meaning": "a place that holds money",
-          "caption": "Here 'savings' and 'money' are the strongest financial clues. The same spelling now supports a different meaning.",
-          "cues": { "7": 1.0, "4": 0.9, "1": 0.3 } }
-      ]
-    },
-    {
-      "id": "spring-season",
-      "tokens": ["After", "the", "long", "grey", "winter", ",", "spring", "finally", "arrived"],
-      "focus": [
-        { "i": 6, "word": "spring", "meaning": "the season",
-          "caption": "'Winter' and 'arrived' are useful clues for reading 'spring' as the season.",
-          "cues": { "4": 1.0, "8": 0.6, "2": 0.3 } }
-      ]
-    },
-    {
-      "id": "spring-coil",
-      "tokens": ["A", "rusty", "spring", "poked", "up", "through", "the", "torn", "mattress"],
-      "focus": [
-        { "i": 2, "word": "spring", "meaning": "a metal coil",
-          "caption": "'Mattress', 'rusty', and 'poked' are useful clues for reading 'spring' as a coil.",
-          "cues": { "8": 1.0, "1": 0.7, "3": 0.6 } }
-      ]
-    },
-    {
-      "id": "sharp",
-      "tokens": ["She", "gave", "a", "sharp", "reply", "and", "turned", "away"],
-      "focus": [
-        { "i": 3, "word": "sharp", "meaning": "harsh in tone (not a physical edge)",
-          "caption": "Nothing here is literally pointy. 'Reply' and 'turned away' support a meaning about tone, not a blade.",
-          "cues": { "4": 1.0, "6": 0.6, "7": 0.4 } }
-      ]
+     "i": 6,
+     "word": "bank",
+     "meaning": "the edge of a river",
+     "caption": "In this teaching diagram, 'river' and 'current' are the strongest water clues. Same five letters, different context.",
+     "cues": {
+      "5": 1.0,
+      "10": 0.7,
+      "4": 0.5,
+      "8": 0.3
+     }
     }
-  ],
-  "comparePairs": [
-    { "word": "bank", "ids": ["river", "savings"], "label": "the two banks" },
-    { "word": "spring", "ids": ["spring-season", "spring-coil"], "label": "the two springs" }
-  ]
+   ]
+  },
+  {
+   "id": "savings",
+   "tokens": [
+    "She",
+    "kept",
+    "all",
+    "her",
+    "money",
+    "in",
+    "a",
+    "savings",
+    "bank",
+    "downtown"
+   ],
+   "focus": [
+    {
+     "i": 8,
+     "word": "bank",
+     "meaning": "a place that holds money",
+     "caption": "Here 'savings' and 'money' are the strongest financial clues. The same spelling now supports a different meaning.",
+     "cues": {
+      "7": 1.0,
+      "4": 0.9,
+      "1": 0.3
+     }
+    }
+   ],
+   "swap": {
+    "i": 7,
+    "from": "savings",
+    "to": "river",
+    "kind": "tug-of-war",
+    "button": "Nudge it: swap 'savings' → 'river'",
+    "focus": {
+     "i": 8,
+     "word": "bank",
+     "meaning": "genuinely torn — the cues now disagree",
+     "caption": "'Money' and 'kept' still pull toward finance; 'river' now pulls toward water. A weighted reading can report a tug-of-war. A binary in-or-out neighborhood can only count.",
+     "cues": {
+      "7": 1.0,
+      "4": 0.9,
+      "1": 0.4
+     }
+    }
+   }
+  },
+  {
+   "id": "spring-season",
+   "tokens": [
+    "After",
+    "the",
+    "long",
+    "grey",
+    "winter",
+    ",",
+    "spring",
+    "finally",
+    "arrived"
+   ],
+   "focus": [
+    {
+     "i": 6,
+     "word": "spring",
+     "meaning": "the season",
+     "caption": "'Winter' and 'arrived' are useful clues for reading 'spring' as the season.",
+     "cues": {
+      "4": 1.0,
+      "8": 0.6,
+      "2": 0.3
+     }
+    }
+   ]
+  },
+  {
+   "id": "spring-coil",
+   "tokens": [
+    "A",
+    "rusty",
+    "spring",
+    "poked",
+    "up",
+    "through",
+    "the",
+    "torn",
+    "mattress"
+   ],
+   "focus": [
+    {
+     "i": 2,
+     "word": "spring",
+     "meaning": "a metal coil",
+     "caption": "'Mattress', 'rusty', and 'poked' are useful clues for reading 'spring' as a coil.",
+     "cues": {
+      "8": 1.0,
+      "1": 0.7,
+      "3": 0.6
+     }
+    }
+   ],
+   "swap": {
+    "i": 8,
+    "from": "mattress",
+    "to": "sofa",
+    "kind": "held line",
+    "button": "Nudge it: swap 'mattress' → 'sofa'",
+    "focus": {
+     "i": 2,
+     "word": "spring",
+     "meaning": "still a metal coil",
+     "caption": "The strongest cue weakened, but 'rusty' and 'poked' hold the reading in place. Weighted evidence degrades gracefully; a fixed ring has nothing to fall back on.",
+     "cues": {
+      "1": 0.9,
+      "3": 0.8,
+      "8": 0.5
+     }
+    }
+   }
+  },
+  {
+   "id": "sharp",
+   "tokens": [
+    "She",
+    "gave",
+    "a",
+    "sharp",
+    "reply",
+    "and",
+    "turned",
+    "away"
+   ],
+   "focus": [
+    {
+     "i": 3,
+     "word": "sharp",
+     "meaning": "harsh in tone (not a physical edge)",
+     "caption": "Nothing here is literally pointy. 'Reply' and 'turned away' support a meaning about tone, not a blade.",
+     "cues": {
+      "4": 1.0,
+      "6": 0.6,
+      "7": 0.4
+     }
+    }
+   ],
+   "swap": {
+    "i": 4,
+    "from": "reply",
+    "to": "knife",
+    "kind": "flip",
+    "button": "Nudge it: swap 'reply' → 'knife'",
+    "focus": {
+     "i": 3,
+     "word": "sharp",
+     "meaning": "a physical edge",
+     "caption": "One word changed and the whole reading flipped: 'sharp' now means a blade. In Life the smallest change is one whole cell; here one word re-weights everything.",
+     "cues": {
+      "4": 1.0,
+      "1": 0.4
+     }
+    }
+   }
+  }
+ ],
+ "comparePairs": [
+  {
+   "word": "bank",
+   "ids": [
+    "river",
+    "savings"
+   ],
+   "label": "the two banks"
+  },
+  {
+   "word": "spring",
+   "ids": [
+    "spring-season",
+    "spring-coil"
+   ],
+   "label": "the two springs"
+  }
+ ]
 }

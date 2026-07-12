@@ -8,12 +8,14 @@
   :root {
     --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
     --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f; --glow:#f4c04e;
+    --sim:#5b8bb0; --sim-soft:#e8f0f6;
   }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
   main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
   h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
   h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  h3 { font-size:1.05rem; margin:1.6rem 0 .5rem; }
   .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
   .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
   .curiosity { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1rem 0 1.6rem; }
@@ -28,10 +30,14 @@
   .tok.guessable { cursor:pointer; }
   .tok.guessable:hover { background:#f0ede5; }
   .tok.pick { box-shadow:0 0 0 2px var(--accent); border-radius:5px; }
+  .tok.swapped { border-bottom:2px solid var(--warn); }
   button.mini { font-size:.8rem; padding:.15rem .6rem; margin-left:.3rem; }
   button.ghostmini { border-color:var(--muted); color:var(--muted); }
+  button.swapbtn { border-color:var(--warn); color:var(--warn); }
+  button.swapbtn:hover { background:#faf3ee; }
   .caption { font-family:system-ui,sans-serif; font-size:.92rem; color:var(--ink); margin-top:.6rem; padding-top:.6rem; border-top:1px dashed var(--line); display:none; }
   .caption .mn { font-weight:700; color:var(--accent); }
+  .caption .swapline { display:block; margin-top:.5rem; }
   .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
   .window-panel { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.9rem 1rem; margin:1rem 0 1.4rem; }
   .window-panel p { margin:.2rem 0 .6rem; }
@@ -39,12 +45,51 @@
   button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
   button:hover { background:var(--accent-soft); }
   button[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  button:disabled { opacity:.45; cursor:default; }
   .diagram,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
   .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
   .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
   .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
   .err { color:var(--warn); font-family:system-ui,sans-serif; }
   footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+
+  /* Module shells */
+  .module { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 1.4rem; }
+  .module .placeholder { font-family:system-ui,sans-serif; font-size:.9rem; color:var(--muted); font-style:italic; }
+  .modnote { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin-top:.7rem; }
+
+  /* Module 1 — steps strip + fixed ring */
+  .cellstrip { display:flex; flex-wrap:wrap; gap:3px; margin:.7rem 0; }
+  .cell { min-width:2.1rem; padding:.25rem .3rem; text-align:center; font-family:system-ui,sans-serif; font-size:.72rem;
+          border:1px solid var(--line); border-radius:4px; background:#f6f4ee; color:var(--muted); }
+  .cell.focuscell { background:var(--accent); color:#fff; border-color:var(--accent); font-weight:700; }
+  .cell.reached { background:#fbecc8; color:var(--ink); border-color:var(--glow); }
+  .cell.cuecell { background:var(--glow); color:var(--ink); border-color:#d9a72f; font-weight:700; }
+  .stepreadout { font-family:system-ui,sans-serif; font-size:.88rem; margin:.4rem 0 0; }
+  .ringwrap { display:flex; gap:1.4rem; flex-wrap:wrap; align-items:flex-start; margin-top:1rem; padding-top:1rem; border-top:1px dashed var(--line); }
+  .ring3 { display:grid; grid-template-columns:repeat(3,2.1rem); gap:3px; }
+  .ring3 span { height:2.1rem; display:flex; align-items:center; justify-content:center; font-family:system-ui,sans-serif; font-size:.72rem;
+                border:1px solid #d9a72f; border-radius:4px; background:#fbecc8; }
+  .ring3 span.center { background:var(--accent); color:#fff; border-color:var(--accent); font-weight:700; }
+  .ringcaption { flex:1; min-width:14rem; font-family:system-ui,sans-serif; font-size:.85rem; }
+
+  /* Module 2 — closeness engine */
+  .simrow { display:grid; grid-template-columns:6.2rem 1fr 3.2rem; gap:.6rem; align-items:center;
+            font-family:system-ui,sans-serif; font-size:.85rem; margin:.28rem 0; }
+  .simrow .w { text-align:right; overflow:hidden; text-overflow:ellipsis; }
+  .simrow.outsiderow { opacity:.35; }
+  .barpair { display:flex; flex-direction:column; gap:2px; }
+  .bar { height:.7rem; border-radius:3px; background:var(--sim); min-width:2px; }
+  .bar.wt { background:var(--glow); }
+  .simval { color:var(--muted); font-size:.78rem; }
+  .cuebadge { display:inline-block; font-size:.68rem; background:var(--accent-soft); color:var(--accent);
+              border:1px solid var(--accent); border-radius:4px; padding:0 .3rem; margin-left:.35rem; vertical-align:middle; }
+  .legend { display:flex; gap:1.2rem; flex-wrap:wrap; font-family:system-ui,sans-serif; font-size:.78rem; color:var(--muted); margin:.5rem 0 .8rem; }
+  .legend i { display:inline-block; width:.9rem; height:.6rem; border-radius:2px; margin-right:.3rem; vertical-align:baseline; }
+  .sharpness { display:flex; align-items:center; gap:.7rem; font-family:system-ui,sans-serif; font-size:.85rem; margin:.9rem 0 .4rem; }
+  .sharpness input[type=range]{ flex:1; accent-color:var(--accent); }
+  .insight { border-left:4px solid var(--sim); background:var(--sim-soft); padding:.7rem 1rem; margin:.9rem 0 0;
+             font-family:system-ui,sans-serif; font-size:.88rem; }
 </style>
 </head>
 <body>
@@ -60,9 +105,10 @@
 
   <h2>What to notice</h2>
   <p>Transformer attention allows information at one token position to connect with information at other positions inside the permitted context. Those connections help create context-sensitive representations: the same word can behave differently in different sentences.</p>
+  <p>Last session's Life lab ended on <a href="../session-02/randomness-lab/#dynamics-title">three design dials</a> that separate a cellular automaton from a transformer: neighborhood, rule, and iteration. This page opens the first dial and looks inside. A Conway cell's neighborhood is <em>fixed, local, and binary</em> — the same eight cells, each counting exactly one, in or out. Attention's "neighborhood" is <em>chosen, global, and graded</em> — any word in the window, weighted by relevance, different for every word and every sentence.</p>
 
   <div class="limit">
-    <strong>A counter-model, not an equivalence.</strong> A Conway's Game of Life cell checks eight immediate neighbors, and influence travels farther through repeated steps. A transformer token can connect to a distant position through attention. A transformer is not a cellular automaton, and a CA neighborhood is not attention.
+    <strong>A counter-model, not an equivalence.</strong> A Conway's Game of Life cell checks eight immediate neighbors, and influence travels farther only through repeated steps. A transformer token can connect to a distant position through attention in a single layer. A transformer is not a cellular automaton, and a CA neighborhood is not attention.
   </div>
 
   <div class="window-panel">
@@ -83,25 +129,35 @@
   <p class="note">Click one of these to spotlight the tricky word in both sentences at once — and watch it reach for completely different neighbors.</p>
   <div class="controls" id="compareControls"></div>
 
-  <h2>How this teaching diagram was made</h2>
+  <h2>One step or many: the fixed ring vs. the spotlight</h2>
+  <p>Treat the spotlighted sentence as a one-dimensional Life board: one word per cell, and a strict neighbor rule that lets influence spread only one position per step — the same "speed of light" as <a href="../session-02/randomness-lab/#dynamics-title">the Life lab's light-cone tool</a>, pointed at text.</p>
+  <div class="module" id="stepsModule"><p class="placeholder">Spotlight a word above first — this panel follows whichever word is lit.</p></div>
+
+  <h2>The closeness engine: what the spotlight is made of</h2>
+  <p>The glow says <em>where</em> a reading gathers its evidence. This panel shows the raw material underneath: in a language model, every word is a point in a continuous meaning-space, and attention begins from <em>similarity</em> — graded closeness that a fixed ring of neighbors has no way to express. The blue bars are real measurements from the same model as Session 1's Map of Meaning.</p>
+  <div class="module" id="engineModule"><p class="placeholder">Spotlight a word above first — this panel follows whichever word is lit.</p></div>
+
+  <h2>How this page was made</h2>
   <div class="diagram" id="diagramNote">Loading…</div>
 
   <div class="limit">
-    <strong>Accuracy note.</strong> This page does not extract attention weights from a model. Real transformers use many attention heads across many layers, and a glowing word should not be treated as a complete explanation of a model's reasoning. This is a hand-authored illustration of context clues that a reader can inspect and question.
+    <strong>Accuracy note.</strong> Three things on this page must not be confused. The <em>glowing cues</em> are a hand-authored teaching diagram, not model data. The <em>blue closeness bars</em> are real cosine similarities of isolated word embeddings — genuine measurements, but of context-free closeness, <em>not</em> attention weights: real attention computes similarity through learned query/key projections, in context, across many heads and layers, and a glowing word is never a complete explanation of a model's reasoning. And the <em>sharpness slider</em> demonstrates what a softmax does inside attention; it is not Session 2's sampling temperature — sampling picks one token from a distribution, while attention's softmax mixes all positions by weight.
   </div>
 
   <h2>What I would try next</h2>
   <div class="try">
-    Add a sentence where the strongest clue is much farther from the underlined word, or add a control that reveals the sentence one word at a time. I would ask whether readers change their guesses as the context window widens.
+    Wire the closeness engine to the live in-browser model from Session 1, so a reader can type any sentence and watch real similarities computed on the spot. And add a sentence whose strongest clue sits twenty words from the focus word, so the step counter has to sweat before attention crosses the gap in one.
   </div>
 
   <h2>What I chose and how AI helped</h2>
   <div class="authorship">
-    <p><strong>AI helped with:</strong> drafting the page's code and proposing possible example sentences.</p>
-    <p><strong>I chose:</strong> the sentence pairs, which context cues the diagram highlights, the context-window interaction, the wording, and the decision to label the diagram honestly rather than present it as model data.</p>
+    <p><strong>AI helped with:</strong> drafting the page's code and modules, proposing candidate sentences and swaps, and computing the cosine-similarity table with the regeneration script recorded in this session's README.</p>
+    <p><strong>I chose:</strong> the sentence pairs, the three swaps and the different lesson each one teaches, which context cues the diagrams highlight, the framing of neighbors versus attention, and the decision to show the model's real numbers <em>beside</em> my hand-drawn cues rather than pretend either one is the other.</p>
   </div>
 
-  <footer>The Instructor's Study · Session 3 of 12 · Static page · Teaching cues: <code>data/sentences.json</code></footer>
+  <p class="cliff">The spotlight shows where a reading gathers its evidence. But nobody typed these weights — no line of code says "river" should matter to "bank." So who wrote the rule? That is next session's question.</p>
+
+  <footer>The Instructor's Study · Session 3 of 12 · Static page · Teaching cues + real cosines: <code>data/sentences.json</code> (regeneration script in the session README)</footer>
 </main>
 
 <script>
@@ -113,17 +169,36 @@
   document.getElementById('instructions').textContent = data.instructions;
   const wrap=document.getElementById('sentences');
   const byId={};
+  const SIMS=(data.modelSims&&data.modelSims.sims)||{};
+  const SIMCAP=0.7; // fixed bar scale so bars are comparable across words and sentences
 
-  let guess=null; // {s, f, picked:Set of token indices}
+  let guess=null;        // {s, f, picked:Set of token indices}
+  let current=null;      // {s, f} — the sentence/focus the modules follow
+  let windowRadius='all';
+  const swapState={};    // sentence id -> bool
 
+  const clean=w=>w.toLowerCase().replace(/[^a-z']/g,'');
+  const effTokens=s=>{ if(swapState[s.id]&&s.swap){ const t=s.tokens.slice(); t[s.swap.i]=s.swap.to; return t; } return s.tokens; };
+  const effFocus=s=> (swapState[s.id]&&s.swap) ? [s.swap.focus] : s.focus;
+
+  // ---- sentence rendering (rebuildable, so swaps can re-render) ----
   data.sentences.forEach(s=>{
     byId[s.id]=s;
     const box=document.createElement('div'); box.className='sentence'; box.id='s-'+s.id;
-    const focusByIndex={}; s.focus.forEach(f=>focusByIndex[f.i]=f);
-    s.tokens.forEach((tok,i)=>{
+    wrap.appendChild(box);
+    renderSentence(s);
+  });
+
+  function renderSentence(s){
+    const box=document.getElementById('s-'+s.id);
+    box.innerHTML='';
+    const tokens=effTokens(s);
+    const focusByIndex={}; effFocus(s).forEach(f=>focusByIndex[f.i]=f);
+    tokens.forEach((tok,i)=>{
       const span=document.createElement('span'); span.className='tok'; span.textContent=tok+' ';
       span.dataset.i=i;
       if(focusByIndex[i]) span.classList.add('focus');
+      if(swapState[s.id]&&s.swap&&i===s.swap.i) span.classList.add('swapped');
       span.addEventListener('click',()=>{
         if(span.classList.contains('outside')) return;
         if(guess && guess.s.id===s.id && i!==guess.f.i){ togglePick(span,i); return; }
@@ -133,21 +208,21 @@
     });
     const cap=document.createElement('div'); cap.className='caption'; cap.id='cap-'+s.id;
     box.appendChild(cap);
-    wrap.appendChild(box);
-  });
+    applyWindowTo(s);
+  }
 
-  let windowRadius='all';
-
+  // ---- context window ----
+  function applyWindowTo(s){
+    const focusIndex=effFocus(s)[0].i;
+    const box=document.getElementById('s-'+s.id);
+    box.querySelectorAll('.tok').forEach((t,idx)=>{
+      const outside=windowRadius!=='all' && Math.abs(idx-focusIndex)>windowRadius;
+      t.classList.toggle('outside',outside);
+    });
+  }
   function applyWindow(radius){
     windowRadius=radius;
-    data.sentences.forEach(s=>{
-      const focusIndex=s.focus[0].i;
-      const box=document.getElementById('s-'+s.id);
-      box.querySelectorAll('.tok').forEach((t,idx)=>{
-        const outside=radius!=='all' && Math.abs(idx-focusIndex)>radius;
-        t.classList.toggle('outside',outside);
-      });
-    });
+    data.sentences.forEach(applyWindowTo);
     document.querySelectorAll('#windowControls button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.radius===String(radius))));
     const status=document.getElementById('windowStatus');
     status.textContent=radius==='all'
@@ -155,8 +230,8 @@
       : radius===1
         ? 'Only one word on each side is visible. Some meanings are still uncertain because useful clues are hidden.'
         : 'Three words on each side are visible. More clues appear, but the rest of the sentence is still outside the window.';
+    if(current) renderEngine(); // outside-window words drop to weight zero — show it
   }
-
   document.querySelectorAll('#windowControls button').forEach(b=>b.addEventListener('click',()=>{
     if(guess){ clearSentence(guess.s); guess=null; }
     applyWindow(b.dataset.radius==='all'?'all':Number(b.dataset.radius));
@@ -206,7 +281,9 @@
     if(!skipped && picked.size){
       const hits=[...picked].filter(i=>target.includes(i)).length;
       const cap=document.getElementById('cap-'+s.id);
-      cap.innerHTML+=` <span class="mn">You matched ${hits} of the ${target.length} strongest teaching cues${hits===target.length?' — perfect':''}.</span>`;
+      const scoreEl=document.createElement('span'); scoreEl.className='mn';
+      scoreEl.textContent=` You matched ${hits} of the ${target.length} strongest teaching cues${hits===target.length?' — perfect':''}.`;
+      cap.insertBefore(scoreEl, cap.querySelector('.swapline'));
     }
   }
 
@@ -223,23 +300,207 @@
     });
     const cap=document.getElementById('cap-'+s.id);
     cap.innerHTML=`<span class="mn">${f.word} = ${f.meaning}.</span> ${f.caption}`;
+    if(s.swap){
+      const line=document.createElement('span'); line.className='swapline';
+      const b=document.createElement('button'); b.className='mini swapbtn';
+      b.textContent=swapState[s.id] ? `Swap back: '${s.swap.to}' → '${s.swap.from}'` : s.swap.button;
+      b.addEventListener('click',()=>{
+        swapState[s.id]=!swapState[s.id];
+        renderSentence(s);
+        activate(s, effFocus(s)[0]); // a nudge is a post-reveal move: re-light directly
+      });
+      line.appendChild(b);
+      const hint=document.createElement('span'); hint.className='note';
+      hint.textContent=swapState[s.id] ? ` One word — that's the smallest move this system allows. (${s.swap.kind})` : ' Change exactly one word and watch the reading re-settle.';
+      line.appendChild(hint);
+      cap.appendChild(line);
+    }
     cap.style.display='block';
+    current={s,f};
+    renderSteps();
+    renderEngine();
   }
 
-  // compare buttons
+  // ---- compare buttons ----
   const cc=document.getElementById('compareControls');
   data.comparePairs.forEach(pair=>{
     const b=document.createElement('button'); b.textContent='Spotlight '+pair.label;
     b.addEventListener('click',()=>{
-      pair.ids.forEach(id=>{ const s=byId[id]; const f=s.focus.find(f=>f.word===pair.word)||s.focus[0]; activate(s,f);
+      pair.ids.forEach(id=>{ const s=byId[id]; const fs=effFocus(s); const f=fs.find(f=>f.word===pair.word)||fs[0]; activate(s,f);
         document.getElementById('s-'+id).scrollIntoView?.({behavior:'smooth',block:'center'}); });
     });
     cc.appendChild(b);
   });
 
+  // ================= Module 1: the fixed ring vs. the spotlight =================
+  let stepN=0, attnMode=false;
+  function renderSteps(){
+    stepN=0; attnMode=false;
+    drawSteps();
+  }
+  function cueList(f){
+    return Object.entries(f.cues).map(([i,w])=>({i:+i,w})).sort((a,b)=>b.w-a.w);
+  }
+  function drawSteps(){
+    const el=document.getElementById('stepsModule');
+    if(!current){ return; }
+    const {s,f}=current;
+    const tokens=effTokens(s);
+    const cues=cueList(f);
+    el.innerHTML='';
+
+    const strip=document.createElement('div'); strip.className='cellstrip';
+    tokens.forEach((t,i)=>{
+      const c=document.createElement('span'); c.className='cell'; c.textContent=t;
+      if(i===f.i) c.classList.add('focuscell');
+      else if(attnMode && f.cues[i]) c.classList.add('cuecell');
+      else if(!attnMode && Math.abs(i-f.i)<=stepN && stepN>0) c.classList.add('reached');
+      strip.appendChild(c);
+    });
+    el.appendChild(strip);
+
+    const controls=document.createElement('div'); controls.className='controls';
+    const stepBtn=document.createElement('button'); stepBtn.textContent='Step the neighbor rule ▸';
+    stepBtn.addEventListener('click',()=>{ attnMode=false; if(stepN<tokens.length) stepN++; drawSteps(); });
+    const attnBtn=document.createElement('button'); attnBtn.textContent='Attention: one step';
+    attnBtn.addEventListener('click',()=>{ attnMode=true; drawSteps(); });
+    const resetBtn=document.createElement('button'); resetBtn.className='ghostmini'; resetBtn.textContent='Reset';
+    resetBtn.addEventListener('click',()=>{ stepN=0; attnMode=false; drawSteps(); });
+    controls.appendChild(stepBtn); controls.appendChild(attnBtn); controls.appendChild(resetBtn);
+    el.appendChild(controls);
+
+    const read=document.createElement('p'); read.className='stepreadout';
+    const dists=cues.map(c=>`'${tokens[c.i]}' is ${Math.abs(c.i-f.i)} ${Math.abs(c.i-f.i)===1?'word':'words'} away → ${Math.abs(c.i-f.i)} ${Math.abs(c.i-f.i)===1?'step':'steps'} under a ±1 neighbor rule`).join(' · ');
+    if(attnMode){
+      read.innerHTML=`<strong>Attention connected to every cue in 1 step.</strong> ${dists}. In a 1,000-word context the answer would still be 1 — that is what "global" buys, inside the window.`;
+    } else if(stepN===0){
+      read.innerHTML=`Under a strict neighbor rule, "${f.word}" starts alone. ${dists}. Press <em>Step</em> and watch influence crawl.`;
+    } else {
+      const reachedCues=cues.filter(c=>Math.abs(c.i-f.i)<=stepN).length;
+      read.innerHTML=`After <strong>${stepN} ${stepN===1?'step':'steps'}</strong>, influence reaches ±${stepN} words — ${reachedCues} of ${cues.length} cues so far. One position per step is this rule's speed of light.`;
+    }
+    el.appendChild(read);
+
+    const ringwrap=document.createElement('div'); ringwrap.className='ringwrap';
+    const ring=document.createElement('div'); ring.className='ring3';
+    for(let i=0;i<9;i++){ const sp=document.createElement('span'); if(i===4){ sp.classList.add('center'); sp.textContent='cell'; } else { sp.textContent='1'; } ring.appendChild(sp); }
+    ringwrap.appendChild(ring);
+    const rc=document.createElement('div'); rc.className='ringcaption';
+    rc.innerHTML=`<strong>Conway's entire social world:</strong> eight neighbors — always the same eight, each counting exactly <em>1</em>, in or out. Nothing is nearer or dearer; the rule can only count.<br><br><strong>The spotlight above:</strong> any visible word, weighted <em>0–1 by relevance</em>, different for every word and every sentence. Fixed, local, and binary versus chosen, global, and graded — that is dial #1.`;
+    ringwrap.appendChild(rc);
+    el.appendChild(ringwrap);
+
+    const note=document.createElement('p'); note.className='modnote';
+    note.innerHTML=`Same causal bound as the Life lab's light-cone tool, in one dimension. The neighbor rule is a teaching device — real language models do not process text this way; that is precisely the point of the contrast.`;
+    el.appendChild(note);
+  }
+
+  // ================= Module 2: the closeness engine =================
+  let sharpness=12;
+  function renderEngine(){
+    const el=document.getElementById('engineModule');
+    if(!current) return;
+    const {s,f}=current;
+    const tokens=effTokens(s);
+    const sims=SIMS[f.word];
+    el.innerHTML='';
+    if(!sims){ el.innerHTML='<p class="placeholder">No baked similarities for this word.</p>'; return; }
+
+    // distinct context words with their best (any) token index, tracking window visibility
+    const rows=[]; const seen=new Set();
+    tokens.forEach((t,i)=>{
+      const w=clean(t);
+      if(!w || i===f.i || w===f.word || seen.has(w)) return;
+      seen.add(w);
+      const cos=sims[w];
+      if(cos===undefined) return;
+      const inWindow = windowRadius==='all' || Math.abs(i-f.i)<=windowRadius;
+      const cueIdx=Object.keys(f.cues).map(Number).find(ci=>clean(tokens[ci]||'')===w);
+      rows.push({w,cos,inWindow,cue:cueIdx!==undefined?f.cues[cueIdx]:null});
+    });
+    rows.sort((a,b)=>b.cos-a.cos);
+
+    const head=document.createElement('p'); head.style.margin='0 0 .3rem';
+    head.innerHTML=`<strong>“${f.word}”</strong> against every other word in the sentence — real closeness, measured in the model's meaning-space.`;
+    el.appendChild(head);
+    const legend=document.createElement('div'); legend.className='legend';
+    legend.innerHTML=`<span><i style="background:var(--sim)"></i>model closeness (cosine, fixed 0–${SIMCAP} scale)</span><span><i style="background:var(--glow)"></i>attention-style weight after softmax</span><span><span class="cuebadge">my cue</span> = hand-authored in the glow diagram</span>`;
+    el.appendChild(legend);
+
+    // softmax over in-window rows
+    const inRows=rows.filter(r=>r.inWindow);
+    const exps=inRows.map(r=>Math.exp(r.cos*sharpness));
+    const Z=exps.reduce((a,b)=>a+b,0)||1;
+    const wt={}; inRows.forEach((r,k)=>wt[r.w]=exps[k]/Z);
+    const maxWt=Math.max(...inRows.map(r=>wt[r.w]||0), 0.0001);
+
+    rows.forEach(r=>{
+      const row=document.createElement('div'); row.className='simrow'+(r.inWindow?'':' outsiderow');
+      const wEl=document.createElement('span'); wEl.className='w'; wEl.textContent=r.w;
+      if(r.cue){ const b=document.createElement('span'); b.className='cuebadge'; b.textContent='my cue '+r.cue.toFixed(1); wEl.appendChild(b); }
+      const bars=document.createElement('span'); bars.className='barpair';
+      const b1=document.createElement('span'); b1.className='bar'; b1.style.width=(Math.min(r.cos,SIMCAP)/SIMCAP*100).toFixed(1)+'%';
+      bars.appendChild(b1);
+      const b2=document.createElement('span'); b2.className='bar wt';
+      b2.style.width=r.inWindow ? ((wt[r.w]/maxWt)*100).toFixed(1)+'%' : '0%';
+      bars.appendChild(b2);
+      const v=document.createElement('span'); v.className='simval';
+      v.textContent=r.inWindow ? r.cos.toFixed(3)+' → '+(wt[r.w]*100).toFixed(0)+'%' : r.cos.toFixed(3)+' → 0%';
+      row.appendChild(wEl); row.appendChild(bars); row.appendChild(v);
+      el.appendChild(row);
+    });
+
+    const outCount=rows.length-inRows.length;
+    if(outCount>0){
+      const o=document.createElement('p'); o.className='modnote';
+      o.innerHTML=`<strong>${outCount} ${outCount===1?'word sits':'words sit'} outside the context window.</strong> Closeness stops mattering at the window's edge: the weight is exactly zero, however similar the word. Global inside, nothing outside — the hard half of dial #1.`;
+      el.appendChild(o);
+    }
+
+    const sh=document.createElement('div'); sh.className='sharpness';
+    sh.innerHTML=`<span>softmax sharpness</span>`;
+    const slider=document.createElement('input'); slider.type='range'; slider.min='2'; slider.max='30'; slider.step='1'; slider.value=String(sharpness);
+    slider.addEventListener('input',()=>{ sharpness=Number(slider.value); renderEngine(); });
+    sh.appendChild(slider);
+    const shv=document.createElement('span'); shv.textContent='×'+sharpness; sh.appendChild(shv);
+    el.appendChild(sh);
+    const shNote=document.createElement('p'); shNote.className='modnote';
+    shNote.textContent='Softmax turns similarities into weights that sum to 100% — sharpen it and the strongest connections take nearly everything; soften it and attention spreads. Real attention scales its similarities too (and computes them through learned projections); this slider is here so you can feel what the softmax stage does.';
+    el.appendChild(shNote);
+
+    // Insight card 1: the torn word (static ambiguity)
+    const tw=data.tornWord && data.tornWord[f.word];
+    if(tw){
+      const best=side=>side.map(w=>({w,c:sims[w]})).filter(x=>x.c!==undefined).sort((a,b)=>b.c-a.c)[0];
+      const a=best(tw.a), b=best(tw.b);
+      if(a&&b){
+        const gap=Math.abs(a.c-b.c);
+        const card=document.createElement('div'); card.className='insight';
+        card.innerHTML=`<strong>The torn word.</strong> Out of context, “${f.word}” leans toward <em>${tw.label}</em> (${a.w}: ${a.c.toFixed(3)}) and <em>${tw.labelB}</em> (${b.w}: ${b.c.toFixed(3)}) ${gap<0.06?'almost exactly evenly':'at the same time'}. The isolated vector holds ${gap<0.06?'both meanings in near-perfect balance':'both meanings at once'} — settling it is context's job, done by attention. No fixed ring of neighbors can do the settling, because settling means <em>re-weighting</em>.`;
+        el.appendChild(card);
+      }
+    }
+
+    // Insight card 2: closeness is not attention (rank agreement or mismatch)
+    const topCue=rows.filter(r=>r.cue!==null).sort((a,b)=>b.cue-a.cue)[0];
+    if(topCue){
+      const above=rows.filter(r=>r.cos>topCue.cos && r.cue===null);
+      const card=document.createElement('div'); card.className='insight';
+      if(above.length===0){
+        card.innerHTML=`<strong>Where drawing and model agree.</strong> My strongest hand-drawn cue, “${topCue.w}”, also tops the model's raw closeness list (${topCue.cos.toFixed(3)}). For this sentence, resting-position similarity and useful context point the same way.`;
+      } else {
+        const ab=above[0];
+        card.innerHTML=`<strong>Closeness is not attention.</strong> My strongest cue, “${topCue.w}”, scores only ${topCue.cos.toFixed(3)} raw closeness — below ${above.length>1?above.length+' words, including':''} “${ab.w}” (${ab.cos.toFixed(3)}). The ${f.word}–${topCue.w} link is not in the words' resting positions; it gets <em>built in context</em>, by learned attention. Raw closeness is attention's starting material, not its verdict — which is exactly why models need attention at all.`;
+      }
+      el.appendChild(card);
+    }
+  }
+
+  // ---- method note ----
+  const ms=data.modelSims||{};
   document.getElementById('diagramNote').innerHTML =
-    `<p>Each underlined word has a small set of context cues stored in <code>data/sentences.json</code>. I chose those cues and their brightness to make a readable teaching picture. Your guesses stay ringed so you can compare your reading with mine.</p>`+
-    `<p>The two “bank” sentences and two “spring” sentences use the same spelling in different contexts. The compare buttons place those authored diagrams side by side.</p>`+
+    `<p><strong>Hand-authored:</strong> each underlined word's glowing cues live in <code>data/sentences.json</code>. I chose those cues and their brightness to make a readable teaching picture, and your guesses stay ringed so you can compare your reading with mine. The three swap buttons are also authored — each changes exactly one word and each teaches a different lesson (a flip, a tug-of-war, a held line).</p>`+
+    `<p><strong>Measured:</strong> the closeness engine's blue bars are cosine similarities computed ${ms.computed||''} with <code>${ms.model||''}</code> — ${ms.method||''} The softmax weights are computed live in this page from those numbers. One reading hint: isolated-word cosines for this model rarely fall below ≈0.15 even for unrelated words, so read the gaps between bars, not their absolute size.</p>`+
     `<p class="note">${data.note}</p>`;
 })();
 </script>
