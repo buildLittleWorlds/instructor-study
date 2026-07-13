@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A guided, interactive tour of the 2017 Attention Is All You Need paper.">
+<meta name="description" content="A plain-language, interactive tour of the 2017 Attention Is All You Need paper—no technical background required.">
 <title>The Paper Behind the Spotlight - Attention Is All You Need</title>
+<script defer src="../../site-nav.js"></script>
 <style>
   :root {
     --ink:#22222a; --muted:#686873; --paper:#fdfcf9; --card:#ffffff;
@@ -13,6 +14,7 @@
     --head-a:#7655a3; --head-b:#2f806b; --warn:#9a4d2a; --shadow:0 14px 38px rgba(34,34,42,.07);
   }
   * { box-sizing:border-box; }
+  [hidden] { display:none !important; }
   html { scroll-behavior:smooth; }
   body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,"Times New Roman",serif; line-height:1.68; font-size:1.05rem; }
   a { color:var(--accent); text-underline-offset:.16em; }
@@ -30,6 +32,8 @@
   h1 { font-size:clamp(2.35rem, 7vw, 4.8rem); line-height:.98; letter-spacing:-.045em; max-width:12ch; margin:.55rem 0 1rem; }
   .dek { max-width:42rem; font-size:1.28rem; line-height:1.55; color:#41414a; margin:0 0 1.4rem; }
   .paper-meta { color:var(--muted); font-size:.95rem; max-width:48rem; }
+  .welcome-note { max-width:44rem; border-left:4px solid var(--glow); padding:.7rem 1rem; margin:1.2rem 0; background:var(--glow-soft); }
+  .welcome-note strong { display:block; font-family:system-ui,sans-serif; margin-bottom:.15rem; }
   .actions { display:flex; flex-wrap:wrap; gap:.7rem; margin:1.5rem 0 2.2rem; font-family:system-ui,sans-serif; }
   .button-link, button.control { display:inline-flex; align-items:center; justify-content:center; border:1.5px solid var(--accent); border-radius:8px; padding:.62rem 1rem; background:var(--accent); color:#fff; text-decoration:none; font-weight:750; font-size:.9rem; }
   .button-link.secondary, button.control.secondary { background:#fff; color:var(--accent); }
@@ -110,6 +114,7 @@
   .stack { border:1px solid var(--line); border-radius:10px; padding:1rem; background:#fbfaf7; }
   .stack h3 { margin:0 0 .7rem; text-align:center; }
   .block { border:1px solid var(--line); border-radius:7px; padding:.58rem .75rem; margin:.42rem 0; text-align:center; font:750 .79rem system-ui,sans-serif; background:#fff; }
+  .block small { display:block; margin-top:.12rem; color:var(--muted); font-weight:600; }
   .block.attn { background:#fff4df; border-color:#ddbb69; }
   .block.ff { background:#eaf3f7; border-color:#92b7c8; }
   .block.norm { background:#f1eff8; border-color:#b7add0; }
@@ -169,10 +174,11 @@
   </div>
 
   <header>
-    <div class="kicker">The paper behind the spotlight · a 10–15 minute guided tour</div>
+    <div class="kicker">The paper behind the spotlight · a plain-language guided tour</div>
     <h1>Attention Is All You Need</h1>
-    <p class="dek">In 2017, eight researchers asked a radical engineering question: what if a translation model stopped passing information word by word and let every position look directly at the others?</p>
-    <p class="paper-meta"><strong>Ashish Vaswani et al.</strong> · first posted 2017 · published at NeurIPS 2017. This page explains the architecture and evidence in the paper itself; it is not a history of everything Transformers later became.</p>
+    <p class="dek">Imagine translating a sentence while being allowed to look at all of its words at once. In 2017, eight researchers built a new kind of language system around that simple idea.</p>
+    <div class="welcome-note"><strong>You do not need a technical background.</strong>This tour starts with pictures and everyday language. The paper's specialist terms appear in smaller labels so you can recognize them if you open the original.</div>
+    <p class="paper-meta"><strong>Ashish Vaswani and seven coauthors</strong> · shared in 2017 · published at NeurIPS 2017. This page stays with what that paper proposed and tested, before chatbots and today's large language models.</p>
     <div class="actions">
       <a class="button-link" href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Open the original paper ↗</a>
       <a class="button-link secondary" href="https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html" target="_blank" rel="noopener">NeurIPS publication record ↗</a>
@@ -180,13 +186,13 @@
   </header>
 
   <nav class="paper-map" aria-label="Guided paper map">
-    <strong>Paper map</strong>
+    <strong>Your five-stop tour</strong>
     <ol>
-      <li><a href="#problem"><b>1 · The problem</b>§§1, 4 · Table 1</a></li>
-      <li><a href="#calculation"><b>2 · One calculation</b>§3.2 · Figure 2</a></li>
-      <li><a href="#heads"><b>3 · Many heads</b>§3.2.2 · Figures 3–5</a></li>
-      <li><a href="#architecture"><b>4 · The architecture</b>§§3.1–3.5 · Figure 1</a></li>
-      <li><a href="#evidence"><b>5 · The evidence</b>§§4, 6 · Tables 1–2</a></li>
+      <li><a href="#problem"><b>1 · Why change?</b>One-at-a-time vs. all-at-once</a></li>
+      <li><a href="#calculation"><b>2 · What is attention?</b>Choosing useful words</a></li>
+      <li><a href="#heads"><b>3 · Why several views?</b>More than one spotlight</a></li>
+      <li><a href="#architecture"><b>4 · What is the whole model?</b>The parts working together</a></li>
+      <li><a href="#evidence"><b>5 · Did it work?</b>The 2017 results</a></li>
     </ol>
   </nav>
 
@@ -196,14 +202,14 @@
         <div class="chapter-number">1</div>
         <div>
           <div class="chapter-label">The 2017 problem</div>
-          <h2>Stop waiting for the previous word</h2>
+          <h2>Why process a sentence one word at a time?</h2>
           <span class="source-tag">Paper §§1 and 4</span><span class="source-tag">Table 1</span>
         </div>
       </div>
-      <p class="lead">Recurrent networks had to carry information through a chain of hidden states. That made training inherently sequential and gave distant words a long route to one another. The Transformer replaced that chain with self-attention.</p>
+      <p class="lead">Earlier language systems often read like a relay race: word one passed a message to word two, word two passed it to word three, and so on. Information from far-apart words had to travel through every handoff. The Transformer offered every word a direct line to every other word.</p>
 
       <div class="lab" aria-labelledby="race-title">
-        <div class="lab-title"><strong id="race-title">Run the path-length race</strong><span>computed live</span></div>
+        <div class="lab-title"><strong id="race-title">See the two reading styles</strong><span>interactive comparison</span></div>
         <div class="controls">
           <label for="length">Sentence length</label>
           <input id="length" type="range" min="4" max="18" value="10" step="1">
@@ -213,20 +219,20 @@
         </div>
         <div class="race-grid">
           <div class="race-lane">
-            <h3>Recurrent path</h3>
-            <div class="metric" id="rnnMetric">10 sequential operations</div>
+            <h3>Relay reading</h3>
+            <div class="metric" id="rnnMetric">10 ordered handoffs</div>
             <div class="token-track" id="rnnTrack" aria-hidden="true"></div>
-            <p>Each position waits for information carried from the previous one.</p>
+            <p>Each word must wait for the message from the word before it. The paper calls this a <strong>recurrent</strong> model.</p>
           </div>
           <div class="race-lane attention-lane">
-            <h3>Self-attention layer</h3>
-            <div class="metric">1 sequential operation</div>
+            <h3>All-at-once reading</h3>
+            <div class="metric">1 direct look across the sentence</div>
             <div class="token-track" id="attnTrack" aria-hidden="true"></div>
-            <p>All positions can compute their connections in parallel within the layer.</p>
+            <p>Every word can check every other word at the same time. The paper calls this <strong>self-attention</strong>.</p>
           </div>
         </div>
         <p class="status" id="raceStatus" aria-live="polite">Choose a length, then run the comparison.</p>
-        <p class="landing">The paper's wager: shorter information paths plus more parallel training can make sequence models both stronger and faster to train.</p>
+        <p class="landing">The big idea: fewer handoffs make it easier to connect distant words, and many of those connections can be calculated at the same time during training.</p>
       </div>
     </section>
 
@@ -234,17 +240,17 @@
       <div class="chapter-head">
         <div class="chapter-number">2</div>
         <div>
-          <div class="chapter-label">One attention calculation</div>
-          <h2>A query meets keys, then carries values</h2>
+          <div class="chapter-label">What attention does</div>
+          <h2>Which other words are useful right now?</h2>
           <span class="source-tag">Paper §3.2</span><span class="source-tag">Equation 1</span><span class="source-tag">Figure 2</span>
         </div>
       </div>
-      <p class="lead">Attention is a weighted lookup. A position makes a query, compares it with keys, converts the scores into weights, and mixes the corresponding values.</p>
+      <p class="lead">For each word, the model looks across the sentence and gives more influence to words that seem useful. Think of a movable spotlight: it can shine brightly on one word and faintly on others.</p>
 
       <div class="lab">
-        <div class="lab-title"><strong>Predict before the numbers appear</strong><span>paper example + teaching calculation</span></div>
+        <div class="lab-title"><strong>Try the spotlight yourself</strong><span>predict, then reveal</span></div>
         <div class="predict">
-          <p style="margin-top:0">The paper visualizes a long-distance connection completing the phrase <em>making … more difficult</em>. Before revealing it, choose the word you expect <strong>making</strong> to connect with most strongly.</p>
+          <p style="margin-top:0">The paper shows how the word <strong>making</strong> reaches across a long sentence to complete the idea <em>making … more difficult</em>. Which word do you think its spotlight will favor?</p>
           <p class="sentence" id="attentionSentence">
             It is in this spirit that a majority of American
             <button class="word choice" type="button" data-choice="governments" aria-pressed="false">governments</button>
@@ -254,7 +260,7 @@
             process more <button class="word choice" type="button" data-choice="difficult" aria-pressed="false">difficult</button>.
           </p>
           <p class="prediction-result" id="predictionResult" aria-live="polite">Choose one word.</p>
-          <button class="control" id="revealAttention" type="button" disabled>Reveal the paper's connection</button>
+          <button class="control" id="revealAttention" type="button" disabled>Reveal the connection</button>
         </div>
 
         <div class="stage-shell" id="stageShell" hidden>
@@ -266,20 +272,20 @@
             <button class="control" id="nextStage" type="button">Next step →</button>
           </div>
           <div class="controls" id="softmaxControls" hidden>
-            <label for="sharpness">Teaching sharpness</label>
+            <label for="sharpness">How focused is the spotlight?</label>
             <input id="sharpness" type="range" min="0.5" max="3" value="1" step="0.1">
             <output id="sharpnessValue" for="sharpness">1.0×</output>
           </div>
         </div>
 
         <details class="math">
-          <summary>See the mathematics from Equation 1</summary>
+          <summary>Optional: see the paper's equation</summary>
           <div class="equation" aria-label="Attention of Q, K, V equals softmax of Q K transpose divided by the square root of d k, multiplied by V.">
             Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>)V
           </div>
-          <p><strong>Why divide by √d<sub>k</sub>?</strong> As vector dimensions grow, unscaled dot products can grow large and push softmax into regions with extremely small gradients. Scaling keeps training better behaved.</p>
+          <p>In plain language: the model compares a question-like signal (<strong>Q</strong>) with label-like signals (<strong>K</strong>), turns the results into shares that add to 100%, then blends the information carried by <strong>V</strong>. Dividing by √d<sub>k</sub> keeps very large numbers from making the choices too extreme while the model learns.</p>
         </details>
-        <p class="honesty"><strong>Accuracy boundary:</strong> the word example comes from the paper's Figure 3. The four scores on this page are authored toy values chosen to make Equation 1 inspectable; they are not weights extracted from the authors' model.</p>
+        <p class="honesty"><strong>Where these numbers came from:</strong> the word connection comes from the paper's Figure 3. We invented the four scores on this page to make the idea easy to see; they are not measurements from the authors' model.</p>
       </div>
     </section>
 
@@ -288,17 +294,17 @@
         <div class="chapter-number">3</div>
         <div>
           <div class="chapter-label">Several spotlights at once</div>
-          <h2>One sentence, different projected views</h2>
+          <h2>One sentence can have more than one useful pattern</h2>
           <span class="source-tag">Paper §3.2.2</span><span class="source-tag">Figures 3–5</span>
         </div>
       </div>
-      <p class="lead">The paper's base model used eight attention heads (the big model used sixteen). Each head received its own learned projections of queries, keys, and values, letting the layer form several connection maps in parallel before combining them.</p>
+      <p class="lead">A single spotlight might miss something. The Transformer therefore used several spotlights at once. The paper calls each one an <strong>attention head</strong>. Each head can notice a different set of connections, and the model combines what they find.</p>
       <div class="lab">
-        <div class="lab-title"><strong>Toggle the teaching heads</strong><span>responsive SVG redraw</span></div>
+        <div class="lab-title"><strong>Switch between two spotlights</strong><span>teaching diagram</span></div>
         <div class="controls head-controls" role="group" aria-label="Choose attention head view">
-          <button class="control" type="button" data-head="a" aria-pressed="true">Head A · reference</button>
-          <button class="control" type="button" data-head="b" aria-pressed="false">Head B · structure</button>
-          <button class="control" type="button" data-head="both" aria-pressed="false">Combine heads</button>
+          <button class="control" type="button" data-head="a" aria-pressed="true">Spotlight A · references</button>
+          <button class="control" type="button" data-head="b" aria-pressed="false">Spotlight B · sentence shape</button>
+          <button class="control" type="button" data-head="both" aria-pressed="false">Show both</button>
         </div>
         <svg class="head-viz" id="headViz" viewBox="0 0 700 260" role="img" aria-labelledby="headTitle headDesc">
           <title id="headTitle">Two teaching attention-head diagrams</title>
@@ -307,10 +313,10 @@
           <g id="headLabels"></g>
         </svg>
         <div class="head-summary">
-          <div class="head-note"><strong>Head A:</strong> a reference-like view inspired by Figure 4, where connections around “its,” “Law,” and “application” become sharp.</div>
-          <div class="head-note b"><strong>Head B:</strong> a structure-like view inspired by Figure 5, where a different head emphasizes other sentence relationships.</div>
+          <div class="head-note"><strong>Spotlight A:</strong> pays attention to what “its” may refer to, inspired by Figure 4.</div>
+          <div class="head-note b"><strong>Spotlight B:</strong> highlights a different set of relationships in the same sentence, inspired by Figure 5.</div>
         </div>
-        <p class="honesty"><strong>Do not turn the picture into a personality test for heads.</strong> These are authored redraws of the paper's interpretation, not copied weights. Some learned heads show recognizable patterns; that does not mean every head has one clean human-readable job, or that attention alone explains a prediction.</p>
+        <p class="honesty"><strong>A useful caution:</strong> these lines are our teaching redraw, not copied measurements. Some heads show patterns people can name, but not every head has one neat job—and the lines do not tell the whole story of why a model answered as it did.</p>
       </div>
     </section>
 
@@ -319,47 +325,47 @@
         <div class="chapter-number">4</div>
         <div>
           <div class="chapter-label">The whole Transformer</div>
-          <h2>The title is a provocation, not a parts list</h2>
+          <h2>Attention is the star, but it is not the whole machine</h2>
           <span class="source-tag">Paper §§3.1–3.5</span><span class="source-tag">Figure 1</span>
         </div>
       </div>
-      <p class="lead">The Transformer removed recurrence and convolution from its encoder–decoder sequence model. It did not remove everything except attention.</p>
+      <p class="lead">The title sounds as if the model contains only attention. It does not. Attention helps words exchange information; other parts keep track of word order, reshape the information, and build the translation.</p>
 
       <div class="lab">
-        <div class="lab-title"><strong>Open the architecture layer by layer</strong><span>simplified Figure 1</span></div>
+        <div class="lab-title"><strong>Open the translation machine</strong><span>simplified Figure 1</span></div>
         <div class="controls arch-controls">
-          <button class="control secondary arch-toggle" type="button" data-target="encoderDetail" aria-controls="encoderDetail" aria-expanded="false">Explain encoder</button>
-          <button class="control secondary arch-toggle" type="button" data-target="bridgeDetail" aria-controls="bridgeDetail" aria-expanded="false">Explain the bridge</button>
-          <button class="control secondary arch-toggle" type="button" data-target="decoderDetail" aria-controls="decoderDetail" aria-expanded="false">Explain decoder</button>
+          <button class="control secondary arch-toggle" type="button" data-target="encoderDetail" aria-controls="encoderDetail" aria-expanded="false">How it reads</button>
+          <button class="control secondary arch-toggle" type="button" data-target="bridgeDetail" aria-controls="bridgeDetail" aria-expanded="false">How reading helps writing</button>
+          <button class="control secondary arch-toggle" type="button" data-target="decoderDetail" aria-controls="decoderDetail" aria-expanded="false">How it writes</button>
           <button class="control" id="openAllArchitecture" type="button">Open all</button>
         </div>
         <div class="architecture">
           <div class="stack">
-            <h3>Encoder · repeated 6×</h3>
-            <div class="block embed">Input embeddings + positional encoding</div>
+            <h3>Reader <small>encoder · repeated 6×</small></h3>
+            <div class="block embed">Turn words and their order into numbers<small>embeddings + positional encoding</small></div>
             <div class="plus">↓</div>
-            <div class="block attn">Multi-head self-attention</div>
-            <div class="block norm">Residual connection + layer norm</div>
-            <div class="block ff">Position-wise feed-forward network</div>
-            <div class="block norm">Residual connection + layer norm</div>
-            <div class="layer-detail" id="encoderDetail" hidden>The encoder lets every input position gather information from the previous layer, then transforms each position through the same feed-forward network. Residual paths preserve the incoming representation; normalization stabilizes the stack.</div>
+            <div class="block attn">Let each word look at the others<small>multi-head self-attention</small></div>
+            <div class="block norm">Keep the old information and steady the new<small>residual connection + layer normalization</small></div>
+            <div class="block ff">Reshape what each word now knows<small>feed-forward network</small></div>
+            <div class="block norm">Keep and steady the result<small>residual connection + layer normalization</small></div>
+            <div class="layer-detail" id="encoderDetail" hidden><strong>The reader's job:</strong> build a rich understanding of the whole input sentence. It repeatedly lets words share clues, reshapes those clues, and preserves useful earlier information.</div>
           </div>
           <div class="stack">
-            <h3>Decoder · repeated 6×</h3>
-            <div class="block embed">Output embeddings + positional encoding</div>
+            <h3>Writer <small>decoder · repeated 6×</small></h3>
+            <div class="block embed">Turn words already written and their order into numbers<small>output embeddings + positional encoding</small></div>
             <div class="plus">↓</div>
-            <div class="block attn">Masked multi-head self-attention</div>
-            <div class="block norm">Residual connection + layer norm</div>
-            <div class="block attn">Attention over encoder output</div>
-            <div class="block norm">Residual connection + layer norm</div>
-            <div class="block ff">Position-wise feed-forward network</div>
-            <div class="block norm">Residual connection + layer norm</div>
-            <div class="block">Linear layer + output softmax</div>
-            <div class="layer-detail" id="decoderDetail" hidden>The causal mask blocks future output positions, so prediction at position i can use only earlier generated outputs. A separate attention block queries the encoder's completed input representations.</div>
+            <div class="block attn">Look only at words already written<small>masked multi-head self-attention</small></div>
+            <div class="block norm">Keep and steady that information<small>residual connection + layer normalization</small></div>
+            <div class="block attn">Look back at the input sentence<small>encoder–decoder attention</small></div>
+            <div class="block norm">Keep and steady the result<small>residual connection + layer normalization</small></div>
+            <div class="block ff">Reshape what the next word should use<small>feed-forward network</small></div>
+            <div class="block norm">Keep and steady the result<small>residual connection + layer normalization</small></div>
+            <div class="block">Choose the next word<small>linear layer + softmax</small></div>
+            <div class="layer-detail" id="decoderDetail" hidden><strong>The writer's job:</strong> produce the translation one word at a time. It can look at words it has already written and at the reader's understanding of the input, but it cannot peek at future words.</div>
           </div>
         </div>
-        <div class="layer-detail" id="bridgeDetail" hidden><strong>Why positional encoding?</strong> With neither recurrence nor convolution, order is not built into the architecture. The paper adds sine-and-cosine position signals to embeddings. <strong>Why the encoder–decoder bridge?</strong> Decoder queries attend to keys and values from the encoder, letting each output position use the full input sequence.</div>
-        <p class="landing">Attention moves information between positions; feed-forward layers transform it; residual connections and normalization make deep stacks trainable; position signals preserve order.</p>
+        <div class="layer-detail" id="bridgeDetail" hidden><strong>How do the two sides work together?</strong> The reader passes its understanding of the input to the writer. When choosing each translated word, the writer can spotlight the most useful parts of that understanding. Position signals act like numbered seats, so the model can tell which word came first, second, and so on.</div>
+        <p class="landing">The full Transformer reads the input, shares clues between words, remembers their order, and writes the output one word at a time.</p>
       </div>
     </section>
 
@@ -368,57 +374,57 @@
         <div class="chapter-number">5</div>
         <div>
           <div class="chapter-label">What the paper demonstrated</div>
-          <h2>An architecture claim backed by translation results</h2>
+          <h2>Did the new approach actually work?</h2>
           <span class="source-tag">Paper §4</span><span class="source-tag">Paper §6</span><span class="source-tag">Tables 1–2</span>
         </div>
       </div>
-      <p class="lead">The paper argued for self-attention using three criteria: computation per layer, how much work can run in parallel, and the path length between positions. It then tested the architecture on translation and parsing.</p>
+      <p class="lead">A clever diagram is not enough. The researchers compared the design with other approaches and tested it on two established translation challenges.</p>
 
       <div class="lab">
-        <div class="lab-title"><strong>Table 1, made visible</strong><span>maximum path length</span></div>
-        <p>For a sequence of length <strong id="pathN">10</strong>, the paper's comparison gives these asymptotic longest paths:</p>
-        <div class="table-race"><span>Self-attention</span><div class="pathbar"><span style="width:8%"></span></div><b>O(1)</b></div>
-        <div class="table-race"><span>Recurrent</span><div class="pathbar"><span id="recurrentPath" style="width:100%"></span></div><b>O(n)</b></div>
-        <div class="table-race"><span>Convolutional</span><div class="pathbar"><span id="convPath" style="width:34%"></span></div><b>O(log<sub>k</sub> n)</b></div>
-        <p class="honesty">Constant path length does not mean free computation: full self-attention compares every pair of positions, giving quadratic sequence-length cost in the paper's formulation.</p>
+        <div class="lab-title"><strong>How far must information travel?</strong><span>paper Table 1</span></div>
+        <p>For a sentence with <strong id="pathN">10</strong> words, the bars show the longest route between two words. The symbols at right are the paper's compact mathematical labels.</p>
+        <div class="table-race"><span>Direct look</span><div class="pathbar"><span style="width:8%"></span></div><b>O(1)</b></div>
+        <div class="table-race"><span>Relay reading</span><div class="pathbar"><span id="recurrentPath" style="width:100%"></span></div><b>O(n)</b></div>
+        <div class="table-race"><span>Windowed reading</span><div class="pathbar"><span id="convPath" style="width:34%"></span></div><b>O(log n)</b></div>
+        <p class="honesty">A shorter route is not free. Self-attention compares every word with every other word, so longer passages require many more comparisons.</p>
       </div>
 
       <div class="evidence-grid" aria-label="Results reported in the paper">
         <div class="evidence-card">
           <span class="big">28.4</span>
-          <strong>English → German BLEU</strong>
-          <p>The authors' Transformer (big) result in Table 2, reported as a new state of the art.</p>
+          <strong>English → German score</strong>
+          <p>The paper's larger Transformer scored 28.4 BLEU, the best published result the authors compared against.</p>
         </div>
         <div class="evidence-card">
           <span class="big">41.8</span>
-          <strong>English → French BLEU</strong>
-          <p>The Transformer (big) value reported in Table 2 of the updated paper.</p>
+          <strong>English → French score</strong>
+          <p>The same model scored 41.8 BLEU on a second translation challenge.</p>
         </div>
         <div class="evidence-card">
           <span class="big">3.5 days</span>
-          <strong>Training time</strong>
-          <p>The big models trained on one machine with eight NVIDIA P100 GPUs.</p>
+          <strong>Time to train the large model</strong>
+          <p>The authors report 3.5 days on one powerful machine using eight specialized processors called GPUs.</p>
         </div>
       </div>
-      <p><strong>BLEU</strong> is an automatic translation metric based on overlap between a system's translation and reference translations. Higher was better on these 2014 WMT benchmarks, but BLEU is not a general measure of intelligence or even a complete measure of translation quality.</p>
-      <p class="landing">The paper's achievement was specific and substantial: a non-recurrent encoder–decoder trained more efficiently and reached leading results on the tested sequence tasks.</p>
+      <p><strong>What is BLEU?</strong> It is a score that checks how much a machine translation overlaps with translations written by people. Higher was better on these 2014 tests. It is useful but imperfect: it does not capture every part of translation quality, and it is not a score for intelligence.</p>
+      <p class="landing">The paper showed that this new translation system could train efficiently and produce leading results on the specific 2017 tests—not that it understood language exactly as people do.</p>
     </section>
 
     <aside class="accuracy" aria-labelledby="accuracy-title">
       <div class="chapter-label">Read the page honestly</div>
-      <h2 id="accuracy-title">Four boundaries worth keeping</h2>
+      <h2 id="accuracy-title">Four things this page does not claim</h2>
       <div class="accuracy-grid">
-        <div class="accuracy-item"><strong>Teaching weights ≠ measured weights</strong>The interactive scores and head lines here are authored diagrams. Paper results and equations are labeled separately.</div>
-        <div class="accuracy-item"><strong>Attention ≠ a complete explanation</strong>A connection map shows information flow and weighting, not every cause of a model's final behavior.</div>
-        <div class="accuracy-item"><strong>Parallel training ≠ parallel generation</strong>Training can process known sequence positions together; the paper's decoder still generates outputs autoregressively, one position at a time.</div>
-        <div class="accuracy-item"><strong>The 2017 model ≠ every later LLM</strong>This paper presents an encoder–decoder built for sequence transduction. Many later language models use decoder-only descendants.</div>
+        <div class="accuracy-item"><strong>Our teaching numbers are not the paper's measurements</strong>We invented the interactive scores and line strengths. Results taken from the paper are clearly labeled.</div>
+        <div class="accuracy-item"><strong>Attention lines are not a model's complete explanation</strong>They show which information received more weight, but many other calculations also shaped the answer.</div>
+        <div class="accuracy-item"><strong>Training together does not mean writing together</strong>During training, many known words can be processed at once. When producing new text, the paper's model still writes one word at a time.</div>
+        <div class="accuracy-item"><strong>This 2017 Transformer is not the same as every modern chatbot</strong>It had a reader and a writer built for translation. Many later language models kept only a writer-like half and changed other details.</div>
       </div>
     </aside>
 
     <div class="final-cta">
       <div class="chapter-label">Continue with the source</div>
-      <h2>Now the diagrams in the paper have handles</h2>
-      <p>Open the original, start with Figures 1 and 2, then use §§3.2, 4, and 6 to move from mechanism to evidence.</p>
+      <h2>You now have a way into the original paper</h2>
+      <p>Start with Figures 1 and 2. You do not need to understand every symbol: look for the reader, the writer, and the attention step you explored here.</p>
       <div class="actions" style="justify-content:center;margin-bottom:0">
         <a class="button-link" href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Open the original paper ↗</a>
         <a class="button-link secondary" href="../">Return to Attention Spotlight</a>
@@ -460,7 +466,7 @@
     var n = Number(lengthInput.value);
     lengthValue.value = n;
     lengthValue.textContent = n;
-    rnnMetric.textContent = n + ' sequential operations';
+    rnnMetric.textContent = n + ' ordered handoffs';
     buildTrack(rnnTrack,n); buildTrack(attnTrack,n);
     document.getElementById('pathN').textContent = n;
     document.getElementById('recurrentPath').style.width = '100%';
@@ -477,7 +483,7 @@
       raceTimers.push(setTimeout(function(){ t.classList.add('on'); },pace*i));
     });
     raceTimers.push(setTimeout(function(){
-      raceStatus.textContent = 'Self-attention connected all ' + rnnTokens.length + ' positions in one parallel layer; the recurrent illustration required ' + rnnTokens.length + ' ordered updates.';
+      raceStatus.textContent = 'The all-at-once reader connected all ' + rnnTokens.length + ' words together. The relay reader needed ' + rnnTokens.length + ' ordered handoffs.';
     },pace*Math.max(0,rnnTokens.length-1)+40));
   }
   lengthInput.addEventListener('input',resetRace);
@@ -536,16 +542,16 @@
     progress.innerHTML = '';
     for(var i=0;i<5;i++){ var dot=document.createElement('span'); dot.className='stage-dot'+(i<=stage?' on':''); progress.appendChild(dot); }
     if(stage===0){
-      card.innerHTML = '<h3>1 · The <span class="role q">query</span> asks a question</h3><p>The representation at <strong>making</strong> is projected into a query: roughly, “which positions contain useful information for updating me?”</p><p>Queries are learned vectors, not English questions. The question wording is an intuition for the vector operation.</p>';
+      card.innerHTML = '<h3>1 · Ask what this word needs</h3><p>For <strong>making</strong>, the model forms a signal that roughly means: “Which other words will help me understand my job in this sentence?”</p><p>The paper calls this signal a <span class="role q">query</span>. It is made of numbers, not an English sentence, but the question is a useful way to picture it.</p>';
     } else if(stage===1){
-      card.innerHTML = '<h3>2 · <span class="role k">Keys</span> compete by compatibility</h3><p>The query is dot-multiplied with every key. Larger scores mean stronger compatibility in this authored teaching example.</p>'+scoreRows('raw');
+      card.innerHTML = '<h3>2 · Compare the possible clues</h3><p>Every other word offers a label-like signal called a <span class="role k">key</span>. The model compares the query with each key. A longer bar means “this word looks more useful” in our teaching example.</p>'+scoreRows('raw');
     } else if(stage===2){
-      card.innerHTML = '<h3>3 · Scale the scores</h3><p>With toy key dimension d<sub>k</sub> = 4, divide every score by √4 = 2. The ordering stays the same, but the values are kept in a range where softmax can learn effectively.</p>'+scoreRows('scaled');
+      card.innerHTML = '<h3>3 · Keep the numbers manageable</h3><p>The paper shrinks the comparison scores before using them. In our tiny example, each score is divided by 2. The winner does not change; this step keeps the model from becoming too certain too quickly while learning.</p>'+scoreRows('scaled');
     } else if(stage===3){
-      card.innerHTML = '<h3>4 · Softmax creates a distribution</h3><p>The scaled scores become positive weights that sum to 100%. Move the teaching sharpness control below to feel the distribution concentrate or spread.</p>'+scoreRows('weight');
+      card.innerHTML = '<h3>4 · Turn the scores into shares</h3><p>The scores become percentages that add to 100%. The paper calls this step <strong>softmax</strong>. Move the spotlight control below: a tighter spotlight gives more of the share to the strongest match.</p>'+scoreRows('weight');
     } else {
       var ws = weights();
-      card.innerHTML = '<h3>5 · Mix the <span class="role v">values</span></h3><p>Each position contributes its value vector in proportion to its weight. In this toy mixture, <strong>difficult contributes '+Math.round(ws[3]*100)+'%</strong>, so the updated representation at “making” carries strong information from that distant position.</p><p><strong>Keys decide how much; values decide what information is carried.</strong></p>';
+      card.innerHTML = '<h3>5 · Blend the useful information</h3><p>Each word now contributes information according to its share. The paper calls the information a <span class="role v">value</span>. In this toy mixture, <strong>difficult contributes '+Math.round(ws[3]*100)+'%</strong>, so “making” receives a strong clue from that distant word.</p><p><strong>First choose how much each word matters; then blend what those words carry.</strong></p>';
     }
     document.getElementById('previousStage').disabled = stage===0;
     document.getElementById('nextStage').disabled = stage===4;
@@ -600,7 +606,7 @@
     }
     if(activeHead==='a'||activeHead==='both') draw('a','#7655a3');
     if(activeHead==='b'||activeHead==='both') draw('b','#2f806b');
-    var description = activeHead==='a' ? 'Head A emphasizes reference-like connections around its, Law, and application.' : activeHead==='b' ? 'Head B emphasizes structure-like connections among will, perfect, application, and just.' : 'The combined view overlays both authored teaching heads.';
+    var description = activeHead==='a' ? 'Spotlight A emphasizes reference-like connections around its, Law, and application.' : activeHead==='b' ? 'Spotlight B emphasizes sentence-shape connections among will, perfect, application, and just.' : 'The combined view overlays both teaching spotlights.';
     document.getElementById('headDesc').textContent=description;
   }
   document.querySelectorAll('[data-head]').forEach(function(button){
