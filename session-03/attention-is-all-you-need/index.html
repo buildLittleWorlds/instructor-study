@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A guided, interactive tour of the 2017 Attention Is All You Need paper.">
+<title>The Paper Behind the Spotlight - Attention Is All You Need</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#686873; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --glow:#f4c04e;
+    --glow-soft:#fff6dd; --query:#7655a3; --key:#4d7f9f; --value:#b35d3b;
+    --head-a:#7655a3; --head-b:#2f806b; --warn:#9a4d2a; --shadow:0 14px 38px rgba(34,34,42,.07);
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,"Times New Roman",serif; line-height:1.68; font-size:1.05rem; }
+  a { color:var(--accent); text-underline-offset:.16em; }
+  button, input { font:inherit; }
+  button { cursor:pointer; }
+  button:disabled { opacity:.45; cursor:not-allowed; }
+  button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible { outline:3px solid var(--glow); outline-offset:3px; }
+  .skip { position:fixed; left:1rem; top:-5rem; z-index:99; background:var(--ink); color:#fff; padding:.6rem 1rem; border-radius:6px; }
+  .skip:focus { top:1rem; }
+  .page { width:min(100% - 2rem, 58rem); margin:0 auto; padding:1.2rem 0 5rem; }
+  .topline { display:flex; justify-content:space-between; gap:1rem; align-items:center; font-family:system-ui,sans-serif; font-size:.84rem; color:var(--muted); }
+  .topline a { font-weight:700; }
+  .kicker, .chapter-label, .source-tag { font-family:system-ui,sans-serif; text-transform:uppercase; letter-spacing:.09em; font-weight:800; }
+  .kicker { color:var(--accent); font-size:.78rem; margin-top:3.8rem; }
+  h1 { font-size:clamp(2.35rem, 7vw, 4.8rem); line-height:.98; letter-spacing:-.045em; max-width:12ch; margin:.55rem 0 1rem; }
+  .dek { max-width:42rem; font-size:1.28rem; line-height:1.55; color:#41414a; margin:0 0 1.4rem; }
+  .paper-meta { color:var(--muted); font-size:.95rem; max-width:48rem; }
+  .actions { display:flex; flex-wrap:wrap; gap:.7rem; margin:1.5rem 0 2.2rem; font-family:system-ui,sans-serif; }
+  .button-link, button.control { display:inline-flex; align-items:center; justify-content:center; border:1.5px solid var(--accent); border-radius:8px; padding:.62rem 1rem; background:var(--accent); color:#fff; text-decoration:none; font-weight:750; font-size:.9rem; }
+  .button-link.secondary, button.control.secondary { background:#fff; color:var(--accent); }
+  .button-link:hover, button.control:hover { filter:brightness(.96); }
+  .paper-map { background:var(--card); border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow); padding:1rem 1.2rem; margin:2rem 0 4rem; }
+  .paper-map strong { font-family:system-ui,sans-serif; font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+  .paper-map ol { display:grid; grid-template-columns:repeat(5,1fr); gap:.55rem; list-style:none; margin:.75rem 0 0; padding:0; }
+  .paper-map a { display:block; min-height:100%; padding:.7rem; border-radius:7px; background:#f7f5ef; text-decoration:none; font-family:system-ui,sans-serif; font-size:.78rem; line-height:1.35; }
+  .paper-map a:hover { background:var(--accent-soft); }
+  .paper-map b { display:block; color:var(--ink); margin-bottom:.15rem; }
+  section.chapter { scroll-margin-top:1rem; margin:0 0 5.6rem; }
+  .chapter-head { display:grid; grid-template-columns:3.6rem 1fr; gap:1rem; align-items:start; border-top:1px solid var(--line); padding-top:1.55rem; }
+  .chapter-number { width:3rem; height:3rem; border-radius:50%; display:grid; place-items:center; background:var(--accent); color:#fff; font:800 1rem system-ui,sans-serif; }
+  .chapter-label { color:var(--accent); font-size:.72rem; }
+  h2 { font-size:clamp(1.75rem,4vw,2.55rem); line-height:1.12; letter-spacing:-.025em; margin:.2rem 0 .7rem; }
+  h3 { font-size:1.18rem; line-height:1.3; margin:1.8rem 0 .6rem; }
+  .lead { font-size:1.16rem; max-width:44rem; }
+  .source-tag { display:inline-block; font-size:.66rem; color:var(--muted); background:#f3f1eb; border-radius:999px; padding:.18rem .55rem; margin:.35rem .25rem .35rem 0; }
+  .lab { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:1.2rem; margin:1.4rem 0; box-shadow:var(--shadow); }
+  .lab-title { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:.6rem; }
+  .lab-title strong { font-size:1.05rem; }
+  .lab-title span { font:700 .72rem system-ui,sans-serif; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; }
+  .controls { display:flex; flex-wrap:wrap; align-items:center; gap:.65rem; margin:.9rem 0; font-family:system-ui,sans-serif; font-size:.88rem; }
+  .controls label { font-weight:700; }
+  input[type=range] { accent-color:var(--accent); min-width:13rem; flex:1; }
+  output { min-width:2rem; font-weight:800; color:var(--accent); }
+  button.control { padding:.48rem .78rem; font-size:.82rem; }
+  button.control[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  .status { min-height:1.65rem; color:var(--muted); font:500 .83rem system-ui,sans-serif; }
+  .race-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .race-lane { border:1px solid var(--line); border-radius:9px; padding:.9rem; overflow:hidden; }
+  .race-lane h3 { margin:0 0 .15rem; font-size:1rem; }
+  .metric { font:800 .8rem system-ui,sans-serif; color:var(--muted); }
+  .token-track { display:flex; gap:3px; overflow:hidden; margin:.75rem 0; }
+  .race-token { flex:1 1 0; min-width:8px; height:2rem; border:1px solid var(--line); border-radius:4px; background:#f2f0ea; transition:background .28s, transform .28s; }
+  .race-token.on { background:var(--glow); border-color:#d4a632; transform:translateY(-2px); }
+  .attention-lane .race-token.on { background:var(--accent); border-color:var(--accent); }
+  .landing { border-left:4px solid var(--accent); padding:.75rem 1rem; margin:1rem 0 0; background:var(--accent-soft); font-weight:700; }
+  .predict { background:var(--glow-soft); border:1px solid #e7c96e; border-radius:9px; padding:1rem; }
+  .sentence { font-size:1.27rem; line-height:2.1; margin:.6rem 0; }
+  .word { display:inline-block; border:0; border-radius:5px; background:transparent; padding:.02rem .18rem; color:inherit; }
+  .word.focus { background:var(--query); color:#fff; font-weight:800; }
+  .word.choice { border-bottom:2px dotted var(--accent); }
+  .word.choice:hover, .word.choice[aria-pressed="true"] { background:var(--accent-soft); color:var(--accent); }
+  .word.best { background:var(--glow); color:var(--ink); border-bottom-color:transparent; }
+  .word.dim { opacity:.35; }
+  .prediction-result { min-height:1.5rem; font:700 .83rem system-ui,sans-serif; }
+  .stage-shell { margin-top:1rem; border-top:1px dashed var(--line); padding-top:1rem; }
+  .stage-progress { display:flex; gap:.35rem; margin-bottom:.8rem; }
+  .stage-dot { flex:1; height:.35rem; border-radius:999px; background:#e9e6df; }
+  .stage-dot.on { background:var(--accent); }
+  .stage-card { min-height:12rem; border:1px solid var(--line); border-radius:9px; padding:1rem; background:#fbfaf6; }
+  .stage-card h3 { margin:0 0 .45rem; }
+  .role { display:inline-block; padding:.13rem .42rem; border-radius:4px; color:#fff; font:800 .72rem system-ui,sans-serif; }
+  .role.q { background:var(--query); } .role.k { background:var(--key); } .role.v { background:var(--value); }
+  .score-grid { display:grid; gap:.48rem; margin:.8rem 0; }
+  .score-row { display:grid; grid-template-columns:7rem 1fr 3.5rem; align-items:center; gap:.6rem; font:600 .82rem system-ui,sans-serif; }
+  .score-row > span:first-child { text-align:right; }
+  .score-bar-bg { height:.75rem; background:#ece9e2; border-radius:99px; overflow:hidden; }
+  .score-bar { height:100%; width:0; background:var(--key); border-radius:99px; transition:width .35s; }
+  .score-bar.weight { background:var(--glow); }
+  .stage-nav { display:flex; justify-content:space-between; gap:.7rem; margin-top:.8rem; }
+  details.math { border:1px solid var(--line); border-radius:8px; padding:.65rem .9rem; margin:1rem 0; background:#fff; }
+  details.math summary { cursor:pointer; font:800 .86rem system-ui,sans-serif; color:var(--accent); }
+  .equation { overflow:auto; text-align:center; padding:.9rem; font-size:1.08rem; }
+  .honesty { font:500 .79rem system-ui,sans-serif; color:var(--muted); border-left:3px solid var(--key); padding-left:.7rem; }
+  .head-controls button.control { border-color:var(--head-a); color:var(--head-a); background:#fff; }
+  .head-controls button.control:nth-of-type(2) { border-color:var(--head-b); color:var(--head-b); }
+  .head-controls button.control:nth-of-type(3) { border-color:var(--ink); color:var(--ink); }
+  .head-controls button.control[aria-pressed="true"] { color:#fff; background:var(--head-a); }
+  .head-controls button.control:nth-of-type(2)[aria-pressed="true"] { background:var(--head-b); }
+  .head-controls button.control:nth-of-type(3)[aria-pressed="true"] { background:var(--ink); }
+  .head-viz { width:100%; height:auto; min-height:16rem; display:block; background:#fbfaf7; border:1px solid var(--line); border-radius:9px; }
+  .head-summary { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:.8rem; }
+  .head-note { border-left:4px solid var(--head-a); padding:.65rem .8rem; background:#f4f0fa; font:500 .82rem system-ui,sans-serif; }
+  .head-note.b { border-left-color:var(--head-b); background:#edf6f3; }
+  .architecture { display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:start; }
+  .stack { border:1px solid var(--line); border-radius:10px; padding:1rem; background:#fbfaf7; }
+  .stack h3 { margin:0 0 .7rem; text-align:center; }
+  .block { border:1px solid var(--line); border-radius:7px; padding:.58rem .75rem; margin:.42rem 0; text-align:center; font:750 .79rem system-ui,sans-serif; background:#fff; }
+  .block.attn { background:#fff4df; border-color:#ddbb69; }
+  .block.ff { background:#eaf3f7; border-color:#92b7c8; }
+  .block.norm { background:#f1eff8; border-color:#b7add0; }
+  .block.embed { background:#f8e9e4; border-color:#d2a08d; }
+  .plus { text-align:center; color:var(--muted); font-weight:800; }
+  .layer-detail { border-top:1px dashed var(--line); margin-top:.7rem; padding-top:.7rem; font:500 .82rem system-ui,sans-serif; }
+  .layer-detail[hidden] { display:none; }
+  .arch-controls { justify-content:center; }
+  .evidence-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin:1rem 0; }
+  .evidence-card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem; }
+  .evidence-card .big { display:block; font-size:2rem; line-height:1; color:var(--accent); font-weight:800; }
+  .evidence-card strong { display:block; margin:.45rem 0 .25rem; }
+  .evidence-card p { margin:.2rem 0; font-size:.9rem; }
+  .table-race { display:grid; grid-template-columns:9rem 1fr 4.3rem; gap:.55rem; align-items:center; margin:.45rem 0; font:700 .8rem system-ui,sans-serif; }
+  .pathbar { height:.85rem; background:#ebe8e1; border-radius:99px; overflow:hidden; }
+  .pathbar span { display:block; height:100%; background:var(--accent); border-radius:99px; }
+  .accuracy { border:2px solid var(--ink); border-radius:13px; padding:1.2rem; margin:3rem 0; background:#fff; }
+  .accuracy h2 { margin:.1rem 0 .5rem; }
+  .accuracy-grid { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
+  .accuracy-item { padding:.8rem; background:#f7f5ef; border-radius:8px; }
+  .accuracy-item strong { display:block; margin-bottom:.2rem; }
+  .final-cta { text-align:center; padding:2rem 1rem; background:var(--accent-soft); border-radius:13px; }
+  .final-cta h2 { margin:.1rem 0 .6rem; }
+  footer { margin-top:3rem; padding-top:1rem; border-top:1px solid var(--line); color:var(--muted); font:500 .8rem system-ui,sans-serif; }
+  @media (max-width:760px) {
+    .paper-map ol { grid-template-columns:1fr 1fr; }
+    .race-grid, .architecture, .head-summary, .accuracy-grid { grid-template-columns:1fr; }
+    .evidence-grid { grid-template-columns:1fr; }
+    .score-row { grid-template-columns:5.2rem 1fr 3.2rem; }
+    .chapter-head { grid-template-columns:2.7rem 1fr; }
+    .chapter-number { width:2.35rem; height:2.35rem; }
+    .head-viz { min-height:12rem; }
+  }
+  @media (max-width:430px) {
+    .page { width:min(100% - 1.25rem, 58rem); }
+    .paper-map ol { grid-template-columns:1fr; }
+    .lab { padding:.9rem; }
+    input[type=range] { min-width:9rem; width:100%; }
+    .controls { align-items:stretch; }
+    .controls > button.control { flex:1; }
+    .sentence { font-size:1.1rem; line-height:2; }
+    .score-row { grid-template-columns:4.5rem 1fr 3rem; gap:.35rem; font-size:.72rem; }
+    .topline { align-items:flex-start; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    html { scroll-behavior:auto; }
+    *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the paper tour</a>
+<div class="page">
+  <div class="topline">
+    <a href="../">← Back to Attention Spotlight</a>
+    <span>The Instructor's Study · Session 3</span>
+  </div>
+
+  <header>
+    <div class="kicker">The paper behind the spotlight · a 10–15 minute guided tour</div>
+    <h1>Attention Is All You Need</h1>
+    <p class="dek">In 2017, eight researchers asked a radical engineering question: what if a translation model stopped passing information word by word and let every position look directly at the others?</p>
+    <p class="paper-meta"><strong>Ashish Vaswani et al.</strong> · first posted 2017 · published at NeurIPS 2017. This page explains the architecture and evidence in the paper itself; it is not a history of everything Transformers later became.</p>
+    <div class="actions">
+      <a class="button-link" href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Open the original paper ↗</a>
+      <a class="button-link secondary" href="https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html" target="_blank" rel="noopener">NeurIPS publication record ↗</a>
+    </div>
+  </header>
+
+  <nav class="paper-map" aria-label="Guided paper map">
+    <strong>Paper map</strong>
+    <ol>
+      <li><a href="#problem"><b>1 · The problem</b>§§1, 4 · Table 1</a></li>
+      <li><a href="#calculation"><b>2 · One calculation</b>§3.2 · Figure 2</a></li>
+      <li><a href="#heads"><b>3 · Many heads</b>§3.2.2 · Figures 3–5</a></li>
+      <li><a href="#architecture"><b>4 · The architecture</b>§§3.1–3.5 · Figure 1</a></li>
+      <li><a href="#evidence"><b>5 · The evidence</b>§§4, 6 · Tables 1–2</a></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+    <section class="chapter" id="problem">
+      <div class="chapter-head">
+        <div class="chapter-number">1</div>
+        <div>
+          <div class="chapter-label">The 2017 problem</div>
+          <h2>Stop waiting for the previous word</h2>
+          <span class="source-tag">Paper §§1 and 4</span><span class="source-tag">Table 1</span>
+        </div>
+      </div>
+      <p class="lead">Recurrent networks had to carry information through a chain of hidden states. That made training inherently sequential and gave distant words a long route to one another. The Transformer replaced that chain with self-attention.</p>
+
+      <div class="lab" aria-labelledby="race-title">
+        <div class="lab-title"><strong id="race-title">Run the path-length race</strong><span>computed live</span></div>
+        <div class="controls">
+          <label for="length">Sentence length</label>
+          <input id="length" type="range" min="4" max="18" value="10" step="1">
+          <output id="lengthValue" for="length">10</output>
+          <button class="control" id="runRace" type="button">Run comparison</button>
+          <button class="control secondary" id="resetRace" type="button">Reset</button>
+        </div>
+        <div class="race-grid">
+          <div class="race-lane">
+            <h3>Recurrent path</h3>
+            <div class="metric" id="rnnMetric">10 sequential operations</div>
+            <div class="token-track" id="rnnTrack" aria-hidden="true"></div>
+            <p>Each position waits for information carried from the previous one.</p>
+          </div>
+          <div class="race-lane attention-lane">
+            <h3>Self-attention layer</h3>
+            <div class="metric">1 sequential operation</div>
+            <div class="token-track" id="attnTrack" aria-hidden="true"></div>
+            <p>All positions can compute their connections in parallel within the layer.</p>
+          </div>
+        </div>
+        <p class="status" id="raceStatus" aria-live="polite">Choose a length, then run the comparison.</p>
+        <p class="landing">The paper's wager: shorter information paths plus more parallel training can make sequence models both stronger and faster to train.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="calculation">
+      <div class="chapter-head">
+        <div class="chapter-number">2</div>
+        <div>
+          <div class="chapter-label">One attention calculation</div>
+          <h2>A query meets keys, then carries values</h2>
+          <span class="source-tag">Paper §3.2</span><span class="source-tag">Equation 1</span><span class="source-tag">Figure 2</span>
+        </div>
+      </div>
+      <p class="lead">Attention is a weighted lookup. A position makes a query, compares it with keys, converts the scores into weights, and mixes the corresponding values.</p>
+
+      <div class="lab">
+        <div class="lab-title"><strong>Predict before the numbers appear</strong><span>paper example + teaching calculation</span></div>
+        <div class="predict">
+          <p style="margin-top:0">The paper visualizes a long-distance connection completing the phrase <em>making … more difficult</em>. Before revealing it, choose the word you expect <strong>making</strong> to connect with most strongly.</p>
+          <p class="sentence" id="attentionSentence">
+            It is in this spirit that a majority of American
+            <button class="word choice" type="button" data-choice="governments" aria-pressed="false">governments</button>
+            have passed new laws since 2009 <span class="word focus">making</span> the
+            <button class="word choice" type="button" data-choice="registration" aria-pressed="false">registration</button>
+            or <button class="word choice" type="button" data-choice="voting" aria-pressed="false">voting</button>
+            process more <button class="word choice" type="button" data-choice="difficult" aria-pressed="false">difficult</button>.
+          </p>
+          <p class="prediction-result" id="predictionResult" aria-live="polite">Choose one word.</p>
+          <button class="control" id="revealAttention" type="button" disabled>Reveal the paper's connection</button>
+        </div>
+
+        <div class="stage-shell" id="stageShell" hidden>
+          <div class="stage-progress" id="stageProgress" aria-hidden="true"></div>
+          <div class="stage-card" id="stageCard" aria-live="polite"></div>
+          <div class="stage-nav">
+            <button class="control secondary" id="previousStage" type="button">← Previous</button>
+            <button class="control secondary" id="restartAttention" type="button">Restart prediction</button>
+            <button class="control" id="nextStage" type="button">Next step →</button>
+          </div>
+          <div class="controls" id="softmaxControls" hidden>
+            <label for="sharpness">Teaching sharpness</label>
+            <input id="sharpness" type="range" min="0.5" max="3" value="1" step="0.1">
+            <output id="sharpnessValue" for="sharpness">1.0×</output>
+          </div>
+        </div>
+
+        <details class="math">
+          <summary>See the mathematics from Equation 1</summary>
+          <div class="equation" aria-label="Attention of Q, K, V equals softmax of Q K transpose divided by the square root of d k, multiplied by V.">
+            Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d<sub>k</sub>)V
+          </div>
+          <p><strong>Why divide by √d<sub>k</sub>?</strong> As vector dimensions grow, unscaled dot products can grow large and push softmax into regions with extremely small gradients. Scaling keeps training better behaved.</p>
+        </details>
+        <p class="honesty"><strong>Accuracy boundary:</strong> the word example comes from the paper's Figure 3. The four scores on this page are authored toy values chosen to make Equation 1 inspectable; they are not weights extracted from the authors' model.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="heads">
+      <div class="chapter-head">
+        <div class="chapter-number">3</div>
+        <div>
+          <div class="chapter-label">Several spotlights at once</div>
+          <h2>One sentence, different projected views</h2>
+          <span class="source-tag">Paper §3.2.2</span><span class="source-tag">Figures 3–5</span>
+        </div>
+      </div>
+      <p class="lead">The paper's base model used eight attention heads (the big model used sixteen). Each head received its own learned projections of queries, keys, and values, letting the layer form several connection maps in parallel before combining them.</p>
+      <div class="lab">
+        <div class="lab-title"><strong>Toggle the teaching heads</strong><span>responsive SVG redraw</span></div>
+        <div class="controls head-controls" role="group" aria-label="Choose attention head view">
+          <button class="control" type="button" data-head="a" aria-pressed="true">Head A · reference</button>
+          <button class="control" type="button" data-head="b" aria-pressed="false">Head B · structure</button>
+          <button class="control" type="button" data-head="both" aria-pressed="false">Combine heads</button>
+        </div>
+        <svg class="head-viz" id="headViz" viewBox="0 0 700 260" role="img" aria-labelledby="headTitle headDesc">
+          <title id="headTitle">Two teaching attention-head diagrams</title>
+          <desc id="headDesc">Head A emphasizes reference-like connections around its, Law, and application.</desc>
+          <g id="headLines"></g>
+          <g id="headLabels"></g>
+        </svg>
+        <div class="head-summary">
+          <div class="head-note"><strong>Head A:</strong> a reference-like view inspired by Figure 4, where connections around “its,” “Law,” and “application” become sharp.</div>
+          <div class="head-note b"><strong>Head B:</strong> a structure-like view inspired by Figure 5, where a different head emphasizes other sentence relationships.</div>
+        </div>
+        <p class="honesty"><strong>Do not turn the picture into a personality test for heads.</strong> These are authored redraws of the paper's interpretation, not copied weights. Some learned heads show recognizable patterns; that does not mean every head has one clean human-readable job, or that attention alone explains a prediction.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="architecture">
+      <div class="chapter-head">
+        <div class="chapter-number">4</div>
+        <div>
+          <div class="chapter-label">The whole Transformer</div>
+          <h2>The title is a provocation, not a parts list</h2>
+          <span class="source-tag">Paper §§3.1–3.5</span><span class="source-tag">Figure 1</span>
+        </div>
+      </div>
+      <p class="lead">The Transformer removed recurrence and convolution from its encoder–decoder sequence model. It did not remove everything except attention.</p>
+
+      <div class="lab">
+        <div class="lab-title"><strong>Open the architecture layer by layer</strong><span>simplified Figure 1</span></div>
+        <div class="controls arch-controls">
+          <button class="control secondary arch-toggle" type="button" data-target="encoderDetail" aria-controls="encoderDetail" aria-expanded="false">Explain encoder</button>
+          <button class="control secondary arch-toggle" type="button" data-target="bridgeDetail" aria-controls="bridgeDetail" aria-expanded="false">Explain the bridge</button>
+          <button class="control secondary arch-toggle" type="button" data-target="decoderDetail" aria-controls="decoderDetail" aria-expanded="false">Explain decoder</button>
+          <button class="control" id="openAllArchitecture" type="button">Open all</button>
+        </div>
+        <div class="architecture">
+          <div class="stack">
+            <h3>Encoder · repeated 6×</h3>
+            <div class="block embed">Input embeddings + positional encoding</div>
+            <div class="plus">↓</div>
+            <div class="block attn">Multi-head self-attention</div>
+            <div class="block norm">Residual connection + layer norm</div>
+            <div class="block ff">Position-wise feed-forward network</div>
+            <div class="block norm">Residual connection + layer norm</div>
+            <div class="layer-detail" id="encoderDetail" hidden>The encoder lets every input position gather information from the previous layer, then transforms each position through the same feed-forward network. Residual paths preserve the incoming representation; normalization stabilizes the stack.</div>
+          </div>
+          <div class="stack">
+            <h3>Decoder · repeated 6×</h3>
+            <div class="block embed">Output embeddings + positional encoding</div>
+            <div class="plus">↓</div>
+            <div class="block attn">Masked multi-head self-attention</div>
+            <div class="block norm">Residual connection + layer norm</div>
+            <div class="block attn">Attention over encoder output</div>
+            <div class="block norm">Residual connection + layer norm</div>
+            <div class="block ff">Position-wise feed-forward network</div>
+            <div class="block norm">Residual connection + layer norm</div>
+            <div class="block">Linear layer + output softmax</div>
+            <div class="layer-detail" id="decoderDetail" hidden>The causal mask blocks future output positions, so prediction at position i can use only earlier generated outputs. A separate attention block queries the encoder's completed input representations.</div>
+          </div>
+        </div>
+        <div class="layer-detail" id="bridgeDetail" hidden><strong>Why positional encoding?</strong> With neither recurrence nor convolution, order is not built into the architecture. The paper adds sine-and-cosine position signals to embeddings. <strong>Why the encoder–decoder bridge?</strong> Decoder queries attend to keys and values from the encoder, letting each output position use the full input sequence.</div>
+        <p class="landing">Attention moves information between positions; feed-forward layers transform it; residual connections and normalization make deep stacks trainable; position signals preserve order.</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="evidence">
+      <div class="chapter-head">
+        <div class="chapter-number">5</div>
+        <div>
+          <div class="chapter-label">What the paper demonstrated</div>
+          <h2>An architecture claim backed by translation results</h2>
+          <span class="source-tag">Paper §4</span><span class="source-tag">Paper §6</span><span class="source-tag">Tables 1–2</span>
+        </div>
+      </div>
+      <p class="lead">The paper argued for self-attention using three criteria: computation per layer, how much work can run in parallel, and the path length between positions. It then tested the architecture on translation and parsing.</p>
+
+      <div class="lab">
+        <div class="lab-title"><strong>Table 1, made visible</strong><span>maximum path length</span></div>
+        <p>For a sequence of length <strong id="pathN">10</strong>, the paper's comparison gives these asymptotic longest paths:</p>
+        <div class="table-race"><span>Self-attention</span><div class="pathbar"><span style="width:8%"></span></div><b>O(1)</b></div>
+        <div class="table-race"><span>Recurrent</span><div class="pathbar"><span id="recurrentPath" style="width:100%"></span></div><b>O(n)</b></div>
+        <div class="table-race"><span>Convolutional</span><div class="pathbar"><span id="convPath" style="width:34%"></span></div><b>O(log<sub>k</sub> n)</b></div>
+        <p class="honesty">Constant path length does not mean free computation: full self-attention compares every pair of positions, giving quadratic sequence-length cost in the paper's formulation.</p>
+      </div>
+
+      <div class="evidence-grid" aria-label="Results reported in the paper">
+        <div class="evidence-card">
+          <span class="big">28.4</span>
+          <strong>English → German BLEU</strong>
+          <p>The authors' Transformer (big) result in Table 2, reported as a new state of the art.</p>
+        </div>
+        <div class="evidence-card">
+          <span class="big">41.8</span>
+          <strong>English → French BLEU</strong>
+          <p>The Transformer (big) value reported in Table 2 of the updated paper.</p>
+        </div>
+        <div class="evidence-card">
+          <span class="big">3.5 days</span>
+          <strong>Training time</strong>
+          <p>The big models trained on one machine with eight NVIDIA P100 GPUs.</p>
+        </div>
+      </div>
+      <p><strong>BLEU</strong> is an automatic translation metric based on overlap between a system's translation and reference translations. Higher was better on these 2014 WMT benchmarks, but BLEU is not a general measure of intelligence or even a complete measure of translation quality.</p>
+      <p class="landing">The paper's achievement was specific and substantial: a non-recurrent encoder–decoder trained more efficiently and reached leading results on the tested sequence tasks.</p>
+    </section>
+
+    <aside class="accuracy" aria-labelledby="accuracy-title">
+      <div class="chapter-label">Read the page honestly</div>
+      <h2 id="accuracy-title">Four boundaries worth keeping</h2>
+      <div class="accuracy-grid">
+        <div class="accuracy-item"><strong>Teaching weights ≠ measured weights</strong>The interactive scores and head lines here are authored diagrams. Paper results and equations are labeled separately.</div>
+        <div class="accuracy-item"><strong>Attention ≠ a complete explanation</strong>A connection map shows information flow and weighting, not every cause of a model's final behavior.</div>
+        <div class="accuracy-item"><strong>Parallel training ≠ parallel generation</strong>Training can process known sequence positions together; the paper's decoder still generates outputs autoregressively, one position at a time.</div>
+        <div class="accuracy-item"><strong>The 2017 model ≠ every later LLM</strong>This paper presents an encoder–decoder built for sequence transduction. Many later language models use decoder-only descendants.</div>
+      </div>
+    </aside>
+
+    <div class="final-cta">
+      <div class="chapter-label">Continue with the source</div>
+      <h2>Now the diagrams in the paper have handles</h2>
+      <p>Open the original, start with Figures 1 and 2, then use §§3.2, 4, and 6 to move from mechanism to evidence.</p>
+      <div class="actions" style="justify-content:center;margin-bottom:0">
+        <a class="button-link" href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Open the original paper ↗</a>
+        <a class="button-link secondary" href="../">Return to Attention Spotlight</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    The Instructor's Study · Session 3 · Guided tour of Vaswani et al. (2017), <em>Attention Is All You Need</em>. All interactive scores and line weights are authored teaching data unless explicitly labeled as paper results.
+  </footer>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Chapter 1: sequential path comparison.
+  var lengthInput = document.getElementById('length');
+  var lengthValue = document.getElementById('lengthValue');
+  var rnnMetric = document.getElementById('rnnMetric');
+  var rnnTrack = document.getElementById('rnnTrack');
+  var attnTrack = document.getElementById('attnTrack');
+  var raceStatus = document.getElementById('raceStatus');
+  var raceTimers = [];
+
+  function clearRaceTimers(){ raceTimers.forEach(clearTimeout); raceTimers = []; }
+  function buildTrack(el, count){
+    el.innerHTML = '';
+    for(var i=0;i<count;i++){
+      var token = document.createElement('span');
+      token.className = 'race-token';
+      el.appendChild(token);
+    }
+  }
+  function resetRace(){
+    clearRaceTimers();
+    var n = Number(lengthInput.value);
+    lengthValue.value = n;
+    lengthValue.textContent = n;
+    rnnMetric.textContent = n + ' sequential operations';
+    buildTrack(rnnTrack,n); buildTrack(attnTrack,n);
+    document.getElementById('pathN').textContent = n;
+    document.getElementById('recurrentPath').style.width = '100%';
+    document.getElementById('convPath').style.width = Math.max(16,Math.log2(n)/n*100) + '%';
+    raceStatus.textContent = 'Choose a length, then run the comparison.';
+  }
+  function runRace(){
+    resetRace();
+    var rnnTokens = rnnTrack.querySelectorAll('.race-token');
+    var attnTokens = attnTrack.querySelectorAll('.race-token');
+    var pace = reducedMotion ? 0 : 115;
+    attnTokens.forEach(function(t){ t.classList.add('on'); });
+    rnnTokens.forEach(function(t,i){
+      raceTimers.push(setTimeout(function(){ t.classList.add('on'); },pace*i));
+    });
+    raceTimers.push(setTimeout(function(){
+      raceStatus.textContent = 'Self-attention connected all ' + rnnTokens.length + ' positions in one parallel layer; the recurrent illustration required ' + rnnTokens.length + ' ordered updates.';
+    },pace*Math.max(0,rnnTokens.length-1)+40));
+  }
+  lengthInput.addEventListener('input',resetRace);
+  document.getElementById('runRace').addEventListener('click',runRace);
+  document.getElementById('resetRace').addEventListener('click',resetRace);
+
+  // Chapter 2: predict, reveal, and staged attention computation.
+  var choices = Array.prototype.slice.call(document.querySelectorAll('[data-choice]'));
+  var revealButton = document.getElementById('revealAttention');
+  var predictionResult = document.getElementById('predictionResult');
+  var selectedChoice = null;
+  var stage = 0;
+  var scores = [
+    {word:'governments',raw:0.35},
+    {word:'registration',raw:0.80},
+    {word:'voting',raw:0.55},
+    {word:'difficult',raw:2.40}
+  ];
+  choices.forEach(function(button){
+    button.addEventListener('click',function(){
+      selectedChoice = button.dataset.choice;
+      choices.forEach(function(b){ b.setAttribute('aria-pressed',String(b===button)); });
+      predictionResult.textContent = 'You chose “' + selectedChoice + '.” Ready to reveal.';
+      revealButton.disabled = false;
+    });
+  });
+  revealButton.addEventListener('click',function(){
+    choices.forEach(function(b){
+      b.disabled = true;
+      if(b.dataset.choice==='difficult') b.classList.add('best'); else b.classList.add('dim');
+    });
+    predictionResult.textContent = selectedChoice==='difficult' ? 'You matched the paper example: “making” reaches toward “difficult.”' : 'The paper example connects “making” most clearly to “difficult.” Your prediction stays visible in the record above.';
+    revealButton.hidden = true;
+    document.getElementById('stageShell').hidden = false;
+    stage = 0; renderStage();
+  });
+  function weights(){
+    var sharp = Number(document.getElementById('sharpness').value);
+    var values = scores.map(function(s){ return Math.exp((s.raw/2)*sharp); });
+    var total = values.reduce(function(a,b){ return a+b; },0);
+    return values.map(function(v){ return v/total; });
+  }
+  function scoreRows(mode){
+    var ws = weights();
+    var max = mode==='weight' ? Math.max.apply(null,ws) : 2.4;
+    return '<div class="score-grid">' + scores.map(function(s,i){
+      var value = mode==='raw' ? s.raw : mode==='scaled' ? s.raw/2 : ws[i];
+      var width = mode==='weight' ? value/max*100 : value/(mode==='raw'?2.4:1.2)*100;
+      var label = mode==='weight' ? Math.round(value*100)+'%' : value.toFixed(2);
+      return '<div class="score-row"><span>'+s.word+'</span><span class="score-bar-bg"><span class="score-bar '+(mode==='weight'?'weight':'')+'" style="width:'+width.toFixed(1)+'%"></span></span><span>'+label+'</span></div>';
+    }).join('') + '</div>';
+  }
+  function renderStage(){
+    var card = document.getElementById('stageCard');
+    var progress = document.getElementById('stageProgress');
+    progress.innerHTML = '';
+    for(var i=0;i<5;i++){ var dot=document.createElement('span'); dot.className='stage-dot'+(i<=stage?' on':''); progress.appendChild(dot); }
+    if(stage===0){
+      card.innerHTML = '<h3>1 · The <span class="role q">query</span> asks a question</h3><p>The representation at <strong>making</strong> is projected into a query: roughly, “which positions contain useful information for updating me?”</p><p>Queries are learned vectors, not English questions. The question wording is an intuition for the vector operation.</p>';
+    } else if(stage===1){
+      card.innerHTML = '<h3>2 · <span class="role k">Keys</span> compete by compatibility</h3><p>The query is dot-multiplied with every key. Larger scores mean stronger compatibility in this authored teaching example.</p>'+scoreRows('raw');
+    } else if(stage===2){
+      card.innerHTML = '<h3>3 · Scale the scores</h3><p>With toy key dimension d<sub>k</sub> = 4, divide every score by √4 = 2. The ordering stays the same, but the values are kept in a range where softmax can learn effectively.</p>'+scoreRows('scaled');
+    } else if(stage===3){
+      card.innerHTML = '<h3>4 · Softmax creates a distribution</h3><p>The scaled scores become positive weights that sum to 100%. Move the teaching sharpness control below to feel the distribution concentrate or spread.</p>'+scoreRows('weight');
+    } else {
+      var ws = weights();
+      card.innerHTML = '<h3>5 · Mix the <span class="role v">values</span></h3><p>Each position contributes its value vector in proportion to its weight. In this toy mixture, <strong>difficult contributes '+Math.round(ws[3]*100)+'%</strong>, so the updated representation at “making” carries strong information from that distant position.</p><p><strong>Keys decide how much; values decide what information is carried.</strong></p>';
+    }
+    document.getElementById('previousStage').disabled = stage===0;
+    document.getElementById('nextStage').disabled = stage===4;
+    document.getElementById('nextStage').textContent = stage===3 ? 'Mix the values →' : 'Next step →';
+    document.getElementById('softmaxControls').hidden = stage<3;
+  }
+  document.getElementById('previousStage').addEventListener('click',function(){ if(stage>0){ stage--; renderStage(); } });
+  document.getElementById('nextStage').addEventListener('click',function(){ if(stage<4){ stage++; renderStage(); } });
+  document.getElementById('restartAttention').addEventListener('click',function(){
+    selectedChoice=null; stage=0;
+    choices.forEach(function(b){ b.disabled=false; b.classList.remove('best','dim'); b.setAttribute('aria-pressed','false'); });
+    predictionResult.textContent='Choose one word.';
+    revealButton.hidden=false; revealButton.disabled=true;
+    document.getElementById('stageShell').hidden=true;
+    document.getElementById('sharpness').value='1';
+    document.getElementById('sharpnessValue').value='1.0×';
+    document.getElementById('sharpnessValue').textContent='1.0×';
+  });
+  document.getElementById('sharpness').addEventListener('input',function(){
+    document.getElementById('sharpnessValue').value = Number(this.value).toFixed(1)+'×';
+    document.getElementById('sharpnessValue').textContent = Number(this.value).toFixed(1)+'×';
+    if(stage>=3) renderStage();
+  });
+
+  // Chapter 3: native SVG multi-head teaching diagram.
+  var headWords = ['Law','will','perfect','its','application','should','just'];
+  var connections = {
+    a:[{from:3,to:0,w:.95},{from:3,to:4,w:.78},{from:4,to:0,w:.58},{from:6,to:4,w:.42}],
+    b:[{from:1,to:2,w:.72},{from:4,to:6,w:.9},{from:5,to:6,w:.64},{from:2,to:3,w:.46}]
+  };
+  var activeHead = 'a';
+  function svgNode(name,attrs,text){
+    var node=document.createElementNS('http://www.w3.org/2000/svg',name);
+    Object.keys(attrs||{}).forEach(function(k){ node.setAttribute(k,attrs[k]); });
+    if(text!==undefined) node.textContent=text;
+    return node;
+  }
+  function renderHeads(){
+    var labels=document.getElementById('headLabels');
+    var lines=document.getElementById('headLines');
+    labels.innerHTML=''; lines.innerHTML='';
+    var margin=45, span=610, step=span/(headWords.length-1);
+    headWords.forEach(function(word,i){
+      var x=margin+i*step;
+      labels.appendChild(svgNode('text',{x:x,y:35,'text-anchor':'middle','font-family':'system-ui, sans-serif','font-size':'19',fill:'#22222a'},word));
+      labels.appendChild(svgNode('text',{x:x,y:235,'text-anchor':'middle','font-family':'system-ui, sans-serif','font-size':'19',fill:'#22222a'},word));
+    });
+    function draw(set,color){
+      connections[set].forEach(function(c){
+        lines.appendChild(svgNode('line',{x1:margin+c.from*step,y1:55,x2:margin+c.to*step,y2:210,stroke:color,'stroke-width':2+c.w*5,'stroke-opacity':.25+c.w*.65,'stroke-linecap':'round'}));
+      });
+    }
+    if(activeHead==='a'||activeHead==='both') draw('a','#7655a3');
+    if(activeHead==='b'||activeHead==='both') draw('b','#2f806b');
+    var description = activeHead==='a' ? 'Head A emphasizes reference-like connections around its, Law, and application.' : activeHead==='b' ? 'Head B emphasizes structure-like connections among will, perfect, application, and just.' : 'The combined view overlays both authored teaching heads.';
+    document.getElementById('headDesc').textContent=description;
+  }
+  document.querySelectorAll('[data-head]').forEach(function(button){
+    button.addEventListener('click',function(){
+      activeHead=button.dataset.head;
+      document.querySelectorAll('[data-head]').forEach(function(b){ b.setAttribute('aria-pressed',String(b===button)); });
+      renderHeads();
+    });
+  });
+
+  // Chapter 4: architecture disclosures.
+  var archButtons = Array.prototype.slice.call(document.querySelectorAll('.arch-toggle'));
+  function setArch(button,open){
+    var panel=document.getElementById(button.dataset.target);
+    button.setAttribute('aria-expanded',String(open));
+    panel.hidden=!open;
+  }
+  archButtons.forEach(function(button){ button.addEventListener('click',function(){ setArch(button,button.getAttribute('aria-expanded')!=='true'); }); });
+  document.getElementById('openAllArchitecture').addEventListener('click',function(){
+    var shouldOpen=archButtons.some(function(b){ return b.getAttribute('aria-expanded')!=='true'; });
+    archButtons.forEach(function(b){ setArch(b,shouldOpen); });
+    this.textContent=shouldOpen?'Close all':'Open all';
+  });
+
+  resetRace();
+  renderHeads();
+})();
+</script>
+</body>
+</html>

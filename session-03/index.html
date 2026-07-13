@@ -49,6 +49,10 @@
   .diagram,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
   .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
   .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .paper-bridge { border:1px solid var(--line); border-left:5px solid var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.4rem 0; background:linear-gradient(135deg,var(--accent-soft),#fff); }
+  .paper-bridge p { margin:.35rem 0 .9rem; }
+  .paper-bridge a { display:inline-block; font-family:system-ui,sans-serif; font-size:.88rem; font-weight:750; color:#fff; background:var(--accent); border-radius:8px; padding:.55rem .9rem; text-decoration:none; }
+  .paper-bridge a:hover { filter:brightness(.95); }
   .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
   .err { color:var(--warn); font-family:system-ui,sans-serif; }
   footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
@@ -136,6 +140,12 @@
   <h2>The closeness engine: what the spotlight is made of</h2>
   <p>The glow says <em>where</em> a reading gathers its evidence. This panel shows the raw material underneath: in a language model, every word is a point in a continuous meaning-space, and attention begins from <em>similarity</em> — graded closeness that a fixed ring of neighbors has no way to express. The blue bars are real measurements from the same model as Session 1's Map of Meaning.</p>
   <div class="module" id="engineModule"><p class="placeholder">Spotlight a word above first — this panel follows whichever word is lit.</p></div>
+
+  <div class="paper-bridge">
+    <strong>The paper behind this app</strong>
+    <p>Take a 10–15 minute guided tour of Vaswani et al.'s <em>Attention Is All You Need</em>: race recurrence against self-attention, walk through one query–key–value calculation, toggle multiple heads, and open the full Transformer architecture.</p>
+    <a href="attention-is-all-you-need/">Open the guided paper tour →</a>
+  </div>
 
   <h2>How this page was made</h2>
   <div class="diagram" id="diagramNote">Loading…</div>

@@ -14,6 +14,19 @@ The Bridge artifact for Session 3 (strand W3): **guess what a word needs, then w
 
 - `index.html` — the paper-app (vanilla JS, no dependencies).
 - `data/sentences.json` — five sentences with authored attends-maps, meaning labels, captions, two compare pairs (two "banks," two "springs"), **three authored swaps**, the torn-word wordlists, and `modelSims`: real cosine similarities (fixed at author time, dated in the file).
+- `attention-is-all-you-need/index.html` — a standalone, dependency-free guided tour of Vaswani et al.'s 2017 paper. It covers the sequential-computation problem, a staged query/key/value calculation, multi-head attention, the complete encoder–decoder architecture, and the paper's reported evidence.
+
+## Guided paper tour
+
+The Attention Spotlight page links to `attention-is-all-you-need/` after its three interactive modules. The tour links outward to the updated [arXiv record](https://arxiv.org/abs/1706.03762), which matches the attached v7 paper used for verification, and identifies the [NeurIPS 2017 publication record](https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html).
+
+The tour keeps three evidence types visibly separate:
+
+1. Equations, architecture facts, examples, and benchmark results attributed to the paper.
+2. Authored toy scores computed live to make scaled dot-product attention inspectable.
+3. Authored SVG head diagrams inspired by Figures 3–5, explicitly not presented as extracted model weights or complete explanations of model behavior.
+
+The source PDF is not stored in this repository. The public route stays static and self-contained; only the two outbound source links require a network connection.
 
 ## Honesty framing (important — three kinds of numbers)
 
@@ -55,7 +68,7 @@ Add or swap sentences freely in `data/sentences.json` — keep at least one comp
 
 ## Preview & deploy
 
-`python3 -m http.server 8000` from this folder (fetch() needs HTTP). Deploy by pushing (`session-03/`) — the existing URL serves v3.
+`python3 -m http.server 8000` from this folder (the main app's `fetch()` needs HTTP). Open `/` for Attention Spotlight or `/attention-is-all-you-need/` for the guided paper tour. Deploy by pushing (`session-03/`) — both routes are served by the existing GitHub Pages site.
 
 ## Using it in the 15-minute Bridge
 
