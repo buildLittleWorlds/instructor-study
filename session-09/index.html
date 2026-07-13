@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Argument You Run — Instructor's Study, Session 9</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f; --warn-soft:#faf3ee; --glow:#f4c04e;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  h3 { font-size:1.05rem; margin:1.8rem 0 .5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .curiosity { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1rem 0 1.6rem; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  button:hover { background:var(--accent-soft); }
+  button[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  button:disabled { opacity:.45; cursor:default; }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  .module { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 1.4rem; }
+  .landing { border-left:4px solid var(--accent); font-style:italic; font-size:1.1rem; padding:.4rem 1rem; margin:1.6rem 0 .4rem; }
+  .method,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:var(--warn-soft); margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+  a { color:var(--accent); }
+
+  /* Module 9A — the hand check */
+  .boards { display:flex; gap:1.8rem; flex-wrap:wrap; margin:1rem 0 .3rem; }
+  .bcap { font-family:system-ui,sans-serif; font-size:.85rem; font-weight:700; margin:0 0 .45rem; }
+  .grid9 { display:grid; grid-template-columns:repeat(9,var(--cell)); gap:4px; --cell:clamp(1.5rem,7.6vw,2rem); }
+  .g { width:var(--cell); height:var(--cell); background:#f6f4ee; border:1px solid var(--line); border-radius:4px; padding:0; }
+  .g.on { background:var(--ink); border-color:var(--ink); }
+  button.g:hover { background:var(--accent-soft); border-color:var(--accent); }
+  button.g[aria-pressed="true"] { background:var(--accent); border-color:var(--accent); }
+  button.g[aria-pressed="true"]:hover { background:var(--accent); }
+  button.g.hit, button.g.hit:hover { background:var(--accent); border-color:var(--accent); box-shadow:0 0 0 1.5px var(--paper),0 0 0 3.5px var(--accent); }
+  button.g.miss, button.g.miss:hover { background:var(--warn); border-color:var(--warn); }
+  button.g.wrong, button.g.wrong:hover { background:var(--card); border-color:var(--warn); box-shadow:inset 0 0 0 2.5px var(--warn); }
+  .legend { display:flex; gap:1.1rem; flex-wrap:wrap; font-family:system-ui,sans-serif; font-size:.78rem; color:var(--muted); margin:.6rem 0 0; }
+  .legend i { display:inline-block; width:.85rem; height:.85rem; border-radius:3px; margin-right:.3rem; vertical-align:-.1em; }
+  .score { font-family:system-ui,sans-serif; font-size:.95rem; font-weight:600; margin:.8rem 0 .2rem; min-height:1.4em; }
+  .payoff { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1rem 0 .2rem; font-size:1.08rem; }
+
+  /* Module 9A — lineage strip */
+  .strip { display:grid; grid-template-columns:repeat(auto-fit,minmax(11.5rem,1fr)); gap:.6rem; margin:1rem 0; }
+  .lnode { background:var(--card); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  .lnode.fill { border:2px dashed var(--accent); }
+  .lnode > button { display:block; width:100%; text-align:left; background:none; border:0; border-radius:0; padding:.7rem .8rem; font-family:inherit; font-weight:400; color:var(--ink); }
+  .lnode > button:hover { background:var(--accent-soft); }
+  .lyear { font-family:system-ui,sans-serif; font-size:.72rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); }
+  .lname { display:block; font-size:.92rem; color:var(--muted); margin:.1rem 0 .25rem; }
+  .lact { display:block; font-weight:700; font-size:.95rem; line-height:1.4; }
+  .lmore { border-top:1px dashed var(--line); margin:0 .8rem; padding:.55rem 0 .7rem; font-size:.88rem; line-height:1.5; }
+  .lchev { float:right; color:var(--muted); font-size:.8rem; }
+  .blank { display:inline-block; min-width:7.5rem; border-bottom:2px solid var(--muted); height:1em; vertical-align:baseline; }
+
+  /* Module 9B — reader-path lab */
+  .chip { display:inline-block; font-family:system-ui,sans-serif; font-size:.85rem; background:#fbecc8; border:1px solid #d9a72f; border-radius:10px; padding:.5rem .8rem; margin:.8rem 0 .4rem; }
+  .chip strong { text-transform:uppercase; letter-spacing:.04em; font-size:.8rem; }
+  .ordernote { font-family:system-ui,sans-serif; font-size:.88rem; color:var(--ink); background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.6rem .8rem; margin:.4rem 0; min-height:1.4em; }
+  .preview { border:1px solid var(--line); border-radius:12px; background:#f6f4ee; padding:.9rem; margin:.8rem 0 1.2rem; }
+  .pcap { font-family:system-ui,sans-serif; font-size:.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin:0 0 .2rem .2rem; }
+  .pcard { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:.65rem .85rem .75rem; margin:.55rem 0; position:relative; }
+  .plabel { font-family:system-ui,sans-serif; font-size:.68rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:.12rem .6rem; }
+  .pmove { position:absolute; top:.45rem; right:.55rem; display:flex; gap:.3rem; }
+  .pmove button { padding:.02rem .5rem; font-size:.85rem; border:1px solid var(--line); color:var(--muted); border-radius:6px; background:#fff; }
+  .pmove button:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+  .pbody { margin:.5rem 0 0; }
+  .pbody p { margin:.2rem 0; }
+  .mini { display:flex; gap:1.1rem; align-items:flex-start; flex-wrap:wrap; }
+  .grid5 { display:grid; grid-template-columns:repeat(5,1.55rem); gap:2px; }
+  .mc { width:1.55rem; height:1.55rem; background:#f6f4ee; border:1px solid var(--line); border-radius:3px; }
+  .mc.on { background:var(--ink); border-color:var(--ink); }
+  .mside { display:flex; flex-direction:column; gap:.45rem; align-items:flex-start; }
+  .mside button { font-size:.82rem; padding:.3rem .8rem; }
+  .mstat { font-family:system-ui,sans-serif; font-size:.78rem; color:var(--muted); }
+  .donecheck { border:2px solid var(--accent); border-radius:10px; background:var(--card); padding:1rem 1.2rem; margin:1.4rem 0; }
+  .donecheck .bar { font-size:1.25rem; line-height:1.4; margin:.3rem 0 .5rem; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 9</div>
+  <h1>The Argument You Run</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <h2>What made me curious</h2>
+  <!-- EDIT HERE (authored prose) -->
+  <div class="curiosity">
+    The genre my students are writing in is older than the web — it started with a magazine column readers could only finish by running it themselves, on graph paper, in 1970. I wanted one page where you get to be one of those readers for ten minutes, and then a lab for the question their successors spent fifty years learning to ask: what does the <strong>order</strong> of a page do to the stranger walking through it?
+  </div>
+
+  <h2>What to notice</h2>
+  <!-- EDIT HERE (authored prose) -->
+  <p>A paper-app makes an idea <em>traversable</em> — not summarized, walked. A reader enters somewhere, does something, and comes out knowing the idea from the inside. Order, labels, and interaction are the page's whole grammar: they decide what a stranger meets first, what they are invited to do, and what the doing teaches. Change the order and you change the argument, even when every word stays the same.</p>
+  <p>The two modules below take that claim in sequence. The first runs the genre's founding argument the way its first readers ran it — by hand — and then walks the lineage from that magazine column to the museum pieces in <a href="../anthology/">our anthology</a>. The second holds a page's content perfectly still and moves only its order, so you can watch the argument change while the words don't.</p>
+
+  <p class="note"><strong>Course boundary:</strong> this page is an instructor demonstration. Both boards run and grade themselves in your browser; nothing is collected, exported, or submitted.</p>
+
+  <h2 id="reader-title">Be a 1970 reader</h2>
+  <!-- EDIT HERE (authored framing, two paragraphs) -->
+  <p>October 1970. Martin Gardner's "Mathematical Games" column in <em>Scientific American</em> introduces a game with no players, invented by the mathematician John Conway: one rule, applied to every square of a grid at once. The column could print the rule and a few snapshots. It could not print <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">the thing itself</a>.</p>
+  <p>What happened next founded the genre this course teaches. Readers didn't just read the column — they <em>ran</em> it: on graph paper and Go boards, on university mainframes after hours, and they mailed in what they found. The column's argument — that a rule this small can grow behavior this alive — was completable only by running it. You're about to join them.</p>
+
+  <h3>The hand check</h3>
+  <p>On the left, generation 1: the <strong>R-pentomino</strong>, the five-cell pattern that made Life famous — on a big enough board it churns for more than a thousand generations before it settles. Gardner's readers met it exactly like this: printed, inert, daring them to find out.</p>
+  <div class="module">
+    <p id="handInstr" style="margin:.2rem 0 .6rem">You're the computer now. Click every cell you believe is alive in <strong>generation 2</strong>. (Rule: B3/S23 — a dead cell with exactly three live neighbors is born; a live cell with two or three live neighbors survives.)</p>
+    <div class="boards">
+      <div>
+        <p class="bcap" id="givenCap">Generation 1 — the given (read-only)</p>
+        <div class="grid9" id="givenGrid" role="img"></div>
+      </div>
+      <div>
+        <p class="bcap" id="predCap">Generation 2 — your prediction (click cells)</p>
+        <div class="grid9" id="predGrid" role="group" aria-label="Your prediction board, 9 by 9" aria-describedby="handInstr"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button type="button" id="checkBtn">Check my generation</button>
+      <button type="button" id="clearBtn">Clear</button>
+      <button type="button" id="round2Btn" hidden>Now do generation 2 → 3</button>
+    </div>
+    <div class="legend"><span><i style="background:var(--accent);box-shadow:0 0 0 1.5px #fff,0 0 0 2.5px var(--accent)"></i>correct — alive and you said so</span><span><i style="background:var(--warn)"></i>alive, but you missed it</span><span><i style="background:#fff;box-shadow:inset 0 0 0 2px var(--warn)"></i>you said alive; it's dead</span></div>
+    <p class="score" id="scoreLine" aria-live="polite"></p>
+    <div id="payoff" aria-live="polite"></div>
+  </div>
+
+  <h3>Fifty years of the same move</h3>
+  <p>Six stops. Each card names, in bold, <strong>what the reader got to do</strong> — the genre's one inheritance, passed hand to hand. Click a card for one more sentence and a door.</p>
+  <div class="strip" id="strip"></div>
+
+  <p class="landing">This kind of page is fifty years old: an argument you complete by running it.</p>
+
+  <h2 id="order-title">Order is an argument</h2>
+  <!-- EDIT HERE (authored prose) -->
+  <p>Below is an entire miniature paper-app about a blinker — five cards: a hook, instructions, a working board, a noticing, an exit question. Every word on it is fixed. The only thing you can change is the one thing this module studies: <strong>the order</strong>. I've dealt the cards the way most first drafts come out — explanation first. Use the ▲▼ arrows to re-deal, or load a whole order below; the chip above the preview always tells you what a stranger meets in their first ten seconds.</p>
+
+  <div class="controls" id="presetRow"></div>
+  <p class="ordernote" id="orderNote" aria-live="polite"></p>
+
+  <div class="chip" id="chip" aria-live="polite"></div>
+  <div class="preview" id="preview">
+    <p class="pcap">The stranger's screen — a working miniature, in your order</p>
+    <div id="pcards"></div>
+  </div>
+
+  <div class="donecheck">
+    <p class="note" style="margin:0"><strong>Session 9's bar</strong></p>
+    <p class="bar">"A classmate can use the page without you narrating."</p>
+    <p style="margin:.2rem 0 0">The sound-off test: hand someone your page, say nothing, and watch where their cursor stalls. Every stall is a card out of order — or a label doing less work than it thinks it is.</p>
+  </div>
+
+  <p class="landing">Order, labels, and interaction are doing the arguing — arrange them so a stranger knows where to start.</p>
+
+  <h2>How this page was made</h2>
+  <div class="method">
+    <p><strong>Computed:</strong> every board on this page is stepped live by the same twelve-line B3/S23 function — the answer keys for both hand-check rounds, the cell-by-cell grading against them, the blinker in the miniature, and the first-ten-seconds chip's reading of your current order. No answer key is typed anywhere in this file; reseed the left board and the page grades the new pattern just as strictly.</p>
+    <p><strong>Authored:</strong> the curiosity, the framing paragraphs, the six lineage stops, every sentence on the five cards, and the three orders with their cost commentary. All of it is flagged <code>EDIT HERE</code> — the data blocks in the script, the prose in the HTML.</p>
+  </div>
+
+  <div class="limit">
+    <strong>Accuracy note.</strong> The lineage is compressed: the dates and names are right, but the strip names eras, not every ancestor — there are decades of explorable work between Gardner and the web that six cards can't hold. The mini-blinker is the real B3/S23 rule on a bounded 5×5 board, where the bound never touches a centered blinker. The hand check grades against exact bounded-grid Conway, computed live on the 9×9 — and an infinite board would give the same answers for these generations: the R-pentomino's growth stays inside this frame through generation 12 and first pokes past it at generation 13, so generations 2 and 3 are safe by a wide margin. I checked all of this by simulation on larger and unbounded boards before writing it here; the check script is in the session README.
+  </div>
+
+  <h2>What I would try next</h2>
+  <div class="try">
+    Add a round 3 — generation 3 → 4 — and then a run-ahead button to generation 13, where the pattern first touches this frame and a bounded board begins, politely, to lie: a reader who has been the computer should also feel where the computer's desk ends. And let each lineage card open its museum entry directly, so every stop on the strip ends in a door.
+  </div>
+
+  <h2>What I chose and how AI helped</h2>
+  <div class="authorship">
+    <p><strong>AI helped with:</strong> drafting the page's code and both modules, wiring the grading and the reorderable preview, and running the scratch simulations that verify the boards (script recorded in this session's README).</p>
+    <p><strong>I chose:</strong> the R-pentomino and the two-round structure of the hand check, the six stops on the lineage and what fifty years had to leave out, every sentence on the five cards, the three orders and the cost each one charges a stranger, and the decision to grade the reader's board like a computer's instead of replaying the answer — the ache is the lesson.</p>
+  </div>
+
+  <p class="cliff">A stranger can walk the page now. One question left standing, and it's the oldest one here: who is the author of the thing that emerged? Next session.</p>
+
+  <footer>Instructor example · Curiosity-Driven Paper-App Studio · Session 9 · self-contained page (authored content marked EDIT HERE in the script)</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+
+/* ==================== the one rule (computed, shared by every board) ==================== */
+function stepBounded(live, n){
+  const next = new Set();
+  for(let r=0;r<n;r++) for(let c=0;c<n;c++){
+    let k=0;
+    for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++){
+      if(!dr && !dc) continue;
+      const rr=r+dr, cc=c+dc;
+      if(rr>=0 && rr<n && cc>=0 && cc<n && live.has(rr*n+cc)) k++;
+    }
+    if(k===3 || (k===2 && live.has(r*n+c))) next.add(r*n+c);
+  }
+  return next;
+}
+
+/* ==================== EDIT HERE — all authored content for both modules ==================== */
+const T = {
+  // Module 9A: the payoff card shown after round 2 is checked.
+  payoff: 'That ache in your attention? That’s what hooked a generation of readers. And you now know the rule the way no summary can teach it: you’ve <em>been</em> it.',
+
+  // Module 9A: the lineage strip. Each stop: year, name, bold reader-action, one more sentence, one door.
+  lineage: [
+    { year:'1970', name:'Gardner’s column', act:'Run it on graph paper.',
+      more:'Martin Gardner’s October 1970 “Mathematical Games” column handed readers Conway’s rule and no way to feel it except to become the computer themselves.',
+      href:'https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life', link:'the column’s story' },
+    { year:'1970s', name:'After-hours mainframes', act:'Run it faster — and mail in what you find.',
+      more:'Conway wagered $50 that no pattern could grow without limit; a group at MIT ran Life on the lab’s machines after hours, found the glider gun, and sent the answer in.',
+      href:'https://en.wikipedia.org/wiki/Gosper_glider_gun', link:'the gun that won' },
+    { year:'2010s', name:'Explorable explanations', act:'Run it inside the page — the interaction begins doing the explaining.',
+      more:'Bret Victor named the genre in 2011: documents where reading and running stop being different acts.',
+      href:'https://worrydream.com/ExplorableExplanations/', link:'Victor’s essay' },
+    { year:'2020', name:'Growing Neural Cellular Automata · Distill', act:'Damage the organism and watch it regrow — the interaction <em>is</em> the evidence.',
+      more:'Anthology specimen #5: a lizard that heals mid-paragraph, because the claim being made is exactly the thing your cursor is doing.',
+      href:'https://distill.pub/2020/growing-ca/', link:'the growing lizard' },
+    { year:'2026', name:'From Cells to Pixels · SIGGRAPH', act:'Turn the resolution of a living texture while it runs.',
+      more:'The sequel — the 2020 paper’s lead author is on the team — keeps the cells coarse and lets a decoder render their world at any sharpness.',
+      href:'https://cells2pixels.github.io/', link:'the living texture' },
+    { year:'Now', name:'Your paper-app', fill:true,
+      act:'What does <em>your</em> reader get to do? <span class="blank" aria-hidden="true"></span>',
+      more:'Answer it out loud, not in a box — this page stores nothing. The museum has twenty-one of these to steal from.',
+      href:'../anthology/', link:'the anthology' }
+  ],
+
+  // Module 9B: the five cards of the miniature paper-app, with each card's
+  // first-ten-seconds annotation (shown when that card is on top).
+  cards: [
+    { id:'hook', label:'Hook',
+      first:'curiosity opens the door — the action had better be one scroll away',
+      html:'<p>Three cells. One rule. They never die and they never rest.</p>' },
+    { id:'todo', label:'What to do',
+      first:'instructions before motive — clear, but who asked?',
+      html:'<p>Press start, then watch the middle row.</p>' },
+    { id:'act', label:'The interaction',
+      first:'a stranger can act before reading — but will they know what they saw?',
+      board:true },
+    { id:'notice', label:'What to notice',
+      first:'you’re explaining a thing the reader hasn’t seen yet',
+      html:'<p>It isn’t flashing. Twice per cycle, two cells die and two are born while the center holds — a rhythm the rule wrote, not a drawing.</p>' },
+    { id:'next', label:'Next question',
+      first:'you’re spoiling the payoff before the reader has acted',
+      html:'<p>What’s the smallest pattern that never settles and never repeats with period 2? Go hunting.</p>' }
+  ],
+
+  // Module 9B: the three loadable orders and what each one costs.
+  presets: [
+    { id:'explain', btn:'Load: explanation-first', order:['hook','notice','next','todo','act'],
+      note:'Explanation-first: three paragraphs stand between the stranger and the button — most strangers never make it.' },
+    { id:'spoiled', btn:'Load: payoff-spoiled', order:['next','act','hook','todo','notice'],
+      note:'Payoff-spoiled: the exit question fires before the reader has done anything to earn it — and the hook arrives after the show, introducing a thing the stranger has already watched.' },
+    { id:'mine', btn:'Load: my order', order:['hook','todo','act','notice','next'],
+      note:'My order: motive → action within ten seconds → meaning after the reader has something to attach it to → exit with a question in the reader’s pocket.' }
+  ],
+  manualNote:'Your own order — read the chip, then give it the sound-off test below.'
+};
+/* ==================== end EDIT HERE ==================== */
+
+/* ==================== Module 9A: the hand check ==================== */
+const N = 9, CENTER = 4;
+const R_OFFSETS = [[0,-1],[1,-1],[-1,0],[0,0],[0,1]];        // (dx,dy) — the R-pentomino seed
+const GEN1 = new Set(R_OFFSETS.map(([dx,dy]) => (CENTER+dy)*N + (CENTER+dx)));
+
+let given = GEN1;            // what the read-only board shows (gen 1, later true gen 2)
+let round = 1;               // predicting gen 2, then gen 3
+let marked = new Set();      // the reader's clicked cells
+let graded = false;
+
+const givenGrid = document.getElementById('givenGrid');
+const predGrid  = document.getElementById('predGrid');
+const givenCells = [], predCells = [];
+for(let i=0;i<N*N;i++){
+  const s = document.createElement('span'); s.className='g'; givenGrid.appendChild(s); givenCells.push(s);
+  const b = document.createElement('button'); b.type='button'; b.className='g';
+  b.setAttribute('aria-pressed','false'); b.setAttribute('aria-label', cellName(i));
+  b.addEventListener('click', () => toggleCell(i));
+  predGrid.appendChild(b); predCells.push(b);
+}
+function cellName(i){ return 'row '+(Math.floor(i/N)+1)+', column '+(i%N+1); }
+
+function paintGiven(){
+  givenCells.forEach((s,i)=>s.classList.toggle('on', given.has(i)));
+  const cells=[...given].sort((a,b)=>a-b).map(cellName).join('; ');
+  givenGrid.setAttribute('aria-label',
+    (round===1?'Generation 1, the R-pentomino':'Generation 2')+', '+given.size+' live cells: '+cells);
+}
+function clearGrades(){
+  predCells.forEach((b,i)=>{ b.classList.remove('hit','miss','wrong'); b.setAttribute('aria-label', cellName(i)); });
+  graded = false;
+}
+function toggleCell(i){
+  if(graded){ clearGrades(); setScore('Board edited — press “Check my generation” to re-grade.'); }
+  if(marked.has(i)) marked.delete(i); else marked.add(i);
+  predCells[i].setAttribute('aria-pressed', String(marked.has(i)));
+}
+function setScore(t){ document.getElementById('scoreLine').textContent = t; }
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  marked.clear();
+  predCells.forEach(b=>b.setAttribute('aria-pressed','false'));
+  clearGrades(); setScore('');
+});
+
+document.getElementById('checkBtn').addEventListener('click', () => {
+  const truth = stepBounded(given, N);           // computed live — no baked answer key
+  let wrongs = 0, misses = 0;
+  predCells.forEach((b,i) => {
+    b.classList.remove('hit','miss','wrong');
+    const said = marked.has(i), is = truth.has(i);
+    let suffix = '';
+    if(said && is){ b.classList.add('hit');  suffix=' — correct, alive'; }
+    if(!said && is){ b.classList.add('miss'); misses++; suffix=' — alive, missed'; }
+    if(said && !is){ b.classList.add('wrong'); wrongs++; suffix=' — dead, wrongly marked'; }
+    b.setAttribute('aria-label', cellName(i)+suffix);
+  });
+  graded = true;
+  const right = N*N - wrongs - misses;
+  const births = [...truth].filter(i => !given.has(i));
+  const bf = births.filter(i => marked.has(i)).length;
+  const bm = births.length - bf;
+  setScore('You placed the board '+right+'/'+(N*N)+' cells right — '+bf+(bf===1?' birth':' births')+
+           ' you found, '+bm+' you missed.'+(right===N*N?' A perfect board.':''));
+  if(round===1){ document.getElementById('round2Btn').hidden = false; }
+  else {
+    document.getElementById('payoff').innerHTML = '<div class="payoff">'+T.payoff+'</div>';
+  }
+});
+
+document.getElementById('round2Btn').addEventListener('click', function(){
+  round = 2;
+  given = stepBounded(GEN1, N);                  // the shown grid becomes the true gen 2
+  marked.clear();
+  predCells.forEach(b=>b.setAttribute('aria-pressed','false'));
+  clearGrades(); setScore(''); paintGiven();
+  this.hidden = true;
+  document.getElementById('givenCap').textContent = 'Generation 2 — the given (you just checked it)';
+  document.getElementById('predCap').textContent  = 'Generation 3 — your prediction (click cells)';
+  document.getElementById('handInstr').innerHTML  = 'Same rule, one more step. Click every cell you believe is alive in <strong>generation 3</strong>. (Rule: B3/S23 — a dead cell with exactly three live neighbors is born; a live cell with two or three live neighbors survives.)';
+});
+paintGiven();
+
+/* ==================== Module 9A: the lineage strip ==================== */
+const strip = document.getElementById('strip');
+T.lineage.forEach((node, k) => {
+  const card = document.createElement('div');
+  card.className = 'lnode' + (node.fill ? ' fill' : '');
+  const btn = document.createElement('button'); btn.type='button';
+  btn.setAttribute('aria-expanded','false');
+  btn.innerHTML = '<span class="lchev" aria-hidden="true">▸</span><span class="lyear">'+node.year+
+                  '</span><span class="lname">'+node.name+'</span><span class="lact">'+node.act+'</span>';
+  const more = document.createElement('div');
+  more.className='lmore'; more.id='lmore'+k; more.hidden = true;
+  more.innerHTML = node.more+' <a href="'+node.href+'">'+node.link+'</a>';
+  btn.setAttribute('aria-controls', more.id);
+  btn.addEventListener('click', () => {
+    const open = more.hidden;
+    more.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.querySelector('.lchev').textContent = open ? '▾' : '▸';
+  });
+  card.appendChild(btn); card.appendChild(more);
+  strip.appendChild(card);
+});
+
+/* ==================== Module 9B: the working miniature (built once, moved intact) ==================== */
+const boardEl = (function(){
+  const M = 5;
+  let live = new Set([2*M+1, 2*M+2, 2*M+3]);     // horizontal blinker, center row
+  let gen = 0, timer = null;
+  const wrap = document.createElement('div'); wrap.className='mini';
+  const grid = document.createElement('div'); grid.className='grid5'; grid.setAttribute('role','img');
+  const cells = [];
+  for(let i=0;i<M*M;i++){ const s=document.createElement('span'); s.className='mc'; grid.appendChild(s); cells.push(s); }
+  const side = document.createElement('div'); side.className='mside';
+  const startBtn = document.createElement('button'); startBtn.type='button';
+  startBtn.textContent='Start'; startBtn.setAttribute('aria-pressed','false');
+  const stepBtn = document.createElement('button'); stepBtn.type='button'; stepBtn.textContent='Step';
+  const stat = document.createElement('span'); stat.className='mstat';
+  side.appendChild(startBtn); side.appendChild(stepBtn); side.appendChild(stat);
+  wrap.appendChild(grid); wrap.appendChild(side);
+  function paint(){
+    cells.forEach((s,i)=>s.classList.toggle('on', live.has(i)));
+    stat.textContent = 'generation '+gen+' · '+live.size+' alive';
+    grid.setAttribute('aria-label','Blinker board, 5 by 5, generation '+gen+', '+live.size+' live cells');
+  }
+  function step(){ live = stepBounded(live, M); gen++; paint(); }
+  startBtn.addEventListener('click', () => {
+    if(timer){ clearInterval(timer); timer=null; startBtn.textContent='Start'; startBtn.setAttribute('aria-pressed','false'); }
+    else { timer=setInterval(step, 550); startBtn.textContent='Pause'; startBtn.setAttribute('aria-pressed','true'); }
+  });
+  stepBtn.addEventListener('click', step);
+  paint();
+  return wrap;
+})();
+
+/* ==================== Module 9B: the reader-path lab ==================== */
+const cardById = Object.fromEntries(T.cards.map(c => [c.id, c]));
+let order = T.presets[0].order.slice();          // start where most first drafts start
+let activePreset = T.presets[0].id;
+let lastMove = null;                             // {id, dir} — restore keyboard focus after re-render
+
+const presetRow = document.getElementById('presetRow');
+T.presets.forEach(p => {
+  const b = document.createElement('button'); b.type='button'; b.textContent=p.btn;
+  b.dataset.id = p.id;
+  b.addEventListener('click', () => {
+    order = p.order.slice(); activePreset = p.id; lastMove = null;
+    renderPreview();
+  });
+  presetRow.appendChild(b);
+});
+
+function renderPreview(){
+  // the chip: computed from whichever card is on top right now
+  const first = cardById[order[0]];
+  document.getElementById('chip').innerHTML =
+    'First ten seconds: a stranger meets <strong>'+first.label+'</strong> — '+first.first;
+
+  // preset buttons + commentary
+  presetRow.querySelectorAll('button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.id === activePreset)));
+  const p = T.presets.find(x => x.id === activePreset);
+  document.getElementById('orderNote').textContent = p ? p.note : T.manualNote;
+
+  // the cards — the live board node is moved, never rebuilt, so it keeps running
+  const holder = document.getElementById('pcards');
+  holder.innerHTML = '';
+  order.forEach((id, pos) => {
+    const c = cardById[id];
+    const el = document.createElement('section'); el.className='pcard';
+    const head = document.createElement('div');
+    head.innerHTML = '<span class="plabel">'+c.label+'</span>';
+    const mv = document.createElement('div'); mv.className='pmove';
+    [['up','▲',-1],['down','▼',1]].forEach(([dir,glyph,d]) => {
+      const b = document.createElement('button'); b.type='button'; b.textContent=glyph;
+      b.setAttribute('aria-label','Move “'+c.label+'” '+(d<0?'earlier':'later'));
+      b.dataset.dir = dir; b.dataset.id = id;
+      b.disabled = (pos+d < 0 || pos+d >= order.length);
+      b.addEventListener('click', () => {
+        order.splice(pos,1); order.splice(pos+d,0,id);
+        activePreset = null; lastMove = {id, dir};
+        renderPreview();
+      });
+      mv.appendChild(b);
+    });
+    head.appendChild(mv);
+    el.appendChild(head);
+    const body = document.createElement('div'); body.className='pbody';
+    if(c.board){
+      body.appendChild(boardEl);
+      const n = document.createElement('p'); n.className='note'; n.style.margin='.45rem 0 0';
+      n.textContent = 'Real B3/S23 on a bounded 5×5.';
+      body.appendChild(n);
+    } else {
+      body.innerHTML = c.html;
+    }
+    el.appendChild(body);
+    holder.appendChild(el);
+  });
+  if(lastMove){
+    const b = holder.querySelector('button[data-id="'+lastMove.id+'"][data-dir="'+lastMove.dir+'"]');
+    if(b){ (b.disabled ? b.parentNode.querySelector('button:not(:disabled)') : b)?.focus(); }
+  }
+}
+renderPreview();
+})();
+</script>
+</body>
+</html>

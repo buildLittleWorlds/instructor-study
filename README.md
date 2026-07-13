@@ -17,15 +17,19 @@ index.html                 landing page for current examples
 anthology/                 idea museum and interaction-pattern collection
 proceedings/               optional instructor-curated showcase
 session-01/                The Map of Meaning
-session-02/                probability tree, sampling toy, and randomness lab
-session-03/                Attention Spotlight
-session-04/                The Slop Detector - instructor-only computed comparison
-session-06/                The Agreement Machine - instructor-only criteria demo
-session-10/                The Second Opinion - authorship and responsibility
+session-02/                probability tree, sampling toy, and randomness lab (the three design dials)
+session-03/                Attention Spotlight - opens dial #1: neighborhood
+session-04/                The Slop Detector + Rule Forge + reward model - opens dial #2: the rule
+session-05/                The Next Move - curiosity into direction (curiosity-era rebuild)
+session-06/                The Agreement Machine + gun bench + yardstick demo
+session-07/                The Debug Loop - opens dial #3: iteration (curiosity-era rebuild)
+session-08/                The Naming of Things - census and honest scope (curiosity-era rebuild)
+session-09/                The Argument You Run - lineage and reader path (curiosity-era rebuild)
+session-10/                The Second Opinion - authorship, glider credit, note forge
 archive/                   historical instructor artifacts; not course authority
 ```
 
-Sessions 5 and 7-9 are intentionally absent from the active sequence. Their previous continuous-study versions are archived. Rebuild them one at a time from the parent course's `session-build-specs.md` before restoring an active link.
+Sessions 5 and 7-9 were rebuilt on 2026-07-12 from the parent course's `session-build-specs.md` as curiosity-era instructor demonstrations: self-contained pages, no class ratings, exports, or shared datasets. Their previous continuous-study versions remain archived.
 
 ## Data and interaction rule
 

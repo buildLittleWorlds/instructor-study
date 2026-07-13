@@ -35,6 +35,36 @@
   .try { background:#f2eee4; border-radius:12px; padding:1rem 1.1rem; }
   footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; color:var(--muted); font-size:.85rem; }
   @media (max-width:700px) { .layers { grid-template-columns:repeat(2,1fr); } .paper-grid { grid-template-columns:1fr; } }
+
+  /* ---- v2 modules (glider authorship · note forge) ---- */
+  .module { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.2rem; margin:1rem 0 1.4rem; }
+  .module button { font-family:system-ui,sans-serif; font-size:.88rem; font-weight:700; cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:999px; padding:.45rem .8rem; }
+  .module button:hover { border-color:var(--accent); }
+  .module button.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .module button:disabled { opacity:.55; cursor:default; }
+  .modnote { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin-top:.7rem; }
+  .gliderwrap { display:flex; gap:1.2rem; flex-wrap:wrap; align-items:flex-start; }
+  canvas.board { border:1px solid var(--line); border-radius:8px; background:#f6f3ea; }
+  .claims { flex:1; min-width:16rem; }
+  .claim { margin:.6rem 0 1rem; }
+  .claim .q { font-weight:700; margin-bottom:.35rem; }
+  .claim .cast { display:flex; flex-wrap:wrap; gap:.4rem; font-family:system-ui,sans-serif; }
+  .claim .verdict { display:none; font-family:system-ui,sans-serif; font-size:.85rem; margin-top:.4rem; padding:.5rem .7rem; border-radius:8px; background:var(--accent-soft); }
+  .claim .verdict.off { background:var(--warn-soft); }
+  .history { display:none; border-left:4px solid var(--accent); background:var(--accent-soft); border-radius:0 10px 10px 0; padding:.9rem 1.1rem; margin:1rem 0 0; font-size:.95rem; }
+  .maprow { display:none; font-family:system-ui,sans-serif; font-size:.85rem; margin-top:.8rem; }
+  .maprow table { width:100%; border-collapse:collapse; }
+  .maprow td, .maprow th { text-align:left; padding:.35rem .5rem; border-top:1px solid var(--line); vertical-align:top; }
+  .maprow th { font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); border-top:none; }
+  .logitem { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.6rem .8rem; margin:.45rem 0; display:grid; grid-template-columns:1fr auto; gap:.6rem; align-items:center; }
+  .logitem .lt { font-size:.93rem; }
+  .logitem select { font-family:system-ui,sans-serif; font-size:.82rem; padding:.3rem .4rem; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); max-width:11rem; }
+  .assembled { display:none; border-left:5px solid var(--accent); background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1rem 1.2rem; margin:.9rem 0 0; }
+  .assembled h3 { margin:.1rem 0 .5rem; }
+  .flags { display:none; font-family:system-ui,sans-serif; font-size:.85rem; margin-top:.7rem; }
+  .flag { border-left:4px solid var(--warn); background:var(--warn-soft); padding:.5rem .8rem; border-radius:0 8px 8px 0; margin:.4rem 0; }
+  .flag.good { border-left-color:var(--accent); background:var(--accent-soft); }
+  @media (max-width:700px){ .logitem { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -52,6 +82,32 @@
   <p>A Game of Life page makes authorship easier to see because several contributors do different jobs. Choose a layer.</p>
   <div class="layers" id="layers" aria-label="Authorship layers"></div>
   <section class="layer-card" id="layerCard" aria-live="polite"></section>
+
+  <h2 id="glider-title">Who is the author of the glider?</h2>
+  <p>Before the layers settle into place, take the field's own hardest case. The glider below is running for real — five cells that rebuild themselves one square over, four generations at a time. Four claims about it. Assign each one.</p>
+  <div class="module" id="gliderModule">
+    <div class="gliderwrap">
+      <div>
+        <canvas class="board" id="gliderCanvas" width="208" height="208" aria-label="A glider looping on a small board"></canvas>
+        <p class="modnote" style="max-width:13rem">A real B3/S23 board with wrapped edges, so the glider loops forever instead of dying in a corner.</p>
+      </div>
+      <div class="claims" id="gliderClaims" aria-live="polite"></div>
+    </div>
+    <div class="history" id="gliderHistory">
+      <strong>How the field actually answered.</strong> Conway authored the <em>rule</em> — searched out by hand, 1968–70, on Go boards and graph paper. Richard Guy <em>found</em> the glider in 1969, the way a naturalist finds a beetle, while the group tracked the R-pentomino: nothing in B3/S23 mentions motion, and nobody drew the glider in. Bill Gosper's MIT team <em>engineered</em> the gun in 1970 to win Conway's $50 wager. And the glider on your screen just now ran because <em>you</em> loaded a page that pressed the rule into service. The field never crowned one author. It did something more useful: it <strong>named contributions</strong> — <em>rule by Conway, discovered by Guy, constructed by Gosper</em> — which is exactly what an authorship note does.
+      <br><br><strong>The coda that belongs in a writing course:</strong> Conway spent decades in a love/hate relationship with the invention that eclipsed his deeper mathematics (<a href="https://www.numberphile.com/videos/does-john-conway-hate-his-game-of-life">he said so himself</a>). Made things outgrow their makers. The authorship note is how a maker stays responsible anyway.
+    </div>
+    <div class="maprow" id="gliderMap">
+      <table>
+        <tr><th>In the glider's world</th><th>In your project</th></tr>
+        <tr><td>Conway wrote the rule</td><td>The tools and models you build on — name your sources</td></tr>
+        <tr><td>Guy noticed the glider</td><td>You, spotting the behavior worth keeping</td></tr>
+        <tr><td>Gosper engineered the gun</td><td>You, directing a build toward a purpose</td></tr>
+        <tr><td>The pattern emerged</td><td>What appears when it runs — yours to keep, explain, and publish</td></tr>
+        <tr><td><em>— (no 1970 equivalent)</em></td><td><strong>AI, the new party in the middle</strong> — generates possibilities; owns nothing</td></tr>
+      </table>
+    </div>
+  </div>
 
   <h2>Same facts, two authorship notes</h2>
   <p>Both notes disclose the same AI help. Only one explains judgment and responsibility clearly.</p>
@@ -81,8 +137,19 @@
     </article>
   </div>
 
+  <h2 id="forge-title">The authorship-note forge</h2>
+  <p>The four sentences of a first authorship note are: <strong>AI helped me…</strong> <strong>I chose…</strong> <strong>I tested…</strong> <strong>I changed or rejected…</strong> Practice on someone else's build before writing yours. Below is the (typical, invented) log of a student's Game of Life project — eight moments, in order. File each moment where it honestly belongs, or leave it out, and watch the note assemble.</p>
+  <div class="module" id="forge">
+    <div id="forgeLog"></div>
+    <div class="assembled" id="forgeNote" aria-live="polite"><h3>The note, as filed</h3><div id="forgeNoteBody"></div></div>
+    <div class="flags" id="forgeFlags" aria-live="polite"></div>
+    <p class="modnote">Nothing here is collected or graded — the forge only checks your filing against what each log moment actually says, the way a reader checking your public repo would.</p>
+  </div>
+
   <h2>Try it on your project</h2>
-  <div class="try">Finish four sentences: <strong>AI helped me...</strong> <strong>I chose...</strong> <strong>I tested...</strong> <strong>I changed or rejected...</strong> That is enough for a clear first authorship note.</div>
+  <div class="try">Now the real one. Finish the same four sentences about <em>your</em> app — using moments from your actual build log, the way you just practiced. That is enough for a clear first authorship note.</div>
+
+  <p class="cliff" style="font-size:1.15rem;font-style:italic;margin:2rem 0 0">You can now say, precisely, what is yours. One question remains for a shipped thing: what happens when a stranger leans on it? Next session we break things on purpose — and watch what recovers.</p>
 
   <footer>Curiosity-Driven Paper-App Studio · one interaction, one explanation, responsibility for the public result.</footer>
 </main>
@@ -126,6 +193,133 @@
   document.querySelector('#showConfession').addEventListener('click', () => showNote('confession'));
   document.querySelector('#showResponsibility').addEventListener('click', () => showNote('responsibility'));
   showNote('responsibility');
+
+  /* ===== v2 module: who is the author of the glider? ===== */
+  (function(){
+    const N=16, CS=13;
+    const cv=document.getElementById('gliderCanvas'), ctx=cv.getContext('2d');
+    let cells=new Set([[6,5],[7,6],[5,7],[6,7],[7,7]].map(([x,y])=>y*N+x));
+    function step(){
+      const cnt=new Map();
+      cells.forEach(i=>{
+        const x=i%N, y=(i-x)/N;
+        for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+          if(!dx&&!dy)continue;
+          const nx=(x+dx+N)%N, ny=(y+dy+N)%N, k=ny*N+nx; // torus
+          cnt.set(k,(cnt.get(k)||0)+1);
+        }
+      });
+      const next=new Set();
+      cnt.forEach((n,k)=>{ if(n===3||(n===2&&cells.has(k))) next.add(k); });
+      cells=next;
+    }
+    function draw(){
+      ctx.fillStyle='#f6f3ea'; ctx.fillRect(0,0,cv.width,cv.height);
+      ctx.fillStyle='#2f6f5e';
+      cells.forEach(i=>{ const x=i%N,y=(i-x)/N; ctx.fillRect(x*CS+1,y*CS+1,CS-2,CS-2); });
+    }
+    setInterval(()=>{ step(); draw(); },140);
+    draw();
+
+    /* ---- EDIT HERE: the four claims and the cast ---- */
+    const CAST=[['conway','Conway'],['guy','Richard Guy'],['gosper','Bill Gosper'],['rule','the rule itself'],['you','you, just now']];
+    const CLAIMS=[
+      { q:'Who invented the rule?', answer:'conway',
+        right:'Conway — though "invented" hides a two-year search against desiderata. Authored, but by selection.',
+        wrong:a=>`It was Conway — B3/S23 is the one layer here with a single human author, and even that took a two-year search.` },
+      { q:'Who found the glider?', answer:'guy',
+        right:'Richard Guy, 1969, watching the R-pentomino boil. Found, not designed — the verb is doing the authorship work.',
+        wrong:a=>`Richard Guy — in 1969, while the group tracked the R-pentomino. Conway wrote the rule, but nobody, Conway included, put the glider in it.` },
+      { q:'Who built the glider gun?', answer:'gosper',
+        right:'Bill Gosper\'s team — engineered on purpose, to win a $50 bet. A third kind of authorship: construction toward a goal.',
+        wrong:a=>`Bill Gosper's MIT team, 1970 — engineered deliberately to win Conway's $50 wager that nothing could grow forever.` },
+      { q:'Who made this glider move, on your screen, just now?', answer:'you',
+        right:'You did — you opened the page that set the rule running. "The rule itself" is half-credit: the rule licenses the motion; someone still has to run it and choose to show it.',
+        wrong:a=> a==='rule'
+          ? 'Half credit — the rule licenses the motion, but rules don\'t press run. You opened this page; the choice to run and show it was a person\'s.'
+          : 'You did — by opening a page that presses the rule into service. Every layer needs someone who chooses to run and publish the thing.' }
+    ];
+    /* ---- end EDIT HERE ---- */
+    const wrap=document.getElementById('gliderClaims');
+    let answered=0;
+    CLAIMS.forEach((c,i)=>{
+      const div=document.createElement('div'); div.className='claim';
+      div.innerHTML=`<div class="q">${i+1}. ${c.q}</div>`;
+      const cast=document.createElement('div'); cast.className='cast';
+      CAST.forEach(([id,label])=>{
+        const b=document.createElement('button'); b.type='button'; b.textContent=label;
+        b.addEventListener('click',()=>{
+          if(div.dataset.done) return; div.dataset.done='1';
+          cast.querySelectorAll('button').forEach(x=>{ x.disabled=true; x.classList.toggle('on',x===b); });
+          const v=document.createElement('div'); v.className='verdict'+(id===c.answer?'':' off');
+          v.innerHTML = id===c.answer ? `<strong>Yes.</strong> ${c.right}` : `<strong>Close — </strong> ${c.wrong(id)}`;
+          div.appendChild(v); v.style.display='block';
+          if(++answered===CLAIMS.length){
+            document.getElementById('gliderHistory').style.display='block';
+            document.getElementById('gliderMap').style.display='block';
+          }
+        });
+        cast.appendChild(b);
+      });
+      div.appendChild(cast);
+      wrap.appendChild(div);
+    });
+  })();
+
+  /* ===== v2 module: the authorship-note forge ===== */
+  (function(){
+    /* ---- EDIT HERE: the build log; fits = the slots each moment honestly supports ---- */
+    const SLOTS=[['ai','AI helped me…'],['chose','I chose…'],['tested','I tested…'],['rejected','I changed or rejected…'],['out','leave it out']];
+    const LOG=[
+      { id:'m1', text:'I asked AI for a one-file Game of Life page I could put on GitHub Pages.', fits:['chose','ai'], phrase:{ai:'built the first one-file version I asked for', chose:'the idea — a one-file Game of Life for GitHub Pages', tested:'', rejected:''} },
+      { id:'m2', text:'Its first version needed a server. I said no and asked for static-only.', fits:['rejected','chose'], phrase:{ai:'', chose:'to stay static-only', tested:'', rejected:'the first version, which needed a server'} },
+      { id:'m3', text:'AI wrote the grid-drawing and rule code.', fits:['ai'], phrase:{ai:'wrote the grid-drawing and rule code', chose:'', tested:'', rejected:''} },
+      { id:'m4', text:'I tested every button on my phone; two overlapped.', fits:['tested'], phrase:{ai:'', chose:'', tested:'every button on my phone, and found two overlapping', rejected:''} },
+      { id:'m5', text:'I asked for bigger buttons and kept that version.', fits:['chose','ai'], phrase:{ai:'resized the controls when I asked', chose:'the bigger-buttons version', tested:'', rejected:''} },
+      { id:'m6', text:'A friend couldn\'t find the start button, so I rewrote the label myself.', fits:['tested','chose'], phrase:{ai:'', chose:'to rewrite the start label myself after watching a friend get lost', tested:'the page on a friend, who couldn\'t find start', rejected:''} },
+      { id:'m7', text:'AI suggested autoplay with sound. I said no.', fits:['rejected'], phrase:{ai:'', chose:'', tested:'', rejected:'the autoplay-with-sound suggestion'} },
+      { id:'m8', text:'In the end, AI wrote roughly 80% of the final JavaScript.', fits:['ai'], phrase:{ai:'wrote roughly 80% of the final JavaScript', chose:'', tested:'', rejected:''} }
+    ];
+    /* ---- end EDIT HERE ---- */
+    const state={};
+    const wrap=document.getElementById('forgeLog');
+    LOG.forEach(m=>{
+      state[m.id]='';
+      const row=document.createElement('div'); row.className='logitem';
+      const t=document.createElement('div'); t.className='lt'; t.textContent=m.text; row.appendChild(t);
+      const sel=document.createElement('select');
+      sel.setAttribute('aria-label','File this moment');
+      sel.innerHTML='<option value="">— file it under —</option>'+SLOTS.map(([id,label])=>`<option value="${id}">${label}</option>`).join('');
+      sel.addEventListener('change',()=>{ state[m.id]=sel.value; render(); });
+      row.appendChild(sel);
+      wrap.appendChild(row);
+    });
+    function render(){
+      const filed=LOG.filter(m=>state[m.id] && state[m.id]!=='out');
+      const noteEl=document.getElementById('forgeNote'), body=document.getElementById('forgeNoteBody');
+      const flagsEl=document.getElementById('forgeFlags'); flagsEl.innerHTML='';
+      if(!filed.length && !LOG.some(m=>state[m.id]==='out')){ noteEl.style.display='none'; flagsEl.style.display='none'; return; }
+      // assemble
+      const by={ai:[],chose:[],tested:[],rejected:[]};
+      filed.forEach(m=>{ const s=state[m.id]; const ph=(m.phrase[s]||m.text.replace(/\.$/,'').toLowerCase()); by[s].push(ph); });
+      const sent=(lead,arr)=> arr.length? `<p><strong>${lead}</strong> ${arr.join('; ')}.</p>` : '';
+      body.innerHTML =
+        sent('AI helped me:', by.ai) + sent('I chose:', by.chose) + sent('I tested:', by.tested) + sent('I changed or rejected:', by.rejected)
+        + (filed.length? '' : '<p class="modnote">Nothing filed yet.</p>');
+      noteEl.style.display='block';
+      // flags
+      const flags=[];
+      const mis=filed.filter(m=>!m.fits.includes(state[m.id]));
+      if(mis.length) flags.push(['warn',`<strong>That's not what the log says.</strong> ${mis.map(m=>`"${m.text}" doesn't support the slot you filed it under`).join('; ')}. A note a reader can check against your repo has to match the record.`]);
+      if(!by.tested.length) flags.push(['warn','<strong>No tests documented.</strong> As filed, a reader can\'t tell whether anyone ever drove the thing. "I tested…" is the sentence that separates a claim from a hope.']);
+      if(state.m8==='out') flags.push(['warn','<strong>The biggest fact is missing.</strong> "AI wrote roughly 80% of the final JavaScript" got left out. Once anyone views source, omission reads as hiding — the responsibility note names it and stands anyway.']);
+      const used=new Set(filed.map(m=>state[m.id]));
+      if(filed.length>=3 && used.size===1 && used.has('ai')) flags.push(['warn','<strong>The apology pattern.</strong> Everything filed under "AI helped me" and nothing owned — that\'s the confession note above, rebuilt. Disclosure without direction, testing, or judgment.']);
+      if(!mis.length && by.ai.length && by.chose.length && by.tested.length && by.rejected.length && state.m8!=='out') flags.push(['good','<strong>This note documents responsibility.</strong> AI\'s share is named (including the 80%), and so are the choices, the tests, and the refusals that made the artifact this artifact. That\'s the second kind of note — the kind to write.']);
+      flagsEl.style.display=flags.length?'block':'none';
+      flags.forEach(([kind,html])=>{ const d=document.createElement('div'); d.className='flag'+(kind==='good'?' good':''); d.innerHTML=html; flagsEl.appendChild(d); });
+    }
+  })();
 </script>
 </body>
 </html>

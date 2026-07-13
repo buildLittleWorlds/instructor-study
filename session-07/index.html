@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Debug Loop — Instructor's Study, Session 7</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f; --glow:#f4c04e;
+    --sim:#5b8bb0; --sim-soft:#e8f0f6;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:52rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  h3 { font-size:1.05rem; margin:1.6rem 0 .5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .curiosity { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1rem 0 1.6rem; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .boundary { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); border:1px dashed var(--line); border-radius:8px; padding:.6rem .9rem; margin:1rem 0; }
+  .modtag { display:inline-block; font-family:system-ui,sans-serif; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); border-radius:4px; padding:0 .4rem; margin-right:.6rem; vertical-align:middle; }
+  button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  button:hover { background:var(--accent-soft); }
+  button[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  button:disabled { opacity:.45; cursor:default; }
+  button.mini { font-size:.8rem; padding:.15rem .6rem; }
+  button.ghost { border-color:var(--muted); color:var(--muted); }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:.8rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  .module { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 1.4rem; }
+  .modnote { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin-top:.7rem; }
+  .insight { border-left:4px solid var(--sim); background:var(--sim-soft); padding:.7rem 1rem; margin:.9rem 0 0; font-family:system-ui,sans-serif; font-size:.88rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .guardrail { border-left:4px solid var(--sim); padding:.7rem 1.1rem; background:var(--sim-soft); margin:1.2rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  .diagram,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+  .landing { font-size:1.3rem; font-style:italic; text-align:center; margin:1.8rem 0; }
+  .landing.big { font-size:1.55rem; margin:2.2rem 0; }
+
+  /* bench */
+  .benchwrap { display:flex; gap:1.2rem; flex-wrap:wrap; align-items:flex-start; }
+  .benchmain { flex:1 1 40rem; min-width:19rem; }
+  canvas.bench { width:100%; max-width:644px; height:auto; border:1px solid var(--line); border-radius:6px; background:#fff; display:block; touch-action:none; }
+  canvas.puz { border:1px solid var(--line); border-radius:6px; background:#fff; display:block; margin:.4rem 0; touch-action:none; }
+  .readout { font-family:system-ui,sans-serif; font-size:.88rem; color:var(--muted); margin:.4rem 0; }
+  .goal { display:inline-block; font-family:system-ui,sans-serif; font-size:.85rem; font-weight:700; border:1.5px solid var(--muted); color:var(--muted); border-radius:999px; padding:.3rem .9rem; margin:.3rem 0; background:#fff; }
+  .goal.green { border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+  .goal.red { border-color:var(--warn); color:var(--warn); background:#faf3ee; }
+  .loopcard { flex:1 1 15rem; min-width:14rem; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.9rem 1.1rem; font-family:system-ui,sans-serif; font-size:.88rem; }
+  .loopcard ol { margin:.4rem 0 .8rem; padding-left:1.2rem; }
+  .loopcard li { margin:.25rem 0; }
+  .loopcard hr { border:none; border-top:1px dashed var(--line); margin:.7rem 0; }
+  .layercard { border:1px solid var(--line); border-radius:8px; padding:.8rem 1rem; margin:.8rem 0; }
+  .laytag { font-family:system-ui,sans-serif; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--warn); }
+  .rulenote,.gatefeed,.hint { font-family:system-ui,sans-serif; font-size:.88rem; margin-top:.5rem; }
+  .gatefeed strong,.hint strong { color:var(--accent); }
+  .trapnote { display:none; }
+  .trapnote.show { display:block; border-left:4px solid var(--glow); background:#fbf3dd; padding:.7rem 1rem; margin-top:.7rem; font-family:system-ui,sans-serif; font-size:.88rem; }
+  fieldset { border:none; margin:0; padding:0; }
+  fieldset:disabled { opacity:.55; }
+  .locknote { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--warn); margin:.3rem 0 .6rem; }
+
+  /* puzzles */
+  .puzzles { display:flex; gap:1rem; flex-wrap:wrap; }
+  .puzzle { flex:1 1 16rem; min-width:15rem; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.8rem 1rem; }
+  .puzzle h4 { margin:.1rem 0 .2rem; font-size:.98rem; }
+  .phase { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin:.3rem 0; }
+  .verdict { font-family:system-ui,sans-serif; font-size:.86rem; margin-top:.5rem; }
+  .verdict .yes { color:var(--accent); font-weight:700; }
+  .verdict .no { color:var(--warn); font-weight:700; }
+  .scorecard { border-left:4px solid var(--accent); background:var(--accent-soft); padding:.7rem 1rem; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+
+  /* layer stack schematic */
+  .stackwrap { display:flex; gap:1.2rem; flex-wrap:wrap; align-items:stretch; margin:1rem 0; }
+  .stack { flex:1 1 17rem; min-width:15rem; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.9rem 1rem; font-family:system-ui,sans-serif; font-size:.82rem; text-align:center; }
+  .tokrow { display:flex; gap:.6rem; justify-content:center; margin-bottom:.35rem; }
+  .tokchip { border:1px solid var(--sim); background:var(--sim-soft); border-radius:6px; padding:.15rem .5rem; }
+  .tokchip.hard { border-color:var(--warn); background:#faf3ee; }
+  .lay { background:var(--sim-soft); border:1px solid var(--sim); border-radius:5px; margin:.28rem auto; padding:.22rem .5rem; max-width:17rem; }
+  .arrow { color:var(--muted); margin:.05rem 0; }
+  .speak { background:var(--ink); color:#fff; border-radius:5px; margin:.3rem auto 0; padding:.25rem .5rem; max-width:17rem; font-weight:700; }
+  .contrast { flex:1 1 17rem; min-width:15rem; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:.9rem 1.1rem; font-family:system-ui,sans-serif; font-size:.88rem; }
+  .dialcard { border:1.5px solid var(--accent); background:var(--accent-soft); border-radius:10px; padding:.9rem 1.1rem; margin:1.2rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 7</div>
+  <h1>The Debug Loop</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <h2>What made me curious</h2>
+  <div class="curiosity">
+    Last week I had a bug I could not fix by wanting it fixed. A little spaceship in a Game of Life world kept dying halfway across the board, and no amount of staring at the crash site changed anything — because the crash is not a thing in the program. It is a consequence. In an emergent system you cannot edit the outcome; you can only edit the layers that produce it, then rerun, then watch. Somewhere around the fourth rerun I realized this is exactly the posture that directing an AI demands, stopped being annoyed, and started building this page.
+  </div>
+
+  <h2>What to notice</h2>
+  <p>Session 7's idea is small and load-bearing: <strong>useful AI development is a loop — observe, describe, request, test, revise.</strong> Not a wish; a loop. The bench below holds a real bug in a real (tiny) universe, and the page will refuse to let you fix it the way everyone first tries to fix software: by demanding the result. <em>Describe the behavior you got, then change one layer you control.</em></p>
+  <p>The second module then asks the quieter question underneath the loop: why does it have to <em>run</em> at all? Why can't anyone — you, me, a model — just see the answer from the start? That question opens the last of the Session 2 lab's <a href="../session-02/randomness-lab/#dynamics-title">three design dials</a>: Session 3 opened <em>neighborhood</em>, Session 4 opened <em>rule</em>, and today is <em>iteration</em> — the unbounded update loop versus the fixed-depth forward pass. It ends at why modern AI thinks out loud.</p>
+
+  <div class="boundary">An instructor demonstration for our Session 7 conversation. Everything on this page runs in your browser and stays there: nothing is collected, exported, or submitted — no scores, no logs, no uploads. Break it freely; reload to heal it.</div>
+
+  <h2 id="mod7a">You can't paint the outcome</h2>
+  <p>This is a bounded Conway board — <code>B3/S23</code>, 46×18 cells, edges simply dead. The seed holds a lightweight spaceship aimed east and, sitting in its flight lane, a 2×2 block somebody left behind (fine: I left it). The goal chip states the test in public: <strong>the ship reaches the right edge</strong> — any live cell in the tinted last three columns, within 200 generations of pressing Run. Press Run and watch what actually happens.</p>
+
+  <div class="benchwrap">
+    <div class="benchmain">
+      <canvas id="bench" class="bench" width="644" height="252" role="img" aria-label="Bounded Game of Life board, 46 by 18 cells, with a spaceship on the left and a block mid-board. The last three columns are the tinted goal zone."></canvas>
+      <div class="controls">
+        <button type="button" id="runBtn">Run ▸</button>
+        <button type="button" id="stepBtn">Step</button>
+        <button type="button" id="pauseBtn">Pause</button>
+        <button type="button" id="rewindBtn" class="ghost">⟲ Gen 0</button>
+      </div>
+      <div aria-live="polite">
+        <span class="goal" id="goalChip"></span>
+        <p class="readout" id="readout"></p>
+      </div>
+    </div>
+    <aside class="loopcard">
+      <strong>The loop</strong> (tape it above your desk)
+      <ol>
+        <li><strong>Observe</strong> — run it; watch what actually happens.</li>
+        <li><strong>Describe precisely</strong> — when, where, what.</li>
+        <li><strong>Change one layer you control.</strong></li>
+        <li><strong>Rerun</strong> the same test.</li>
+        <li><strong>Keep it or revert it.</strong></li>
+      </ol>
+      <hr>
+      <strong>The same loop, aimed at AI:</strong> you cannot edit the model's weights — nobody can, not even its makers, not directly. Your controllable layers are the <em>prompt</em>, the <em>context you provide</em>, the <em>code you accept or reject</em>, and the <em>test you run</em>. Same loop, same discipline.
+    </aside>
+  </div>
+
+  <div class="module">
+    <h3>Step two: say what you saw</h3>
+    <p>Before this page hands you a single tool, describe the bug — because a fix request starts with the behavior, stated precisely enough that someone who wasn't watching could find it. Run it again if you need to; the collision is visible from about generation 35. Then pick the description you would actually send:</p>
+    <div class="controls" id="gateChips"></div>
+    <p class="gatefeed" id="gateFeed" aria-live="polite">Run the world first — you can't describe behavior you haven't watched.</p>
+  </div>
+
+  <div class="module">
+    <h3>Step three: change one layer you control</h3>
+    <p class="locknote" id="lockNote">Locked until the bug has a precise description (step two).</p>
+    <fieldset id="fixPanel" disabled>
+      <div class="layercard">
+        <span class="laytag">Layer you control · 1 of 3</span>
+        <h4 style="margin:.2rem 0 .3rem">Edit the seed — the world's starting state</h4>
+        <p style="margin:.2rem 0">Turn the editor on and click cells. The editor works at generation 0, because the seed <em>is</em> the board before the world runs — click the block away, or move it out of the lane, or build the ship an escort. Then rerun the same test.</p>
+        <div class="controls">
+          <button type="button" id="seedTool" aria-pressed="false">Edit the seed</button>
+          <button type="button" id="restoreSeed" class="ghost">Restore original seed</button>
+        </div>
+        <p class="hint" id="seedHint" aria-live="polite"></p>
+      </div>
+      <div class="layercard">
+        <span class="laytag">Layer you control · 2 of 3</span>
+        <h4 style="margin:.2rem 0 .3rem">Swap the rule — the world's physics</h4>
+        <p style="margin:.2rem 0">Same seed, different physics. Swapping the rule rewinds to generation 0 so every run is a fair test.</p>
+        <div class="controls" id="ruleChips"></div>
+        <p class="rulenote" id="ruleNote" aria-live="polite"></p>
+        <div class="insight" id="b2Card" style="display:none"><strong>The test passed and the behavior is wrong.</strong> Everything flooded everywhere — including, incidentally, the right edge. No ship arrived; the universe did. A green check is only as good as the check. Carry that back to Session 6's lesson, and to every AI-written "fix" you accept because the tests went green.</div>
+      </div>
+      <div class="layercard">
+        <span class="laytag">Not a layer you control · the trap, included honestly</span>
+        <h4 style="margin:.2rem 0 .3rem">Paint the outcome</h4>
+        <p style="margin:.2rem 0">Here is the tool everyone secretly wants: a brush that paints the result. Select it and paint amber cells where you wish the ship were — at the right edge, say, arriving in style. The paint lands on a translucent overlay. Then press Step and watch the goal chip.</p>
+        <div class="controls">
+          <button type="button" id="paintTool" aria-pressed="false">Paint the outcome</button>
+          <button type="button" id="clearGlass" class="ghost">Clear the glass</button>
+        </div>
+        <p class="trapnote" id="trapNote" aria-live="polite">You painted on the glass, not in the world. The rule never reads the amber layer; the world moved underneath your paint and the goal chip did not blink. The rule only keeps what the rule can reach. To change the outcome, change a layer the rule reads: the seed, or the rule itself.</p>
+      </div>
+    </fieldset>
+  </div>
+
+  <p class="landing">Describe the behavior you got, then change one layer you control.</p>
+
+  <h2 id="mod7b">No shortcut: steps are the price</h2>
+  <p>The bench taught the loop. This module is about why there is a loop at all — why nobody, human or machine, gets to skip to the end. Three small worlds, each with one cell ringed in amber, one question each: <strong>will the ringed cell be alive at generation 8?</strong> You answer twice, in order. First instantly, from the seed alone — a pure guess, and the page records it. Then step the world there and answer again.</p>
+
+  <div class="puzzles" id="puzzles"></div>
+  <div class="scorecard" id="scorecard" aria-live="polite">Scorecard — answer all three worlds both ways and this box will do the arithmetic.</div>
+
+  <p>The gap you just felt is not a personal failing; it is load-bearing mathematics. Life's entire physics is one sentence long, and still the general question "what will this pattern eventually do?" is <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">provably undecidable</a> — no formula answers it for every pattern. Even for a definite horizon like our generation 8, there is usually nothing smarter than running the world. Stephen Wolfram's name for this is <a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/">computational irreducibility</a>: for most systems that compute, the only fully general method is to run it and watch. The Skip button knew this. It didn't skip the steps; it ran them faster.</p>
+
+  <h3>The machine that must answer now</h3>
+  <p>Now aim the same question at a transformer — drawn honestly as a schematic, with no measured anything. A transformer is a <em>fixed</em> stack of layers. Every token, easy or hard, gets exactly one pass through that stack — the same compute — and then the model must speak.</p>
+  <div class="stackwrap">
+    <div class="stack" role="img" aria-label="Schematic: two tokens, one easy and one hard, each making a single pass through the same fixed stack of layers, then the model must answer.">
+      <div class="tokrow"><span class="tokchip">"2 + 2 ="</span><span class="tokchip hard">"will the ringed cell survive?"</span></div>
+      <div class="arrow">↓ one pass each ↓</div>
+      <div class="lay">layer 6 — same compute for both</div>
+      <div class="lay">layer 5</div>
+      <div class="lay">layer 4</div>
+      <div class="lay">layer 3</div>
+      <div class="lay">layer 2</div>
+      <div class="lay">layer 1</div>
+      <div class="speak">must speak now</div>
+      <p class="modnote">Schematic — layer count illustrative, no measured activations.</p>
+    </div>
+    <div class="contrast">
+      <strong>The other side of dial #3.</strong> The cellular automaton on this page runs as many generations as the pattern needs: your 8 steps just now; the R-pentomino's famous 1,103 before it settles (on an unbounded board); longer if it takes longer. A transformer's depth is decided at training time and spent identically on every token. The CA's budget follows the problem; the transformer's budget is fixed before the problem arrives.
+      <div class="insight" style="margin-top:.8rem"><strong>The modern coda.</strong> So what do you do when the question needs more steps than the stack has? You write. "Think step by step" — and today's reasoning models — work by <em>generating intermediate tokens</em>, and every generated token is one more full pass through the stack. The model is buying itself generations and paying in words. Theory agrees: transformers forced to answer immediately provably cannot solve some easy problems, and allowing intermediate steps lifts them (<a href="https://arxiv.org/abs/2310.07923">Merrill &amp; Sabharwal, ICLR 2024</a>).</div>
+    </div>
+  </div>
+
+  <p class="landing big">Thinking tokens are generations.</p>
+
+  <div class="guardrail"><strong>Handle the analogy by the right end.</strong> "Thinking tokens are generations" is a claim about <em>compute budget</em> — steps of work, and where a system gets them — not about mechanism. A language model is not running a cellular automaton, a token is not a grid, and a transformer is not a CA. What matches is only this: some questions cost steps, and a system must get its steps from somewhere.</div>
+
+  <div class="dialcard"><strong>Dial #3 — iteration:</strong> unbounded update loop versus fixed-depth forward pass — is now open. With Session 3's <em>neighborhood</em> and Session 4's <em>rule</em>, all three dials from the Session 2 lab's <a href="../session-02/randomness-lab/#dynamics-title">Two state arrays, three design dials</a> are open. Go turn them.</div>
+
+  <h2>How this page was made</h2>
+  <div class="diagram">
+    <p><strong>Computed live:</strong> every cell on the bench and in the three puzzle worlds comes from one step function — a double-buffered <code>Uint8Array</code> sweep with bounded, dead edges — running in this page as you press. The goal chip, the verdicts, the flicker counts, and the scorecard are read off the running state; nothing dynamical is pre-recorded. The amber wish layer is stored outside the state array and is never read by the step function — that is the trap's entire honesty.</p>
+    <p><strong>Authored:</strong> the scenario (the ship's coordinates, the block, the goal's wording), the three candidate bug descriptions and which one unlocks, the rule notes, the three puzzle seeds and ring placements, and the layer-stack schematic. All of it sits in one marked block — <code>EDIT HERE</code> — at the top of this page's script.</p>
+    <p><strong>Verified before written:</strong> every number in my prose — extinction at 43, arrival at 71, HighLife's 41, B2's wrong-reason green near 16, and the three generation-8 truths — was simulated first and typed second. The README carries the check recipe; if you edit a seed, rerun it before trusting any sentence with a number in it.</p>
+  </div>
+
+  <div class="limit">
+    <strong>Accuracy notes, so the page can't oversell itself.</strong> (1) The layer-stack panel is a schematic: no measured activations, illustrative layer count. (2) The bench's board is finite and its edges absorb; the ship's "arrival" ends in a 4-cell remnant that is a boundary artifact, not Life physics on an infinite plane — which is fine, because arrival, not afterlife, is what the goal tests. (3) <code>B36/S23</code> (HighLife) and <code>B2/S23</code> are named variant rules, not Conway's Game of Life; press a rule chip and you are in a different universe. (4) The numbers in my prose describe the shipped seed. Edit the seed and the prose no longer applies — the chip stays honest because it is computed; prose can't be.
+  </div>
+
+  <h2>What I would try next</h2>
+  <div class="try">
+    Swap the describe-gate chips for a free-text box and let the room judge precision out loud — the chips are training wheels, and the judging is the skill. Add a second block placed so the obvious fix passes the arrival test but fails a new one: regression, the loop's next lesson. And let the three puzzle worlds run past generation 8 with a bet on when each goes still — I have deliberately not looked, which is rather the point.
+  </div>
+
+  <h2>What I chose and how AI helped</h2>
+  <div class="authorship">
+    <p><strong>AI helped with:</strong> drafting the page's code and copy under my direction, proposing candidate puzzle seeds, and running the verification simulations whose outputs my captions quote (recipe in the session README).</p>
+    <p><strong>I chose:</strong> the bug — a ship and a block that annihilate <em>mutually</em>, because in Life a collision costs both parties; the goal and its public wording; which description counts as precise and why the other two stay locked; the three layers and their order — seed, then rule, then the trap; and the standing rule that no dynamical number enters my prose unless a simulation produced it first.</p>
+  </div>
+
+  <p class="cliff">The fix works and I can say why. Next: the page has to say it — what the build showed, what it didn't, in words a stranger believes. That's the paper layer.</p>
+
+  <footer>Instructor example · Curiosity-Driven Paper-App Studio · Session 7 · self-contained page (authored content marked EDIT HERE in the script)</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+/* ================= EDIT HERE: authored content =================
+   Everything an instructor might retune lives in CFG. Numbers in prose
+   describe THESE seeds under THESE rules — resimulate before editing. */
+/*CFG-START*/
+const CFG={
+  bench:{
+    W:46,H:18,CELL:14,
+    // LWSS base shape; the east-heading ship is its mirror, placed at (3,7)
+    shipBase:[[1,0],[4,0],[0,1],[0,2],[4,2],[0,3],[1,3],[2,3],[3,3]],
+    shipOrigin:[3,7],
+    block:[[26,10],[27,10],[26,11],[27,11]],
+    goalCols:3, goalWindow:200, tickMs:55
+  },
+  rules:[
+    {id:'conway',label:'B3/S23 — Conway',b:[3],s:[2,3],
+     note:'Conway’s original rule — the physics under which you watched the ship die at generation 43.'},
+    {id:'highlife',label:'B36/S23 — HighLife',b:[3,6],s:[2,3],
+     note:'HighLife adds one clause: birth on 6 neighbors. Run the bugged seed under it: the ship still flies, still meets the block, and the world still empties — at generation 41 this time. A global change that never touched the local cause is a different universe with the same bug.'},
+    {id:'b2',label:'B2/S23',b:[2],s:[2,3],
+     note:'B2/S23 births on just two neighbors. Run it, keep your eye on the chip, and then read what appears below.'}
+  ],
+  gate:[
+    {t:'“The page is broken.”',precise:false,
+     feed:'True-feeling, but it points at everything and therefore at nothing. Which thing? Where? When? The fix panel stays locked.'},
+    {t:'“Around generation 40 the ship reaches the block at mid-board and both disappear.”',precise:true,
+     feed:'That is a bug report. A stranger could run to generation 40, look at mid-board, and see exactly this. The fix panel is open.'},
+    {t:'“The ship doesn’t work.”',precise:false,
+     feed:'Closer — it names the ship. But someone who wasn’t watching still couldn’t find the moment. When does it stop working, and what does it meet?'}
+  ],
+  puzzles:[
+    {label:'World 1 — the R-pentomino',seed:[[4,3],[5,3],[3,4],[4,4],[4,5]],target:[4,6]},
+    {label:'World 2 — the pi-heptomino',seed:[[3,3],[4,3],[5,3],[3,4],[5,4],[3,5],[5,5]],target:[4,1]},
+    {label:'World 3 — a loose zigzag',seed:[[2,2],[3,3],[4,3],[3,4],[5,4],[4,5],[5,5]],target:[5,3]}
+  ],
+  puzzleGens:8, puzzleCell:24
+};
+/*CFG-END*/
+/* ================= end EDIT HERE ================= */
+
+/*ENGINE-START*/
+function makeMasks(b,s){let bm=0,sm=0;b.forEach(n=>bm|=1<<n);s.forEach(n=>sm|=1<<n);return[bm,sm];}
+function stepGrid(cur,nxt,W,H,bm,sm){
+  for(let y=0;y<H;y++){
+    for(let x=0;x<W;x++){
+      let n=0;
+      for(let dy=-1;dy<=1;dy++){
+        const yy=y+dy; if(yy<0||yy>=H) continue;
+        for(let dx=-1;dx<=1;dx++){
+          if(!dx&&!dy) continue;
+          const xx=x+dx; if(xx<0||xx>=W) continue;
+          n+=cur[yy*W+xx];
+        }
+      }
+      const i=y*W+x;
+      nxt[i]=cur[i]?(sm>>n&1):(bm>>n&1);
+    }
+  }
+}
+/*ENGINE-END*/
+
+// ---------- shared cell drawing ----------
+function drawBoard(ctx,cells,W,H,cs,opts){
+  opts=opts||{};
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W*cs,H*cs);
+  if(opts.goalCols){
+    ctx.fillStyle='rgba(47,111,94,.08)';
+    ctx.fillRect((W-opts.goalCols)*cs,0,opts.goalCols*cs,H*cs);
+  }
+  ctx.strokeStyle='#efece4'; ctx.lineWidth=1; ctx.beginPath();
+  for(let x=0;x<=W;x++){ctx.moveTo(x*cs+.5,0);ctx.lineTo(x*cs+.5,H*cs);}
+  for(let y=0;y<=H;y++){ctx.moveTo(0,y*cs+.5);ctx.lineTo(W*cs,y*cs+.5);}
+  ctx.stroke();
+  ctx.fillStyle='#2b2b33';
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++) if(cells[y*W+x]) ctx.fillRect(x*cs+1,y*cs+1,cs-2,cs-2);
+  if(opts.wishes){
+    for(let y=0;y<H;y++)for(let x=0;x<W;x++) if(opts.wishes[y*W+x]){
+      ctx.fillStyle='rgba(244,192,78,.55)'; ctx.fillRect(x*cs+1,y*cs+1,cs-2,cs-2);
+      ctx.strokeStyle='rgba(217,167,47,.9)'; ctx.strokeRect(x*cs+1.5,y*cs+1.5,cs-3,cs-3);
+    }
+  }
+  if(opts.ring){
+    const[rx,ry]=opts.ring;
+    ctx.strokeStyle='#d9a72f'; ctx.lineWidth=3; ctx.beginPath();
+    ctx.arc(rx*cs+cs/2,ry*cs+cs/2,cs*0.62,0,Math.PI*2); ctx.stroke(); ctx.lineWidth=1;
+  }
+}
+function canvasCell(cv,e,W,H,cs){
+  const r=cv.getBoundingClientRect(),sc=cv.width/r.width;
+  const x=Math.floor((e.clientX-r.left)*sc/cs),y=Math.floor((e.clientY-r.top)*sc/cs);
+  return (x>=0&&x<W&&y>=0&&y<H)?[x,y]:null;
+}
+
+// ================= MODULE 7A: the bench =================
+const B=CFG.bench, BW=B.W, BH=B.H, CS=B.CELL;
+const benchCv=document.getElementById('bench'), bctx=benchCv.getContext('2d');
+let cur=new Uint8Array(BW*BH), nxt=new Uint8Array(BW*BH);
+let seed=new Uint8Array(BW*BH);          // the editable seed (a real layer)
+const wishes=new Uint8Array(BW*BH);      // the overlay: NEVER read by stepGrid
+let gen=0, timer=null, armed=false, afterglow=0, hadVerdict=false, trapShown=false;
+let rule=CFG.rules[0], masks=makeMasks(rule.b,rule.s);
+let tool='none', dragging=false, dragVal=1;
+
+function originalSeed(){
+  const s=new Uint8Array(BW*BH);
+  const[ox,oy]=B.shipOrigin;
+  CFG.bench.shipBase.forEach(([x,y])=>{ s[(oy+y)*BW+(ox+(4-x))]=1; }); // mirror = east-heading
+  B.block.forEach(([x,y])=>{ s[y*BW+x]=1; });
+  return s;
+}
+function popAndGoal(){
+  let pop=0,hit=false;
+  for(let i=0;i<cur.length;i++) if(cur[i]){pop++; if(i%BW>=BW-B.goalCols) hit=true;}
+  return[pop,hit];
+}
+const goalChip=document.getElementById('goalChip'), readout=document.getElementById('readout');
+function setChip(cls,txt){ goalChip.className='goal'+(cls?' '+cls:''); goalChip.textContent=txt; }
+function chipIdle(){ setChip('','GOAL — the ship reaches the right edge (a live cell in the tinted columns, within '+B.goalWindow+' generations of Run). Press Run to test the current seed.'); }
+function drawBench(){ drawBoard(bctx,cur,BW,BH,CS,{goalCols:B.goalCols,wishes}); }
+function updateReadout(){
+  const[pop]=popAndGoal();
+  readout.textContent='generation '+gen+' · population '+pop+' · rule '+rule.label;
+}
+function firstVerdict(){
+  if(hadVerdict) return; hadVerdict=true;
+  document.querySelectorAll('#gateChips button').forEach(b=>b.disabled=false);
+  document.getElementById('gateFeed').textContent='You watched it. Now pick the description you would send.';
+}
+function verdict(kind,g){
+  armed=false; firstVerdict();
+  if(kind==='green'){
+    setChip('green','GOAL REACHED at generation '+g+' ✓');
+    afterglow=26;
+    if(rule.id==='b2') document.getElementById('b2Card').style.display='block';
+  }else if(kind==='dead'){
+    setChip('red','GOAL NOT REACHED — population hit 0 at generation '+g+'; nothing was left to arrive.');
+    stopTimer();
+  }else{
+    setChip('red','GOAL NOT REACHED within '+B.goalWindow+' generations.');
+    stopTimer();
+  }
+}
+function advance(){
+  stepGrid(cur,nxt,BW,BH,masks[0],masks[1]);
+  const t=cur; cur=nxt; nxt=t; gen++;
+  if(!trapShown&&wishes.some(v=>v)){ trapShown=true; document.getElementById('trapNote').classList.add('show'); }
+  if(armed){
+    const[pop,hit]=popAndGoal();
+    if(hit) verdict('green',gen);
+    else if(pop===0) verdict('dead',gen);
+    else if(gen>=B.goalWindow) verdict('timeout',gen);
+    else setChip('','testing… generation '+gen);
+  }else if(afterglow>0){ afterglow--; if(!afterglow) stopTimer(); }
+  drawBench(); updateReadout();
+}
+function stopTimer(){ if(timer){clearInterval(timer); timer=null;} afterglow=0; }
+function rewind(msg){
+  stopTimer(); cur=seed.slice(); gen=0; armed=false; chipIdle(); drawBench(); updateReadout();
+  if(msg) document.getElementById('seedHint').innerHTML=msg;
+}
+document.getElementById('runBtn').addEventListener('click',()=>{
+  stopTimer(); cur=seed.slice(); gen=0; armed=true; setChip('','testing… generation 0');
+  drawBench(); updateReadout();
+  timer=setInterval(advance,B.tickMs);
+});
+document.getElementById('stepBtn').addEventListener('click',()=>{ stopTimer(); advance(); });
+document.getElementById('pauseBtn').addEventListener('click',stopTimer);
+document.getElementById('rewindBtn').addEventListener('click',()=>rewind(''));
+document.getElementById('restoreSeed').addEventListener('click',()=>{
+  seed=originalSeed(); rewind('<strong>Original seed restored</strong> — block and all.');
+});
+
+// describe gate
+const gateWrap=document.getElementById('gateChips'), gateFeed=document.getElementById('gateFeed');
+let unlocked=false;
+CFG.gate.forEach(g=>{
+  const b=document.createElement('button'); b.type='button'; b.textContent=g.t;
+  b.disabled=true; b.setAttribute('aria-pressed','false');
+  b.addEventListener('click',()=>{
+    if(unlocked) return;
+    if(g.precise){
+      unlocked=true; b.setAttribute('aria-pressed','true');
+      gateWrap.querySelectorAll('button').forEach(x=>{ if(x!==b) x.disabled=true; });
+      gateFeed.innerHTML='<strong>'+g.feed+'</strong>';
+      document.getElementById('fixPanel').disabled=false;
+      document.getElementById('lockNote').textContent='Unlocked. Three tools below — two are layers, one is a lesson.';
+    }else{
+      gateFeed.textContent=g.feed;
+    }
+  });
+  gateWrap.appendChild(b);
+});
+
+// rule chips
+const ruleWrap=document.getElementById('ruleChips'), ruleNote=document.getElementById('ruleNote');
+CFG.rules.forEach(r=>{
+  const b=document.createElement('button'); b.type='button'; b.textContent=r.label;
+  b.setAttribute('aria-pressed',String(r===rule)); b.dataset.rid=r.id;
+  b.addEventListener('click',()=>{
+    rule=r; masks=makeMasks(r.b,r.s);
+    ruleWrap.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.rid===r.id)));
+    ruleNote.textContent=r.note;
+    document.getElementById('b2Card').style.display='none';
+    rewind('');
+  });
+  ruleWrap.appendChild(b);
+});
+ruleNote.textContent=rule.note;
+
+// tools (seed editor + wish brush)
+const seedBtn=document.getElementById('seedTool'), paintBtn=document.getElementById('paintTool');
+function setTool(t){
+  tool=t;
+  seedBtn.setAttribute('aria-pressed',String(t==='seed'));
+  paintBtn.setAttribute('aria-pressed',String(t==='paint'));
+  benchCv.style.cursor = t==='none' ? 'default' : (t==='seed'?'crosshair':'pointer');
+  if(t==='seed'&&gen!==0) rewind('<strong>Rewound to generation 0</strong> — the seed is the board before the world runs.');
+  else if(t==='seed') document.getElementById('seedHint').innerHTML='Editor on: click or drag on the board. Clicks change the seed itself.';
+  if(t==='paint') document.getElementById('seedHint').innerHTML='';
+}
+seedBtn.addEventListener('click',()=>setTool(tool==='seed'?'none':'seed'));
+paintBtn.addEventListener('click',()=>setTool(tool==='paint'?'none':'paint'));
+document.getElementById('clearGlass').addEventListener('click',()=>{ wishes.fill(0); drawBench(); });
+
+benchCv.addEventListener('pointerdown',e=>{
+  if(tool==='none') return;
+  const c=canvasCell(benchCv,e,BW,BH,CS); if(!c) return;
+  e.preventDefault(); benchCv.setPointerCapture(e.pointerId); dragging=true;
+  const i=c[1]*BW+c[0];
+  if(tool==='seed'){
+    if(gen!==0){ rewind('<strong>Rewound to generation 0</strong> — edit the seed, then Run to retest.'); dragging=false; return; }
+    dragVal=seed[i]?0:1; seed[i]=dragVal; cur[i]=dragVal;
+  }else{ dragVal=wishes[i]?0:1; wishes[i]=dragVal; }
+  drawBench(); updateReadout();
+});
+benchCv.addEventListener('pointermove',e=>{
+  if(!dragging||tool==='none') return;
+  const c=canvasCell(benchCv,e,BW,BH,CS); if(!c) return;
+  const i=c[1]*BW+c[0];
+  if(tool==='seed'){ if(gen!==0) return; seed[i]=dragVal; cur[i]=dragVal; }
+  else wishes[i]=dragVal;
+  drawBench(); updateReadout();
+});
+['pointerup','pointercancel'].forEach(ev=>benchCv.addEventListener(ev,()=>{dragging=false;}));
+
+seed=originalSeed(); cur=seed.slice(); chipIdle(); drawBench(); updateReadout();
+
+// ================= MODULE 7B: three worlds =================
+const PW=9,PH=9,PC=CFG.puzzleCell,GENS=CFG.puzzleGens;
+const [pbm,psm]=makeMasks([3],[2,3]); // puzzles are always honest Conway
+const records=[]; // {guessRight, ansRight} per completed puzzle
+const scorecard=document.getElementById('scorecard');
+function updateScore(){
+  const done=records.filter(Boolean);
+  if(!done.length){ scorecard.textContent='Scorecard — answer all three worlds both ways and this box will do the arithmetic.'; return; }
+  const g=done.filter(r=>r.guessRight).length, a=done.filter(r=>r.ansRight).length, n=done.length;
+  let line='Instant guesses right: '+g+' of '+n+'. Stepped answers right: '+a+' of '+n+'.';
+  if(n===3){
+    if(a===3&&g<=1) line+=' Answering now, you ran at chance. Stepping, you didn’t miss.';
+    else if(a===3&&g===2) line+=' Two guesses landed — but you couldn’t have said which two in advance. Stepped, you could.';
+    else if(a===3&&g===3) line+=' Three for three on instinct — respect. Notice you still couldn’t have shown your work without the steps.';
+    else line+=' A stepped answer came out wrong — the board doesn’t bluff at generation 8, so step that world again and re-read the ring.';
+  }
+  scorecard.textContent='Scorecard — '+line;
+}
+CFG.puzzles.forEach((P,idx)=>{
+  const box=document.createElement('div'); box.className='puzzle';
+  const title=document.createElement('h4'); title.textContent=P.label; box.appendChild(title);
+  const q=document.createElement('p'); q.className='phase'; q.textContent='Will the ringed cell be alive at generation 8?'; box.appendChild(q);
+  const cv=document.createElement('canvas'); cv.className='puz'; cv.width=PW*PC; cv.height=PH*PC;
+  cv.setAttribute('role','img'); cv.setAttribute('aria-label',P.label+': a 9 by 9 Life board with one cell ringed in amber.');
+  box.appendChild(cv);
+  const ctx=cv.getContext('2d');
+  const phase=document.createElement('p'); phase.className='phase'; box.appendChild(phase);
+  const row1=document.createElement('div'); row1.className='controls'; box.appendChild(row1);
+  const row2=document.createElement('div'); row2.className='controls'; box.appendChild(row2);
+  const skipNote=document.createElement('p'); skipNote.className='phase'; box.appendChild(skipNote);
+  const verd=document.createElement('div'); verd.className='verdict'; verd.setAttribute('aria-live','polite'); box.appendChild(verd);
+  document.getElementById('puzzles').appendChild(box);
+
+  let pcur,pnxt,pgen,hist,guess,skipTimer=null;
+  const ti=P.target[1]*PW+P.target[0];
+  function pdraw(){ drawBoard(ctx,pcur,PW,PH,PC,{ring:P.target}); }
+  function mk(row,txt,cls){ const b=document.createElement('button'); b.type='button'; b.textContent=txt; if(cls)b.className=cls; row.appendChild(b); return b; }
+  const gAlive=mk(row1,'Alive at gen 8'), gDead=mk(row1,'Dead at gen 8');
+  const stepB=mk(row2,'Step ▸'), skipB=mk(row2,'Skip to the answer','ghost');
+  const aAlive=mk(row2,'Alive'), aDead=mk(row2,'Dead'), resetB=mk(row2,'Reset','mini ghost');
+
+  function reset(){
+    if(skipTimer){clearInterval(skipTimer); skipTimer=null;}
+    pcur=new Uint8Array(PW*PH); pnxt=new Uint8Array(PW*PH);
+    P.seed.forEach(([x,y])=>pcur[y*PW+x]=1);
+    pgen=0; hist=[pcur[ti]]; guess=null; records[idx]=null;
+    [gAlive,gDead].forEach(b=>{b.disabled=false;b.setAttribute('aria-pressed','false');});
+    [stepB,skipB,aAlive,aDead].forEach(b=>b.disabled=true);
+    aAlive.style.display=aDead.style.display='none';
+    [aAlive,aDead].forEach(b=>b.setAttribute('aria-pressed','false'));
+    stepB.textContent='Step ▸ (gen 0/'+GENS+')';
+    phase.textContent='First: answer now, from the seed alone. A pure guess — the page records it.';
+    skipNote.textContent=''; verd.textContent='';
+    pdraw(); updateScore();
+  }
+  function pstep(){
+    if(pgen>=GENS) return;
+    stepGrid(pcur,pnxt,PW,PH,pbm,psm);
+    const t=pcur; pcur=pnxt; pnxt=t; pgen++;
+    hist.push(pcur[ti]);
+    stepB.textContent='Step ▸ (gen '+pgen+'/'+GENS+')';
+    pdraw();
+    if(pgen===GENS){
+      stepB.disabled=skipB.disabled=true;
+      aAlive.style.display=aDead.style.display='';
+      aAlive.disabled=aDead.disabled=false;
+      phase.textContent='Generation 8. The board is right there — answer again.';
+    }
+  }
+  function pickGuess(val,btn){
+    guess=val; btn.setAttribute('aria-pressed','true');
+    gAlive.disabled=gDead.disabled=true;
+    stepB.disabled=skipB.disabled=false;
+    phase.textContent='Guess recorded. Now earn the answer: step the world to generation 8.';
+  }
+  gAlive.addEventListener('click',()=>pickGuess(true,gAlive));
+  gDead.addEventListener('click',()=>pickGuess(false,gDead));
+  stepB.addEventListener('click',pstep);
+  skipB.addEventListener('click',()=>{
+    if(skipTimer) return;
+    skipNote.textContent='There is no formula door. The only shortcut is running the steps faster.';
+    skipTimer=setInterval(()=>{ pstep(); if(pgen>=GENS){clearInterval(skipTimer); skipTimer=null;} },110);
+  });
+  function answer(val,btn){
+    btn.setAttribute('aria-pressed','true'); aAlive.disabled=aDead.disabled=true;
+    const truth=!!pcur[ti];
+    let flips=0; for(let k=1;k<hist.length;k++) if(hist[k]!==hist[k-1]) flips++;
+    records[idx]={guessRight:guess===truth, ansRight:val===truth};
+    verd.innerHTML='Truth, computed by running the rule: at generation 8 the ringed cell is <strong>'+(truth?'ALIVE':'DEAD')+'</strong>. '
+      +'Your instant guess: <span class="'+(guess===truth?'yes">right':'no">wrong')+'</span>. '
+      +'Your stepped answer: <span class="'+(val===truth?'yes">right':'no">wrong')+'</span>. '
+      +'On the way, the ringed cell changed state '+flips+(flips===1?' time.':' times.');
+    phase.textContent='';
+    updateScore();
+  }
+  aAlive.addEventListener('click',()=>answer(true,aAlive));
+  aDead.addEventListener('click',()=>answer(false,aDead));
+  resetB.addEventListener('click',reset);
+  reset();
+});
+})();
+</script>
+</body>
+</html>

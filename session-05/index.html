@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Next Move — Instructor's Study, Session 5</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f; --glow:#f4c04e;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  h3 { font-size:1.05rem; margin:1.6rem 0 .5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .curiosity { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1rem 0 1.6rem; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1rem 0; font-family:system-ui,sans-serif; font-size:.9rem; }
+  button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  button:hover { background:var(--accent-soft); }
+  button[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  button:disabled { opacity:.45; cursor:default; }
+  button.ghost { border-color:var(--muted); color:var(--muted); }
+  button.ghost[aria-pressed="true"] { background:var(--muted); color:#fff; }
+  .diagram,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+  .module { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 1.4rem; }
+  .modnote { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin-top:.7rem; }
+  .landing { font-weight:700; font-style:italic; color:var(--accent); margin:1.2rem 0 .2rem; }
+
+  /* Module 5A — Life board */
+  #board { border:1px solid var(--line); border-radius:4px; background:#fff; max-width:100%; height:auto; display:block; }
+  .predictbar { border:1px dashed var(--glow); background:#fdf7e7; border-radius:8px; padding:.7rem .9rem; font-family:system-ui,sans-serif; font-size:.9rem; margin:.8rem 0; }
+  .readouts { display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; align-items:center; font-family:system-ui,sans-serif; font-size:.88rem; margin:.7rem 0 .2rem; }
+  .readouts b { font-variant-numeric:tabular-nums; color:var(--accent); }
+  #spark { border-bottom:1px solid var(--line); vertical-align:middle; }
+  .progress { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); min-height:1.3em; margin:.3rem 0 0; }
+  .reveal { border-left:4px solid var(--accent); background:var(--accent-soft); border-radius:0 8px 8px 0; padding:.8rem 1rem; margin:1rem 0 0; font-family:system-ui,sans-serif; font-size:.9rem; display:none; }
+  .reveal dl { display:grid; grid-template-columns:auto 1fr; gap:.1rem .8rem; margin:.4rem 0 .6rem; }
+  .reveal dt { color:var(--muted); } .reveal dd { margin:0; font-weight:700; font-variant-numeric:tabular-nums; }
+  .story { border-left:4px solid var(--glow); background:#fdf7e7; padding:.8rem 1rem; margin:1rem 0 0; font-size:.95rem; display:none; }
+  .story .shead { font-family:system-ui,sans-serif; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--warn); font-weight:700; }
+
+  /* Module 5B — triage forge */
+  .cardq { border:1px solid var(--line); border-radius:8px; padding:.8rem 1rem; margin:.8rem 0; background:#fffdf8; }
+  .cardq .q { font-size:1.05rem; margin:0 0 .5rem; }
+  .cardq .q .qn { font-family:system-ui,sans-serif; font-size:.78rem; color:var(--muted); margin-right:.4rem; }
+  .verdicts { display:flex; flex-wrap:wrap; gap:.45rem; }
+  .verdicts button { font-size:.8rem; padding:.3rem .7rem; }
+  .vreveal { display:none; font-family:system-ui,sans-serif; font-size:.88rem; margin-top:.6rem; padding-top:.6rem; border-top:1px dashed var(--line); }
+  .vreveal .vlabel { color:var(--accent); font-weight:700; }
+  .vreveal .hit { color:var(--accent); font-weight:700; } .vreveal .miss { color:var(--warn); font-weight:700; }
+  .tally { font-family:system-ui,sans-serif; font-size:.92rem; margin-top:1rem; padding:.6rem .9rem; background:var(--accent-soft); border-radius:8px; }
+  .starters { border:1px solid var(--line); border-radius:8px; background:var(--card); padding:1rem 1.2rem; margin-top:1rem; }
+  .starters p { margin:.3rem 0; font-size:1.1rem; font-style:italic; }
+
+  /* Module 5C — strand cards */
+  .strand { border:1px solid var(--line); border-radius:8px; margin:.6rem 0; background:var(--card); overflow:hidden; }
+  .strand > button { display:block; width:100%; text-align:left; border:none; border-radius:0; background:none; color:var(--ink); font-family:Georgia,serif; font-size:1rem; font-weight:700; padding:.7rem 1rem; }
+  .strand > button:hover { background:var(--accent-soft); }
+  .strand > button::before { content:"▸ "; color:var(--accent); font-family:system-ui,sans-serif; }
+  .strand > button[aria-expanded="true"]::before { content:"▾ "; }
+  .strand .sbody { display:none; padding:0 1rem .8rem; font-size:.95rem; }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 5</div>
+  <h1>The Next Move</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <h2>What made me curious</h2>
+  <div class="curiosity">
+    The Game of Life's early history reads like a lab notebook of wonderings. Conway wondered whether one simple rule could keep a board interesting. His group wondered what five particular cells would do. Conway wondered — publicly, with money on it — whether anything could grow forever. Some of those curiosities became directions, and one became a field. I wanted to know what sorted them: why some wonderings earned weeks of graph paper while others got a shrug. Because that sorting is exactly the choice in front of my students this week — what to build next.
+  </div>
+
+  <h2>What to notice</h2>
+  <p>This course keeps two habits going at once. When the topic is mechanism, Life is a <em>counter-model</em> — a small machine to hold against the large one so their differences stay sharp. Today the topic is method, and Life plays the other part: <em>continuity</em>. What carried Conway's group from a strange scrap of cells to a new field was never a formal hypothesis with conditions and controls. It was a chain of curiosities that each suggested an action — watch this one longer, wager on that one, build the thing that settles it. Questions can guide making without becoming hypotheses. The test is simpler and harsher: <span class="landing" style="margin:0">A useful curiosity gives you a next move.</span> Watch, on this page, for the difference between wonderings that hand you an action and wonderings that just sit there sounding deep.</p>
+  <p class="note"><strong>Course boundary:</strong> this page is an instructor demonstration — possibility space, not a checklist. You will predict and pick as you read, but only to sharpen your own eye: nothing is collected, exported, or submitted.</p>
+
+  <h2 id="pentomino-title">The five cells nobody could predict</h2>
+  <p>In 1970 computer time was scarce, so Conway's group at Cambridge tracked patterns by hand — Go stones, graph paper, patience. The R-pentomino is five cells you could cover with a thumbnail, and it is famous for one reason: nobody could say what it would do. Here it is, mid-board, under the standard rule (B3/S23 — a dead cell with exactly three live neighbors is born; a live cell with two or three survives). House rule first.</p>
+
+  <div class="module">
+    <div class="predictbar" id="predictBar">
+      <strong>Predict before you run.</strong> When does this board settle — reach a state that holds still or flickers with period two?
+      <div class="controls" style="margin:.6rem 0 0" id="predictChips">
+        <button type="button" data-p="u100" aria-pressed="false">settles in under 100 steps</button>
+        <button type="button" data-p="few" aria-pressed="false">a few hundred</button>
+        <button type="button" data-p="k1" aria-pressed="false">over a thousand</button>
+        <button type="button" data-p="never" aria-pressed="false">never settles</button>
+      </div>
+      <div class="note" id="predictNote" style="margin-top:.5rem">Pick one chip to unlock the run controls. Wrong-but-locked beats right-but-after.</div>
+    </div>
+
+    <canvas id="board" width="600" height="400" aria-label="Game of Life board, 120 by 80 cells"></canvas>
+
+    <div class="controls">
+      <button type="button" id="runBtn" disabled aria-pressed="false">Run</button>
+      <button type="button" id="fastBtn" disabled aria-pressed="false">Fast</button>
+      <button type="button" id="skipBtn" disabled>Skip to the end</button>
+      <button type="button" id="resetBtn" class="ghost" disabled>Reset</button>
+      <button type="button" id="gunBtn" class="ghost" disabled aria-pressed="false">Load the glider gun</button>
+    </div>
+
+    <div class="readouts">
+      <span>generation <b id="genOut">0</b></span>
+      <span>population <b id="popOut">5</b></span>
+      <span>gliders in flight <b id="glOut">0</b><span class="note" style="margin-left:.3rem">(census every 10 gens)</span></span>
+      <span><canvas id="spark" width="220" height="40" aria-label="population over time sparkline"></canvas></span>
+    </div>
+    <p class="progress" id="progress"></p>
+
+    <div class="reveal" id="revealCard" aria-live="polite"></div>
+    <div class="story" id="story1" aria-live="polite"></div>
+    <div class="story" id="story2" aria-live="polite"></div>
+
+    <p class="landing" id="landing5a"></p>
+    <p class="modnote">Everything above is computed live: the rule, the settle check (the state is compared with itself two generations back, so period-one and period-two endings both count as settled), and the glider census (exact template matching, sixteen phase-orientations, generated in code — see “How this page was made”).</p>
+  </div>
+
+  <h2 id="triage-title">Does it give you a next move?</h2>
+  <p>History is the warm-up; triage is the skill. Below are seven curiosities of the kind this studio actually produces — a couple of them are mine. For each one, make your call <em>before</em> you see mine: not “is it interesting?” but “what would you do with it tomorrow?” The four verdicts are the tool: <strong>watchable now</strong> (run it and look, no apparatus), <strong>buildable smaller</strong> (a real direction whose first version is much smaller than the wish), <strong>just an opinion (as stated)</strong> (no move until it's narrowed), <strong>needs a yardstick first</strong> (the move exists but hides a measurement you haven't chosen).</p>
+
+  <div class="module">
+    <div id="forge"></div>
+    <div class="tally" id="tally" aria-live="polite">0 of 7 triaged.</div>
+    <div class="starters">
+      <p class="note" style="font-style:normal">Now run the same triage on your own project — in your head, nowhere else. Finish three sentences:</p>
+      <p>I want the visitor to…</p>
+      <p>The interesting part is…</p>
+      <p>The smallest next version is…</p>
+      <p class="note" style="font-style:normal">If all three finish easily, you have a direction. If one of them sticks, that one is your week.</p>
+    </div>
+  </div>
+
+  <h2 id="strand-title">The study I stopped building</h2>
+  <p>Triage sounds tidy when it happens to other people's curiosities. Here is what it cost me. Three cards; click each one open.</p>
+  <div class="module">
+    <div id="strands"></div>
+    <p id="strandClose" style="margin:.9rem 0 0"></p>
+  </div>
+
+  <h2>How this page was made</h2>
+  <div class="diagram">
+    <p><strong>Computed, live, in your browser:</strong> every generation of the board — a real B3/S23 engine on a 120×80 grid, double-buffered, edges dead. The settle detector hashes each new state and compares it with the state two generations back (first checked only after generation 10, and a hash match is confirmed cell-by-cell before the page will say “settled”). The glider census builds its own templates at load time: it drops a lone glider on a scratch grid, runs the engine four steps to get the four phases, then takes every rotation and reflection — sixteen distinct patterns, all landing in 3×3 boxes — and counts exact, non-overlapping matches ringed by an empty one-cell border, every ten generations. The sparkline and the triage tally are computed too.</p>
+    <p><strong>Authored by me:</strong> the three history beats, the seven curiosity cards and their verdicts, and the strand cards in Module 5C. All of that sits in one clearly marked block near the top of this page's script — search the source for <code>EDIT HERE</code>. The essay prose around the modules is ordinary HTML just above it. One discipline throughout: the readouts always show this board's own numbers; the canonical infinite-board record appears only as quoted history, never piped into a readout.</p>
+  </div>
+
+  <div class="limit">
+    <strong>Accuracy notes.</strong> Three limits and a guardrail. <em>The board is bounded:</em> 120×80 with dead edges, so travelers are quietly absorbed where infinite Life — the ideal object all the canonical numbers describe — would let them fly forever. This run's settle numbers land close to the record only because the board is big enough for the ash to form untouched in the middle while the edges swallow the gliders. <em>The census is narrow:</em> the counter knows exactly the standard glider's sixteen phase-orientations; a rarer spaceship would sail past uncounted, so “gliders in flight” means gliders, not all traffic. <em>The determinism is total:</em> same seed, same rule, no noise — the same movie every time you load this page; whatever surprises you here, randomness did none of it. <em>And the standing guardrail:</em> a transformer is not a cellular automaton, and this page makes no claims about LLM mechanisms. What it teaches is a continuity — how a curiosity becomes a direction — which is a fact about research and researchers, not about the innards of either machine.
+  </div>
+
+  <h2>What I would try next</h2>
+  <div class="try">
+    Let the reader draw a seed: click cells onto an empty board, then run — card 2's initials experiment, playable here instead of merely promised. And teach the census a second citizen: generate the lightweight spaceship's templates the same way the glider's are made, so the counter stops being blind to rarer travelers.
+  </div>
+
+  <h2>What I chose and how AI helped</h2>
+  <div class="authorship">
+    <p><strong>AI helped with:</strong> drafting this page's code and modules from my written plan — the engine, the settle detector, the template-matching census, the card machinery — and tightening prose I supplied.</p>
+    <p><strong>I chose:</strong> the three history beats and what each is for (a watchable seed, a public wager, the machine that answered it); the seven curiosity cards, their verdicts, and the reasoning under each; and the framing — that this session teaches triage rather than hypothesis-writing, and that the honest unit of progress is a next move.</p>
+  </div>
+
+  <p class="cliff">I picked a direction worth one more week. The harder question arrives with it: when I ship the next version, what exactly would make me say it works? That is next session's machine.</p>
+
+  <footer>Instructor example · Curiosity-Driven Paper-App Studio · Session 5 · self-contained page (authored content marked EDIT HERE in the script)</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+/* ================================================================
+   EDIT HERE — every piece of authored module content lives in this
+   block: the three history beats, the seven curiosity cards and
+   verdicts, and the strand cards. Change prose here; the
+   machinery below computes everything else.
+   ================================================================ */
+const T = {
+  landing: 'A useful curiosity gives you a next move.',
+
+  story1Head: 'History beat 1 · the seed worth watching',
+  story1: 'That churn you just watched (or wisely skipped) is what Conway’s group tracked at desk speed, for weeks — this exact five-cell scrap, promoted from doodle to research problem purely because it refused to be predictable. The watching paid. In 1969, following this pattern, Richard Guy noticed a little formation detach itself and crawl away across the board: the glider — found, not designed — which went on to become the field’s most famous citizen. Notice what the surprise is made of: same five cells, same one-sentence rule, no randomness anywhere. Surprise with zero randomness. The R-pentomino is a curiosity that hands you its next move for free — <em>watch it</em> — and what the watchers found became the field’s next direction.',
+
+  story2Head: 'History beat 2 · the wager and the machine',
+  story2: 'Conway suspected no finite pattern could grow without limit — that every population eventually caps. Rather than let that remain an opinion, he turned it into a public wager: $50 to whoever settled it, either way. Within weeks, Bill Gosper’s team at MIT answered with the machine now on your board — a factory that fires a fresh glider every 30 generations, forever. Growth without limit; conjecture dead; prize paid; an entire engineering tradition opened. A strange seed is a curiosity; the gun is what a curiosity becomes when it hands someone a next move. (Honesty note: on this bounded board each glider dies quietly at the far edge, so the population here plateaus — the <em>forever</em> belongs to the infinite board. Run it and watch the census count the stream in flight anyway.)',
+
+  canonical: 'For the record: on the ideal <em>infinite</em> board, the R-pentomino stabilizes after 1,103 generations at 116 cells, with six gliders escaping to infinity — and Richard Guy spotted the first glider in 1969 while Conway’s group tracked this very pattern. Your board’s numbers above should land within a whisker of that record, and the reason is worth saying plainly: this board is big enough for the ash to form untouched in the middle while the edges quietly absorb the gliders.',
+
+  skipNoSettle: 'No period-≤2 settle within 5,000 generations — a machine that keeps shipping gliders never settles down. That non-ending is the finding. Reset to return to the five cells.',
+
+  verdictLabels: { w:'watchable now', b:'buildable smaller', o:'just an opinion (as stated)', y:'needs a yardstick first' },
+
+  cards: [
+    { q:'Is AI art actually good?', v:'o',
+      r:'As stated it has no next move — nothing to open, nothing to press, nobody to watch. But narrow it — <em>can visitors to my gallery tell AI art from human art?</em> — and it turns buildable overnight. An opinion is often a curiosity that hasn’t chosen its move yet.' },
+    { q:'What happens if my Game of Life starts from my initials?', v:'w',
+      r:'Type your initials as a seed tonight; press run. The move is the whole build — you could be watching the answer before dinner.' },
+    { q:'Does my quiz feel different on a phone?', v:'w',
+      r:'Open it on a phone. Hand it to one friend and watch their thumbs. No apparatus, no rubric — the watching is the work.' },
+    { q:'I want to build a whole virtual city — weather, traffic, an economy.', v:'b',
+      r:'One intersection and one slider is a shippable world; the city is a direction, not a first build. Big wants make fine compasses and terrible first steps.' },
+    { q:'Do people prefer the AI’s poem or mine?', v:'y',
+      r:'“Prefer” hides every hard choice — which readers? blind? prefer <em>how</em>? It’s a fine curiosity. But as a build, start with the page that shows both poems side by side and keeps you honest about which is which.' },
+    { q:'Why does my temperature slider make the story weirder?', v:'b', also:'w',
+      r:'Add a both-extremes button — the same prompt at the coldest and hottest settings, side by side — and you can watch the answer instead of wondering. Call it watchable now if you like; I’ll count either chip, because both point at the same small build.' },
+    { q:'Would visitors stay longer if my page had sound?', v:'y',
+      r:'“Longer” on a static page means timers and logging — machinery you don’t need yet. The smaller move is a sound toggle and one friend you watch use it: did their hand go to the switch at all?' }
+  ],
+
+  strands: [
+    { t:'What it was',
+      body:'Through early July, this Instructor’s Study carried a twelve-session research machine. Sessions 5 through 9 were its numbered pages: a locked three-condition study — the model’s default answer, a randomized one, a deliberately directed one — with a trained rubric, a live run, a blind reveal, and an AI judge waiting at the end of the chain. It was, I still think, a rather handsome instrument.' },
+    { t:'Why I set it aside',
+      body:'Because it was good research practice standing in the wrong place. Its numbered pages made a professional pipeline look like the student path — as if week five of a curiosity course naturally produced condition codes. And it ran on coordination: ratings to collect, JSON to export, a shared dataset to keep synchronized. The course’s material gate asks one blunt question of every artifact — does the coordination pay for itself for <em>these</em> students? This machine failed it.' },
+    { t:'What survived',
+      body:'More than I expected. The Slop Detector’s measured sameness stayed in Session 4; the Agreement Machine’s calibration lesson stayed in Session 6; the authorship exhibit stayed in Session 10. And the machine itself is not deleted — it is archived whole, as provenance: <code>../archive/2026-07-10-curiosity-pivot-later-session-chain/</code>. Kept, named, and out of the way.' }
+  ],
+  strandClose: '<strong>Abandoning a direction is a research move when you can say what you kept.</strong> That sentence is this module’s whole cargo — and it is exactly what this session asks of your own builds: keep the curiosity, shrink the machine.'
+};
+/* ===================== end EDIT HERE ============================ */
+
+// ---------------- Module 5A: the engine ----------------
+const W=120, H=80, CELL=5;
+const $=id=>document.getElementById(id);
+const cv=$('board'), ctx=cv.getContext('2d');
+const sp=$('spark'), sctx=sp.getContext('2d');
+
+let cur=new Uint8Array(W*H), prev1=new Uint8Array(W*H), prev2=new Uint8Array(W*H), spare=new Uint8Array(W*H);
+let gen=0, pop=0, peak=0, hCur=1, hP1=2, hP2=3;
+let popHist=[], settled=false, settleGen=0;
+let glNow=0, glMax=0;
+let mode='r', predicted=null;
+let running=false, speed=20, lastT=0, acc=0;
+let skipActive=false, skipToken=0;
+
+const R_SEED=[[0,-1],[1,-1],[-1,0],[0,0],[0,1]].map(function(d){return [60+d[0],40+d[1]];});
+const GUN=[[0,4],[0,5],[1,4],[1,5],[10,4],[10,5],[10,6],[11,3],[11,7],[12,2],[12,8],[13,2],[13,8],[14,5],[15,3],[15,7],[16,4],[16,5],[16,6],[17,5],[20,2],[20,3],[20,4],[21,2],[21,3],[21,4],[22,1],[22,5],[24,0],[24,1],[24,5],[24,6],[34,2],[34,3],[35,2],[35,3]].map(function(d){return [d[0]+30,d[1]+30];});
+
+function fnv(a){let h=2166136261;for(let i=0;i<a.length;i++){h^=a[i];h=Math.imul(h,16777619);}return h>>>0;}
+function eqArr(a,b){for(let i=0;i<a.length;i++)if(a[i]!==b[i])return false;return true;}
+
+function seed(cells){
+  cur.fill(0); prev1.fill(0); prev2.fill(0);
+  cells.forEach(function(c){cur[c[1]*W+c[0]]=1;});
+  gen=0; pop=cells.length; peak=pop; popHist=[pop];
+  hCur=fnv(cur); hP1=2; hP2=3;
+  settled=false; glMax=0; glNow=countGliders(); if(glNow>glMax)glMax=glNow;
+}
+
+function stepOnce(){
+  if(settled) return;
+  const nxt=spare; let p=0, h=2166136261;
+  for(let y=0;y<H;y++){
+    for(let x=0;x<W;x++){
+      let n=0;
+      for(let dy=-1;dy<=1;dy++){
+        const yy=y+dy; if(yy<0||yy>=H) continue;
+        const off=yy*W;
+        for(let dx=-1;dx<=1;dx++){
+          if(!dx&&!dy) continue;
+          const xx=x+dx; if(xx<0||xx>=W) continue;
+          n+=cur[off+xx];
+        }
+      }
+      const a=cur[y*W+x];
+      const v=(n===3||(a===1&&n===2))?1:0;
+      nxt[y*W+x]=v; p+=v; h^=v; h=Math.imul(h,16777619);
+    }
+  }
+  spare=prev2; prev2=prev1; prev1=cur; cur=nxt;
+  hP2=hP1; hP1=hCur; hCur=h>>>0;
+  gen++; pop=p; if(p>peak)peak=p; popHist.push(p);
+  if(gen%10===0){ glNow=countGliders(); if(glNow>glMax)glMax=glNow; }
+  if(gen>10 && hCur===hP2 && eqArr(cur,prev2)){ settled=true; settleGen=gen-2; }
+}
+
+// ---- glider templates: generated by running the engine itself ----
+function genTemplates(){
+  const S=16; let a=new Uint8Array(S*S), b=new Uint8Array(S*S);
+  [[1,0],[2,1],[0,2],[1,2],[2,2]].forEach(function(c){a[(c[1]+6)*S+(c[0]+6)]=1;});
+  function stepG(){
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++){
+      let n=0;
+      for(let dy=-1;dy<=1;dy++){const yy=y+dy;if(yy<0||yy>=S)continue;
+        for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;const xx=x+dx;if(xx<0||xx>=S)continue;n+=a[yy*S+xx];}}
+      const c=a[y*S+x]; b[y*S+x]=(n===3||(c===1&&n===2))?1:0;
+    }
+    const t=a; a=b; b=t;
+  }
+  function extract(){
+    let x0=S,y0=S,x1=-1,y1=-1;
+    for(let y=0;y<S;y++)for(let x=0;x<S;x++)if(a[y*S+x]){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}
+    const rows=[];
+    for(let y=y0;y<=y1;y++){const r=[];for(let x=x0;x<=x1;x++)r.push(a[y*S+x]);rows.push(r);}
+    return rows;
+  }
+  const rot=function(p){const h=p.length,w=p[0].length,q=[];for(let x=0;x<w;x++){const r=[];for(let y=h-1;y>=0;y--)r.push(p[y][x]);q.push(r);}return q;};
+  const flip=function(p){return p.map(function(r){return r.slice().reverse();});};
+  const seen=new Map();
+  for(let ph=0;ph<4;ph++){
+    const base=extract();
+    let p=base;
+    for(let t=0;t<8;t++){
+      const key=p.map(function(r){return r.join('');}).join('/');
+      if(!seen.has(key)){
+        let fx=-1,fy=-1;
+        outer: for(let y=0;y<p.length;y++)for(let x=0;x<p[0].length;x++)if(p[y][x]){fx=x;fy=y;break outer;}
+        seen.set(key,{w:p[0].length,h:p.length,cells:[].concat.apply([],p),fx:fx,fy:fy});
+      }
+      p=(t===3)?flip(base):rot(p);
+    }
+    stepG();
+  }
+  return Array.from(seen.values());
+}
+const TPL=genTemplates(); // 16 patterns, each 3×3 with 5 live cells
+
+function countGliders(){
+  const claimed=new Set(); let count=0;
+  function get(x,y){return (x<0||x>=W||y<0||y>=H)?0:cur[y*W+x];}
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    if(!cur[y*W+x]) continue;
+    for(let ti=0;ti<TPL.length;ti++){
+      const t=TPL[ti], ox=x-t.fx, oy=y-t.fy;
+      let ok=true;
+      for(let wy=-1;wy<=t.h&&ok;wy++)for(let wx=-1;wx<=t.w&&ok;wx++){
+        const inside=wy>=0&&wy<t.h&&wx>=0&&wx<t.w;
+        if(get(ox+wx,oy+wy)!==(inside?t.cells[wy*t.w+wx]:0)) ok=false;
+      }
+      if(ok){
+        let clash=false; const mine=[];
+        for(let wy=0;wy<t.h;wy++)for(let wx=0;wx<t.w;wx++)if(t.cells[wy*t.w+wx]){
+          const id=(oy+wy)*W+(ox+wx); mine.push(id); if(claimed.has(id))clash=true;
+        }
+        if(!clash){count++; mine.forEach(function(id){claimed.add(id);});}
+        break;
+      }
+    }
+  }
+  return count;
+}
+
+// ---- drawing ----
+function draw(){
+  ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W*CELL,H*CELL);
+  ctx.fillStyle='#2f6f5e';
+  for(let y=0;y<H;y++){
+    const off=y*W;
+    for(let x=0;x<W;x++) if(cur[off+x]) ctx.fillRect(x*CELL,y*CELL,CELL-1,CELL-1);
+  }
+}
+function drawSpark(){
+  const w=sp.width,h=sp.height;
+  sctx.clearRect(0,0,w,h);
+  const n=popHist.length; if(n<2){return;}
+  let mx=1; for(let i=0;i<n;i++) if(popHist[i]>mx)mx=popHist[i];
+  sctx.strokeStyle='#2f6f5e'; sctx.lineWidth=1.2; sctx.beginPath();
+  const stride=Math.max(1,Math.floor(n/w));
+  for(let px=0,i=0;i<n;i+=stride,px++){
+    const yv=h-2-(popHist[i]/mx)*(h-6);
+    if(px===0)sctx.moveTo(0,yv); else sctx.lineTo(Math.min(px,w-1),yv);
+  }
+  sctx.stroke();
+}
+function readouts(){
+  $('genOut').textContent=gen;
+  $('popOut').textContent=pop;
+  $('glOut').textContent=glNow;
+  drawSpark();
+}
+
+// ---- run control ----
+const runBtn=$('runBtn'), fastBtn=$('fastBtn'), skipBtn=$('skipBtn'), resetBtn=$('resetBtn'), gunBtn=$('gunBtn');
+function pressedStates(){
+  runBtn.setAttribute('aria-pressed',String(running&&speed===20));
+  fastBtn.setAttribute('aria-pressed',String(running&&speed===120));
+}
+function pause(){ running=false; pressedStates(); }
+function startRun(s){
+  if(settled||skipActive) return;
+  if(running&&speed===s){ pause(); return; }
+  speed=s;
+  if(!running){ running=true; lastT=performance.now(); acc=0; requestAnimationFrame(loop); }
+  pressedStates();
+}
+function loop(t){
+  if(!running) return;
+  const dt=Math.min((t-lastT)/1000,0.25); lastT=t;
+  acc+=dt*speed; if(acc>speed*0.5) acc=speed*0.5;
+  let steps=0;
+  while(acc>=1&&steps<40&&!settled){ stepOnce(); acc-=1; steps++; }
+  draw(); readouts();
+  if(settled){ finishSettle(); return; }
+  requestAnimationFrame(loop);
+}
+function abortSkip(){ if(skipActive){ skipActive=false; skipToken++; } }
+function setRunControls(on){ runBtn.disabled=!on; fastBtn.disabled=!on; skipBtn.disabled=!on; }
+
+function skip(){
+  if(settled||skipActive) return;
+  pause();
+  skipActive=true; const token=++skipToken;
+  setRunControls(false); gunBtn.disabled=true;
+  const target=gen+5000; let lastShown=gen;
+  $('progress').textContent='Computing…';
+  (function chunk(){
+    if(token!==skipToken) return; // aborted by Reset or a seed swap
+    let i=0;
+    while(i<50&&!settled&&gen<target){ stepOnce(); i++; }
+    if(gen-lastShown>=100){ lastShown=gen; $('progress').textContent='Computing… generation '+gen+' · population '+pop; }
+    if(settled||gen>=target||token!==skipToken){
+      if(token!==skipToken) return;
+      skipActive=false; gunBtn.disabled=false;
+      glNow=countGliders(); if(glNow>glMax)glMax=glNow;
+      draw(); readouts();
+      if(settled){ $('progress').textContent='Done — the board settled. Card below.'; finishSettle(); }
+      else { setRunControls(true); $('progress').textContent=T.skipNoSettle; }
+      return;
+    }
+    setTimeout(chunk,0);
+  })();
+}
+
+function bandFor(g){ return g<100?'u100':(g<1000?'few':'k1'); }
+const chipLabels={u100:'settles in under 100 steps',few:'a few hundred',k1:'over a thousand',never:'never settles'};
+
+function finishSettle(){
+  pause(); setRunControls(false);
+  glNow=countGliders(); if(glNow>glMax)glMax=glNow;
+  draw(); readouts();
+  const band=bandFor(settleGen);
+  let verdict;
+  if(predicted===band) verdict='Your chip — “'+chipLabels[band]+'” — was the right one. Take the point.';
+  else if(predicted==='never') verdict='You bet on “never settles”; the rule outlasted the bet at generation '+settleGen+'. An honest miss — the group in 1970 would have sympathized.';
+  else verdict='You picked “'+chipLabels[predicted]+'”; the board’s answer was “'+chipLabels[band]+'.” Wrong-but-locked beats right-but-after — the habit is the point.';
+  const rows='<dl><dt>settled (period ≤ 2) at generation</dt><dd>'+settleGen+'</dd>'+
+    '<dt>final population</dt><dd>'+pop+'</dd>'+
+    '<dt>peak population</dt><dd>'+peak+'</dd>'+
+    '<dt>gliders — most seen aloft at once</dt><dd>'+glMax+'</dd></dl>';
+  const cano=(mode==='r')?'<p style="margin:.2rem 0 0">'+T.canonical+'</p>'
+    :'<p style="margin:.2rem 0 0">Even the gun’s world found stillness — but only because this board is finite. The infinite gun never settles; that is its whole boast.</p>';
+  $('revealCard').innerHTML='<strong>Settled.</strong> All four numbers below were computed on this board, just now.'+rows+'<p style="margin:.2rem 0">'+verdict+'</p>'+cano;
+  $('revealCard').style.display='block';
+  if(mode==='r'){
+    $('story1').innerHTML='<span class="shead">'+T.story1Head+'</span><br>'+T.story1;
+    $('story1').style.display='block';
+  }
+}
+
+function resetBoard(){
+  abortSkip(); pause();
+  mode='r'; seed(R_SEED);
+  $('revealCard').style.display='none';
+  $('story1').style.display='none';
+  $('story2').style.display='none';
+  $('progress').textContent='';
+  gunBtn.setAttribute('aria-pressed','false'); gunBtn.disabled=false;
+  setRunControls(true);
+  draw(); readouts();
+}
+function loadGun(){
+  abortSkip(); pause();
+  mode='gun'; seed(GUN);
+  $('revealCard').style.display='none';
+  $('story1').style.display='none';
+  $('story2').innerHTML='<span class="shead">'+T.story2Head+'</span><br>'+T.story2;
+  $('story2').style.display='block';
+  $('progress').textContent='';
+  gunBtn.setAttribute('aria-pressed','true');
+  setRunControls(true);
+  draw(); readouts();
+}
+
+runBtn.addEventListener('click',function(){startRun(20);});
+fastBtn.addEventListener('click',function(){startRun(120);});
+skipBtn.addEventListener('click',skip);
+resetBtn.addEventListener('click',resetBoard);
+gunBtn.addEventListener('click',loadGun);
+
+// ---- predict-first gate ----
+const predictChips=Array.prototype.slice.call(document.querySelectorAll('#predictChips button'));
+predictChips.forEach(function(b){
+  b.addEventListener('click',function(){
+    if(predicted!==null) return;
+    predicted=b.dataset.p;
+    predictChips.forEach(function(c){c.disabled=true;});
+    b.setAttribute('aria-pressed','true');
+    $('predictNote').textContent='Locked in: “'+chipLabels[predicted]+'.” Now find out — the controls are yours.';
+    setRunControls(true); resetBtn.disabled=false; gunBtn.disabled=false;
+  });
+});
+
+$('landing5a').textContent=T.landing;
+seed(R_SEED); draw(); readouts();
+
+// ---------------- Module 5B: the triage forge ----------------
+const forge=$('forge'), tally=$('tally');
+let answered=0, matched=0;
+T.cards.forEach(function(card,i){
+  const box=document.createElement('div'); box.className='cardq';
+  const q=document.createElement('p'); q.className='q';
+  q.innerHTML='<span class="qn">'+(i+1)+' / '+T.cards.length+'</span>“'+card.q+'”';
+  box.appendChild(q);
+  const row=document.createElement('div'); row.className='verdicts';
+  const reveal=document.createElement('div'); reveal.className='vreveal'; reveal.setAttribute('aria-live','polite');
+  const chips=[];
+  ['w','b','o','y'].forEach(function(k){
+    const b=document.createElement('button'); b.type='button';
+    b.textContent=T.verdictLabels[k]; b.setAttribute('aria-pressed','false');
+    b.addEventListener('click',function(){
+      if(card.done) return;
+      card.done=true;
+      chips.forEach(function(c){c.disabled=true;});
+      b.setAttribute('aria-pressed','true');
+      const hit=(k===card.v)||(card.also&&k===card.also);
+      answered++; if(hit)matched++;
+      reveal.innerHTML=(hit?'<span class="hit">Same call.</span> ':'<span class="miss">I filed it differently.</span> ')+
+        'My verdict: <span class="vlabel">'+T.verdictLabels[card.v]+'</span>'+(card.also?' <span class="note">(or '+T.verdictLabels[card.also]+')</span>':'')+'. '+card.r;
+      reveal.style.display='block';
+      tally.innerHTML=(answered<T.cards.length)
+        ? answered+' of '+T.cards.length+' triaged · matched my verdict so far: '+matched+'.'
+        : '<strong>You matched my verdict on '+matched+' of '+T.cards.length+'</strong> — disagreement is fine; the four categories are the tool. A card you can argue about is a card that worked.';
+    });
+    chips.push(b); row.appendChild(b);
+  });
+  box.appendChild(row); box.appendChild(reveal);
+  forge.appendChild(box);
+});
+
+// ---------------- Module 5C: strand cards ----------------
+const strands=$('strands');
+T.strands.forEach(function(s){
+  const wrap=document.createElement('div'); wrap.className='strand';
+  const head=document.createElement('button'); head.type='button';
+  head.setAttribute('aria-expanded','false'); head.textContent=s.t;
+  const body=document.createElement('div'); body.className='sbody'; body.innerHTML=s.body;
+  head.addEventListener('click',function(){
+    const open=head.getAttribute('aria-expanded')==='true';
+    head.setAttribute('aria-expanded',String(!open));
+    body.style.display=open?'none':'block';
+  });
+  wrap.appendChild(head); wrap.appendChild(body);
+  strands.appendChild(wrap);
+});
+$('strandClose').innerHTML=T.strandClose;
+})();
+</script>
+</body>
+</html>

@@ -56,6 +56,52 @@
   .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
   .err { color:var(--warn); font-family:system-ui,sans-serif; }
   footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+
+  /* ---- v5 modules (Rule Forge · fine skin · reward model) ---- */
+  .module { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 1.4rem; }
+  .module button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  .module button:hover { background:var(--accent-soft); }
+  .module button[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  .module button.ghostmini { border-color:var(--muted); color:var(--muted); }
+  .module button:disabled { opacity:.45; cursor:default; }
+  .modnote { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin-top:.7rem; }
+  .insight { border-left:4px solid #5b8bb0; background:#e8f0f6; padding:.7rem 1rem; margin:.9rem 0 0; font-family:system-ui,sans-serif; font-size:.88rem; }
+  .forgewrap { display:flex; gap:1.1rem; flex-wrap:wrap; align-items:flex-start; }
+  .forgeside { flex:1; min-width:15rem; font-family:system-ui,sans-serif; font-size:.85rem; }
+  canvas.board { border:1px solid var(--line); border-radius:6px; background:#f6f4ee; max-width:100%; height:auto; }
+  .chips { display:flex; flex-wrap:wrap; gap:.45rem; margin:.6rem 0; font-family:system-ui,sans-serif; }
+  .chips button { font-size:.8rem; padding:.35rem .7rem; border-radius:999px; }
+  .rulebits { display:grid; grid-template-columns:auto 1fr; gap:.3rem .6rem; align-items:center; font-family:system-ui,sans-serif; font-size:.78rem; margin:.5rem 0; }
+  .rulebits .bits { display:flex; flex-wrap:wrap; gap:.25rem; }
+  .rulebits label { display:inline-flex; align-items:center; gap:.15rem; border:1px solid var(--line); border-radius:5px; padding:.1rem .35rem; background:#fff; cursor:pointer; }
+  .rulebits input { accent-color:var(--accent); margin:0; }
+  .meterrow { display:grid; grid-template-columns:1.4rem 11rem 1fr; gap:.5rem; align-items:center; margin:.4rem 0; font-family:system-ui,sans-serif; font-size:.85rem; }
+  .meterrow .dot { width:1.05rem; height:1.05rem; border-radius:50%; background:#d8d4c8; border:1px solid var(--line); }
+  .meterrow.pass .dot { background:var(--accent); border-color:var(--accent); }
+  .meterrow.fail .dot { background:var(--ai); border-color:var(--ai); }
+  .meterrow .mlab { font-weight:700; }
+  .meterrow .mtxt { color:var(--muted); }
+  .runstat { font-family:system-ui,sans-serif; font-size:.85rem; margin:.5rem 0 0; }
+  .skingrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; align-items:start; }
+  @media (max-width:640px){ .skingrid { grid-template-columns:1fr; } }
+  .skingrid figure { margin:0; }
+  .skingrid figcaption { font-family:system-ui,sans-serif; font-size:.78rem; color:var(--muted); margin-top:.35rem; text-align:center; }
+  .pair { background:var(--card); border:1px solid var(--line); border-radius:9px; padding:.9rem 1.1rem; margin:.8rem 0; }
+  .pair .pprompt { font-family:system-ui,sans-serif; font-size:.75rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin-bottom:.5rem; }
+  .pair .opts2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
+  @media (max-width:640px){ .pair .opts2 { grid-template-columns:1fr; } }
+  .pair .opt { text-align:left; font-family:Georgia,serif; font-size:.95rem; line-height:1.5; border:1.5px solid var(--line); background:#fff; color:var(--ink); border-radius:9px; padding:.7rem .85rem; cursor:pointer; }
+  .pair .opt:hover { border-color:var(--accent); background:var(--accent-soft); }
+  .pair .opt.chosen { border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 1px var(--accent); }
+  .pair .opt.rejected { opacity:.5; }
+  .pair .opt:disabled { cursor:default; }
+  .featrow { display:grid; grid-template-columns:9.5rem 1fr 2.4rem; gap:.6rem; align-items:center; font-family:system-ui,sans-serif; font-size:.85rem; margin:.28rem 0; }
+  .featrow .fw { text-align:right; }
+  .featrow .fbar { height:.75rem; border-radius:3px; background:var(--ai); min-width:2px; }
+  .featrow.negd .fbar { background:var(--human); }
+  .featrow .fv { color:var(--muted); font-size:.78rem; }
+  .tuned { background:#faf6ee; border-left:4px solid var(--accent); border-radius:8px; padding:.9rem 1.1rem; margin:1rem 0; }
+  .tuned .tunedlab { font-family:system-ui,sans-serif; font-size:.75rem; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); font-weight:800; margin-bottom:.35rem; }
 </style>
 </head>
 <body>
@@ -121,8 +167,72 @@
     </div>
   </div>
 
+  <h2 id="forge-title">Who writes the rules? The Rule Forge</h2>
+  <p>The slop above is a <em>learned</em> behavior — nobody typed it. To feel what that means, hold it against the other way rules come to exist. Conway's Game of Life runs on <strong>B3/S23</strong>: one legible sentence a person wrote. But here is the part worth savoring: Conway didn't decree that sentence — he <strong>searched</strong> for it, for roughly two years, on Go boards and graph paper, tuning birth and survival conditions against three desiderata: a good universe shouldn't fizzle out, shouldn't blow up, and should stay surprising longer than it has any right to. This bench hands you his search.</p>
+  <div class="module" id="forgeModule">
+    <div class="forgewrap">
+      <div>
+        <canvas class="board" id="forgeCanvas" width="384" height="264" aria-label="Rule Forge board"></canvas>
+        <div class="chips" id="forgePresets" aria-label="Rule presets"></div>
+        <div class="rulebits">
+          <span><strong>Born</strong> with</span><span class="bits" id="birthBits"></span>
+          <span><strong>Survives</strong> with</span><span class="bits" id="surviveBits"></span>
+        </div>
+        <div class="chips">
+          <button type="button" id="forgeRun">Run</button>
+          <button type="button" id="forgeStep">Step</button>
+          <button type="button" id="forgeReset" class="ghostmini">Reset seed</button>
+        </div>
+        <p class="runstat" id="forgeStat">Same seed every time: the R-pentomino. Only the rule changes.</p>
+      </div>
+      <div class="forgeside">
+        <p style="margin:.1rem 0 .4rem"><strong>Conway's three desiderata</strong> — judged from a real 200-step run of the current rule (rerun automatically when you change it):</p>
+        <div class="meterrow" id="m-die"><span class="dot"></span><span class="mlab">Doesn't fizzle out</span><span class="mtxt" id="m-die-t">…</span></div>
+        <div class="meterrow" id="m-boom"><span class="dot"></span><span class="mlab">Doesn't blow up</span><span class="mtxt" id="m-boom-t">…</span></div>
+        <div class="meterrow" id="m-int"><span class="dot"></span><span class="mlab">Stays quietly alive</span><span class="mtxt" id="m-int-t">…</span></div>
+        <p class="runstat" id="forgeScore">Rules tried: 0 · lit all three: 0</p>
+        <p class="modnote">Thresholds in the method note below. The board is finite, so edges absorb — the honest small-lab conditions from the Session 2 randomness lab apply here too.</p>
+      </div>
+    </div>
+    <div class="insight"><strong>Search that ends in a sentence.</strong> Feel how few rules light all three lamps — that's the knife's edge Conway spent two years finding by hand. His search ended in a sentence you can verify by counting neighbors. Gradient descent runs the same <em>kind</em> of search — try, judge against what's rewarded, adjust — and ends in a hundred billion numbers nobody can read. The deep split isn't written-versus-learned; it's search that ends in a sentence versus search that ends in numbers.</div>
+    <div class="insight"><strong>Why the big searches are learned, not written.</strong> Notice what your hands are doing: flipping whole rule-bits, blind, one guess at a time. A rule table has no slope — there is no "warmer" between B2 and B3, only different universes. A continuous space of numbers <em>does</em> have slopes, and that's precisely why models are trained rather than authored: gradient descent needs somewhere to roll. (And even then it's hard — a 2020 paper found tiny networks that provably <em>can</em> represent Life's rule still "rarely converge" when trained to learn it: <a href="https://arxiv.org/abs/2009.01398">Springer &amp; Kenyon</a>. Representable is not learnable.)</div>
+    <p class="modnote"><strong>Guardrail:</strong> a transformer is not a cellular automaton, and B3/S23-style rule bits are nothing like weights. The bench shows one honest thing: what kind of object each search produces — a sentence, or a mountain of numbers.</p>
+  </div>
+
+  <h2 id="skin-title">Coarse engine, fine skin</h2>
+  <p>One more layer exists, and it arrived in the anthology this week. <em>From Cells to Pixels</em> (SIGGRAPH 2026 — the sequel to the Distill lizard, with Mordvintsev again among the authors) keeps the cellular world coarse and adds a second small <em>learned</em> network that paints each cell at any resolution you ask. The world and the picture of the world are separate layers. Here is that separation with a hand-written skin:</p>
+  <div class="module" id="skinModule">
+    <div class="skingrid">
+      <figure><canvas class="board" id="skinCells" width="240" height="240" aria-label="Coarse cells"></canvas><figcaption>the engine: a 20×20 Life board, one hard square per cell</figcaption></figure>
+      <figure><canvas class="board" id="skinSmooth" width="240" height="240" aria-label="Smooth skin"></canvas><figcaption>the skin: the same twenty-by-twenty numbers, painted softly</figcaption></figure>
+    </div>
+    <div class="chips">
+      <button type="button" id="skinRun" aria-pressed="false">Run the pulsar</button>
+      <button type="button" id="skinGrid" aria-pressed="false">Reveal the grid</button>
+    </div>
+    <p class="modnote">Same state array, two renderers — the skin changes <em>none</em> of the layers Session 2 taught (not the seed, not the rule, not the run). In the real paper the skin is itself learned by training; mine is a soft brush, which is exactly the honesty line: the separation is the lesson, not the machinery. Live demo: <a href="https://cells2pixels.github.io/">cells2pixels.github.io</a> · lineage: <a href="https://distill.pub/2020/growing-ca/">Growing Neural CA</a> · museum card: <a href="../anthology/">the anthology</a>.</p>
+  </div>
+
+  <h2 id="reward-title">Be the reward model</h2>
+  <p>The Interpretation above ends on the real question: <em>whose preferences shaped the sameness?</em> The honest answer is: people doing roughly what you're about to do. Six quick rounds. Pick the answer you'd rather receive — don't overthink, that's the point.</p>
+  <div class="module" id="rmModule">
+    <div id="rmPairs"></div>
+    <div id="rmReveal" style="display:none" aria-live="polite">
+      <p style="margin:.2rem 0 .4rem;font-family:system-ui,sans-serif"><strong>What your six clicks rewarded</strong> — counted from your actual picks (chosen minus rejected, per ingredient):</p>
+      <div id="rmBars"></div>
+      <div class="tuned"><div class="tunedlab">The answer your ratings would tune toward</div><div id="rmTuned"></div></div>
+      <div class="insight" id="rmVerdict"></div>
+    </div>
+    <p class="modnote"><strong>Guardrail:</strong> this is preference <em>pressure</em>, not the RLHF algorithm — real preference tuning trains a reward model on enormous rater pools and updates weights against it. The pairs are authored and their ingredient tags are authored; the tally of your clicks is real.</p>
+  </div>
+
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
+  <div class="method" id="method2" style="margin-top:.8rem">
+    <p><strong>The Rule Forge.</strong> Real cellular automaton, 32×22 bounded board, R-pentomino seed. Changing the rule triggers a silent 200-step run that computes three verdicts: <em>fizzle</em> = population hits zero (the step is reported); <em>blow up</em> = the board ever exceeds 35% full, or the last twenty steps still churn more than 60 cell-changes per step; <em>quietly alive</em> = neither of those, at least 10 cells at step 200, still changing at least 3 cells per step. The thresholds are mine — that's true to the story, since Conway's desiderata were his.</p>
+    <p><strong>Fine skin.</strong> One state array, two canvases: hard squares, and soft radial brushes over the same twenty-by-twenty numbers. Nothing about the simulation changes.</p>
+    <p><strong>The reward model.</strong> Twelve authored answers in six pairs, each tagged with its ingredients (stock phrasing, hedging, list shape, length, concrete detail, a risk taken, warmth, plainness). The page counts the tags of what you chose against what you rejected and assembles a sample answer from your top-rewarded ingredients. Nothing is collected or sent — the tally lives and dies in this tab.</p>
+  </div>
 
   <h2>Interpretation</h2>
   <p>The two bars usually aren't close. The AI answers share a large slice of their vocabulary with one another even though the prompts have nothing in common — a sunset, a study tip, a pep talk all reach for <em>journey, ultimately, it's important to remember, truly.</em> The human notes barely overlap at all, because each person grabbed something concrete and specific: a spilled coffee, a traffic-cone orange, a cat. That gap is <strong>consensus slop</strong> made visible. And it raises the real question behind the mechanism: the model sounds this way because it was tuned toward what raters rewarded — so <em>whose</em> preferences, and <em>what</em> did they reward, to sand every answer down to the same shape?</p>
@@ -136,7 +246,7 @@
     Give your AI chat five prompts that have nothing to do with each other and read the answers back to back. Hunt for the phrase that shows up in all five — that's your model's tell. Then ask it to "avoid clichés and be original," and watch what <em>new</em> repeated phrase appears instead.
   </div>
 
-  <p class="cliff">The obvious fix is "make it weirder." But if you just crank the strangeness, you may get a different sameness — edgy slop instead of safe slop. The useful studio question is smaller: what behavior did your prompt encourage, and what one change could make it more intentional?</p>
+  <p class="cliff">The obvious fix is "make it weirder." But if you just crank the strangeness, you may get a different sameness — edgy slop instead of safe slop. The useful studio question is smaller: what behavior did your prompt encourage, and what one change could make it more intentional? A behavior you've shaped on purpose is the seed of a direction — and which curiosity deserves a whole direction is next session's question.</p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
@@ -272,6 +382,285 @@
     `<p><strong>Sameness.</strong> For each set we take every pair of texts, compute the share of meaningful words they have in common (a Jaccard overlap, ignoring tiny stop-words), and average it. Higher = the texts recycle more of the same vocabulary.</p>`+
     `<p><strong>The control.</strong> The AI answers are longer (≈${avgWords(data.ai)} vs ≈${avgWords(data.human)} content words), and longer texts get more chances to overlap. So we also compute the cross overlap — every AI answer against every human note. If length alone drove the gap, that control bar would be high too. It's ${(crossSame*100).toFixed(1)}%: the AI answers resemble <em>each other</em> ${Math.round(aiSame/crossSame)}× more than they resemble a human answering the same prompt.</p>`+
     `<p><strong>The tells.</strong> We count a fixed list of stock phrases across both sets — and any phrase you hunt yourself. Everything is computed in your browser from <code>data/slop.json</code>. ${data.note}</p>`;
+})();
+</script>
+
+<script>
+/* ===== v5 modules: Rule Forge · fine skin · reward model (self-contained; no data dependency) ===== */
+(function(){
+  'use strict';
+
+  /* ---------- shared tiny CA engine (bounded board) ---------- */
+  function makeCA(W,H){
+    let a=new Uint8Array(W*H), b=new Uint8Array(W*H);
+    function step(birth,survive){
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+        let n=0;
+        for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+          if(!dx&&!dy)continue;
+          const nx=x+dx,ny=y+dy;
+          if(nx<0||ny<0||nx>=W||ny>=H)continue;
+          n+=a[ny*W+nx];
+        }
+        const alive=a[y*W+x];
+        b[y*W+x]=(alive? survive.has(n) : birth.has(n))?1:0;
+      }
+      const t=a; a=b; b=t;
+    }
+    return {
+      get:()=>a, W, H, step,
+      clear(){ a.fill(0); },
+      set(cells){ a.fill(0); cells.forEach(([x,y])=>{ if(x>=0&&y>=0&&x<W&&y<H) a[y*W+x]=1; }); },
+      pop(){ let p=0; for(let i=0;i<a.length;i++) p+=a[i]; return p; },
+      changed(){ let c=0; for(let i=0;i<a.length;i++) if(a[i]!==b[i]) c++; return c; } // vs previous state
+    };
+  }
+  const R_PENTOMINO=(cx,cy)=>[[0,-1],[1,-1],[-1,0],[0,0],[0,1]].map(([dx,dy])=>[cx+dx,cy+dy]);
+
+  /* ================= Module: The Rule Forge ================= */
+  (function(){
+    const W=32,H=22,CS=12;
+    const ca=makeCA(W,H);
+    const canvas=document.getElementById('forgeCanvas'), ctx=canvas.getContext('2d');
+    const seed=()=>ca.set(R_PENTOMINO(W>>1,H>>1));
+    let birth=new Set([3]), survive=new Set([2,3]);
+    let timer=null, gen=0, tried=new Set(), lit=new Set();
+
+    function draw(){
+      const g=ca.get();
+      ctx.fillStyle='#f6f4ee'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle='#2f6f5e';
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++) if(g[y*W+x]) ctx.fillRect(x*CS+1,y*CS+1,CS-2,CS-2);
+    }
+    function ruleName(){
+      return 'B'+[...birth].sort((a,b)=>a-b).join('')+'/S'+[...survive].sort((a,b)=>a-b).join('');
+    }
+    function stat(msg){ document.getElementById('forgeStat').innerHTML=msg; }
+
+    // silent 200-step audit of the current rule from the fixed seed
+    function audit(){
+      const t=makeCA(W,H); t.set(R_PENTOMINO(W>>1,H>>1));
+      let maxPop=t.pop(), died=null; const changes=[];
+      for(let g2=1; g2<=200; g2++){
+        t.step(birth,survive);
+        changes.push(t.changed());
+        const p=t.pop();
+        if(p>maxPop) maxPop=p;
+        if(p===0 && died===null){ died=g2; break; }
+      }
+      const endPop=t.pop();
+      const lastAct=changes.slice(-20).reduce((a,b)=>a+b,0)/Math.min(20,changes.length||1);
+      const maxFrac=maxPop/(W*H);
+      const fizzle = died!==null;
+      const boom = !fizzle && (maxFrac>0.35 || lastAct>60);
+      const interesting = !fizzle && !boom && endPop>=10 && lastAct>=3;
+      setMeter('m-die', !fizzle, fizzle? `died out at step ${died}` : `alive at step 200 (${endPop} cells)`);
+      setMeter('m-boom', !boom, boom? (maxFrac>0.35? `flooded ${Math.round(maxFrac*100)}% of the board` : `still churning ${Math.round(lastAct)} cells/step`) : `stayed contained (peak ${Math.round(maxFrac*100)}% full)`);
+      setMeter('m-int', interesting, interesting? `still changing ~${Math.round(lastAct)} cells/step at 200` : (fizzle||boom? '—' : (endPop<10? `settled to almost nothing (${endPop} cells)` : `settled into a fixed loop`)));
+      const name=ruleName();
+      tried.add(name);
+      if(!fizzle&&!boom&&interesting) lit.add(name);
+      document.getElementById('forgeScore').textContent=`Rules tried: ${tried.size} · lit all three: ${lit.size}${lit.size?` (${[...lit].join(', ')})`:''}`;
+    }
+    function setMeter(id,pass,text){
+      const row=document.getElementById(id);
+      row.classList.toggle('pass',pass); row.classList.toggle('fail',!pass);
+      document.getElementById(id+'-t').textContent=text;
+    }
+
+    function stopRun(){ if(timer){ clearInterval(timer); timer=null; document.getElementById('forgeRun').textContent='Run'; document.getElementById('forgeRun').setAttribute('aria-pressed','false'); } }
+    function reset(){ stopRun(); gen=0; seed(); draw(); stat(`Rule <strong>${ruleName()}</strong> · generation 0 · same seed every time: the R-pentomino.`); }
+    function tick(){ ca.step(birth,survive); gen++; draw(); stat(`Rule <strong>${ruleName()}</strong> · generation ${gen} · ${ca.pop()} cells`); }
+
+    document.getElementById('forgeRun').addEventListener('click',()=>{
+      if(timer){ stopRun(); return; }
+      timer=setInterval(tick,60);
+      document.getElementById('forgeRun').textContent='Pause';
+      document.getElementById('forgeRun').setAttribute('aria-pressed','true');
+    });
+    document.getElementById('forgeStep').addEventListener('click',()=>{ stopRun(); tick(); });
+    document.getElementById('forgeReset').addEventListener('click',reset);
+
+    // rule bit checkboxes
+    function bitBox(container, n, set){
+      const lab=document.createElement('label');
+      const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=set.has(n);
+      cb.addEventListener('change',()=>{ cb.checked? set.add(n): set.delete(n); onRuleChange(); });
+      lab.appendChild(cb); lab.appendChild(document.createTextNode(String(n)));
+      container.appendChild(lab);
+      return cb;
+    }
+    const birthBoxes=[], survBoxes=[];
+    for(let n=1;n<=8;n++) birthBoxes.push(bitBox(document.getElementById('birthBits'),n,birth));
+    for(let n=0;n<=8;n++) survBoxes.push(bitBox(document.getElementById('surviveBits'),n,survive));
+    function syncBoxes(){
+      birthBoxes.forEach((cb,i)=>cb.checked=birth.has(i+1));
+      survBoxes.forEach((cb,i)=>cb.checked=survive.has(i));
+    }
+    function onRuleChange(){ reset(); audit(); markPreset(); }
+
+    // presets
+    const PRESETS=[
+      ['B3/S23 · Conway',[3],[2,3]],
+      ['B2/S23',[2],[2,3]],
+      ['B3/S3',[3],[3]],
+      ['B36/S23 · HighLife',[3,6],[2,3]],
+      ['B34/S34',[3,4],[3,4]],
+      ['B1/S1',[1],[1]]
+    ];
+    const pc=document.getElementById('forgePresets');
+    PRESETS.forEach(([label,b,s])=>{
+      const btn=document.createElement('button'); btn.type='button'; btn.textContent=label; btn.dataset.rule='B'+b.join('')+'/S'+s.join('');
+      btn.addEventListener('click',()=>{ birth=new Set(b); survive=new Set(s); syncBoxes(); onRuleChange(); });
+      pc.appendChild(btn);
+    });
+    function markPreset(){
+      const name=ruleName();
+      pc.querySelectorAll('button').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.rule===name)));
+    }
+    reset(); audit(); markPreset();
+  })();
+
+  /* ================= Module: coarse engine, fine skin ================= */
+  (function(){
+    const W=20,H=20,CS=12;
+    const ca=makeCA(W,H);
+    // pulsar (period 3), centered on the 20x20 board
+    const arm=[2,3,4,8,9,10];
+    const cells=[];
+    arm.forEach(i=>{ [0,5,7,12].forEach(j=>{ cells.push([i+4,j+4]); cells.push([j+4,i+4]); }); });
+    const seed=()=>ca.set(cells);
+    const cv1=document.getElementById('skinCells'), cx1=cv1.getContext('2d');
+    const cv2=document.getElementById('skinSmooth'), cx2=cv2.getContext('2d');
+    let timer=null, showGrid=false;
+    function draw(){
+      const g=ca.get();
+      cx1.fillStyle='#f6f4ee'; cx1.fillRect(0,0,240,240);
+      cx1.fillStyle='#2f6f5e';
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++) if(g[y*W+x]) cx1.fillRect(x*CS+1,y*CS+1,CS-2,CS-2);
+      // skin: soft radial brushes on the same numbers
+      cx2.fillStyle='#0e2a22'; cx2.fillRect(0,0,240,240);
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++) if(g[y*W+x]){
+        const px=x*CS+CS/2, py=y*CS+CS/2;
+        const r=cx2.createRadialGradient(px,py,1,px,py,CS*1.15);
+        r.addColorStop(0,'rgba(126,217,175,0.95)'); r.addColorStop(0.55,'rgba(47,111,94,0.55)'); r.addColorStop(1,'rgba(47,111,94,0)');
+        cx2.fillStyle=r; cx2.beginPath(); cx2.arc(px,py,CS*1.15,0,7); cx2.fill();
+      }
+      if(showGrid){
+        cx2.strokeStyle='rgba(253,252,249,0.35)'; cx2.lineWidth=1;
+        for(let i=0;i<=W;i++){ cx2.beginPath(); cx2.moveTo(i*CS,0); cx2.lineTo(i*CS,240); cx2.stroke(); }
+        for(let j=0;j<=H;j++){ cx2.beginPath(); cx2.moveTo(0,j*CS); cx2.lineTo(240,j*CS); cx2.stroke(); }
+        const g2=ca.get();
+        cx2.strokeStyle='rgba(253,252,249,0.85)';
+        for(let y=0;y<H;y++)for(let x=0;x<W;x++) if(g2[y*W+x]) cx2.strokeRect(x*CS+1.5,y*CS+1.5,CS-3,CS-3);
+      }
+    }
+    document.getElementById('skinRun').addEventListener('click',function(){
+      if(timer){ clearInterval(timer); timer=null; this.textContent='Run the pulsar'; this.setAttribute('aria-pressed','false'); return; }
+      timer=setInterval(()=>{ ca.step(new Set([3]),new Set([2,3])); draw(); },300);
+      this.textContent='Pause'; this.setAttribute('aria-pressed','true');
+    });
+    document.getElementById('skinGrid').addEventListener('click',function(){
+      showGrid=!showGrid; this.setAttribute('aria-pressed',String(showGrid)); draw();
+    });
+    seed(); draw();
+  })();
+
+  /* ================= Module: be the reward model ================= */
+  (function(){
+    /* ---- EDIT HERE: authored pairs; tags are authored ingredient labels ---- */
+    const FEATURES={
+      stock:'stock phrasing', warm:'reassuring warmth', hedge:'hedging', list:'list shape',
+      long:'extra length', concrete:'concrete detail', bold:'a risk taken', plain:'plainness'
+    };
+    const PAIRS=[
+      { prompt:'Give me a study tip.',
+        a:{ text:"It's important to remember that consistency is key on your learning journey — small steps truly add up!", tags:['stock','warm','long'] },
+        b:{ text:'Tape the formula you keep missing above the light switch. You will read it every night without trying.', tags:['concrete','plain'] } },
+      { prompt:'Describe a sunset.',
+        a:{ text:'A breathtaking tapestry of colors paints the sky, reminding us how important it is to pause and reflect.', tags:['stock','long'] },
+        b:{ text:'The sun drops behind the water tower and for two minutes every window on Main Street is on fire.', tags:['concrete','bold'] } },
+      { prompt:'A short pep talk before a race.',
+        a:{ text:"Believe in yourself! Every runner's journey is unique, and no matter what happens, you've already won by showing up.", tags:['stock','warm'] },
+        b:{ text:'You did the training. Your legs know the route. Go be rude to that hill.', tags:['bold','plain'] } },
+      { prompt:'Thoughts on kindness.',
+        a:{ text:"Kindness is truly a universal language that ultimately connects us all, whether you're young or old.", tags:['stock','long'] },
+        b:{ text:'My neighbor shovels three driveways every snow and never rings a doorbell after. That is the whole philosophy.', tags:['concrete','plain'] } },
+      { prompt:'Reflect on failure.',
+        a:{ text:"Failure isn't the opposite of success — it's often a stepping stone, and it's okay to take a breath and begin again.", tags:['stock','hedge','warm'] },
+        b:{ text:'I keep my rejected science-fair board in the garage. The glue has held better than the hypothesis did.', tags:['concrete','bold'] } },
+      { prompt:'A note about nature.',
+        a:{ text:"Here are three reasons nature matters: it calms us, it teaches us, and it reminds us we're part of something bigger.", tags:['list','stock'] },
+        b:{ text:'The crows on 5th Street have learned the garbage schedule. Tuesday is their holiday.', tags:['concrete','bold','plain'] } }
+    ];
+    const FRAGMENTS={
+      stock:"It's important to remember that every journey begins with a single step.",
+      warm:"You've absolutely got this — and it's completely okay to feel unsure along the way.",
+      hedge:'Of course, it depends, and results may vary,',
+      list:'Here are three things to keep in mind: stay consistent, stay curious, stay kind.',
+      long:'— and ultimately, at the end of the day, that is what truly matters.',
+      concrete:'Tape your one worst formula above the light switch; you will read it every night without trying.',
+      bold:'Skip the playlist. Study the ugliest topic first, while you still hate it.',
+      plain:'Short version: do the thing once, today.'
+    };
+    /* ---- end EDIT HERE ---- */
+
+    const chosen={}, rejected={};
+    Object.keys(FEATURES).forEach(f=>{ chosen[f]=0; rejected[f]=0; });
+    let done=0;
+    const wrap=document.getElementById('rmPairs');
+
+    PAIRS.forEach((p,idx)=>{
+      const card=document.createElement('div'); card.className='pair';
+      card.innerHTML=`<div class="pprompt">round ${idx+1} of ${PAIRS.length} · ${p.prompt}</div>`;
+      const opts=document.createElement('div'); opts.className='opts2';
+      // alternate which side the slop-flavored answer appears on, so position never leaks
+      const order = idx%2 ? [['b',p.b],['a',p.a]] : [['a',p.a],['b',p.b]];
+      order.forEach(([key,ans])=>{
+        const btn=document.createElement('button'); btn.type='button'; btn.className='opt'; btn.textContent=ans.text;
+        btn.addEventListener('click',()=>{
+          if(card.dataset.done) return;
+          card.dataset.done='1';
+          opts.querySelectorAll('.opt').forEach(o=>{ o.disabled=true; o.classList.add(o===btn?'chosen':'rejected'); });
+          const other = key==='a'? p.b : p.a;
+          ans.tags.forEach(t=>chosen[t]++);
+          other.tags.forEach(t=>rejected[t]++);
+          done++;
+          if(done===PAIRS.length) reveal();
+        });
+        opts.appendChild(btn);
+      });
+      card.appendChild(opts);
+      wrap.appendChild(card);
+    });
+
+    function reveal(){
+      const rows=Object.keys(FEATURES).map(f=>({ f, name:FEATURES[f], c:chosen[f], r:rejected[f], d:chosen[f]-rejected[f] }))
+        .sort((x,y)=>y.d-x.d || y.c-x.c);
+      const maxAbs=Math.max(...rows.map(r=>Math.abs(r.d)),1);
+      const bars=document.getElementById('rmBars'); bars.innerHTML='';
+      rows.forEach(r=>{
+        const row=document.createElement('div'); row.className='featrow'+(r.d<0?' negd':'');
+        row.innerHTML=`<span class="fw">${r.name}</span><span><span class="fbar" style="width:${(Math.abs(r.d)/maxAbs*100).toFixed(0)}%"></span></span><span class="fv">${r.d>0?'+':''}${r.d}</span>`;
+        bars.appendChild(row);
+      });
+      const top=rows.filter(r=>r.d>0).slice(0,3);
+      const openerOrder=['stock','warm','hedge','list','concrete','bold','plain','long'];
+      const parts=top.sort((x,y)=>openerOrder.indexOf(x.f)-openerOrder.indexOf(y.f)).map(r=>FRAGMENTS[r.f]);
+      document.getElementById('rmTuned').textContent = parts.length? parts.join(' ') : 'Your picks split evenly — no single ingredient won. Aggregate a million raters, though, and small leans become the whole voice.';
+      const slopScore=(chosen.stock+chosen.warm+chosen.long+chosen.hedge+chosen.list);
+      const swerveScore=(chosen.concrete+chosen.bold+chosen.plain);
+      const v=document.getElementById('rmVerdict');
+      if(slopScore>swerveScore){
+        v.innerHTML='<strong>Your six clicks leaned toward the false mean.</strong> No shame — polish, warmth, and familiarity are what most raters reward, most of the time, which is exactly how millions of reasonable clicks sand a model down to the sameness measured at the top of this page. Nobody wrote the slop. It was <em>voted</em> into existence.';
+      } else if(swerveScore>slopScore){
+        v.innerHTML='<strong>You rewarded the swerve</strong> — concrete, risky, plain. Rarer than you\'d think: aggregated over millions of raters, preferences usually average out toward safe polish, and the average is what tuning serves. One deliberate rater is not the crowd — which is why the sameness above exists anyway.';
+      } else {
+        v.innerHTML='<strong>A split verdict.</strong> Half your clicks rewarded polish, half rewarded the concrete swerve. Preference tuning doesn\'t get to stay split: it averages millions of votes like yours into one voice — and the average of many reasonable tastes is the false mean you measured above.';
+      }
+      document.getElementById('rmReveal').style.display='block';
+    }
+  })();
 })();
 </script>
 </body>

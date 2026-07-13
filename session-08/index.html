@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Naming of Things — Instructor's Study, Session 8</title>
+<style>
+  :root {
+    --ink:#22222a; --muted:#6b6b76; --paper:#fdfcf9; --card:#ffffff;
+    --line:#e3e0d8; --accent:#2f6f5e; --accent-soft:#e7f1ee; --warn:#a8582f; --warn-soft:#faf3ee;
+    --sim:#5b8bb0; --sim-soft:#e8f0f6;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia,'Times New Roman',serif; line-height:1.65; font-size:1.05rem; }
+  main { max-width:48rem; margin:0 auto; padding:2.5rem 1.25rem 5rem; }
+  h1 { font-size:2rem; line-height:1.2; margin:0 0 .4rem; }
+  h2 { font-size:1.3rem; margin:2.6rem 0 .8rem; border-top:1px solid var(--line); padding-top:1.5rem; }
+  h3 { font-size:1.05rem; margin:1.6rem 0 .5rem; }
+  .kicker { font-family:system-ui,sans-serif; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .byline { color:var(--muted); font-style:italic; margin-bottom:1.6rem; }
+  .curiosity { background:var(--accent-soft); border-left:4px solid var(--accent); padding:.9rem 1.1rem; margin:1rem 0 1.6rem; }
+  .note { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); }
+  .diagram,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
+  .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:var(--warn-soft); margin:1.2rem 0; }
+  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
+  footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+  a { color:var(--accent); }
+
+  .module { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 1.4rem; }
+  .modnote { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin-top:.8rem; }
+  .insight { border-left:4px solid var(--sim); background:var(--sim-soft); padding:.7rem 1rem; margin:.9rem 0 0; font-family:system-ui,sans-serif; font-size:.88rem; }
+  button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  button:hover { background:var(--accent-soft); }
+  button[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  button:disabled { opacity:.45; cursor:default; }
+  .controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:.2rem 0 .8rem; font-family:system-ui,sans-serif; font-size:.9rem; }
+  .readout { font-family:system-ui,sans-serif; font-size:.85rem; color:var(--muted); font-variant-numeric:tabular-nums; }
+  canvas.board { border:1px solid var(--line); border-radius:6px; background:#f6f4ee; max-width:100%; height:auto; display:block; }
+  .labstatus { font-family:system-ui,sans-serif; font-size:.88rem; margin:.6rem 0 .2rem; }
+  .chips { display:flex; flex-wrap:wrap; gap:.45rem; margin:.5rem 0; font-family:system-ui,sans-serif; }
+  .chips button { font-size:.8rem; padding:.35rem .75rem; border-radius:999px; }
+  .predict { border-top:1px dashed var(--line); margin-top:.8rem; padding-top:.6rem; }
+  .predict p { margin:.2rem 0 .3rem; }
+  .namesrow { display:flex; flex-wrap:wrap; gap:.7rem; align-items:center; border-top:1px dashed var(--line); margin-top:.8rem; padding-top:.8rem; }
+  .bigtoggle { font-size:1.02rem; padding:.6rem 1.5rem; border-width:2px; border-radius:10px; }
+  .census table { border-collapse:collapse; font-family:system-ui,sans-serif; font-size:.88rem; margin:.6rem 0 .2rem; min-width:16rem; }
+  .census th { text-align:left; font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:600; }
+  .census th,.census td { padding:.22rem .9rem .22rem 0; border-bottom:1px solid var(--line); }
+  .census td.n { font-variant-numeric:tabular-nums; }
+  .census .unnamed td { color:var(--warn); }
+  .kindline { font-family:system-ui,sans-serif; font-size:.88rem; margin:.5rem 0 0; }
+  .cumline { font-family:system-ui,sans-serif; font-size:.88rem; margin:.8rem 0 0; }
+
+  .claim { border:1px solid var(--line); border-radius:9px; padding:.8rem 1rem; margin:.8rem 0; background:var(--paper); }
+  .claim .ctext { margin:.1rem 0 .4rem; font-size:1.08rem; }
+  .claim .cnum { font-family:system-ui,sans-serif; font-size:.75rem; font-weight:700; color:var(--muted); }
+  .verdict { border-top:1px dashed var(--line); margin-top:.6rem; padding-top:.6rem; font-family:system-ui,sans-serif; font-size:.88rem; }
+  .verdict .mark { font-weight:800; }
+  .verdict .mark.ok { color:var(--accent); }
+  .verdict .mark.no { color:var(--warn); }
+  .verdict .bintag { display:inline-block; font-size:.72rem; font-weight:700; border:1px solid var(--accent); color:var(--accent); background:var(--accent-soft); border-radius:4px; padding:0 .35rem; margin:0 .15rem; }
+  .verdict .receipt { display:block; margin-top:.45rem; color:var(--ink); }
+  .verdict .vstatus { display:block; margin-top:.45rem; font-weight:600; }
+  .score { font-family:system-ui,sans-serif; font-size:1rem; font-weight:700; color:var(--accent); }
+
+  .draftrow { display:grid; grid-template-columns:9.5rem 1fr; gap:.7rem; margin:.55rem 0; }
+  .draftrow .dpart { font-family:system-ui,sans-serif; font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); padding-top:.3rem; text-align:right; }
+  .draftrow .dtext { font-size:1.02rem; }
+  button.oc { font:inherit; font-size:inherit; padding:0 .12em; margin:0; border:0; border-bottom:2px solid var(--warn); border-radius:3px; background:#f7e9df; color:var(--warn); font-weight:400; }
+  button.oc:hover { background:#f3ddcd; }
+  .ocnote { border-left:4px solid var(--warn); background:var(--warn-soft); padding:.6rem .9rem; margin:.7rem 0 0; font-family:system-ui,sans-serif; font-size:.85rem; }
+  .draftverdict { font-family:system-ui,sans-serif; font-size:.88rem; color:var(--muted); border-top:1px dashed var(--line); margin-top:.8rem; padding-top:.6rem; }
+  @media (max-width:560px){ .draftrow { grid-template-columns:1fr; gap:.1rem; } .draftrow .dpart { text-align:left; padding-top:.4rem; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">The Instructor's Study · Session 8</div>
+  <h1>The Naming of Things</h1>
+  <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
+
+  <h2>What made me curious</h2>
+  <div class="curiosity">
+    I watched the same Life run twice — once knowing the names of things, once not — and saw different amounts. Same board, same pixels, more world. If a handful of names can change how much a person sees, then the words on a paper-app aren't packaging under the demo. They're optics.
+  </div>
+
+  <h2>What to notice</h2>
+  <p>Every paper-app in this studio is half machine, half caption: one working interaction plus a short, honest explanation. It is tempting to treat the words as the boring part. This page argues the opposite: <em>explanation is part of the interface</em>. In the lab below, the names are literally a control — a switch that changes what a reader can see without changing one pixel of what happens.</p>
+  <p>And the words are also where a page can quietly start to lie. Every sentence you write about your app makes one of three calls: <em>this page showed it</em>, <em>a source I can cite shows it</em>, or <em>this page can't show it</em>. Builders who know which call each sentence makes write smaller sentences that stand up harder. Not the humble version of the claim — the checkable one.</p>
+
+  <p class="note"><strong>Course boundary:</strong> this is an instructor demonstration for the classroom screen. Soups, censuses, predictions, and sorted claims live in this page's memory and vanish on reload — nothing is collected, exported, or submitted.</p>
+
+  <h2 id="names-title">Names on, names off</h2>
+  <p>A real bounded Game of Life board, 48×32 — the same B3/S23 universe as our Session 2 lab. Stir a soup and about 38% of the middle region lights up at random; the chaos burns down to ash: still lifes and small oscillators. Then the switch. With names off, the ash is anonymous debris. With names on, a field guide of eleven shapes reads the board and takes a census. <strong>The interaction lets the reader see it; the paper layer helps them know what they saw.</strong></p>
+
+  <div class="module">
+    <div class="controls">
+      <button type="button" id="stirBtn">Stir a soup</button>
+      <button type="button" id="replayBtn" disabled>Replay the same soup</button>
+      <span class="readout" id="genRead">generation 0</span>
+      <span class="readout" id="popRead">population 0</span>
+    </div>
+    <canvas id="board" class="board" width="480" height="320" aria-label="Game of Life board, 48 by 32 cells"></canvas>
+    <p class="labstatus" id="labStatus" aria-live="polite">No soup yet. Stir one.</p>
+
+    <div class="predict" id="predictPanel" hidden>
+      <p><strong>Guess before the names come on.</strong> How many different kinds of thing settled out?</p>
+      <div class="chips" id="predictChips">
+        <button type="button" data-pick="1–3" aria-pressed="false">1–3</button>
+        <button type="button" data-pick="4–6" aria-pressed="false">4–6</button>
+        <button type="button" data-pick="7 or more" aria-pressed="false">7 or more</button>
+      </div>
+      <p class="note" id="predictStatus" aria-live="polite"></p>
+    </div>
+
+    <div class="namesrow">
+      <button type="button" id="namesBtn" class="bigtoggle" aria-pressed="false" disabled>names off</button>
+      <span class="note" id="namesHint">the field guide unlocks when the soup settles</span>
+    </div>
+
+    <div class="census" id="censusWrap" aria-live="polite"></div>
+    <div id="cumWrap"></div>
+
+    <p class="modnote">Engine facts: bounded board, two <code>Uint8Array</code> buffers, ~30 generations a second. “Settled” means the state-hash has repeated with period ≤ 2 for 20 straight checks. The 600-generation cap exists because a glider can wander a long time before it finds an edge to die on.</p>
+  </div>
+
+  <h2 id="scope-title">Say only what the page shows</h2>
+  <p>Six sentences a student might write about the lab above. Every one of them sounds reasonable; they do not all rest on the same ground. Bin each sentence, then check your call. <strong>Honest scope is stronger than overclaiming.</strong></p>
+
+  <div class="module" id="sorter"></div>
+  <p class="score" id="scoreLine" aria-live="polite" hidden></p>
+
+  <h3>The same four sentences, two ways</h3>
+  <p>The paper layer this course asks for is four sentences — <em>what made me curious, what the reader can do, what I noticed, what I would try next</em> — and here they are, written twice for this very page. One draft spends evidence it doesn't have. Tap any rust-colored phrase to hear the charge against it.</p>
+
+  <div class="module">
+    <div class="chips" id="draftChips" role="group" aria-label="Choose a draft">
+      <button type="button" id="draftOverBtn" aria-pressed="true">the overclaiming draft</button>
+      <button type="button" id="draftHonestBtn" aria-pressed="false">the honest draft</button>
+    </div>
+    <div id="draftBody"></div>
+    <div class="ocnote" id="ocNote" aria-live="polite" hidden></div>
+    <div class="draftverdict" id="draftVerdict"></div>
+  </div>
+
+  <h2>How this page was made</h2>
+  <div class="diagram">
+    <p><strong>Computed, live on this page:</strong> the soup, the settling, the census, the kind counts, the state hashes, claim 1's receipt, claim 6's verification, and your score. The field guide's canonical forms are generated at load by stepping and rotating the base patterns in code — no canonical string in this file was typed by hand, because hand-typed ground truth is how field guides learn to lie.</p>
+    <p><strong>Authored by me:</strong> the eleven names the guide knows, the six claims and their verdicts, both drafts, the predict question, and every explanatory sentence — all in the block marked <code>EDIT HERE</code> in this page's script.</p>
+    <p><strong>Checked before shipping:</strong> the detector ran against hand-built boards — a block, a blinker (both phases), a beehive, a boat, a toad, a beacon, a mid-flight glider, and one still life the guide doesn't know (a long boat), which correctly landed in “unnamed.” Open this page's console and run <code>S8.selftest()</code> to watch that check repeat.</p>
+    <p class="note">Detection recipe: union of the two alternating phases → 8-connected components → each phase translated to the origin → the smallest of its eight rotations and reflections → an object matches if either of its phases matches any phase of a guide entry. The census's cells column always sums to the population readout — a built-in audit.</p>
+  </div>
+
+  <div class="limit">
+    <strong>Accuracy note — four honest footnotes.</strong> (1) This board is finite and its edges absorb: a glider that would sail forever on the true infinite plane dies at my wall, so travelers are undercounted here — real census work runs on unbounded or enormous grids. (2) The field guide is small on purpose — eleven names. “Unnamed (rarer than my field guide)” means rarer than <em>my guide</em>, not rare in Life. (3) The 84.7% and 99.9% quoted below the census are Catagolue's percentages, from millions of random soups — this page cites them and does not measure them, and my little board's proportions come out different (small board, hungry edges, no travelers). (4) One page's soup is an anecdote. The census is the evidence.</div>
+
+  <h2>What I would try next</h2>
+  <div class="try">
+    Add a twelfth name — the eater — and count how many soups it takes to finally meet one. Add a torus switch, so gliders wrap instead of dying on my wall, and watch the census tilt toward travelers. And the one I really want: an “I found a stranger” button that freezes any unnamed object so the reader can name it themselves — a field guide that grows the way real field guides grew.
+  </div>
+
+  <h2>What I chose and how AI helped</h2>
+  <div class="authorship">
+    <p><strong>AI helped with:</strong> the engine and detector code — double-buffer stepping, flood fill, canonical forms — plus generating every oscillator phase and every symmetry programmatically at load, and drafting verdict prose that I then rewrote.</p>
+    <p><strong>I chose:</strong> names-off as the default state (that <em>is</em> the lesson), the eleven names the guide knows and the refusal to hand-type their canonical forms, the six claims — including planting claim 5 as a trap — the three bins and their exact wording, letting claim 6 be verified live instead of believed, and every sentence of both drafts.</p>
+  </div>
+
+  <p class="cliff">The words are honest. Next: arrange them — order, labels, and the first ten seconds decide whether a stranger ever finds the door. That's the reader's path.</p>
+
+  <footer>Instructor example · Curiosity-Driven Paper-App Studio · Session 8 · self-contained page (authored content marked EDIT HERE in the script)</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+/* ==== CORE ENGINE & DETECTOR (pure functions, no DOM — unit-tested before shipping; S8.selftest() reruns the hand-board check) ==== */
+var W=48,H=32,N=W*H;
+function stepInto(src,dst){
+  for(var y=0;y<H;y++)for(var x=0;x<W;x++){
+    var n=0;
+    for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){
+      if(!dx&&!dy)continue;
+      var nx=x+dx,ny=y+dy;
+      if(nx<0||ny<0||nx>=W||ny>=H)continue;
+      n+=src[ny*W+nx];
+    }
+    var i=y*W+x;
+    dst[i]=(n===3||(src[i]&&n===2))?1:0;
+  }
+}
+function hashGrid(g){
+  var h=0x811c9dc5;
+  for(var i=0;i<g.length;i++){h^=g[i];h=Math.imul(h,0x01000193);}
+  return (h>>>0);
+}
+var TRANS=[[1,0,0,1],[-1,0,0,1],[1,0,0,-1],[-1,0,0,-1],[0,1,1,0],[0,-1,1,0],[0,1,-1,0],[0,-1,-1,0]];
+function canon(cells){
+  var best=null;
+  for(var s=0;s<8;s++){
+    var m=TRANS[s],t=[],mx=1e9,my=1e9,i;
+    for(i=0;i<cells.length;i++){
+      var x=cells[i][0],y=cells[i][1];
+      var tx=m[0]*x+m[1]*y,ty=m[2]*x+m[3]*y;
+      t.push([tx,ty]);
+      if(tx<mx)mx=tx; if(ty<my)my=ty;
+    }
+    for(i=0;i<t.length;i++){t[i][0]-=mx;t[i][1]-=my;}
+    t.sort(function(p,q){return p[0]-q[0]||p[1]-q[1];});
+    var str=t.map(function(p){return p[0]+','+p[1];}).join(';');
+    if(best===null||str<best)best=str;
+  }
+  return best;
+}
+var SW=24,SN=SW*SW;
+function stepCellsScratch(cells){
+  var a=new Uint8Array(SN),b=new Uint8Array(SN),i,x,y,n;
+  for(i=0;i<cells.length;i++)a[(cells[i][1]+9)*SW+(cells[i][0]+9)]=1;
+  for(y=0;y<SW;y++)for(x=0;x<SW;x++){
+    n=0;
+    for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){
+      if(!dx&&!dy)continue;
+      var nx=x+dx,ny=y+dy;
+      if(nx<0||ny<0||nx>=SW||ny>=SW)continue;
+      n+=a[ny*SW+nx];
+    }
+    b[y*SW+x]=(n===3||(a[y*SW+x]&&n===2))?1:0;
+  }
+  var out=[];
+  for(y=0;y<SW;y++)for(x=0;x<SW;x++)if(b[y*SW+x])out.push([x-9,y-9]);
+  return out;
+}
+var BASE=[
+  ['block',  'blocks',  [[0,0],[1,0],[0,1],[1,1]]],
+  ['blinker','blinkers',[[0,0],[1,0],[2,0]]],
+  ['beehive','beehives',[[1,0],[2,0],[0,1],[3,1],[1,2],[2,2]]],
+  ['loaf',   'loaves',  [[1,0],[2,0],[0,1],[3,1],[1,2],[3,2],[2,3]]],
+  ['boat',   'boats',   [[0,0],[1,0],[0,1],[2,1],[1,2]]],
+  ['tub',    'tubs',    [[1,0],[0,1],[2,1],[1,2]]],
+  ['pond',   'ponds',   [[1,0],[2,0],[0,1],[3,1],[0,2],[3,2],[1,3],[2,3]]],
+  ['ship',   'ships',   [[0,0],[1,0],[0,1],[2,1],[1,2],[2,2]]],
+  ['toad',   'toads',   [[1,0],[2,0],[3,0],[0,1],[1,1],[2,1]]],
+  ['beacon', 'beacons', [[0,0],[1,0],[0,1],[3,2],[2,3],[3,3]]],
+  ['glider', 'gliders', [[1,0],[2,1],[0,2],[1,2],[2,2]]]
+];
+function buildDict(){
+  // Every phase and every symmetry is derived in code — never hand-typed.
+  return BASE.map(function(e){
+    var forms={},cur=e[2];
+    for(var p=0;p<4;p++){forms[canon(cur)]=1;cur=stepCellsScratch(cur);}
+    return {name:e[0],plural:e[1],forms:forms};
+  });
+}
+var DICT=buildDict();
+function analyze(P0){
+  var P1=new Uint8Array(N);stepInto(P0,P1);
+  var comp=new Int16Array(N);comp.fill(-1);
+  var groups=[],stack=[],i;
+  for(i=0;i<N;i++){
+    if(!(P0[i]|P1[i])||comp[i]>=0)continue;
+    var cells=[],id=groups.length;
+    comp[i]=id;stack.push(i);
+    while(stack.length){
+      var c=stack.pop();cells.push(c);
+      var cx=c%W,cy=(c-cx)/W;
+      for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){
+        if(!dx&&!dy)continue;
+        var nx=cx+dx,ny=cy+dy;
+        if(nx<0||ny<0||nx>=W||ny>=H)continue;
+        var j=ny*W+nx;
+        if((P0[j]|P1[j])&&comp[j]<0){comp[j]=id;stack.push(j);}
+      }
+    }
+    groups.push(cells);
+  }
+  return groups.map(function(cells){
+    var a=[],b=[],minx=1e9,miny=1e9,maxx=-1,maxy=-1;
+    cells.forEach(function(c){
+      var x=c%W,y=(c-x)/W;
+      if(P0[c])a.push([x,y]);
+      if(P1[c])b.push([x,y]);
+      if(x<minx)minx=x; if(y<miny)miny=y;
+      if(x>maxx)maxx=x; if(y>maxy)maxy=y;
+    });
+    var ca=a.length?canon(a):null, cb=b.length?canon(b):null, name=null, plural=null;
+    for(var k=0;k<DICT.length;k++){
+      var e=DICT[k];
+      if((ca&&e.forms[ca])||(cb&&e.forms[cb])){name=e.name;plural=e.plural;break;}
+    }
+    return {name:name,plural:plural,a:a,pop:a.length,
+            key:name||('u:'+(ca||cb||'')),
+            minx:minx,miny:miny,maxx:maxx,maxy:maxy};
+  });
+}
+/* ==== END CORE ==== */
+
+/* ---- EDIT HERE: authored content — claims, verdicts, drafts, predict copy ---- */
+var WIKI='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life';
+var CATA='https://conwaylife.com/wiki/Most_common_objects_on_Catagolue';
+var BINS=[
+  {id:'shown', label:'this page showed it'},
+  {id:'cited', label:'a source I can cite shows it'},
+  {id:'cant',  label:'this page can’t show it'}
+];
+var CLAIMS=[
+  {text:'This soup ended mostly in blocks, blinkers, and beehives.', answer:'shown',
+   why:'The census table is the receipt — read the sentence, then read the table. And if your particular soup happened to end some other way, then this sentence, <em>as written, is false for your run</em>. That isn’t a flaw in the exercise; it is the exercise. Checking is the point.',
+   receipt:true},
+  {text:'Random soups in general settle into the same few kinds of object.', answer:'cited',
+   why:'Your soup is consistent with it — but one soup cannot establish “in general.” The Catagolue census (millions of random soups) is what shows it. The honest sentence points at the census instead of pretending this little board did the work.'},
+  {text:'The Game of Life can compute anything a computer can.', answer:'cited',
+   why:'True, and proven: streams of gliders can be arranged into logic gates, and Life is Turing-complete. But nothing on this page demonstrates one bit of it — no glider logic, no gates, nothing. A big true fact still needs its citation, because this page didn’t earn it. <a href="'+WIKI+'">Conway’s Game of Life (Wikipedia)</a>.'},
+  {text:'No method can decide, for every possible pattern, whether it will eventually die out.', answer:'cant',
+   why:'This page can’t show it — and neither could any amount of running, on any computer, ever. It is known by <em>proof</em>: the question is undecidable. That is a third kind of knowing. Simulation can illustrate a proof; it can never establish one. “Every possible pattern” is a door experiments don’t open.'},
+  {text:'My census counted every kind of object that can form in Life.', answer:'cant',
+   why:'The overclaim trap — it <em>sounds</em> like something the census shows, because the census is right there, counting kinds. But the method note says the opposite: the field guide knows about a dozen shapes, and anything rarer lands in “unnamed (rarer than my field guide).” A census can only count what its dictionary can name.'},
+  {text:'If I rerun the exact same soup, the same ash will form.', answer:'shown',
+   why:'The one big claim this page <em>can</em> show — determinism is checkable right here. Press the button below: the same seed reruns, and when it settles this card compares the two final states by hash and marks itself verified. Or not.',
+   verify:true}
+];
+var SCORE_TAIL=' of 6 in the right bin. Every paper layer you write makes these three calls, sentence by sentence.';
+var DRAFTS={
+  over:{rows:[
+    {part:'What made me curious',
+     html:'I wondered whether random soups always end the same way, so I built a page that <button type="button" class="oc" title="tap for the charge" data-note="“Proves” — one page of soups can’t prove an “always.” The strongest honest verb this board has earned is “suggests”; the proving lives in a census I can only cite.">proves they do</button>.'},
+    {part:'What the reader can do',
+     html:'You can stir a soup and watch <button type="button" class="oc" title="tap for the charge" data-note="The field guide knows eleven names. “Every kind of object in Life” is claim 5 wearing a friendlier hat — a census can only count what its dictionary can name.">every kind of object in Life</button> get detected and named.'},
+    {part:'What I noticed',
+     html:'I noticed that <button type="button" class="oc" title="tap for the charge" data-note="My soups did. “Always” belongs to Catagolue’s millions of soups — cited evidence, not this board’s.">Life always settles into blocks, blinkers, and beehives</button>, and <button type="button" class="oc" title="tap for the charge" data-note="Turing-completeness is real, proven, and citable. Nothing on this page demonstrates it — that sentence borrows a proof and pockets the credit.">my page shows Life can compute anything a computer can</button>.'},
+    {part:'What I would try next',
+     html:'Next I would settle which patterns live forever, since <button type="button" class="oc" title="tap for the charge" data-note="It won’t — that’s undecidability, known by proof. No amount of running decides “every possible pattern.” Running illustrates; it cannot settle.">running them long enough will answer it</button>.'}
+  ],
+  verdict:'Four sentences, five loans against evidence the page never had. Each one <em>sounds</em> bigger. Each one hands a checking reader the tools to catch it.'},
+  honest:{rows:[
+    {part:'What made me curious',
+     html:'I watched the same Life run twice — once knowing the names of things, once not — and I seemed to see different amounts; I wanted a reader to feel that switch flip.'},
+    {part:'What the reader can do',
+     html:'You can stir one random soup on a 48×32 board, guess how many kinds survive, then turn the names on and read the census.'},
+    {part:'What I noticed',
+     html:'One soup, one field guide of eleven names, and nearly everything on my board got named — which is consistent with the Catagolue census (top four objects ≈ 84.7% of what random soups make); the big claims are cited, not shown here.'},
+    {part:'What I would try next',
+     html:'I would grow the field guide one rarity at a time, and let a reader hand my detector a shape it has never named.'}
+  ],
+  verdict:'Same page, same evidence — only the reach of the sentences changed. The honest draft isn’t humbler; it’s <em>stronger</em>, because every sentence survives a reader who checks.'}
+};
+var PUNCH='<strong>The same few citizens, every time.</strong> The big census agrees: on Catagolue, the top four objects are about 84.7% of everything random soups ever make, and the top sixteen are over 99.9% (<a href="'+CATA+'">LifeWiki</a>). The ash is the false mean of the Life universe — and you can only <em>see</em> that once the things have names.';
+/* ---- end EDIT HERE ---- */
+
+/* ================= Module 8A — the soup-and-census lab ================= */
+var CELL=10,PW=W*CELL,PH=H*CELL;
+var cv=document.getElementById('board'),ctx=cv.getContext('2d');
+var dpr=Math.min(window.devicePixelRatio||1,2);
+cv.width=PW*dpr;cv.height=PH*dpr;cv.style.width=PW+'px';
+var cur=new Uint8Array(N),nxt=new Uint8Array(N);
+var seed=null,gen=0,timer=null,state='empty';
+var h1=null,h2=null,settleCount=0;
+var lastObjs=null,kinds=0,finalHash=null,seedPrevHash=null,seedTallied=false;
+var prediction=null,namesSeenThisSoup=false,namesOn=false;
+var soups=0,cum={},awaitVerify=false,isReplay=false;
+var stirBtn=document.getElementById('stirBtn'),replayBtn=document.getElementById('replayBtn');
+var namesBtn=document.getElementById('namesBtn'),namesHint=document.getElementById('namesHint');
+var labStatus=document.getElementById('labStatus');
+var genRead=document.getElementById('genRead'),popRead=document.getElementById('popRead');
+var predictPanel=document.getElementById('predictPanel'),predictStatus=document.getElementById('predictStatus');
+var censusWrap=document.getElementById('censusWrap'),cumWrap=document.getElementById('cumWrap');
+
+function pop(g){var s=0;for(var i=0;i<N;i++)s+=g[i];return s;}
+function hex(h){return ('0000000'+h.toString(16)).slice(-8);}
+function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,PW,PH);
+  ctx.fillStyle='#f6f4ee';ctx.fillRect(0,0,PW,PH);
+  ctx.strokeStyle='rgba(0,0,0,.05)';ctx.lineWidth=1;ctx.beginPath();
+  for(var x=1;x<W;x++){ctx.moveTo(x*CELL+.5,0);ctx.lineTo(x*CELL+.5,PH);}
+  for(var y=1;y<H;y++){ctx.moveTo(0,y*CELL+.5);ctx.lineTo(PW,y*CELL+.5);}
+  ctx.stroke();
+  ctx.fillStyle='#3a3a44';
+  for(var i=0;i<N;i++)if(cur[i]){var cx=i%W,cy=(i-cx)/W;ctx.fillRect(cx*CELL+1,cy*CELL+1,CELL-2,CELL-2);}
+  if(state==='primed'){
+    ctx.strokeStyle='rgba(47,111,94,.55)';ctx.setLineDash([4,3]);
+    ctx.strokeRect(12*CELL-2.5,8*CELL-2.5,24*CELL+5,16*CELL+5);
+    ctx.setLineDash([]);
+  }
+  if(namesOn&&lastObjs&&state==='done'){
+    ctx.font='700 10px system-ui,sans-serif';ctx.textBaseline='middle';
+    lastObjs.forEach(function(o){
+      var col=o.name?'#2f6f5e':'#a8582f';
+      ctx.fillStyle=col;
+      o.a.forEach(function(c){ctx.fillRect(c[0]*CELL+1,c[1]*CELL+1,CELL-2,CELL-2);});
+      ctx.strokeStyle=col;ctx.lineWidth=1;
+      ctx.strokeRect(o.minx*CELL-2.5,o.miny*CELL-2.5,(o.maxx-o.minx+1)*CELL+5,(o.maxy-o.miny+1)*CELL+5);
+      var label=o.name||'?';
+      var w=ctx.measureText(label).width+8;
+      var lx=Math.min(Math.max(2,(o.minx+o.maxx+1)*CELL/2-w/2),PW-w-2);
+      var ly=o.miny*CELL-17;if(ly<2)ly=o.maxy*CELL+CELL+4;if(ly>PH-15)ly=o.miny*CELL+2;
+      ctx.fillStyle='rgba(253,252,249,.93)';ctx.fillRect(lx,ly,w,13);
+      ctx.strokeRect(lx+.5,ly+.5,w-1,12);
+      ctx.fillStyle=col;ctx.fillText(label,lx+4,ly+7);
+    });
+  }
+}
+function readouts(){genRead.textContent='generation '+gen;popRead.textContent='population '+pop(cur);}
+function stopTimer(){if(timer){clearInterval(timer);timer=null;}}
+function setNames(on){
+  namesOn=on;
+  namesBtn.setAttribute('aria-pressed',String(on));
+  namesBtn.textContent=on?'names on':'names off';
+  refreshNamesHint();
+}
+function refreshNamesHint(){
+  if(state!=='done'){namesHint.textContent='the field guide unlocks when the soup settles';return;}
+  namesHint.textContent=namesOn?'the field guide is reading the board — census below'
+                               :'the reader sees debris — switch on to meet the citizens';
+}
+function beginRun(fromSeed,replay){
+  stopTimer();
+  cur.set(fromSeed);gen=0;h1=null;h2=null;settleCount=0;
+  state='primed';isReplay=!!replay;
+  lastObjs=null;finalHash=null;
+  setNames(false);namesBtn.disabled=true;
+  predictPanel.hidden=true;
+  censusWrap.innerHTML='';
+  readouts();draw();
+  labStatus.textContent=(replay?'Replaying the exact same seed — ':'Stirred: '+pop(cur)+' cells dropped into the middle 24×16 region — ')+'rolling…';
+  setTimeout(function(){
+    if(state!=='primed')return;
+    state='running';
+    timer=setInterval(tick,33);
+  },500);
+}
+function tick(){
+  stepInto(cur,nxt);var t=cur;cur=nxt;nxt=t;gen++;
+  var h0=hashGrid(cur);
+  if(h0===h1||h0===h2)settleCount++;else settleCount=0;
+  h2=h1;h1=h0;
+  readouts();draw();
+  if(settleCount>=20)finish(true);
+  else if(gen>=600)finish(false);
+}
+function finish(settled){
+  stopTimer();state='done';
+  finalHash=hashGrid(cur);
+  lastObjs=analyze(cur);
+  var seen={};kinds=0;
+  lastObjs.forEach(function(o){if(!seen[o.key]){seen[o.key]=1;kinds++;}});
+  var msg=settled
+    ?'Settled at generation '+gen+' — the ash is stable (period ≤ 2 held for 20 checks). Final-state hash '+hex(finalHash)+'.'
+    :'Generation 600 — mostly settled; something is still moving. The census reads the board as it stands. Final-state hash '+hex(finalHash)+'.';
+  if(isReplay&&seedPrevHash!==null){
+    msg+=' Same soup, same ash: matches the previous run’s hash '+hex(seedPrevHash)+' — '+(finalHash===seedPrevHash?'yes.':'NO. (Tell Dr. Plate; determinism is innocent, so this page has a bug.)');
+  }
+  labStatus.textContent=msg;
+  if(!seedTallied){
+    seedTallied=true;soups++;
+    lastObjs.forEach(function(o){var k=o.name||'unnamed';cum[k]=(cum[k]||0)+1;});
+    renderCumulative();
+  }
+  if(awaitVerify){reportVerify();awaitVerify=false;}
+  seedPrevHash=finalHash;
+  namesBtn.disabled=false;
+  if(prediction===null&&!namesSeenThisSoup)predictPanel.hidden=false;
+  refreshNamesHint();renderCensus();draw();
+}
+function stir(){
+  seed=new Uint8Array(N);
+  for(var y=8;y<24;y++)for(var x=12;x<36;x++)if(Math.random()<0.38)seed[y*W+x]=1;
+  seedPrevHash=null;seedTallied=false;prediction=null;namesSeenThisSoup=false;
+  predictChipEls.forEach(function(b){b.disabled=false;b.setAttribute('aria-pressed','false');});
+  predictStatus.textContent='';
+  replayBtn.disabled=false;
+  beginRun(seed,false);
+}
+function replay(){if(seed)beginRun(seed,true);}
+stirBtn.addEventListener('click',stir);
+replayBtn.addEventListener('click',replay);
+namesBtn.addEventListener('click',function(){
+  if(state!=='done')return;
+  setNames(!namesOn);
+  if(namesOn&&!namesSeenThisSoup){
+    namesSeenThisSoup=true;
+    if(prediction===null){predictPanel.hidden=true;}
+  }
+  renderCensus();draw();
+});
+var predictChipEls=Array.prototype.slice.call(document.querySelectorAll('#predictChips button'));
+predictChipEls.forEach(function(b){
+  b.addEventListener('click',function(){
+    if(prediction!==null)return;
+    prediction=b.dataset.pick;
+    predictChipEls.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));x.disabled=true;});
+    predictStatus.textContent='Locked in: '+prediction+'. Now switch the names on and read the census.';
+  });
+});
+function bucketOf(k){return k<=3?'1–3':(k<=6?'4–6':'7 or more');}
+function renderCensus(){
+  if(state!=='done'||!lastObjs){censusWrap.innerHTML='';return;}
+  if(!lastObjs.length){
+    censusWrap.innerHTML='<p class="kindline">Nothing survived — zero objects, zero kinds. The rare soup that cancels itself. Stir again.</p>';
+    return;
+  }
+  if(!namesOn){
+    censusWrap.innerHTML='<p class="kindline">'+lastObjs.length+' separate clump'+(lastObjs.length===1?'':'s')+' of ash sit on the board. Without names, that’s about all this caption can say — which is the point.</p>';
+    return;
+  }
+  var byName={},order=[];
+  lastObjs.forEach(function(o){
+    var k=o.name||'unnamed';
+    if(!byName[k]){byName[k]={name:k,count:0,cells:0};order.push(k);}
+    byName[k].count++;byName[k].cells+=o.pop;
+  });
+  order.sort(function(a,b){
+    if(a==='unnamed')return 1;if(b==='unnamed')return -1;
+    return byName[b].count-byName[a].count||(a<b?-1:1);
+  });
+  var rows=order.map(function(k){
+    var r=byName[k];
+    var label=k==='unnamed'?'unnamed (rarer than my field guide)':r.name;
+    return '<tr'+(k==='unnamed'?' class="unnamed"':'')+'><td>'+label+'</td><td class="n">'+r.count+'</td><td class="n">'+r.cells+'</td></tr>';
+  }).join('');
+  var totalCells=lastObjs.reduce(function(s,o){return s+o.pop;},0);
+  var html='<table><thead><tr><th>name</th><th>count</th><th>cells</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  html+='<p class="kindline"><strong>'+kinds+' kind'+(kinds===1?'':'s')+' of thing</strong>, '+lastObjs.length+' objects, '+totalCells+' cells — and the cells column sums to the population readout. ';
+  if(prediction!==null){
+    var b=bucketOf(kinds);
+    html+=prediction===b?'Your call ('+prediction+') was right.':'Your call ('+prediction+') was off — it’s '+b+'.';
+  }
+  html+='</p>';
+  censusWrap.innerHTML=html;
+}
+function renderCumulative(){
+  if(!soups){cumWrap.innerHTML='';return;}
+  var names=Object.keys(cum).sort(function(a,b){
+    if(a==='unnamed')return 1;if(b==='unnamed')return -1;
+    return cum[b]-cum[a]||(a<b?-1:1);
+  });
+  var parts=names.map(function(k){
+    if(k==='unnamed')return 'unnamed '+cum[k];
+    var e=null;for(var i=0;i<DICT.length;i++)if(DICT[i].name===k)e=DICT[i];
+    return (cum[k]===1?k:(e?e.plural:k+'s'))+' '+cum[k];
+  });
+  var html='<p class="cumline"><strong>Across your '+soups+' soup'+(soups===1?'':'s')+':</strong> '+parts.join(', ')+'.</p>';
+  if(soups>=2)html+='<div class="insight">'+PUNCH+'</div>';
+  cumWrap.innerHTML=html;
+}
+readouts();draw();
+
+/* ================= Module 8B — the honest-scope sorter ================= */
+var sorter=document.getElementById('sorter'),scoreLine=document.getElementById('scoreLine');
+var results=[],verifyStatusEl=null;
+function binLabel(id){for(var i=0;i<BINS.length;i++)if(BINS[i].id===id)return BINS[i].label;return id;}
+CLAIMS.forEach(function(cl,idx){
+  var card=document.createElement('div');card.className='claim';
+  card.innerHTML='<span class="cnum">CLAIM '+(idx+1)+' OF 6</span><p class="ctext">“'+cl.text+'”</p>';
+  var chips=document.createElement('div');chips.className='chips';
+  var picked=null;
+  var checkBtn=document.createElement('button');checkBtn.type='button';checkBtn.textContent='Check my call';checkBtn.disabled=true;
+  BINS.forEach(function(bin){
+    var b=document.createElement('button');b.type='button';b.textContent=bin.label;b.setAttribute('aria-pressed','false');
+    b.addEventListener('click',function(){
+      if(results[idx]!==undefined)return;
+      picked=bin.id;
+      Array.prototype.forEach.call(chips.children,function(x){x.setAttribute('aria-pressed',String(x===b));});
+      checkBtn.disabled=false;
+    });
+    chips.appendChild(b);
+  });
+  card.appendChild(chips);card.appendChild(checkBtn);
+  var v=document.createElement('div');v.className='verdict';v.hidden=true;
+  if(cl.verify)v.setAttribute('aria-live','polite');
+  card.appendChild(v);
+  checkBtn.addEventListener('click',function(){
+    if(picked===null||results[idx]!==undefined)return;
+    var right=picked===cl.answer;
+    results[idx]=right;
+    checkBtn.disabled=true;
+    Array.prototype.forEach.call(chips.children,function(x){x.disabled=true;});
+    var head=right?'<span class="mark ok">✓ Right bin.</span>':'<span class="mark no">✗ You said “'+binLabel(picked)+'.”</span>';
+    var html=head+' This one belongs in <span class="bintag">'+binLabel(cl.answer)+'</span> — '+cl.why;
+    if(cl.receipt)html+='<span class="receipt">'+claim1Receipt()+'</span>';
+    v.innerHTML=html;v.hidden=false;
+    if(cl.verify){
+      var vb=document.createElement('button');vb.type='button';vb.style.marginTop='.5rem';vb.textContent='Replay the same soup';
+      vb.addEventListener('click',verifyClaim6);
+      v.appendChild(vb);
+      verifyStatusEl=document.createElement('span');verifyStatusEl.className='vstatus';
+      v.appendChild(verifyStatusEl);
+    }
+    var done=0,rightCount=0;
+    results.forEach(function(r){if(r!==undefined){done++;if(r)rightCount++;}});
+    if(done===CLAIMS.length){
+      scoreLine.hidden=false;
+      scoreLine.textContent=rightCount+SCORE_TAIL;
+    }
+  });
+  sorter.appendChild(card);
+});
+function claim1Receipt(){
+  if(!lastObjs||state!=='done')return 'Receipt: no census yet — stir a soup above, let it settle, switch the names on, and check the sentence against the table before you trust it.';
+  if(!lastObjs.length)return 'Receipt from your current soup: nothing survived, so the sentence is FALSE for this run — there are no blocks, blinkers, or beehives at all.';
+  var hit=0;
+  lastObjs.forEach(function(o){if(o.name==='block'||o.name==='blinker'||o.name==='beehive')hit++;});
+  var truth=hit*2>lastObjs.length;
+  return 'Receipt from your current soup (counting objects, not cells): '+hit+' of '+lastObjs.length+' settled objects are blocks, blinkers, or beehives — so the sentence is '+(truth?'TRUE':'FALSE')+' for this run.';
+}
+function verifyClaim6(){
+  if(!seed){verifyStatusEl.textContent='There’s no soup yet — stir one in the lab above, let it settle, then press this.';return;}
+  if(state==='running'||state==='primed'){verifyStatusEl.textContent='The pot is still rolling — let it finish, then press this.';return;}
+  awaitVerify=true;
+  verifyStatusEl.textContent='Rerunning the exact seed… watch the board above.';
+  cv.scrollIntoView({behavior:'smooth',block:'center'});
+  replay();
+}
+function reportVerify(){
+  if(!verifyStatusEl)return;
+  if(seedPrevHash===null){verifyStatusEl.textContent='That was this soup’s first complete run (hash '+hex(finalHash)+'). Press the button again to rerun and compare.';return;}
+  var same=finalHash===seedPrevHash;
+  verifyStatusEl.textContent=same
+    ?'VERIFIED — rerun’s final hash '+hex(finalHash)+' = previous run’s '+hex(seedPrevHash)+'. Identical final state: yes.'
+    :'Rerun’s final hash '+hex(finalHash)+' ≠ previous '+hex(seedPrevHash)+'. Identical: no — determinism is innocent, so this page has a bug; tell Dr. Plate.';
+}
+
+/* ================= the two drafts ================= */
+var draftBody=document.getElementById('draftBody'),ocNote=document.getElementById('ocNote');
+var draftVerdict=document.getElementById('draftVerdict');
+var overBtn=document.getElementById('draftOverBtn'),honestBtn=document.getElementById('draftHonestBtn');
+function showDraft(which){
+  var d=DRAFTS[which];
+  overBtn.setAttribute('aria-pressed',String(which==='over'));
+  honestBtn.setAttribute('aria-pressed',String(which==='honest'));
+  draftBody.innerHTML=d.rows.map(function(r){
+    return '<div class="draftrow"><div class="dpart">'+r.part+'</div><div class="dtext">'+r.html+'</div></div>';
+  }).join('');
+  draftVerdict.innerHTML=d.verdict;
+  ocNote.hidden=true;ocNote.textContent='';
+  draftBody.querySelectorAll('button.oc').forEach(function(b){
+    b.addEventListener('click',function(){
+      ocNote.hidden=false;
+      ocNote.innerHTML='<strong>The charge:</strong> '+b.dataset.note;
+    });
+  });
+}
+overBtn.addEventListener('click',function(){showDraft('over');});
+honestBtn.addEventListener('click',function(){showDraft('honest');});
+showDraft('over');
+
+/* ================= console self-test (documented in the method card) ================= */
+window.S8={
+  selftest:function(){
+    var b=new Uint8Array(N);
+    function put(cells,ox,oy){cells.forEach(function(c){b[(oy+c[1])*W+(ox+c[0])]=1;});}
+    function baseCells(n){for(var i=0;i<BASE.length;i++)if(BASE[i][0]===n)return BASE[i][2];}
+    put(baseCells('block'),4,4);put(baseCells('blinker'),14,4);
+    put(baseCells('beehive'),24,4);put(baseCells('boat'),36,4);
+    put([[1,0],[0,1],[2,1],[1,2],[3,2],[2,3]],10,20); // long boat — not in the guide
+    var got=analyze(b).map(function(o){return o.name||'unnamed';}).sort().join(',');
+    var want='beehive,blinker,block,boat,unnamed';
+    console.log('S8 selftest — expected: '+want+' | got: '+got+' | '+(got===want?'PASS':'FAIL'));
+    return got===want;
+  }
+};
+})();
+</script>
+</body>
+</html>

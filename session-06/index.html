@@ -58,6 +58,35 @@
   .legend { font-family:system-ui,sans-serif; font-size:.8rem; display:flex; gap:1.2rem; margin:.3rem 0 .6rem; }
   .legend b { display:inline-block; width:.7rem; height:.7rem; border-radius:50%; vertical-align:middle; }
   footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
+
+  /* ---- v5 modules (gun bench · yardstick) ---- */
+  .module { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 1.4rem; }
+  .module button { font-family:system-ui,sans-serif; font-size:.9rem; font-weight:600; cursor:pointer; border:1.5px solid var(--accent); background:#fff; color:var(--accent); border-radius:8px; padding:.5rem 1rem; }
+  .module button:hover { background:var(--accent-soft); }
+  .module button[aria-pressed="true"] { background:var(--accent); color:#fff; }
+  .module button:disabled { opacity:.45; cursor:default; }
+  .modnote { font-family:system-ui,sans-serif; font-size:.82rem; color:var(--muted); margin-top:.7rem; }
+  .insight { border-left:4px solid #5b8bb0; background:#e8f0f6; padding:.7rem 1rem; margin:.9rem 0 0; font-family:system-ui,sans-serif; font-size:.88rem; }
+  canvas.board { border:1px solid var(--line); border-radius:6px; background:#f6f4ee; max-width:100%; height:auto; display:block; }
+  canvas.board.damage { cursor:crosshair; box-shadow:0 0 0 2px var(--warn); }
+  .chips { display:flex; flex-wrap:wrap; gap:.45rem; margin:.6rem 0; font-family:system-ui,sans-serif; }
+  .chips button { font-size:.8rem; padding:.35rem .7rem; border-radius:999px; }
+  .testrow { display:grid; grid-template-columns:1.4rem 12rem 1fr; gap:.5rem; align-items:center; margin:.45rem 0; font-family:system-ui,sans-serif; font-size:.88rem; }
+  .testrow .dot { width:1.05rem; height:1.05rem; border-radius:50%; background:#d8d4c8; border:1px solid var(--line); }
+  .testrow.pass .dot { background:var(--hi); border-color:var(--hi); }
+  .testrow.fail .dot { background:var(--lo); border-color:var(--lo); }
+  .testrow .tlab { font-weight:700; }
+  .testrow .ttxt { color:var(--muted); }
+  .testrow .tverdict { display:block; margin-top:.15rem; color:var(--ink); }
+  .mirwrap { display:flex; gap:1.1rem; flex-wrap:wrap; align-items:flex-start; }
+  .mirside { flex:1; min-width:15rem; font-family:system-ui,sans-serif; font-size:.85rem; }
+  .mirslider { display:flex; align-items:center; gap:.7rem; font-family:system-ui,sans-serif; font-size:.85rem; margin:.7rem 0; }
+  .mirslider input[type=range] { flex:1; accent-color:var(--accent); }
+  .digits { display:flex; gap:.25rem; margin:.5rem 0; flex-wrap:wrap; }
+  .digits span { display:inline-grid; place-items:center; width:1.7rem; height:1.9rem; border-radius:5px; font-family:system-ui,sans-serif; font-weight:700; border:1px solid var(--line); background:#fff; }
+  .digits span.ok { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  .digits span.bad { background:#f7e7ec; color:var(--lo); border-color:var(--lo); }
+  .mirstat { font-family:system-ui,sans-serif; font-size:.88rem; margin:.3rem 0; }
 </style>
 </head>
 <body>
@@ -97,8 +126,46 @@
 
   <div class="headline" id="headline"></div>
 
+  <h2 id="works-title">Three meanings of "it works"</h2>
+  <p>The rubric above sharpens <em>judgment</em>. This bench sharpens the other half of evaluation: <em>which behavior you test</em>. Below is Bill Gosper's glider gun — the 1970 machine that answered Conway's $50 wager by firing a fresh glider every 30 generations, forever. Watch it run, then put the same system through three different meanings of "it works."</p>
+  <div class="module" id="gunModule">
+    <canvas class="board" id="gunCanvas" width="480" height="320" aria-label="Glider gun board"></canvas>
+    <div class="chips">
+      <button type="button" id="gunRun" aria-pressed="false">Run</button>
+      <button type="button" id="gunReset">Reset the gun</button>
+      <button type="button" id="gunDamage" aria-pressed="false">Damage it (drag on the board)</button>
+    </div>
+    <p class="mirstat" id="gunStat">Generation 0 · the gun waits.</p>
+    <div class="testrow" id="t-reach"><span class="dot"></span><span class="tlab">1 · Reach the target once</span><span class="ttxt">Does a glider cross into the far field within 50 generations? <button type="button" data-test="reach" style="font-size:.75rem;padding:.2rem .6rem;margin-left:.3rem">run test</button><span class="tverdict" id="t-reach-t" aria-live="polite"></span></span></div>
+    <div class="testrow" id="t-persist"><span class="dot"></span><span class="tlab">2 · Keep working</span><span class="ttxt">Is it still firing around generation 150? <button type="button" data-test="persist" style="font-size:.75rem;padding:.2rem .6rem;margin-left:.3rem">run test</button><span class="tverdict" id="t-persist-t" aria-live="polite"></span></span></div>
+    <div class="testrow" id="t-recover"><span class="dot"></span><span class="tlab">3 · Recover from damage</span><span class="ttxt">Damage the board first, then: is it still firing long after your hit? <button type="button" data-test="recover" style="font-size:.75rem;padding:.2rem .6rem;margin-left:.3rem">run test</button><span class="tverdict" id="t-recover-t" aria-live="polite"></span></span></div>
+    <p class="modnote">All three verdicts are computed by silently running the real board and checking the far field (the lower-right region a fired glider must cross). Tests 1 and 2 restart from the intact gun; test 3 runs from whatever you left on the board. The board is finite; gliders that reach the edge are absorbed — which is exactly why "still firing <em>long</em> after the hit" is the honest recovery check: it waits out the gliders that were already in flight when you struck.</p>
+    <div class="insight" id="gunInsight"><strong>Same system, three verdicts.</strong> The gun almost always passes 1 and 2 and fails 3 — one clumsy thumbprint and the factory unravels, because <em>nothing ever trained it to survive you</em>. The Growing Neural Cellular Automata paper makes exactly this move at training time: models trained only to <em>grow</em> may decay or explode; trained to <em>persist</em>, they hold; trained <em>with damage</em>, they regrow limbs they never lost before. Robustness isn't a property systems have by default — it's a property something put there. Watch the trained versions recover: <a href="https://distill.pub/2020/growing-ca/">Distill 2020</a> · <a href="https://cells2pixels.github.io/">the 2026 sequel</a>.</div>
+  </div>
+
+  <h2 id="yardstick-title">The yardstick makes the jump</h2>
+  <p>One more honesty tool, one research argument up from the rubric: sometimes the <em>instrument</em> manufactures the story. A famous debate about language models asks whether abilities "emerge" suddenly as models grow. The mirage argument: score with an all-or-nothing yardstick and ability seems to snap into existence; score the same system with partial credit and it grows smoothly. Here is that whole argument in one slider — ten-digit addition, the debate's own example.</p>
+  <div class="module" id="mirModule">
+    <div class="mirwrap">
+      <div><canvas class="board" id="mirCanvas" width="340" height="240" aria-label="Two scoring curves"></canvas></div>
+      <div class="mirside">
+        <div class="mirslider"><span>per-digit skill</span><input type="range" id="mirP" min="0.50" max="1.00" step="0.005" value="0.80"><span id="mirPv">0.80</span></div>
+        <p class="mirstat"><span style="color:var(--lo);font-weight:700">All-or-nothing</span> (whole sum right, p¹⁰): <strong id="mirExact"></strong><br><span style="color:var(--human,#3f7fae);font-weight:700;color:#3f7fae">Partial credit</span> (average digits right, p): <strong id="mirPart"></strong></p>
+        <div class="digits" id="mirDigits" aria-live="polite"></div>
+        <p class="mirstat" id="mirSample"></p>
+        <button type="button" id="mirRoll">Grade another ten-digit sum</button>
+      </div>
+    </div>
+    <div class="insight"><strong>Where the "jump" lives.</strong> The skill line is smooth by construction — nothing in the system ever jumps. Only the all-or-nothing curve has a cliff, and the cliff is pure arithmetic: p¹⁰ stays near zero until p is large, then soars. Whether an ability "emerges" can depend on the instrument (<a href="https://arxiv.org/abs/2304.15004">Schaeffer, Miranda &amp; Koyejo 2023</a>, answering <a href="https://arxiv.org/abs/2206.07682">Wei et al. 2022</a> — and the argument is live, not settled). Your four criteria above are instruments too: that is why this page shows you your least-settled criterion instead of pretending the rubric is a ruler of atoms.</div>
+    <p class="modnote"><strong>What's computed:</strong> both curves are exact arithmetic from the slider (nothing simulated); the graded sum below the slider is a real random draw at your chosen skill — reroll it and watch all-or-nothing swing while partial credit barely moves.</p>
+  </div>
+
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
+  <div class="method" id="method2" style="margin-top:.8rem">
+    <p><strong>The gun bench.</strong> Real bounded Conway board (60×40), the standard Gosper gun. Reach = any live cell in the far field (the region a fired glider must cross) within 50 generations of the intact gun; keep-working = far field still occupied when sampled around generation 140–160; recover = far field still occupied 140–200 generations <em>after</em> your damage, from the damaged board — late enough that gliders already in flight have been absorbed and only a working gun could still be supplying new ones.</p>
+    <p><strong>The yardstick.</strong> All-or-nothing = p¹⁰; partial credit = p. The sample sum draws ten digits independently right with probability p. The thresholds and the framing are mine; the arithmetic is the arithmetic.</p>
+  </div>
 
   <h2>Interpretation</h2>
   <p>Same openings, same raters — the only thing that changed between the rounds was having words for what we were looking for. On gut feeling, the panel scattered from 1 to 5 on the same sentence; with the rubric, they converged. That convergence is what lets a judgment about writing count as <em>evidence</em> instead of just a vibe. And notice the second gift: the trained panel didn't just agree, it agreed on <em>different</em> scores for different openings — low for the cliché, high for the pigeon — so the criteria don't flatten everything, they discriminate. This is exactly how real AI systems are evaluated: break the fuzzy judgment into named criteria, rate blind, and check that independent judges land in the same place.</p>
@@ -112,7 +179,7 @@
     Pick one behavior in an app you care about. Write two different success checks for it — for example, "responds quickly" and "explains itself clearly." Test both. Notice how the yardstick changes what you decide to improve.
   </div>
 
-  <p class="cliff">A success check does not need to become a class rating system. Its job is to help a builder decide what to test and what to improve next.</p>
+  <p class="cliff">A success check does not need to become a class rating system. Its job is to help a builder decide what to test and what to improve next. And when a check fails — when the gun is in pieces on the floor — the next skill is the loop that fixes it. That is next session's bench.</p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
@@ -258,6 +325,155 @@
     `<p><strong>The design.</strong> Three story openings, rated twice: once on gut feeling (one 1–5 number), once with the instrument — each of the four criteria rated 1–5 separately, your overall being their average. Two illustrative panels stand in for an untrained group and a trained group; your own ratings join each.</p>`+
     `<p><strong>Agreement.</strong> For each opening we look at every pair of judges and count how often they land within one point of each other, then average. The same math runs per criterion, which is how the page finds the panel's — and your — <em>worst-agreeing criterion</em>.</p>`+
     `<p class="note">${data.note}</p>`;
+})();
+</script>
+
+<script>
+/* ===== v5 modules: gun bench · yardstick (self-contained; no data dependency) ===== */
+(function(){
+  'use strict';
+
+  /* ================= Module: three meanings of "it works" ================= */
+  (function(){
+    const W=60,H=40,CS=8;
+    const GUN=[[0,4],[0,5],[1,4],[1,5],[10,4],[10,5],[10,6],[11,3],[11,7],[12,2],[12,8],[13,2],[13,8],[14,5],[15,3],[15,7],[16,4],[16,5],[16,6],[17,5],[20,2],[20,3],[20,4],[21,2],[21,3],[21,4],[22,1],[22,5],[24,0],[24,1],[24,5],[24,6],[34,2],[34,3],[35,2],[35,3]];
+    const OX=2,OY=3;
+    const canvas=document.getElementById('gunCanvas'), ctx=canvas.getContext('2d');
+    let cells=new Uint8Array(W*H), timer=null, gen=0, damaged=false, damageGen=null, damageMode=false;
+
+    function seed(){ cells.fill(0); GUN.forEach(([x,y])=>cells[(y+OY)*W+(x+OX)]=1); gen=0; damaged=false; damageGen=null; }
+    function step(c){
+      const n2=new Uint8Array(W*H);
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+        let n=0;
+        for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+          if(!dx&&!dy)continue;
+          const nx=x+dx,ny=y+dy;
+          if(nx<0||ny<0||nx>=W||ny>=H)continue;
+          n+=c[ny*W+nx];
+        }
+        n2[y*W+x]=(c[y*W+x]? (n===2||n===3) : n===3)?1:0;
+      }
+      return n2;
+    }
+    const farField=c=>{ for(let y=17;y<H;y++)for(let x=19;x<W;x++) if(c[y*W+x]) return true; return false; };
+    function draw(){
+      ctx.fillStyle='#f6f4ee'; ctx.fillRect(0,0,canvas.width,canvas.height);
+      // far-field shading
+      ctx.fillStyle='rgba(63,127,174,0.07)'; ctx.fillRect(19*CS,17*CS,(W-19)*CS,(H-17)*CS);
+      ctx.fillStyle='#2f6f5e';
+      for(let y=0;y<H;y++)for(let x=0;x<W;x++) if(cells[y*W+x]) ctx.fillRect(x*CS+1,y*CS+1,CS-2,CS-2);
+    }
+    function stat(){ document.getElementById('gunStat').textContent=`Generation ${gen}${damaged?` · damaged at generation ${damageGen}`:''} · shaded corner = the far field the tests watch.`; }
+    function stopRun(){ if(timer){ clearInterval(timer); timer=null; const b=document.getElementById('gunRun'); b.textContent='Run'; b.setAttribute('aria-pressed','false'); } }
+
+    document.getElementById('gunRun').addEventListener('click',function(){
+      if(timer){ stopRun(); return; }
+      setDamageMode(false);
+      timer=setInterval(()=>{ cells=step(cells); gen++; draw(); stat(); },40);
+      this.textContent='Pause'; this.setAttribute('aria-pressed','true');
+    });
+    document.getElementById('gunReset').addEventListener('click',()=>{ stopRun(); setDamageMode(false); seed(); draw(); stat(); clearVerdicts(); });
+
+    // damage brush
+    function setDamageMode(on){
+      damageMode=on;
+      document.getElementById('gunDamage').setAttribute('aria-pressed',String(on));
+      canvas.classList.toggle('damage',on);
+    }
+    document.getElementById('gunDamage').addEventListener('click',()=>{ stopRun(); setDamageMode(!damageMode); });
+    let dragging=false;
+    function erase(e){
+      const r=canvas.getBoundingClientRect();
+      const x=Math.floor((e.clientX-r.left)/(r.width/W)), y=Math.floor((e.clientY-r.top)/(r.height/H));
+      for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+        const nx=x+dx,ny=y+dy;
+        if(nx>=0&&ny>=0&&nx<W&&ny<H) cells[ny*W+nx]=0;
+      }
+      if(!damaged){ damaged=true; damageGen=gen; }
+      draw(); stat();
+    }
+    canvas.addEventListener('pointerdown',e=>{ if(!damageMode)return; dragging=true; erase(e); });
+    canvas.addEventListener('pointermove',e=>{ if(damageMode&&dragging) erase(e); });
+    window.addEventListener('pointerup',()=>dragging=false);
+
+    // tests
+    function setVerdict(id,pass,text){
+      const row=document.getElementById(id);
+      row.classList.toggle('pass',pass); row.classList.toggle('fail',!pass);
+      const t=document.getElementById(id+'-t');
+      t.innerHTML=text;
+    }
+    function clearVerdicts(){
+      ['t-reach','t-persist','t-recover'].forEach(id=>{ const r=document.getElementById(id); r.classList.remove('pass','fail'); });
+    }
+    function freshGun(){ const c=new Uint8Array(W*H); GUN.forEach(([x,y])=>c[(y+OY)*W+(x+OX)]=1); return c; }
+    function runTest(kind){
+      if(kind==='reach'){
+        let c=freshGun(), hit=null;
+        for(let g=1;g<=50;g++){ c=step(c); if(farField(c)){ hit=g; break; } }
+        setVerdict('t-reach', hit!==null, hit!==null? `<strong>Pass.</strong> First glider crossed into the far field at generation ${hit}.` : `<strong>Fail.</strong> Nothing crossed in 50 generations.`);
+      } else if(kind==='persist'){
+        let c=freshGun(), occ=0;
+        for(let g=1;g<=160;g++){ c=step(c); if(g>=140 && farField(c)) occ++; }
+        setVerdict('t-persist', occ>0, occ>0? `<strong>Pass.</strong> Far field occupied in ${occ} of the 21 sampled generations around 150 — the gun is still supplying gliders.` : `<strong>Fail.</strong> The far field went quiet.`);
+      } else if(kind==='recover'){
+        if(!damaged){ setVerdict('t-recover', false, `<strong>Damage it first</strong> — this test only means something after your hit. (Press "Damage it," drag across the gun, then run the test.)`); document.getElementById('t-recover').classList.remove('pass','fail'); return; }
+        let c=cells.slice(), occ=0;
+        for(let g=1;g<=200;g++){ c=step(c); if(g>=140 && farField(c)) occ++; }
+        setVerdict('t-recover', occ>0, occ>0? `<strong>Pass.</strong> Long after your hit, fresh gliders still arrive — either you missed the machinery, or you got lucky. Try a bigger hit.` : `<strong>Fail.</strong> The gliders that were already in flight cleared the field, and no new ones came. The factory is gone — nothing ever trained it to survive you.`);
+      }
+    }
+    document.querySelectorAll('#gunModule [data-test]').forEach(b=>b.addEventListener('click',()=>runTest(b.dataset.test)));
+
+    seed(); draw(); stat();
+  })();
+
+  /* ================= Module: the yardstick makes the jump ================= */
+  (function(){
+    const cv=document.getElementById('mirCanvas'), ctx=cv.getContext('2d');
+    const Wc=cv.width, Hc=cv.height, padL=38, padB=26, padT=12, padR=10;
+    const px=p=>padL+(p-0.5)/0.5*(Wc-padL-padR);
+    const py=v=>Hc-padB-v*(Hc-padB-padT);
+    function drawChart(p){
+      ctx.fillStyle='#f6f4ee'; ctx.fillRect(0,0,Wc,Hc);
+      ctx.strokeStyle='#d8d4c8'; ctx.lineWidth=1;
+      ctx.font='10px system-ui'; ctx.fillStyle='#6b6b76';
+      [0,0.5,1].forEach(v=>{ ctx.beginPath(); ctx.moveTo(padL,py(v)); ctx.lineTo(Wc-padR,py(v)); ctx.stroke(); ctx.fillText(String(Math.round(v*100))+'%',4,py(v)+3); });
+      [0.5,0.75,1].forEach(v=>{ ctx.fillText(v.toFixed(2),px(v)-8,Hc-8); });
+      ctx.fillText('per-digit skill →',Wc/2-30,Hc-8);
+      const curve=(fn,color)=>{ ctx.strokeStyle=color; ctx.lineWidth=2.5; ctx.beginPath();
+        for(let i=0;i<=200;i++){ const pp=0.5+i/200*0.5, v=fn(pp); const X=px(pp),Y=py(v); i?ctx.lineTo(X,Y):ctx.moveTo(X,Y); } ctx.stroke(); };
+      curve(pp=>pp,'#3f7fae');
+      curve(pp=>Math.pow(pp,10),'#b0506a');
+      // marker
+      ctx.fillStyle='#22222a';
+      [[p,Math.pow(p,10),'#b0506a'],[p,p,'#3f7fae']].forEach(([pp,v,c])=>{ ctx.fillStyle=c; ctx.beginPath(); ctx.arc(px(pp),py(v),4.5,0,7); ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke(); });
+    }
+    const S=document.getElementById('mirP');
+    function sample(p){
+      const el=document.getElementById('mirDigits'); el.innerHTML='';
+      let right=0;
+      for(let i=0;i<10;i++){
+        const ok=Math.random()<p; if(ok) right++;
+        const d=document.createElement('span'); d.className=ok?'ok':'bad'; d.textContent=String(Math.floor(Math.random()*10));
+        el.appendChild(d);
+      }
+      document.getElementById('mirSample').innerHTML = right===10
+        ? `All ten digits right → all-or-nothing scores it <strong>1</strong>, partial credit scores it <strong>10/10</strong>. Agreement, at last.`
+        : `${right} of 10 digits right → partial credit says <strong>${right}/10</strong>; all-or-nothing says <strong>0</strong>. One wrong digit and the cliff-metric calls the whole ability absent.`;
+    }
+    function update(){
+      const p=Number(S.value);
+      document.getElementById('mirPv').textContent=p.toFixed(3).replace(/0+$/,'').replace(/\.$/,'.0');
+      document.getElementById('mirExact').textContent=(Math.pow(p,10)*100).toFixed(1)+'%';
+      document.getElementById('mirPart').textContent=(p*100).toFixed(1)+'%';
+      drawChart(p); sample(p);
+    }
+    S.addEventListener('input',update);
+    document.getElementById('mirRoll').addEventListener('click',()=>sample(Number(S.value)));
+    update();
+  })();
 })();
 </script>
 </body>
