@@ -100,16 +100,39 @@
   details.math summary { cursor:pointer; font:800 .86rem system-ui,sans-serif; color:var(--accent); }
   .equation { overflow:auto; text-align:center; padding:.9rem; font-size:1.08rem; }
   .honesty { font:500 .79rem system-ui,sans-serif; color:var(--muted); border-left:3px solid var(--key); padding-left:.7rem; }
-  .head-controls button.control { border-color:var(--head-a); color:var(--head-a); background:#fff; }
-  .head-controls button.control:nth-of-type(2) { border-color:var(--head-b); color:var(--head-b); }
-  .head-controls button.control:nth-of-type(3) { border-color:var(--ink); color:var(--ink); }
-  .head-controls button.control[aria-pressed="true"] { color:#fff; background:var(--head-a); }
-  .head-controls button.control:nth-of-type(2)[aria-pressed="true"] { background:var(--head-b); }
-  .head-controls button.control:nth-of-type(3)[aria-pressed="true"] { background:var(--ink); }
-  .head-viz { width:100%; height:auto; min-height:16rem; display:block; background:#fbfaf7; border:1px solid var(--line); border-radius:9px; }
-  .head-summary { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:.8rem; }
-  .head-note { border-left:4px solid var(--head-a); padding:.65rem .8rem; background:#f4f0fa; font:500 .82rem system-ui,sans-serif; }
-  .head-note.b { border-left-color:var(--head-b); background:#edf6f3; }
+  .spotlight-key { display:flex; flex-wrap:wrap; align-items:center; gap:.65rem 1rem; padding:.75rem .85rem; margin:.9rem 0 1rem; border:1px solid #e7c96e; border-radius:8px; background:var(--glow-soft); font:650 .82rem system-ui,sans-serif; }
+  .key-query { padding:.2rem .52rem; border-radius:5px; background:var(--query); color:#fff; font-weight:800; }
+  .key-ray { display:inline-block; width:4.3rem; height:.45rem; border-radius:99px; background:linear-gradient(90deg,var(--head-a),rgba(118,85,163,.22)); }
+  .attention-steps { display:grid; gap:.9rem; counter-reset:spotlight-step; }
+  .attention-step { position:relative; border:1px solid var(--line); border-radius:10px; padding:1rem 1rem 1rem 4rem; background:#fbfaf7; }
+  .attention-step::before { counter-increment:spotlight-step; content:counter(spotlight-step); position:absolute; left:1rem; top:1rem; width:2rem; height:2rem; border-radius:50%; display:grid; place-items:center; background:var(--ink); color:#fff; font:800 .82rem system-ui,sans-serif; }
+  .attention-step h3 { margin:0 0 .35rem; }
+  .attention-step > p { margin:.35rem 0; }
+  .sentence-strip { margin:.8rem 0 .2rem; padding:.7rem .8rem; border-radius:8px; background:#fff; border:1px solid var(--line); font-size:1.1rem; line-height:2; }
+  .active-word { display:inline-block; padding:.02rem .35rem; border-radius:5px; background:var(--query); color:#fff; font-weight:800; box-shadow:0 0 0 3px rgba(118,85,163,.14); }
+  .query-label { display:block; margin-top:.35rem; color:var(--query); font:800 .75rem system-ui,sans-serif; }
+  .head-card { margin-top:.75rem; border-radius:9px; padding:.85rem; background:#f4f0fa; border-left:5px solid var(--head-a); }
+  .head-card.b { background:#edf6f3; border-left-color:var(--head-b); }
+  .head-card h4 { margin:0 0 .2rem; font:800 .96rem system-ui,sans-serif; }
+  .head-question { margin:0 0 .65rem; color:var(--muted); font:650 .82rem system-ui,sans-serif; }
+  .attention-row { display:grid; grid-template-columns:4.2rem 5.2rem 1fr 3.2rem; align-items:center; gap:.55rem; margin:.5rem 0; font:700 .8rem system-ui,sans-serif; }
+  .attention-row .from { padding:.2rem .35rem; border-radius:4px; text-align:center; background:var(--query); color:#fff; }
+  .attention-row .to { text-align:right; }
+  .attention-ray { position:relative; height:.65rem; border-radius:99px; background:#e2dce9; overflow:hidden; }
+  .attention-ray span { display:block; height:100%; border-radius:99px; background:var(--head-a); }
+  .head-card.b .attention-ray { background:#d8e9e4; }
+  .head-card.b .attention-ray span { background:var(--head-b); }
+  .attention-row .amount { color:var(--muted); }
+  .head-result { margin:.75rem 0 0; padding:.65rem .75rem; border-radius:7px; background:#fff; font:650 .82rem system-ui,sans-serif; }
+  .shape-example { display:flex; flex-wrap:wrap; gap:.45rem; margin:.7rem 0 0; font:750 .8rem system-ui,sans-serif; }
+  .shape-example span { padding:.28rem .5rem; border-radius:999px; background:#fff; border:1px solid #b8d8ce; }
+  .combine-panel { display:grid; grid-template-columns:1fr auto 1fr auto 1.15fr; gap:.65rem; align-items:stretch; margin-top:.8rem; }
+  .partial-view, .updated-view { display:flex; flex-direction:column; justify-content:center; min-height:7rem; padding:.8rem; border:1px solid var(--line); border-radius:8px; background:#fff; font:650 .8rem system-ui,sans-serif; }
+  .partial-view strong, .updated-view strong { display:block; margin-bottom:.25rem; font-size:.88rem; }
+  .partial-view.a { border-top:4px solid var(--head-a); }
+  .partial-view.b { border-top:4px solid var(--head-b); }
+  .updated-view { border:2px solid var(--glow); background:var(--glow-soft); }
+  .combine-symbol { align-self:center; font:800 1.25rem system-ui,sans-serif; color:var(--muted); }
   .architecture { display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:start; }
   .stack { border:1px solid var(--line); border-radius:10px; padding:1rem; background:#fbfaf7; }
   .stack h3 { margin:0 0 .7rem; text-align:center; }
@@ -141,12 +164,13 @@
   footer { margin-top:3rem; padding-top:1rem; border-top:1px solid var(--line); color:var(--muted); font:500 .8rem system-ui,sans-serif; }
   @media (max-width:760px) {
     .paper-map ol { grid-template-columns:1fr 1fr; }
-    .race-grid, .architecture, .head-summary, .accuracy-grid { grid-template-columns:1fr; }
+    .race-grid, .architecture, .accuracy-grid { grid-template-columns:1fr; }
     .evidence-grid { grid-template-columns:1fr; }
     .score-row { grid-template-columns:5.2rem 1fr 3.2rem; }
     .chapter-head { grid-template-columns:2.7rem 1fr; }
     .chapter-number { width:2.35rem; height:2.35rem; }
-    .head-viz { min-height:12rem; }
+    .combine-panel { grid-template-columns:1fr; }
+    .combine-symbol { transform:rotate(90deg); }
   }
   @media (max-width:430px) {
     .page { width:min(100% - 1.25rem, 58rem); }
@@ -157,6 +181,9 @@
     .controls > button.control { flex:1; }
     .sentence { font-size:1.1rem; line-height:2; }
     .score-row { grid-template-columns:4.5rem 1fr 3rem; gap:.35rem; font-size:.72rem; }
+    .attention-step { padding:.85rem; padding-top:3.6rem; }
+    .attention-step::before { left:.85rem; top:.8rem; }
+    .attention-row { grid-template-columns:3.6rem 4.6rem 1fr 2.7rem; gap:.3rem; font-size:.72rem; }
     .topline { align-items:flex-start; }
   }
   @media (prefers-reduced-motion:reduce) {
@@ -298,25 +325,65 @@
           <span class="source-tag">Paper §3.2.2</span><span class="source-tag">Figures 3–5</span>
         </div>
       </div>
-      <p class="lead">A single spotlight might miss something. The Transformer therefore used several spotlights at once. The paper calls each one an <strong>attention head</strong>. Each head can notice a different set of connections, and the model combines what they find.</p>
-      <div class="lab">
-        <div class="lab-title"><strong>Switch between two spotlights</strong><span>teaching diagram</span></div>
-        <div class="controls head-controls" role="group" aria-label="Choose attention head view">
-          <button class="control" type="button" data-head="a" aria-pressed="true">Spotlight A · references</button>
-          <button class="control" type="button" data-head="b" aria-pressed="false">Spotlight B · sentence shape</button>
-          <button class="control" type="button" data-head="both" aria-pressed="false">Show both</button>
+      <p class="lead">One spotlight can gather one useful kind of clue, but a word may need several kinds at once. The Transformer gives each word several spotlights—called <strong>attention heads</strong>—then combines the partial views they collect.</p>
+      <div class="lab" aria-labelledby="heads-lab-title">
+        <div class="lab-title"><strong id="heads-lab-title">Follow one word through two spotlights</strong><span>step-by-step teaching diagram</span></div>
+        <div class="spotlight-key" aria-label="How to read the attention rows">
+          <span class="key-query">its</span>
+          <span class="key-ray" aria-hidden="true"></span>
+          <span><strong>A ray means:</strong> “this word is using information from that word.” A longer, darker ray means a larger share of attention.</span>
         </div>
-        <svg class="head-viz" id="headViz" viewBox="0 0 700 260" role="img" aria-labelledby="headTitle headDesc">
-          <title id="headTitle">Two teaching attention-head diagrams</title>
-          <desc id="headDesc">Head A emphasizes reference-like connections around its, Law, and application.</desc>
-          <g id="headLines"></g>
-          <g id="headLabels"></g>
-        </svg>
-        <div class="head-summary">
-          <div class="head-note"><strong>Spotlight A:</strong> pays attention to what “its” may refer to, inspired by Figure 4.</div>
-          <div class="head-note b"><strong>Spotlight B:</strong> highlights a different set of relationships in the same sentence, inspired by Figure 5.</div>
+
+        <div class="attention-steps">
+          <article class="attention-step">
+            <h3>Choose the word doing the looking</h3>
+            <p>We will keep the same active word for both spotlights: <strong>“its.”</strong> This lets us compare the clues each head brings back.</p>
+            <div class="sentence-strip">The Law will never be perfect, but <span class="active-word">its</span> application should be just.</div>
+            <span class="query-label">▲ Active word (the query): “its” is doing the looking.</span>
+          </article>
+
+          <article class="attention-step">
+            <h3>Spotlight A looks for a reference</h3>
+            <p>Its guiding question is: <strong>What does “its” refer to?</strong></p>
+            <div class="head-card" aria-label="Spotlight A attention shares from its">
+              <h4>Head A · Following the reference</h4>
+              <p class="head-question">Read each row as: “its is using information from …”</p>
+              <div class="attention-row"><span class="from">its</span><span class="to">Law</span><span class="attention-ray"><span style="width:62%"></span></span><span class="amount">62%</span></div>
+              <div class="attention-row"><span class="from">its</span><span class="to">application</span><span class="attention-ray"><span style="width:24%"></span></span><span class="amount">24%</span></div>
+              <div class="attention-row"><span class="from">its</span><span class="to">other words</span><span class="attention-ray"><span style="width:14%"></span></span><span class="amount">14%</span></div>
+              <p class="head-result"><strong>What this helps with:</strong> Head A gives “its” a strong clue that the reference points back toward <strong>“Law.”</strong></p>
+            </div>
+          </article>
+
+          <article class="attention-step">
+            <h3>Spotlight B looks at sentence shape</h3>
+            <p>Its guiding question is: <strong>How does “its” fit into the sentence?</strong> This head brings back a different pattern.</p>
+            <div class="head-card b" aria-label="Spotlight B attention shares from its">
+              <h4>Head B · Fitting the parts together</h4>
+              <p class="head-question">The active word is still “its”; only the spotlight's priorities have changed.</p>
+              <div class="attention-row"><span class="from">its</span><span class="to">application</span><span class="attention-ray"><span style="width:48%"></span></span><span class="amount">48%</span></div>
+              <div class="attention-row"><span class="from">its</span><span class="to">perfect</span><span class="attention-ray"><span style="width:22%"></span></span><span class="amount">22%</span></div>
+              <div class="attention-row"><span class="from">its</span><span class="to">but</span><span class="attention-ray"><span style="width:18%"></span></span><span class="amount">18%</span></div>
+              <div class="attention-row"><span class="from">its</span><span class="to">other words</span><span class="attention-ray"><span style="width:12%"></span></span><span class="amount">12%</span></div>
+              <p class="head-result"><strong>What this helps with:</strong> Head B places “its” beside the noun <strong>“application”</strong> and inside the second half of a contrast. Across the sentence, this kind of spotlight can also help keep the two phrase groups distinct:</p>
+              <div class="shape-example" aria-label="Two different phrase groups"><span>will → perfect</span><span>should → just</span></div>
+            </div>
+          </article>
+
+          <article class="attention-step">
+            <h3>Combine the partial views</h3>
+            <p>The heads do not vote on one winning line. The Transformer keeps information from each head and mixes it into an updated representation of the active word.</p>
+            <div class="combine-panel" aria-label="Two attention views combine into an updated meaning for its">
+              <div class="partial-view a"><strong>Head A brings</strong>“its” points back toward “Law.”</div>
+              <span class="combine-symbol" aria-hidden="true">+</span>
+              <div class="partial-view b"><strong>Head B brings</strong>“its” belongs with “application” in the contrasting second clause.</div>
+              <span class="combine-symbol" aria-hidden="true">→</span>
+              <div class="updated-view"><strong>Richer “its”</strong>The word now carries clues about both <em>what it refers to</em> and <em>how it fits grammatically</em>.</div>
+            </div>
+            <p class="landing">Why use more than one head? Different spotlights can collect different useful clues at the same time, giving every word a richer view of the sentence than one spotlight alone.</p>
+          </article>
         </div>
-        <p class="honesty"><strong>A useful caution:</strong> these lines are our teaching redraw, not copied measurements. Some heads show patterns people can name, but not every head has one neat job—and the lines do not tell the whole story of why a model answered as it did.</p>
+        <p class="honesty"><strong>A useful caution, after the basic idea:</strong> these percentages and rays are simplified teaching data, not measurements copied from the paper. Real heads work with number patterns, not English questions; not every head has one neat job, and attention alone is not a complete explanation of model behavior.</p>
       </div>
     </section>
 
@@ -576,47 +643,6 @@
     if(stage>=3) renderStage();
   });
 
-  // Chapter 3: native SVG multi-head teaching diagram.
-  var headWords = ['Law','will','perfect','its','application','should','just'];
-  var connections = {
-    a:[{from:3,to:0,w:.95},{from:3,to:4,w:.78},{from:4,to:0,w:.58},{from:6,to:4,w:.42}],
-    b:[{from:1,to:2,w:.72},{from:4,to:6,w:.9},{from:5,to:6,w:.64},{from:2,to:3,w:.46}]
-  };
-  var activeHead = 'a';
-  function svgNode(name,attrs,text){
-    var node=document.createElementNS('http://www.w3.org/2000/svg',name);
-    Object.keys(attrs||{}).forEach(function(k){ node.setAttribute(k,attrs[k]); });
-    if(text!==undefined) node.textContent=text;
-    return node;
-  }
-  function renderHeads(){
-    var labels=document.getElementById('headLabels');
-    var lines=document.getElementById('headLines');
-    labels.innerHTML=''; lines.innerHTML='';
-    var margin=45, span=610, step=span/(headWords.length-1);
-    headWords.forEach(function(word,i){
-      var x=margin+i*step;
-      labels.appendChild(svgNode('text',{x:x,y:35,'text-anchor':'middle','font-family':'system-ui, sans-serif','font-size':'19',fill:'#22222a'},word));
-      labels.appendChild(svgNode('text',{x:x,y:235,'text-anchor':'middle','font-family':'system-ui, sans-serif','font-size':'19',fill:'#22222a'},word));
-    });
-    function draw(set,color){
-      connections[set].forEach(function(c){
-        lines.appendChild(svgNode('line',{x1:margin+c.from*step,y1:55,x2:margin+c.to*step,y2:210,stroke:color,'stroke-width':2+c.w*5,'stroke-opacity':.25+c.w*.65,'stroke-linecap':'round'}));
-      });
-    }
-    if(activeHead==='a'||activeHead==='both') draw('a','#7655a3');
-    if(activeHead==='b'||activeHead==='both') draw('b','#2f806b');
-    var description = activeHead==='a' ? 'Spotlight A emphasizes reference-like connections around its, Law, and application.' : activeHead==='b' ? 'Spotlight B emphasizes sentence-shape connections among will, perfect, application, and just.' : 'The combined view overlays both teaching spotlights.';
-    document.getElementById('headDesc').textContent=description;
-  }
-  document.querySelectorAll('[data-head]').forEach(function(button){
-    button.addEventListener('click',function(){
-      activeHead=button.dataset.head;
-      document.querySelectorAll('[data-head]').forEach(function(b){ b.setAttribute('aria-pressed',String(b===button)); });
-      renderHeads();
-    });
-  });
-
   // Chapter 4: architecture disclosures.
   var archButtons = Array.prototype.slice.call(document.querySelectorAll('.arch-toggle'));
   function setArch(button,open){
@@ -632,7 +658,6 @@
   });
 
   resetRace();
-  renderHeads();
 })();
 </script>
 </body>
