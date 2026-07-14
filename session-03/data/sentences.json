@@ -1,9 +1,9 @@
 {
- "note": "Two kinds of numbers live on this page. The glowing cues are hand-authored teaching diagrams — context words the instructor chose, not attention weights extracted from a model. The closeness engine's cosine similarities are real measurements, computed 2026-07-12 with the same model and settings as Session 1's Map of Meaning (Xenova/all-MiniLM-L6-v2, mean-pooled, normalized single words). Raw closeness is the material attention starts from; it is not attention.",
+ "note": "Three evidence types live on this page. The glowing cues are hand-authored teaching diagrams — context words the instructor chose, not attention weights extracted from a model. The curated closeness engine uses baked cosine measurements, and the optional sandbox computes the same measurements live with Session 1's model and settings (Xenova/all-MiniLM-L6-v2, mean-pooled, normalized single words). Both are context-free word closeness, not attention.",
  "instructions": "Click any underlined word. Before revealing the teaching diagram, pick the 2–3 visible context words you think are most useful.",
  "modelSims": {
   "model": "Xenova/all-MiniLM-L6-v2",
-  "computed": "2026-07-12",
+  "computed": "2026-07-12, with the bat example added 2026-07-14",
   "method": "cosine similarity of mean-pooled, normalized single-word embeddings — the same model and settings as Session 1's Map of Meaning. Regeneration script: see this session's README.",
   "caveat": "Real measurements of context-free word closeness. NOT the model's attention weights: real attention computes similarity through learned query/key projections, in context, across many heads and layers.",
   "sims": {
@@ -120,6 +120,28 @@
     "away": 0.196,
     "knife": 0.587,
     "sofa": 0.264
+   },
+   "bat": {
+    "the": 0.241,
+    "lay": 0.219,
+    "motionless": 0.272,
+    "all": 0.233,
+    "afternoon": 0.239,
+    "as": 0.22,
+    "old": 0.27,
+    "barn": 0.252,
+    "grew": 0.269,
+    "colder": 0.275,
+    "and": 0.246,
+    "shadows": 0.262,
+    "crossed": 0.233,
+    "every": 0.234,
+    "beam": 0.336,
+    "before": 0.258,
+    "it": 0.22,
+    "opened": 0.189,
+    "its": 0.21,
+    "wings": 0.418
    }
   }
  },
@@ -351,6 +373,46 @@
      }
     }
    }
+  },
+  {
+   "id": "bat-wings",
+   "tokens": [
+    "The",
+    "bat",
+    "lay",
+    "motionless",
+    "all",
+    "afternoon",
+    "as",
+    "the",
+    "old",
+    "barn",
+    "grew",
+    "colder",
+    "and",
+    "shadows",
+    "crossed",
+    "every",
+    "beam",
+    "before",
+    "it",
+    "opened",
+    "its",
+    "wings"
+   ],
+   "focus": [
+    {
+     "i": 1,
+     "word": "bat",
+     "meaning": "a flying mammal",
+     "caption": "The strongest teaching cue, 'wings', sits twenty word positions away. A local rule must crawl the whole distance; attention can connect the two positions in one step.",
+     "cues": {
+      "21": 1.0,
+      "16": 0.65,
+      "9": 0.5
+     }
+    }
+   ]
   }
  ],
  "comparePairs": [
