@@ -36,7 +36,8 @@
   .chart { margin:1rem 0; }
   .prow { display:grid; grid-template-columns:11rem 1fr; gap:.6rem; align-items:center; font-family:system-ui,sans-serif; font-size:.85rem; padding:.25rem .3rem; border-radius:6px; cursor:pointer; }
   .prow:hover { background:var(--accent-soft); }
-  .prow.sel { background:var(--accent-soft); outline:1px solid var(--accent); }
+  .prow.sel { background:var(--accent-soft); outline:2px solid var(--accent); font-weight:600; }
+  .prow.sel .phrase::after { content:" ↓"; color:var(--accent); font-weight:800; }
   .prow .phrase { text-align:right; color:var(--ink); }
   .prow .bars { display:flex; flex-direction:column; gap:.15rem; }
   .prow .b { height:.8rem; border-radius:3px; display:flex; align-items:center; }
@@ -151,6 +152,7 @@
     <p class="note">Stock phrases counted across both sets — the model's fingerprints. Click any row to light up every text that uses it.</p>
     <div class="legend"><span><b style="background:var(--ai)"></b> AI</span><span><b style="background:var(--human)"></b> Human</span></div>
     <div class="chart" id="chart"></div>
+    <p class="note" id="tellStatus" aria-live="polite" style="display:none;margin:.5rem .3rem"></p>
 
     <h3 style="font-size:1.05rem;margin:1.4rem 0 .3rem">Hunt your own tell</h3>
     <p class="note">Think you've spotted another fingerprint? Type any word or phrase and the dashboard counts it across both sets, live.</p>
@@ -292,6 +294,18 @@
     mk(data.ai,'aiCol'); mk(data.human,'humanCol');
   }
 
+  // ---- tell selection: highlight, report the count beside the chart, and jump to the evidence ----
+  function showTell(phrase, nAi, nHu){
+    renderCols(phrase);
+    const st=document.getElementById('tellStatus');
+    const eph=phrase.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    st.style.display='block';
+    if(nAi+nHu===0){ st.innerHTML=`“${eph}” appears in neither set — nothing to highlight below.`; return; }
+    st.innerHTML=`“${eph}” is now highlighted in <strong>${nAi} AI</strong> and <strong>${nHu} human</strong> ${nAi+nHu===1?'text':'texts'} under “The evidence underneath” ↓`;
+    const m=document.querySelector('#aiCol mark, #humanCol mark');
+    if(m && m.scrollIntoView) m.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
   // ---- phrase chart ----
   function countIn(set,p){ return set.filter(x=>x.text.toLowerCase().includes(p)).length; }
   function renderChart(){
@@ -307,7 +321,7 @@
         `</div>`;
       row.addEventListener('click',()=>{
         document.querySelectorAll('.prow').forEach(r=>r.classList.toggle('sel', r===row));
-        renderCols(p);
+        showTell(p,a,h);
       });
       chart.appendChild(row);
     });
@@ -327,7 +341,7 @@
         `</div>`;
       row.addEventListener('click',()=>{
         document.querySelectorAll('.prow').forEach(r=>r.classList.toggle('sel', r===row));
-        renderCols(h.phrase);
+        showTell(h.phrase,h.ai,h.human);
       });
       el.appendChild(row);
     });
@@ -339,7 +353,7 @@
     if(hunted.find(h=>h.phrase===raw)){ msg.textContent='Already on the board.'; return; }
     const a=countIn(data.ai,raw), h=countIn(data.human,raw);
     hunted.push({phrase:raw, ai:a, human:h});
-    renderHunt(); renderCols(raw);
+    renderHunt(); showTell(raw,a,h);
     msg.textContent = a+h===0 ? 'Nobody uses it — try another.' :
       a>0&&h===0 ? 'AI-only. You found a tell.' :
       h>0&&a===0 ? 'Human-only — the opposite of a tell.' : 'Both sets use it.';
@@ -620,8 +634,8 @@
       const card=document.createElement('div'); card.className='pair';
       card.innerHTML=`<div class="pprompt">round ${idx+1} of ${PAIRS.length} · ${p.prompt}</div>`;
       const opts=document.createElement('div'); opts.className='opts2';
-      // alternate which side the slop-flavored answer appears on, so position never leaks
-      const order = idx%2 ? [['b',p.b],['a',p.a]] : [['a',p.a],['b',p.b]];
+      // randomize which side the slop-flavored answer appears on, so position never leaks
+      const order = Math.random()<0.5 ? [['b',p.b],['a',p.a]] : [['a',p.a],['b',p.b]];
       order.forEach(([key,ans])=>{
         const btn=document.createElement('button'); btn.type='button'; btn.className='opt'; btn.textContent=ans.text;
         btn.addEventListener('click',()=>{

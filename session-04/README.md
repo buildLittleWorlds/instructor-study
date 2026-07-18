@@ -4,9 +4,11 @@ An instructor-only **living dashboard** that makes one learned behavior visible:
 
 **v5 (2026-07-12) opens the Session 2 lab's dial #2 — the rule — and adds three modules** that put the session's counter-model on the page itself (previously it lived only in this README's talk track):
 
-1. **The Rule Forge: search that ends in a sentence.** A real 32×22 variant-rule Life bench (same R-pentomino seed every run; only the rule changes) with toggleable birth/survival bits, six presets, and Conway's three desiderata as live meters computed from a silent 200-step audit: doesn't fizzle, doesn't blow up, stays quietly alive. B2/S23 floods, B3/S3 dies at step 3, HighLife kills the R-pentomino at step 9, B34/S34 settles into a tiny loop — and the reader feels how few rules light all three lamps. Two insight cards land the split (*search that ends in a sentence versus search that ends in a hundred billion numbers*) and the learnability facet (*a rule table has no slope* — Springer & Kenyon).
+1. **The Rule Forge: search that ends in a sentence.** A real 32×22 variant-rule Life bench (same R-pentomino seed every run; only the rule changes) with toggleable birth/survival bits, six presets, and Conway's three desiderata as live meters computed from a silent 200-step audit: doesn't fizzle, doesn't blow up, stays quietly alive. B2/S23 floods, B3/S3 dies at step 3, HighLife kills the R-pentomino at step 9, B34/S34 dwindles to a seven-cell flicker — and the reader feels how few rules light all three lamps. Two insight cards land the split (*search that ends in a sentence versus search that ends in a hundred billion numbers*) and the learnability facet (*a rule table has no slope* — Springer & Kenyon).
 2. **Coarse engine, fine skin.** The From Cells to Pixels coda as a manipulable: one 20×20 pulsar state array rendered twice (hard cells vs. a soft hand-written skin) with a reveal-the-grid toggle. Honest note: the real paper's skin is learned; ours is a brush — the layer separation is the lesson. Links to cells2pixels.github.io, the Distill ancestor, and the anthology card.
 3. **Be the reward model.** Six A/B preference rounds over authored answer pairs with authored ingredient tags (stock phrasing, warmth, hedging, list shape, length, concrete detail, risk, plainness). The page tallies the reader's actual clicks (chosen minus rejected per ingredient), assembles "the answer your ratings would tune toward" from their top-rewarded ingredients, and hands down one of three verdicts (false-mean lean / swerve rater / split). Closes the loop with the dashboard above: nobody wrote the slop — it was voted into existence.
+
+**v5.1 (2026-07-18).** Clicking a tell (or hunting one) now reports its AI/human counts beside the chart and smooth-scrolls the first highlighted passage into view — previously the highlights landed below the fold and a click looked like a dead click. Reward-model answer sides are now randomized per round rather than strictly alternated, so position genuinely never leaks.
 
 ## Files
 
@@ -41,7 +43,7 @@ Use the Growing/Persistent/Regenerating distinction: growth-only systems may dec
 
 ## Preview & deploy
 
-`python3 -m http.server 8000` from this folder. Deploy by pushing (`session-04/`). Link it on the landing page and the Six Ideas card #4.
+`python3 -m http.server 8000` from the repository root, then open `http://localhost:8000/session-04/` (the page loads `../site-nav.js`, so serving from inside this folder drops the shared nav). Deploy by pushing (`session-04/`). Link it on the landing page and the Six Ideas card #4.
 
 ## Using it in the 15-minute Bridge
 
