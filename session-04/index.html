@@ -175,7 +175,7 @@
   <div class="module" id="forgeModule">
     <div class="forgewrap">
       <div>
-        <canvas class="board" id="forgeCanvas" width="384" height="264" aria-label="Rule Forge board"></canvas>
+        <canvas class="board" id="forgeCanvas" width="672" height="462" aria-label="Rule Forge board"></canvas>
         <div class="chips" id="forgePresets" aria-label="Rule presets"></div>
         <div class="rulebits">
           <span><strong>Born</strong> with</span><span class="bits" id="birthBits"></span>
@@ -439,7 +439,7 @@
 
   /* ================= Module: The Rule Forge ================= */
   (function(){
-    const W=32,H=22,CS=12;
+    const W=32,H=22,CS=21;
     const ca=makeCA(W,H);
     const canvas=document.getElementById('forgeCanvas'), ctx=canvas.getContext('2d');
     const seed=()=>ca.set(R_PENTOMINO(W>>1,H>>1));
