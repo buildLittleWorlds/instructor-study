@@ -531,7 +531,11 @@
     const pc=document.getElementById('forgePresets');
     PRESETS.forEach(([label,b,s])=>{
       const btn=document.createElement('button'); btn.type='button'; btn.textContent=label; btn.dataset.rule='B'+b.join('')+'/S'+s.join('');
-      btn.addEventListener('click',()=>{ birth=new Set(b); survive=new Set(s); syncBoxes(); onRuleChange(); });
+      btn.addEventListener('click',()=>{
+        birth.clear(); b.forEach(n=>birth.add(n));
+        survive.clear(); s.forEach(n=>survive.add(n));
+        syncBoxes(); onRuleChange();
+      });
       pc.appendChild(btn);
     });
     function markPreset(){
