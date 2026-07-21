@@ -29,7 +29,6 @@
   button.ghost[aria-pressed="true"] { background:var(--muted); color:#fff; }
   .diagram,.authorship { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:1rem 1.2rem; font-size:.95rem; }
   .limit { border-left:4px solid var(--warn); padding:.7rem 1.1rem; background:#faf3ee; margin:1.2rem 0; }
-  .try { border:2px dashed var(--accent); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
   .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
   footer { margin-top:3rem; border-top:1px solid var(--line); padding-top:1rem; font-size:.85rem; color:var(--muted); font-family:system-ui,sans-serif; }
   .module { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; margin:1rem 0 1.4rem; }
@@ -58,17 +57,11 @@
   .vreveal { display:none; font-family:system-ui,sans-serif; font-size:.88rem; margin-top:.6rem; padding-top:.6rem; border-top:1px dashed var(--line); }
   .vreveal .vlabel { color:var(--accent); font-weight:700; }
   .vreveal .hit { color:var(--accent); font-weight:700; } .vreveal .miss { color:var(--warn); font-weight:700; }
-  .tally { font-family:system-ui,sans-serif; font-size:.92rem; margin-top:1rem; padding:.6rem .9rem; background:var(--accent-soft); border-radius:8px; }
   .starters { border:1px solid var(--line); border-radius:8px; background:var(--card); padding:1rem 1.2rem; margin-top:1rem; }
   .starters p { margin:.3rem 0; font-size:1.1rem; font-style:italic; }
 
-  /* Module 5C — strand cards */
-  .strand { border:1px solid var(--line); border-radius:8px; margin:.6rem 0; background:var(--card); overflow:hidden; }
-  .strand > button { display:block; width:100%; text-align:left; border:none; border-radius:0; background:none; color:var(--ink); font-family:Georgia,serif; font-size:1rem; font-weight:700; padding:.7rem 1rem; }
-  .strand > button:hover { background:var(--accent-soft); }
-  .strand > button::before { content:"▸ "; color:var(--accent); font-family:system-ui,sans-serif; }
-  .strand > button[aria-expanded="true"]::before { content:"▾ "; }
-  .strand .sbody { display:none; padding:0 1rem .8rem; font-size:.95rem; }
+  /* Module 5C — the letter stamp */
+  #iniIn { font-family:system-ui,sans-serif; font-size:1.5rem; font-weight:700; letter-spacing:.25em; text-transform:uppercase; width:8ch; padding:.3rem .2rem .3rem .55rem; border:1.5px solid var(--accent); border-radius:8px; color:var(--accent); background:#fff; }
 </style>
 </head>
 <body>
@@ -124,57 +117,57 @@
     <div class="story" id="story2" aria-live="polite"></div>
 
     <p class="landing" id="landing5a"></p>
-    <p class="modnote">Everything above is computed live: the rule, the settle check (the state is compared with itself two generations back, so period-one and period-two endings both count as settled), and the glider census (exact template matching, sixteen phase-orientations, generated in code — see “How this page was made”).</p>
+    <p class="modnote">Everything above is computed live: the rule, the settle check (the state is compared with itself two generations back, so period-one and period-two endings both count as settled), and the glider census (exact template matching, sixteen phase-orientations, generated in code — see “Method”).</p>
   </div>
 
   <h2 id="triage-title">Does it give you a next move?</h2>
-  <p>History is the warm-up; triage is the skill. Below are seven curiosities of the kind this studio actually produces — a couple of them are mine. For each one, make your call <em>before</em> you see mine: not “is it interesting?” but “what would you do with it tomorrow?” The four verdicts are the tool: <strong>watchable now</strong> (run it and look, no apparatus), <strong>buildable smaller</strong> (a real direction whose first version is much smaller than the wish), <strong>just an opinion (as stated)</strong> (no move until it's narrowed), <strong>needs a yardstick first</strong> (the move exists but hides a measurement you haven't chosen).</p>
+  <p>History is the warm-up; triage is the skill. Below are four curiosities of the kind this studio actually produces, and four verdicts to file them under: <strong>watchable now</strong> (run it and look, no apparatus), <strong>buildable smaller</strong> (a real direction whose first version is much smaller than the wish), <strong>just an opinion (as stated)</strong> (no move until it's narrowed), <strong>needs a yardstick first</strong> (the move exists but hides a measurement you haven't chosen). Vote before anyone clicks. Then click your verdict — and the rivals: <em>each chip shows the future that filing buys you</em>, and my own filing carries a flag. Disagreement is fine; the four categories are the tool.</p>
 
   <div class="module">
     <div id="forge"></div>
-    <div class="tally" id="tally" aria-live="polite">0 of 7 triaged.</div>
-    <div class="starters">
-      <p class="note" style="font-style:normal">Now run the same triage on your own project — in your head, nowhere else. Finish three sentences:</p>
-      <p>I want the visitor to…</p>
-      <p>The interesting part is…</p>
-      <p>The smallest next version is…</p>
-      <p class="note" style="font-style:normal">If all three finish easily, you have a direction. If one of them sticks, that one is your week.</p>
-    </div>
   </div>
 
-  <h2 id="strand-title">The study I stopped building</h2>
-  <p>Triage sounds tidy when it happens to other people's curiosities. Here is what it cost me. Three cards; click each one open.</p>
+  <h2 id="knob-title">The seed is a knob</h2>
+  <p>Card 4 filed as <em>watchable now</em>; here is the watching. This page is my app, and the five-cell seed is a knob I chose almost without thinking — Conway's famous scrap instead of anything else. Your letters are a different setting of the same knob. Say out loud what you expect — burns out, settles into ash, still going at five thousand — then run it. Guessing wrong is the good outcome: if you already knew, there would be nothing to find out.</p>
+
   <div class="module">
-    <div id="strands"></div>
-    <p id="strandClose" style="margin:.9rem 0 0"></p>
+    <div class="controls" style="margin:.2rem 0 .4rem">
+      <label class="note" for="iniIn">Letters (up to four):</label>
+      <input id="iniIn" type="text" value="DP" maxlength="4" autocomplete="off" spellcheck="false" aria-label="Letters to stamp onto the board, up to four">
+      <button type="button" id="iniBtn">Stamp the board</button>
+    </div>
+    <p class="modnote" style="margin-top:.3rem">The stamp drops your letters onto the board above as live cells — same rule, same Run, Fast, and Skip. Typed letters become cells and are forgotten: nothing is collected, saved, or sent.</p>
   </div>
 
-  <h2>How this page was made</h2>
+  <h2>Your next move</h2>
+  <div class="starters">
+    <p class="note" style="font-style:normal">Now run the same triage on your own project — in your head, nowhere else. Finish three sentences:</p>
+    <p>I want the visitor to…</p>
+    <p>The interesting part is…</p>
+    <p>The smallest next version is…</p>
+    <p class="note" style="font-style:normal">If all three finish easily, you have a direction. If one of them sticks, that one is your week. And the third sentence is exactly what the Bench turns into a build prompt — out of your answers, nobody else's.</p>
+  </div>
+
+  <h2>Method</h2>
   <div class="diagram">
-    <p><strong>Computed, live, in your browser:</strong> every generation of the board — a real B3/S23 engine on a 120×80 grid, double-buffered, edges dead. The settle detector hashes each new state and compares it with the state two generations back (first checked only after generation 10, and a hash match is confirmed cell-by-cell before the page will say “settled”). The glider census builds its own templates at load time: it drops a lone glider on a scratch grid, runs the engine four steps to get the four phases, then takes every rotation and reflection — sixteen distinct patterns, all landing in 3×3 boxes — and counts exact, non-overlapping matches ringed by an empty one-cell border, every ten generations. The sparkline and the triage tally are computed too.</p>
-    <p><strong>Authored by me:</strong> the three history beats, the seven curiosity cards and their verdicts, and the strand cards in Module 5C. All of that sits in one clearly marked block near the top of this page's script — search the source for <code>EDIT HERE</code>. The essay prose around the modules is ordinary HTML just above it. One discipline throughout: the readouts always show this board's own numbers; the canonical infinite-board record appears only as quoted history, never piped into a readout.</p>
+    <p><strong>Computed, live, in your browser:</strong> every generation of the board — a real B3/S23 engine on a 120×80 grid, edges dead; the settle check, which compares each state with the board two generations back; the glider census — exact template matching against sixteen phase-orientations the page generates in code at load time; the sparkline; and the letter stamp, which maps typed letters through a small pixel font to live cells and does nothing else. <strong>Authored by me:</strong> the three history beats, the four curiosity cards and their sixteen filings, and the pixel font's letterforms — all in one clearly marked block near the top of this page's script (search the source for <code>EDIT HERE</code>). One discipline throughout: the readouts always show this board's own numbers; the canonical infinite-board record appears only as quoted history, never piped into a readout. And one promise: typed letters become cells and are forgotten — nothing you type is collected, saved, or sent.</p>
   </div>
 
   <div class="limit">
-    <strong>Accuracy notes.</strong> Three limits and a guardrail. <em>The board is bounded:</em> 120×80 with dead edges, so travelers are quietly absorbed where infinite Life — the ideal object all the canonical numbers describe — would let them fly forever. This run's settle numbers land close to the record only because the board is big enough for the ash to form untouched in the middle while the edges swallow the gliders. <em>The census is narrow:</em> the counter knows exactly the standard glider's sixteen phase-orientations; a rarer spaceship would sail past uncounted, so “gliders in flight” means gliders, not all traffic. <em>The determinism is total:</em> same seed, same rule, no noise — the same movie every time you load this page; whatever surprises you here, randomness did none of it. <em>And the standing guardrail:</em> a transformer is not a cellular automaton, and this page makes no claims about LLM mechanisms. What it teaches is a continuity — how a curiosity becomes a direction — which is a fact about research and researchers, not about the innards of either machine.
-  </div>
-
-  <h2>What I would try next</h2>
-  <div class="try">
-    Let the reader draw a seed: click cells onto an empty board, then run — card 2's initials experiment, playable here instead of merely promised. And teach the census a second citizen: generate the lightweight spaceship's templates the same way the glider's are made, so the counter stops being blind to rarer travelers.
-  </div>
-
-  <h2>What I chose and how AI helped</h2>
-  <div class="authorship">
-    <p><strong>AI helped with:</strong> drafting this page's code and modules from my written plan — the engine, the settle detector, the template-matching census, the card machinery — and tightening prose I supplied.</p>
-    <p><strong>I chose:</strong> the three history beats and what each is for (a watchable seed, a public wager, the machine that answered it); the seven curiosity cards, their verdicts, and the reasoning under each; and the framing — that this session teaches triage rather than hypothesis-writing, and that the honest unit of progress is a next move.</p>
+    <strong>Accuracy notes.</strong> Four limits and a guardrail. <em>The board is bounded:</em> 120×80 with dead edges, so travelers are quietly absorbed where infinite Life — the ideal object all the canonical numbers describe — would let them fly forever. <em>The census is narrow:</em> the counter knows exactly the standard glider's sixteen phase-orientations; a rarer spaceship would sail past uncounted, so “gliders in flight” means gliders, not all traffic. <em>The determinism is total:</em> same seed, same rule, no noise — whatever surprises you here, randomness did none of it. <em>“Settled” means period ≤ 2:</em> a rarer oscillator with a longer beat — your letters could plausibly make one — would honestly read as “still going,” forever. <em>And the standing guardrail:</em> a transformer is not a cellular automaton, and this page makes no claims about LLM mechanisms. What it teaches is a continuity — how a curiosity becomes a direction — which is a fact about research and researchers, not about the innards of either machine.
   </div>
 
   <p class="cliff">I picked a direction worth one more week. The harder question arrives with it: when I ship the next version, what exactly would make me say it works? That is next session's machine.</p>
 
+  <h2>Authorship note</h2>
+  <div class="authorship">
+    <p><strong>AI helped with:</strong> drafting this page's code from my written plan — the engine, the settle detector, the template-matching census, the letter stamp, the card machinery — and tightening prose I supplied.</p>
+    <p><strong>I chose:</strong> the three history beats and what each is for (a watchable seed, a public wager, the machine that answered it); the four curiosity cards, the four verdict categories, and every one of the sixteen filings; and the framing — that this session teaches triage rather than hypothesis-writing, and that the honest unit of progress is a next move.</p>
+  </div>
+
   <div style="background:#faeee6;border-left:4px solid #c96b32;padding:.9rem 1.1rem;border-radius:0 8px 8px 0;margin:2.2rem 0 0">
     <div style="font-family:system-ui,sans-serif;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:#c96b32;font-weight:700">Where could this go next?</div>
-    <p style="margin:.4rem 0 0">This page landed one idea. <a href="https://buildlittleworlds.github.io/paper-app-trailheads/session-05/" style="color:#c96b32;font-weight:700">Trailheads · Session&nbsp;5</a> marks starting points from that idea into your own territory — your three-note motif, your one rumor, your opening move — small things with unpredictable consequences, and the next move each one hands you. Nothing there is an assignment.</p>
+    <p style="margin:.4rem 0 0">This page landed one idea. <a href="https://buildlittleworlds.github.io/paper-app-trailheads/session-05/" style="color:#c96b32;font-weight:700">Trailheads · Session&nbsp;5</a> is where it becomes yours — its <strong>Bench</strong> asks what you built, has you name a knob you chose without thinking, and makes you predict before it hands you a prompt built from your own answers. Bring your app; it won't work without one. Nothing there is an assignment.</p>
   </div>
 
   <footer>Instructor example · Curiosity-Driven Paper-App Studio · Session 5 · self-contained page (authored content marked EDIT HERE in the script)</footer>
@@ -185,9 +178,9 @@
 'use strict';
 /* ================================================================
    EDIT HERE — every piece of authored module content lives in this
-   block: the three history beats, the seven curiosity cards and
-   verdicts, and the strand cards. Change prose here; the
-   machinery below computes everything else.
+   block: the three history beats, the four curiosity cards and
+   their sixteen filings, and the letter stamp's letterforms.
+   Change prose here; the machinery below computes everything else.
    ================================================================ */
 const T = {
   landing: 'A useful curiosity gives you a next move.',
@@ -205,31 +198,63 @@ const T = {
   verdictLabels: { w:'watchable now', b:'buildable smaller', o:'just an opinion (as stated)', y:'needs a yardstick first' },
 
   cards: [
-    { q:'Is AI art actually good?', v:'o',
-      r:'As stated it has no next move — nothing to open, nothing to press, nobody to watch. But narrow it — <em>can visitors to my gallery tell AI art from human art?</em> — and it turns buildable overnight. An opinion is often a curiosity that hasn’t chosen its move yet.' },
-    { q:'What happens if my Game of Life starts from my initials?', v:'w',
-      r:'Type your initials as a seed tonight; press run. The move is the whole build — you could be watching the answer before dinner.' },
-    { q:'Does my quiz feel different on a phone?', v:'w',
-      r:'Open it on a phone. Hand it to one friend and watch their thumbs. No apparatus, no rubric — the watching is the work.' },
-    { q:'I want to build a whole virtual city — weather, traffic, an economy.', v:'b',
-      r:'One intersection and one slider is a shippable world; the city is a direction, not a first build. Big wants make fine compasses and terrible first steps.' },
-    { q:'Do people prefer the AI’s poem or mine?', v:'y',
-      r:'“Prefer” hides every hard choice — which readers? blind? prefer <em>how</em>? It’s a fine curiosity. But as a build, start with the page that shows both poems side by side and keeps you honest about which is which.' },
-    { q:'Why does my temperature slider make the story weirder?', v:'b', also:'w',
-      r:'Add a both-extremes button — the same prompt at the coldest and hottest settings, side by side — and you can watch the answer instead of wondering. Call it watchable now if you like; I’ll count either chip, because both point at the same small build.' },
-    { q:'Would visitors stay longer if my page had sound?', v:'y',
-      r:'“Longer” on a static page means timers and logging — machinery you don’t need yet. The smaller move is a sound toggle and one friend you watch use it: did their hand go to the switch at all?' }
+    { q:'Is AI art actually good?', mine:'o', moves:{
+      w:'Watch what? There is no page to open, no button to press, nobody to hand it to. That emptiness is the tell: as stated, there is nothing to watch yet.',
+      b:'Build what, exactly? “Good” names no page, no reader, no first version to shrink. There is nothing here to build smaller — narrow the question first.',
+      o:'As stated it has no next move — nothing to open, nothing to press, nobody to watch. But narrow it — <em>can visitors to my gallery tell AI art from human art?</em> — and it turns buildable overnight. An opinion is often a curiosity that hasn’t chosen its move yet.',
+      y:'Pick any yardstick for “good” and someone will rightly ask <em>whose</em> good. The missing piece isn’t a measure — it’s a narrower question for a measure to serve.'
+    } },
+    { q:'I want to build a whole virtual city — weather, traffic, an economy.', mine:'b', moves:{
+      w:'Nothing exists to watch — you could stare at the wish all week and no traffic would move. Watching starts after something, anything, is built.',
+      b:'One intersection and one slider is a shippable world; the city is a direction, not a first build. Big wants make fine compasses and terrible first steps.',
+      o:'It’s more than an opinion — there’s a real direction in it, and directions are worth keeping. The trouble isn’t vagueness; it’s size. Filed as opinion it dies; filed smaller it ships.',
+      y:'Measure what? There is nothing yet to hold a ruler against. The yardstick question gets interesting one intersection from now — build that first.'
+    } },
+    { q:'Do people prefer the AI’s poem or mine?', mine:'y', moves:{
+      w:'Hand two poems to one friend and watch — a real evening, worth having. But notice what you still can’t say afterward: prefer, for whom, counted how? The watching runs out fast without a measure.',
+      b:'The smaller build exists — a page showing both poems side by side, honest about which is which. Ship it. The moment a reader answers, though, you are back at the hidden measure: prefer <em>how</em>?',
+      o:'There is a genuine build hiding in it, so it is more than opinion. What it lacks isn’t narrowing — it’s a measure. “Prefer” is doing all the hiding.',
+      y:'“Prefer” hides every hard choice — which readers? blind? prefer <em>how</em>? The move exists, but a measurement you haven’t chosen is waiting inside it. <span class="note">(Session 6 hands you the yardstick.)</span>'
+    } },
+    { q:'What happens if this board starts from your initials?', mine:'w', act:'knob', moves:{
+      w:'Run it and look — no apparatus, no rubric; the build <em>is</em> the watching. The bench is one section down, and your letters are the seed.',
+      b:'There is nothing smaller to shrink to — typing letters and pressing Run is already the smallest version. When the first move is this cheap, take it.',
+      o:'It states its own test: type letters, press Run, watch. A wondering that names its next move is the opposite of an opinion.',
+      y:'The board is its own yardstick — settle generation, population, and gliders are already on the readouts. Nothing is missing. Run it.'
+    } }
   ],
 
-  strands: [
-    { t:'What it was',
-      body:'Through early July, this Instructor’s Study carried a twelve-session research machine. Sessions 5 through 9 were its numbered pages: a locked three-condition study — the model’s default answer, a randomized one, a deliberately directed one — with a trained rubric, a live run, a blind reveal, and an AI judge waiting at the end of the chain. It was, I still think, a rather handsome instrument.' },
-    { t:'Why I set it aside',
-      body:'Because it was good research practice standing in the wrong place. Its numbered pages made a professional pipeline look like the student path — as if week five of a curiosity course naturally produced condition codes. And it ran on coordination: ratings to collect, JSON to export, a shared dataset to keep synchronized. The course’s material gate asks one blunt question of every artifact — does the coordination pay for itself for <em>these</em> students? This machine failed it.' },
-    { t:'What survived',
-      body:'More than I expected. The Slop Detector’s measured sameness stayed in Session 4; the Agreement Machine’s calibration lesson stayed in Session 6; the authorship exhibit stayed in Session 10. And the machine itself is not deleted — it is archived whole, as provenance: <code>../archive/2026-07-10-curiosity-pivot-later-session-chain/</code>. Kept, named, and out of the way.' }
-  ],
-  strandClose: '<strong>Abandoning a direction is a research move when you can say what you kept.</strong> That sentence is this module’s whole cargo — and it is exactly what this session asks of your own builds: keep the curiosity, shrink the machine.'
+  iniLine: 'No record book holds these letters — the numbers above were computed here, a moment ago. And that was the whole move: change one thing in something already built, say your guess first, and the comparison does the analysis. Tonight, the Bench on Trailheads asks your app for the same move.',
+
+  // the letter stamp's letterforms — 5×7, rows top to bottom, # = live cell
+  FONT: {
+    A:'.###./#...#/#...#/#####/#...#/#...#/#...#',
+    B:'####./#...#/#...#/####./#...#/#...#/####.',
+    C:'.###./#...#/#..../#..../#..../#...#/.###.',
+    D:'####./#...#/#...#/#...#/#...#/#...#/####.',
+    E:'#####/#..../#..../####./#..../#..../#####',
+    F:'#####/#..../#..../####./#..../#..../#....',
+    G:'.###./#...#/#..../#.###/#...#/#...#/.###.',
+    H:'#...#/#...#/#...#/#####/#...#/#...#/#...#',
+    I:'.###./..#../..#../..#../..#../..#../.###.',
+    J:'..###/...#./...#./...#./...#./#..#./.##..',
+    K:'#...#/#..#./#.#../##.../#.#../#..#./#...#',
+    L:'#..../#..../#..../#..../#..../#..../#####',
+    M:'#...#/##.##/#.#.#/#.#.#/#...#/#...#/#...#',
+    N:'#...#/##..#/#.#.#/#..##/#...#/#...#/#...#',
+    O:'.###./#...#/#...#/#...#/#...#/#...#/.###.',
+    P:'####./#...#/#...#/####./#..../#..../#....',
+    Q:'.###./#...#/#...#/#...#/#.#.#/#..#./.##.#',
+    R:'####./#...#/#...#/####./#.#../#..#./#...#',
+    S:'.###./#...#/#..../.###./....#/#...#/.###.',
+    T:'#####/..#../..#../..#../..#../..#../..#..',
+    U:'#...#/#...#/#...#/#...#/#...#/#...#/.###.',
+    V:'#...#/#...#/#...#/#...#/#...#/.#.#./..#..',
+    W:'#...#/#...#/#...#/#.#.#/#.#.#/##.##/#...#',
+    X:'#...#/#...#/.#.#./..#../.#.#./#...#/#...#',
+    Y:'#...#/#...#/.#.#./..#../..#../..#../..#..',
+    Z:'#####/....#/...#./..#../.#.../#..../#####'
+  }
 };
 /* ===================== end EDIT HERE ============================ */
 
@@ -385,6 +410,7 @@ function readouts(){
 
 // ---- run control ----
 const runBtn=$('runBtn'), fastBtn=$('fastBtn'), skipBtn=$('skipBtn'), resetBtn=$('resetBtn'), gunBtn=$('gunBtn');
+const predictHint=$('predictNote').textContent;
 function pressedStates(){
   runBtn.setAttribute('aria-pressed',String(running&&speed===20));
   fastBtn.setAttribute('aria-pressed',String(running&&speed===120));
@@ -443,17 +469,22 @@ function finishSettle(){
   glNow=countGliders(); if(glNow>glMax)glMax=glNow;
   draw(); readouts();
   const band=bandFor(settleGen);
-  let verdict;
-  if(predicted===band) verdict='Your chip — “'+chipLabels[band]+'” — was the right one. Take the point.';
-  else if(predicted==='never') verdict='You bet on “never settles”; the rule outlasted the bet at generation '+settleGen+'. An honest miss — the group in 1970 would have sympathized.';
-  else verdict='You picked “'+chipLabels[predicted]+'”; the board’s answer was “'+chipLabels[band]+'.” Wrong-but-locked beats right-but-after — the habit is the point.';
+  let verdictHtml='';
+  if(mode!=='ini'&&predicted!==null){
+    let verdict;
+    if(predicted===band) verdict='Your chip — “'+chipLabels[band]+'” — was the right one. Take the point.';
+    else if(predicted==='never') verdict='You bet on “never settles”; the rule outlasted the bet at generation '+settleGen+'. An honest miss — the group in 1970 would have sympathized.';
+    else verdict='You picked “'+chipLabels[predicted]+'”; the board’s answer was “'+chipLabels[band]+'.” Wrong-but-locked beats right-but-after — the habit is the point.';
+    verdictHtml='<p style="margin:.2rem 0">'+verdict+'</p>';
+  }
   const rows='<dl><dt>settled (period ≤ 2) at generation</dt><dd>'+settleGen+'</dd>'+
     '<dt>final population</dt><dd>'+pop+'</dd>'+
     '<dt>peak population</dt><dd>'+peak+'</dd>'+
     '<dt>gliders — most seen aloft at once</dt><dd>'+glMax+'</dd></dl>';
   const cano=(mode==='r')?'<p style="margin:.2rem 0 0">'+T.canonical+'</p>'
-    :'<p style="margin:.2rem 0 0">Even the gun’s world found stillness — but only because this board is finite. The infinite gun never settles; that is its whole boast.</p>';
-  $('revealCard').innerHTML='<strong>Settled.</strong> All four numbers below were computed on this board, just now.'+rows+'<p style="margin:.2rem 0">'+verdict+'</p>'+cano;
+    :(mode==='gun')?'<p style="margin:.2rem 0 0">Even the gun’s world found stillness — but only because this board is finite. The infinite gun never settles; that is its whole boast.</p>'
+    :'<p style="margin:.2rem 0 0">'+T.iniLine+'</p>';
+  $('revealCard').innerHTML='<strong>Settled.</strong> All four numbers below were computed on this board, just now.'+rows+verdictHtml+cano;
   $('revealCard').style.display='block';
   if(mode==='r'){
     $('story1').innerHTML='<span class="shead">'+T.story1Head+'</span><br>'+T.story1;
@@ -468,8 +499,9 @@ function resetBoard(){
   $('story1').style.display='none';
   $('story2').style.display='none';
   $('progress').textContent='';
-  gunBtn.setAttribute('aria-pressed','false'); gunBtn.disabled=false;
-  setRunControls(true);
+  gunBtn.setAttribute('aria-pressed','false'); gunBtn.disabled=(predicted===null);
+  setRunControls(predicted!==null);
+  if(predicted===null) $('predictNote').textContent=predictHint;
   draw(); readouts();
 }
 function loadGun(){
@@ -491,6 +523,45 @@ skipBtn.addEventListener('click',skip);
 resetBtn.addEventListener('click',resetBoard);
 gunBtn.addEventListener('click',loadGun);
 
+// ---- the letter stamp (the seed is a knob) ----
+const iniIn=$('iniIn'), iniBtn=$('iniBtn');
+function cellsFromText(txt){
+  const cells=[]; const n=txt.length; if(!n) return cells;
+  const x0=Math.round((W-(n*7-2))/2), y0=Math.round((H-7)/2);
+  for(let i=0;i<n;i++){
+    const rows=(T.FONT[txt.charAt(i)]||'').split('/');
+    for(let y=0;y<rows.length;y++)
+      for(let x=0;x<5;x++)
+        if(rows[y].charAt(x)==='#') cells.push([x0+i*7+x,y0+y]);
+  }
+  return cells;
+}
+function stampInitials(){
+  const txt=iniIn.value;
+  const cells=cellsFromText(txt);
+  if(!cells.length) return;
+  abortSkip(); pause();
+  mode='ini'; seed(cells);
+  $('revealCard').style.display='none';
+  $('story1').style.display='none';
+  $('story2').style.display='none';
+  $('progress').textContent='Seeded from “'+txt+'” — '+cells.length+' live cells. Say your guess out loud, then Run.';
+  gunBtn.setAttribute('aria-pressed','false');
+  resetBtn.disabled=false;
+  setRunControls(true);
+  if(predicted===null) $('predictNote').textContent='Controls unlocked for your letters. Reset brings back the five cells — and their waiting prediction.';
+  draw(); readouts();
+  cv.scrollIntoView({behavior:'smooth',block:'center'});
+}
+iniBtn.addEventListener('click',stampInitials);
+iniIn.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); stampInitials(); } });
+iniIn.addEventListener('input',function(){
+  const v=iniIn.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,4);
+  if(v!==iniIn.value) iniIn.value=v;
+  iniBtn.disabled=(v.length===0);
+});
+iniBtn.disabled=(iniIn.value.length===0);
+
 // ---- predict-first gate ----
 const predictChips=Array.prototype.slice.call(document.querySelectorAll('#predictChips button'));
 predictChips.forEach(function(b){
@@ -508,8 +579,10 @@ $('landing5a').textContent=T.landing;
 seed(R_SEED); draw(); readouts();
 
 // ---------------- Module 5B: the triage forge ----------------
-const forge=$('forge'), tally=$('tally');
-let answered=0, matched=0;
+// Chips never lock: the first click is scored against my filing, and
+// every click — first or later — swaps in that verdict's own filing,
+// so clicking the rivals shows what each filing actually buys you.
+const forge=$('forge');
 T.cards.forEach(function(card,i){
   const box=document.createElement('div'); box.className='cardq';
   const q=document.createElement('p'); q.className='q';
@@ -517,46 +590,33 @@ T.cards.forEach(function(card,i){
   box.appendChild(q);
   const row=document.createElement('div'); row.className='verdicts';
   const reveal=document.createElement('div'); reveal.className='vreveal'; reveal.setAttribute('aria-live','polite');
-  const chips=[];
+  const chips={};
   ['w','b','o','y'].forEach(function(k){
     const b=document.createElement('button'); b.type='button';
     b.textContent=T.verdictLabels[k]; b.setAttribute('aria-pressed','false');
     b.addEventListener('click',function(){
-      if(card.done) return;
-      card.done=true;
-      chips.forEach(function(c){c.disabled=true;});
-      b.setAttribute('aria-pressed','true');
-      const hit=(k===card.v)||(card.also&&k===card.also);
-      answered++; if(hit)matched++;
-      reveal.innerHTML=(hit?'<span class="hit">Same call.</span> ':'<span class="miss">I filed it differently.</span> ')+
-        'My verdict: <span class="vlabel">'+T.verdictLabels[card.v]+'</span>'+(card.also?' <span class="note">(or '+T.verdictLabels[card.also]+')</span>':'')+'. '+card.r;
+      Object.keys(chips).forEach(function(kk){chips[kk].setAttribute('aria-pressed',String(kk===k));});
+      let prefix='';
+      if(!card.first){
+        card.first=k;
+        prefix=(k===card.mine)?'<span class="hit">Same call.</span> ':'<span class="miss">I filed it differently.</span> ';
+      }
+      const flag=(k===card.mine)?' <span class="vlabel">— this is where I file it.</span>':'';
+      reveal.innerHTML=prefix+'<strong>Filed “'+T.verdictLabels[k]+'”:</strong> '+card.moves[k]+flag;
+      if(card.act==='knob'&&k==='w'){
+        const gb=document.createElement('button'); gb.type='button';
+        gb.textContent='Put your letters on the board ↓';
+        gb.style.marginTop='.55rem'; gb.style.display='block';
+        gb.addEventListener('click',function(){ $('knob-title').scrollIntoView({behavior:'smooth',block:'start'}); });
+        reveal.appendChild(gb);
+      }
       reveal.style.display='block';
-      tally.innerHTML=(answered<T.cards.length)
-        ? answered+' of '+T.cards.length+' triaged · matched my verdict so far: '+matched+'.'
-        : '<strong>You matched my verdict on '+matched+' of '+T.cards.length+'</strong> — disagreement is fine; the four categories are the tool. A card you can argue about is a card that worked.';
     });
-    chips.push(b); row.appendChild(b);
+    chips[k]=b; row.appendChild(b);
   });
   box.appendChild(row); box.appendChild(reveal);
   forge.appendChild(box);
 });
-
-// ---------------- Module 5C: strand cards ----------------
-const strands=$('strands');
-T.strands.forEach(function(s){
-  const wrap=document.createElement('div'); wrap.className='strand';
-  const head=document.createElement('button'); head.type='button';
-  head.setAttribute('aria-expanded','false'); head.textContent=s.t;
-  const body=document.createElement('div'); body.className='sbody'; body.innerHTML=s.body;
-  head.addEventListener('click',function(){
-    const open=head.getAttribute('aria-expanded')==='true';
-    head.setAttribute('aria-expanded',String(!open));
-    body.style.display=open?'none':'block';
-  });
-  wrap.appendChild(head); wrap.appendChild(body);
-  strands.appendChild(wrap);
-});
-$('strandClose').innerHTML=T.strandClose;
 })();
 </script>
 </body>
