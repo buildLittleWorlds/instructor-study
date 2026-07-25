@@ -60,6 +60,12 @@
   .window-step { display:grid; place-items:center; min-height:4.5rem; padding:.6rem; border:1px solid var(--line); border-radius:8px; background:var(--paper); text-align:center; font-size:.82rem; font-weight:700; line-height:1.3; }
   .window-step:nth-of-type(3) { border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
   .window-arrow { display:grid; place-items:center; color:var(--accent); font-family:system-ui,sans-serif; font-weight:800; }
+  .ladder { display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; margin:1rem 0; font-family:system-ui,sans-serif; }
+  .rung { border:1px solid var(--line); border-radius:8px; padding:.7rem .8rem; background:var(--paper); }
+  .rung strong { display:block; font-size:.9rem; margin-bottom:.25rem; }
+  .rung span { display:block; font-size:.82rem; line-height:1.4; color:#5a5a52; }
+  .rung-far { border-color:var(--accent); background:var(--accent-soft); }
+  .rung-far strong, .rung-far span { color:var(--accent); }
   .cliff { font-size:1.15rem; font-style:italic; margin:2rem 0 0; }
   .err { color:var(--warn); font-family:system-ui,sans-serif; }
   .legend { font-family:system-ui,sans-serif; font-size:.8rem; display:flex; gap:1.2rem; margin:.3rem 0 .6rem; }
@@ -97,6 +103,7 @@
   @media (max-width:42rem) {
     .window-path { grid-template-columns:1fr; }
     .window-arrow { min-height:1rem; transform:rotate(90deg); }
+    .ladder { grid-template-columns:1fr; }
     .testrow { grid-template-columns:1.2rem 1fr; }
     .testrow .ttxt { grid-column:2; }
   }
@@ -115,6 +122,18 @@
   <p class="note"><strong>Course boundary:</strong> this is an instructor demonstration. Your choices stay in this browser tab; nothing is collected, exported, or submitted.</p>
 
   <p><strong>This week's question:</strong> can defining what we mean by "good" make a room full of people rate the same writing the same way?</p>
+
+  <section class="window-lesson" aria-labelledby="knowing-title">
+    <h2 id="knowing-title">Knowing something without reading it</h2>
+    <p>You are publishing apps whose code you mostly do not read. That is not a shortcut — until recently it was not possible at all. Someone who could not write code could not ship working software. Now the code gets written, it works, and nobody in the room has read it line by line.</p>
+    <p>So you already know your app another way: you click it, try it, and try to break it. That is a real way of knowing, and it is not confined to code. A researcher can find what hundreds of studies say without reading them all; an editor can tell that an argument collapses in the middle without reading every sentence. In each case someone stopped reading word by word and started <em>checking</em> — and the checking became the way they know.</p>
+    <div class="ladder" aria-label="Three levels: code you wrote, code AI wrote, and a model">
+      <div class="rung"><strong>Code you wrote</strong><span>You could read it. Testing saves you time.</span></div>
+      <div class="rung"><strong>Code AI wrote</strong><span>Nobody read it — but somebody could. So sometimes you should.</span></div>
+      <div class="rung rung-far"><strong>A model</strong><span>Nobody can. Checking is the only door there is.</span></div>
+    </div>
+    <p class="note"><strong>The honest part:</strong> levels of abstraction are old — machine code gave way to assembly, assembly to C, ledgers to spreadsheets, maps to turn-by-turn directions. People have handed work to tools for fifty years. Two things are new. The layer you stopped reading can now be <em>confidently wrong</em>: a calculator cannot lie to you and an AI can. And a model cannot be read the way code can — researchers do study what is inside them, and that work is real and unfinished, but no reading of the numbers tells you what it will do next.</p>
+  </section>
 
   <section class="window-lesson" aria-labelledby="window-title">
     <h2 id="window-title">A window, not a verdict</h2>
