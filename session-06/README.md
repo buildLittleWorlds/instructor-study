@@ -2,6 +2,11 @@
 
 An instructor-only **calibration lab**. The reader tries the same three story openings twice — once on gut feeling and once with named criteria — to see how the definition of success changes a judgment. The page is fully static and does not collect or export ratings.
 
+The page now names the course's evaluation spine once: **a good check is a window, not a verdict**.
+Its four-step visual is **mostly unseen system → chosen check → observable evidence → where to look
+next**. This is not a claim that benchmarks explain a whole model. They reveal selected behavior
+under named conditions and help route closer inspection.
+
 **v5 (2026-07-12) adds two modules** that put the session's counter-model and its research-scale upgrade on the page (previously talk-track only):
 
 1. **Three meanings of "it works."** A real 60×40 board running the Gosper glider gun, with a damage brush and three computed tests: *reach the target once* (a glider crosses the far field within 50 generations — passes at 40), *keep working* (far field still supplied around generation 150 — passes), and *recover from damage* (far field still supplied 140–200 generations after the reader's hit — fails for almost any strike on the machinery, because nothing ever trained the gun to survive a reader). The insight card hands off to the Growing Neural CA grow/persist/regenerate triple, where the third test is *chosen at training time*, with links to the live Distill and cells2pixels demos.
@@ -40,8 +45,9 @@ Use Growing Neural Cellular Automata to distinguish three tests: can the system 
 
 ## Using it in the 15-minute Bridge
 
-1. Run the gun bench: tests 1 and 2 pass, then hand a student the damage brush and run test 3. Land: success depends on which behavior you test.
-2. Demonstrate one item in the Agreement Machine to show that different criteria answer different questions.
-3. If the room is quick, drag the yardstick slider once: same skill, two stories — the instrument can manufacture the jump.
-4. Ask each student to name one success check for their own app: loads, responds, recovers, explains itself, or handles an unusual input.
-5. Do not collect class ratings, exports, or agreement rows.
+1. Use the window visual after the student examples. Land: "A good check lets us learn something real without inspecting everything. It is a window, not a verdict."
+2. Run the gun bench: tests 1 and 2 pass, then hand a student the damage brush and run test 3. Land: success depends on which behavior you test.
+3. Demonstrate one item in the Agreement Machine to show that different criteria answer different questions.
+4. If the room is quick, drag the yardstick slider once: same skill, two stories — the instrument can manufacture the jump.
+5. Ask each student to name **one** success check for their own app, run it, and finish: "My check shows ___; it does not show ___."
+6. Do not collect class ratings, exports, or agreement rows.
