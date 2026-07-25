@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Agreement Machine — Instructor's Study, Session 6</title>
+<title>Knowing Without Reading — Instructor's Study, Session 6</title>
 <script defer src="../studio-nav.js" data-site="study"></script>
 <style>
   :root {
@@ -100,40 +100,166 @@
   .digits span.ok { background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
   .digits span.bad { background:#f7e7ec; color:var(--lo); border-color:var(--lo); }
   .mirstat { font-family:system-ui,sans-serif; font-size:.88rem; margin:.3rem 0; }
+
+  /* ---- v6 lead exhibits (ladder · confident summary · where else) ---- */
+  .rungs { display:grid; grid-template-columns:repeat(3,1fr); gap:.6rem; font-family:system-ui,sans-serif; }
+  .rungbox { border:1px solid var(--line); border-radius:8px; padding:.7rem .8rem; background:var(--paper); display:flex; flex-direction:column; gap:.45rem; }
+  .rungbox.on { border-color:var(--accent); background:var(--accent-soft); }
+  .rungbox .rn { font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .rungbox .rt { font-size:.95rem; font-weight:700; line-height:1.25; }
+  .rungbox .rbtns { display:flex; gap:.35rem; margin-top:auto; }
+  .rungbox .rbtns button { flex:1; font-size:.78rem; padding:.35rem .3rem; }
+  .rungpanel { margin-top:.9rem; border:1px solid var(--line); border-radius:8px; background:var(--paper); padding:.85rem 1rem; min-height:9rem; font-family:system-ui,sans-serif; font-size:.86rem; }
+  .rungpanel h4 { margin:0 0 .4rem; font-size:.9rem; font-family:system-ui,sans-serif; }
+  .rungpanel pre { margin:0; max-height:15rem; overflow:auto; background:#fbfaf6; border:1px solid var(--line); border-radius:6px; padding:.6rem .7rem; font-size:.76rem; line-height:1.5; }
+  .rungpanel .verdictline { margin:.6rem 0 0; font-weight:700; }
+  .rungpanel .verdictline.ok { color:var(--hi); }
+  .rungpanel .verdictline.no { color:var(--lo); }
+  .weights { display:grid; grid-template-columns:repeat(auto-fill,minmax(3.4rem,1fr)); gap:.25rem; max-height:11rem; overflow:auto; background:#fbfaf6; border:1px solid var(--line); border-radius:6px; padding:.5rem; }
+  .weights span { font-size:.68rem; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:#5a5a52; text-align:right; }
+  .sumwrap { display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:start; }
+  .sumlab { font-family:system-ui,sans-serif; font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted); margin-bottom:.35rem; }
+  .sumcode pre { margin:0; background:#fbfaf6; border:1px solid var(--line); border-radius:6px; padding:.6rem .7rem; font-size:.72rem; line-height:1.5; overflow:auto; max-height:26rem; }
+  .claim { border:1px solid var(--line); border-radius:8px; background:var(--paper); padding:.55rem .7rem; margin:0 0 .45rem; font-family:system-ui,sans-serif; font-size:.85rem; }
+  .claim .ctext { display:block; margin-bottom:.4rem; }
+  .claim button { font-size:.75rem; padding:.28rem .7rem; }
+  .claim .cv { display:none; margin-top:.4rem; font-weight:700; font-size:.82rem; }
+  .claim.done .cv { display:block; }
+  .claim.done button { display:none; }
+  .claim.yes { border-color:var(--hi); background:var(--accent-soft); }
+  .claim.yes .cv { color:var(--hi); }
+  .claim.no { border-color:var(--lo); background:#f9edf1; }
+  .claim.no .cv { color:var(--lo); }
+  .wherecard { margin-top:.8rem; border:1px solid var(--line); border-radius:8px; background:var(--paper); padding:.85rem 1rem; font-family:system-ui,sans-serif; font-size:.86rem; min-height:11rem; }
+  .wherecard h4 { margin:0; font-size:1rem; font-family:system-ui,sans-serif; display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; }
+  .wherecard .when { font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:var(--muted); }
+  .wherecard .badge { font-size:.68rem; letter-spacing:.05em; text-transform:uppercase; font-weight:700; border-radius:999px; padding:.15rem .55rem; background:var(--accent-soft); color:var(--accent); border:1px solid var(--accent); }
+  .wherecard .badge.now { background:#faf3ee; color:var(--warn); border-color:var(--warn); }
+  .wherecard dl { display:grid; grid-template-columns:9.5rem 1fr; gap:.3rem .8rem; margin:.75rem 0 0; }
+  .wherecard dt { font-weight:700; color:var(--accent); font-size:.78rem; text-align:right; }
+  .wherecard dd { margin:0; }
+  .wherecard .catch { margin:.75rem 0 0; padding-top:.6rem; border-top:1px solid var(--line); font-style:italic; color:#5a5a52; }
+  .newgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:.7rem; margin:1.2rem 0; font-family:system-ui,sans-serif; }
+  .newcard { border:1px solid var(--line); border-radius:9px; background:var(--card); padding:.8rem .9rem; }
+  .newcard strong { display:block; font-size:.92rem; margin-bottom:.35rem; line-height:1.3; }
+  .newcard span { display:block; font-size:.82rem; line-height:1.5; color:#5a5a52; }
+  .newcard-far { border-color:var(--accent); background:var(--accent-soft); }
+  .newcard-far strong { color:var(--accent); }
+
   @media (max-width:42rem) {
     .window-path { grid-template-columns:1fr; }
     .window-arrow { min-height:1rem; transform:rotate(90deg); }
     .ladder { grid-template-columns:1fr; }
     .testrow { grid-template-columns:1.2rem 1fr; }
     .testrow .ttxt { grid-column:2; }
+    .rungs { grid-template-columns:1fr; }
+    .sumwrap { grid-template-columns:1fr; }
+    .newgrid { grid-template-columns:1fr; }
+    .wherecard dl { grid-template-columns:1fr; }
+    .wherecard dt { text-align:left; }
   }
 </style>
 </head>
 <body>
 <main>
-  <div class="kicker">The Instructor's Study · Session 6 · The False Mean project</div>
-  <h1>The Agreement Machine</h1>
+  <div class="kicker">The Instructor's Study · Session 6</div>
+  <h1>Knowing Without Reading</h1>
   <div class="byline">Dr. Plate — AI + Research, Level 2 · Youth Horizons Learning</div>
 
   <div class="thesis">
-    <strong>Thesis.</strong> "Quality" sounds hopelessly personal — until you notice that trained judges, given clear criteria, start to <em>agree</em>. That agreement is the whole trick: it turns a feeling into evidence. This page is a small machine for watching it happen — to you.
+    <strong>Thesis.</strong> You are publishing apps whose code you have not read, and you know they work because you clicked them. That is a real way of knowing, it is not only happening in code, and it is not entirely new. What <em>is</em> new is that the layer you stopped reading can be confidently wrong — and that some layers cannot be read at all.
   </div>
 
   <p class="note"><strong>Course boundary:</strong> this is an instructor demonstration. Your choices stay in this browser tab; nothing is collected, exported, or submitted.</p>
 
-  <p><strong>This week's question:</strong> can defining what we mean by "good" make a room full of people rate the same writing the same way?</p>
+  <p><strong>This week's question:</strong> how do you know what your app does?</p>
 
-  <section class="window-lesson" aria-labelledby="knowing-title">
-    <h2 id="knowing-title">Knowing something without reading it</h2>
-    <p>You are publishing apps whose code you mostly do not read. That is not a shortcut — until recently it was not possible at all. Someone who could not write code could not ship working software. Now the code gets written, it works, and nobody in the room has read it line by line.</p>
-    <p>So you already know your app another way: you click it, try it, and try to break it. That is a real way of knowing, and it is not confined to code. A researcher can find what hundreds of studies say without reading them all; an editor can tell that an argument collapses in the middle without reading every sentence. In each case someone stopped reading word by word and started <em>checking</em> — and the checking became the way they know.</p>
-    <div class="ladder" aria-label="Three levels: code you wrote, code AI wrote, and a model">
-      <div class="rung"><strong>Code you wrote</strong><span>You could read it. Testing saves you time.</span></div>
-      <div class="rung"><strong>Code AI wrote</strong><span>Nobody read it — but somebody could. So sometimes you should.</span></div>
-      <div class="rung rung-far"><strong>A model</strong><span>Nobody can. Checking is the only door there is.</span></div>
+  <h2 id="ladder-title">Three rungs</h2>
+  <p>Three things you could try to understand. Each one gives you two ways in. Press both on all three and notice where one of the doors stops working.</p>
+
+  <div class="module" id="ladderModule">
+    <div class="rungs" id="rungs"></div>
+    <div class="rungpanel" id="rungPanel" aria-live="polite">
+      <p class="modnote" style="margin:0">Pick a rung, then press <em>read it</em> or <em>check it</em>.</p>
     </div>
-    <p class="note"><strong>The honest part:</strong> levels of abstraction are old — machine code gave way to assembly, assembly to C, ledgers to spreadsheets, maps to turn-by-turn directions. People have handed work to tools for fifty years. Two things are new. The layer you stopped reading can now be <em>confidently wrong</em>: a calculator cannot lie to you and an AI can. And a model cannot be read the way code can — researchers do study what is inside them, and that work is real and unfinished, but no reading of the numbers tells you what it will do next.</p>
-  </section>
+    <div class="insight"><strong>The third rung is the one to sit with.</strong> On rung one both doors work. On rung two both doors still work — nobody read that code, but somebody could, so sometimes you should. On rung three <em>read it</em> stops being a door at all. You can look at the numbers for as long as you like and learn nothing about what the thing will do next. Researchers do study what is inside these models, and that work is real and unfinished — but it is not reading, and it does not work the way reading code works.</p></div>
+    <p class="modnote"><strong>Honesty label:</strong> the numbers on rung three are illustrative, generated on this page. They are not weights pulled out of a real model. The point they make — that a grid of numbers tells you nothing about behavior — is exactly as true of the real ones, which is why an illustration is honest here.</p>
+  </div>
+
+  <h2 id="summary-title">The confident summary</h2>
+  <p>Here is a small app, all of it, and a description of what it does. The description reads like something an assistant would hand you. Four of its five claims are true of this code. One is not.</p>
+  <p><strong>Find the wrong one before you press anything.</strong> Then check each claim and see how you did.</p>
+
+  <div class="module" id="summaryModule">
+    <div class="sumwrap">
+      <div class="sumcode">
+        <div class="sumlab">quiz.js — the whole thing</div>
+<pre><code>const questions = ["Is a tomato a fruit?",
+                   "Do fish sleep?",
+                   "Is glass a liquid?"];
+const answers   = [true, true, false];
+
+let score   = 0;
+let current = 0;
+
+function ask() {
+  document.getElementById("q").textContent = questions[current];
+}
+
+function answer(choice) {
+  if (choice === answers[current]) {
+    score = score + 1;
+  }
+  current = current + 1;
+  if (current &lt; questions.length) {
+    ask();
+  } else {
+    document.getElementById("q").textContent = "Done! Score: " + score;
+  }
+}
+
+document.getElementById("yes").onclick = () =&gt; answer(true);
+document.getElementById("no").onclick  = () =&gt; answer(false);
+ask();</code></pre>
+      </div>
+      <div class="sumclaims">
+        <div class="sumlab">What the description says it does</div>
+        <div id="claimList"></div>
+        <p class="mirstat" id="claimTally">0 of 5 checked.</p>
+      </div>
+    </div>
+    <div class="insight" id="claimInsight" style="display:none"><strong>That is what confidently wrong looks like.</strong> The false claim is not nonsense. It is the reasonable thing — saving a best score is what a quiz app usually does — stated in exactly the same voice as the four true ones. Nothing in the description marks it as the shaky one. A calculator cannot do that to you. It gives you an answer or an error, never a confident invention.</div>
+    <p class="modnote"><strong>Honesty label:</strong> this description was written by hand to demonstrate the failure mode; it is not the live output of a model. A real assistant summarising twenty-four lines would very likely get all five right. That is the actual problem — you cannot tell the accurate summary from the confident one by looking at it, which is why the only move is to check.</p>
+  </div>
+
+  <h2 id="where-title">Where else this happened</h2>
+  <p>Not only code, and not only now. Pick a field.</p>
+
+  <div class="module" id="whereModule">
+    <div class="chips" id="whereChips"></div>
+    <div class="wherecard" id="whereCard" aria-live="polite"></div>
+    <div class="insight"><strong>Four of these six happened before AI.</strong> That is why they are here. If this page told you the situation was unprecedented, you would find a counterexample in about four minutes and stop believing the rest of it. People have been handing work to tools for a very long time, and every time it happened somebody asked whether it was really still the same craft. The contrast is not a hedge — it is the only way to see what actually <em>is</em> different this time.</div>
+  </div>
+
+  <h2 id="new-title">So what is actually new?</h2>
+  <p>Three things, and only three. Everything else on this page is old news wearing new clothes.</p>
+
+  <div class="newgrid">
+    <div class="newcard">
+      <strong>A calculator can't lie to you.</strong>
+      <span>Every older tool on that list was reliable underneath. A spreadsheet computes exactly what you told it, even when what you told it was nonsense. This is the first one that can invent something and sound exactly as confident as when it is right.</span>
+    </div>
+    <div class="newcard">
+      <strong>Some things can't be read at all.</strong>
+      <span>Code AI wrote is unread but readable — somebody could. A model is different in kind, not in size. That is rung three, and it is why checking is not a convenience there.</span>
+    </div>
+    <div class="newcard newcard-far">
+      <strong>You can do work whose nuts and bolts you don't know.</strong>
+      <span>Not "software got easier." <em>Who can do what</em> changed. A teacher hands out a plan they did not write; a scientist summarises studies they did not read; you publish an app you cannot read. This is the one that is about you.</span>
+    </div>
+  </div>
+
+  <p class="cliff">So if you did not read it, and some of it cannot be read, and what you did not read can be confidently wrong — then checking is not a chore you do after the real work. It is the only door there is. The rest of this page is about how you build one, and it is next session's subject.</p>
 
   <section class="window-lesson" aria-labelledby="window-title">
     <h2 id="window-title">A window, not a verdict</h2>
@@ -150,31 +276,8 @@
     <p class="note"><strong>The discipline:</strong> do not trust blindly, and do not inspect everything blindly. Use evidence to decide where attention belongs. One sentence keeps the boundary honest: <strong>“My check shows ___; it does not show ___.”</strong></p>
   </section>
 
-  <h2>Round 1 — Rate on gut feeling</h2>
-  <p>Three story openings. Rate each 1–5 on "overall quality." No definitions, no rules — just your gut.</p>
-  <div id="roundA"></div>
-  <button class="bigbtn" id="revealA" disabled>Rate all three to see how we agreed</button>
-  <p class="agtag" id="agA"></p>
-
-  <div class="rubric" id="rubric">
-    <h3 style="margin-top:0">The rubric — four criteria for "good"</h3>
-    <div id="critList"></div>
-  </div>
-
-  <div id="roundB">
-    <h2>Round 2 — Rate the same three, criterion by criterion</h2>
-    <p>Exact same openings. Same you. This time you rate four criteria separately and the page computes an overall score. The point is to notice how named criteria change what you see.</p>
-    <div id="roundBItems"></div>
-    <button class="bigbtn" id="revealB" disabled>Rate every criterion to see how we agree now</button>
-    <p class="agtag" id="agB"></p>
-  </div>
-
-  <div class="critag" id="critAgree"></div>
-
-  <div class="headline" id="headline"></div>
-
   <h2 id="works-title">Three meanings of "it works"</h2>
-  <p>The rubric above sharpens <em>judgment</em>. This bench sharpens the other half of evaluation: <em>which behavior you test</em>. Below is Bill Gosper's glider gun — the 1970 machine that answered Conway's $50 wager by firing a fresh glider every 30 generations, forever. Watch it run, then put the same system through three different meanings of "it works."</p>
+  <p>A window shows one behavior — so which behavior you choose is the whole game. Below is Bill Gosper's glider gun, the 1970 machine that answered Conway's $50 wager by firing a fresh glider every 30 generations, forever. Watch it run, then put the same system through three different meanings of "it works."</p>
   <div class="module" id="gunModule">
     <canvas class="board" id="gunCanvas" width="480" height="320" aria-label="Glider gun board"></canvas>
     <div class="chips">
@@ -207,15 +310,45 @@
     <p class="modnote"><strong>What's computed:</strong> both curves are exact arithmetic from the slider (nothing simulated); the graded sum below the slider is a real random draw at your chosen skill — reroll it and watch all-or-nothing swing while partial credit barely moves.</p>
   </div>
 
+  <h2 id="agreement-title">Side exhibit — The Agreement Machine</h2>
+  <p>One more instrument, kept here because it answers a question the two benches above raise and then leave: if a check is a window, who decides what counts as a good view? This one is about <em>judgment</em> rather than behavior — what happens when you give people words for what they are looking for. It is a longer exhibit than the rest of the page and it is not part of either session's run of show; open it when you want it.</p>
+
+  <h3>Round 1 — Rate on gut feeling</h3>
+  <p>Three story openings. Rate each 1–5 on "overall quality." No definitions, no rules — just your gut.</p>
+  <div id="roundA"></div>
+  <button class="bigbtn" id="revealA" disabled>Rate all three to see how we agreed</button>
+  <p class="agtag" id="agA"></p>
+
+  <div class="rubric" id="rubric">
+    <h3 style="margin-top:0">The rubric — four criteria for "good"</h3>
+    <div id="critList"></div>
+  </div>
+
+  <div id="roundB">
+    <h3>Round 2 — Rate the same three, criterion by criterion</h3>
+    <p>Exact same openings. Same you. This time you rate four criteria separately and the page computes an overall score. The point is to notice how named criteria change what you see.</p>
+    <div id="roundBItems"></div>
+    <button class="bigbtn" id="revealB" disabled>Rate every criterion to see how we agree now</button>
+    <p class="agtag" id="agB"></p>
+  </div>
+
+  <div class="critag" id="critAgree"></div>
+
+  <div class="headline" id="headline"></div>
+
   <h2>Method</h2>
   <div class="method" id="method">Loading…</div>
   <div class="method" id="method2" style="margin-top:.8rem">
     <p><strong>The gun bench.</strong> Real bounded Conway board (60×40), the standard Gosper gun. Reach = any live cell in the far field (the region a fired glider must cross) within 50 generations of the intact gun; keep-working = far field still occupied when sampled around generation 140–160; recover = far field still occupied 140–200 generations <em>after</em> your damage, from the damaged board — late enough that gliders already in flight have been absorbed and only a working gun could still be supplying new ones.</p>
     <p><strong>The yardstick.</strong> All-or-nothing = p¹⁰; partial credit = p. The sample sum draws ten digits independently right with probability p. The thresholds and the framing are mine; the arithmetic is the arithmetic.</p>
+    <p><strong>The ladder.</strong> Rungs one and two are real, runnable code — the second is a genuinely over-built counter, which is the point. Rung three's numbers are generated on this page from a fixed seed, so the grid is the same every visit; they are an illustration, not weights extracted from a model. Nothing about the illustration softens the claim, because a grid of real weights would be exactly as unreadable.</p>
+    <p><strong>The confident summary.</strong> The five claims were written by hand against the code shown beside them, with one made false on purpose. Four are checkable line by line in the twenty-four lines displayed; the false one is checkable too, by its absence — nothing in the file saves anything.</p>
+    <p><strong>Where else.</strong> Six fields, four of them pre-AI, each summarised from the same six-part comparison: what stopped being hand-made, what the person rose to steer, what instrument lets them see in, and what it cost. The navigation entry's claim about spatial memory is a real finding in the literature and is stated as a link, not a proof.</p>
   </div>
 
   <h2>Interpretation</h2>
-  <p>Same openings, same raters — the only thing that changed between the rounds was having words for what we were looking for. On gut feeling, the panel scattered from 1 to 5 on the same sentence; with the rubric, they converged. That convergence is what lets a judgment about writing count as <em>evidence</em> instead of just a vibe. And notice the second gift: the trained panel didn't just agree, it agreed on <em>different</em> scores for different openings — low for the cliché, high for the pigeon — so the criteria don't flatten everything, they discriminate. This is exactly how real AI systems are evaluated: break the fuzzy judgment into named criteria, rate blind, and check that independent judges land in the same place.</p>
+  <p>Every rung on that ladder is a way of knowing something you did not make. Two of them let you read; all three of them let you check. That is the whole session, and it is why the second half of this page exists — if reading is not available, the check is not a nicety, it is the access route, and a bad one leaves you knowing nothing while feeling informed.</p>
+  <p>The side exhibit adds the other half of the same problem. Same openings, same raters — the only thing that changed between the rounds was having words for what we were looking for. On gut feeling, the panel scattered from 1 to 5 on the same sentence; with the rubric, they converged. That convergence is what lets a judgment about writing count as <em>evidence</em> instead of just a vibe. And notice the second gift: the trained panel didn't just agree, it agreed on <em>different</em> scores for different openings — low for the cliché, high for the pigeon — so the criteria don't flatten everything, they discriminate. This is exactly how real AI systems are evaluated: break the fuzzy judgment into named criteria, rate blind, and check that independent judges land in the same place.</p>
 
   <div class="limit">
     <strong>Limitation.</strong> Rating the same items twice means Round 2 is nudged by having already seen them — a cleaner test would use two separate trained-and-untrained groups on fresh items (which is what the real panels here do). And "agreement" isn't "correct": a whole panel can agree and still be wrong. Agreement makes a judgment <em>usable as evidence</em>, not automatically true.
@@ -223,30 +356,364 @@
 
   <h2>Try it yourself</h2>
   <div class="try">
-    Pick one behavior in an app you care about. Write one concrete success check for it — for example, "responds after a strange input" or "explains itself clearly to a stranger." Run it on the real public page. Then finish: <strong>“My check shows ___; it does not show ___.”</strong> Use the gap to name where you would look or what you would change next.
+    Ask an AI to explain your own app to you. Read what it says. Then pick <strong>one</strong> claim out of it and check that one thing on your real public page. Finish: <strong>“The AI told me my app ___. When I checked, ___.”</strong>
+    <p style="margin:.7rem 0 0">Pick something checkable. "It says there's a reset button" can be checked. "It says it's a fun game" cannot — pick a different one.</p>
+    <p style="margin:.5rem 0 0">"It was right" is a real result and it counts fully. You used the non-reading route on purpose and confirmed a piece of it, which is the entire skill.</p>
   </div>
 
-  <p class="cliff">A success check does not need to become a class rating system. Its job is to help a builder decide what to test and what to improve next. And when a check fails — when the gun is in pieces on the floor — the next skill is the loop that fixes it. That is next session's bench.</p>
+  <p class="cliff">And when the summary turns out to be wrong — when the reset button it promised is not there — the next skill is the loop that fixes it. That is next session's bench.</p>
 
   <h2>Authorship note</h2>
   <div class="authorship">
-    <p><strong>What AI helped with:</strong> drafting this page's code and the agreement math, which I checked. The openings are a mix I chose; the panels are illustrative ratings.</p>
-    <p><strong>What I own:</strong> the four criteria and their scale anchors, the two-round calibration design, the choice to measure agreement as "how often two judges land within a point," and the honesty that agreement is not the same as being right.</p>
+    <p><strong>What AI helped with:</strong> drafting this page's code, the agreement math, and the over-built counter on rung two — all of which I checked. The story openings are a mix I chose; the panels are illustrative ratings.</p>
+    <p><strong>What I own:</strong> the three rungs and the choice to give each one two doors rather than describing them; the decision to make exactly one summary claim false and to make it the most plausible one; the six fields and the choice to lead with four that predate AI; the four criteria and their scale anchors; and the honesty that agreement is not the same as being right.</p>
+    <p><strong>What I got wrong once, in public:</strong> I asked an AI to build something with Hugging Face models. It did, and it also spent money I had not approved, because I was not reading the layer where that decision got made. I was the author and I did not know. That is why nothing built in this course has an account, a key, or anything that can spend.</p>
   </div>
 
   <div style="background:#faeee6;border-left:4px solid #c96b32;padding:.9rem 1.1rem;border-radius:0 8px 8px 0;margin:2.2rem 0 0">
     <div style="font-family:system-ui,sans-serif;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:#c96b32;font-weight:700">Where could this go next?</div>
-    <p style="margin:.4rem 0 0">This page landed one idea. <a href="https://buildlittleworlds.github.io/paper-app-trailheads/session-06/" style="color:#c96b32;font-weight:700">Trailheads · Session&nbsp;6</a> marks starting points from that idea into your own territory — the GOAT machine, the campfire test, three tests of a paper airplane — everything you love has three tests waiting. Nothing there is an assignment.</p>
+    <p style="margin:.4rem 0 0">This page landed one idea. <a href="https://buildlittleworlds.github.io/paper-app-trailheads/session-06/" style="color:#c96b32;font-weight:700">Trailheads · Session&nbsp;6</a> marks starting points from that idea into your own territory — what could you do without knowing how it works, and what would you lose? Nothing there is an assignment.</p>
   </div>
 
-  <footer>Instructor example · Curiosity-Driven Paper-App Studio · Data: <code>data/rubric.json</code></footer>
+  <footer>Instructor example · Curiosity-Driven Paper-App Studio · self-contained, no data files</footer>
 </main>
 
 <script>
+/* ============================================================
+   v6 lead exhibits: the ladder, the confident summary, where else.
+   Self-contained. No data dependency, no storage, no network.
+   ============================================================ */
+(function(){
+
+  /* ---------- 1. The ladder ---------- */
+
+  const HAND_CODE =
+`let score = 0;
+
+function point() {
+  score = score + 1;
+  show();
+}
+
+function show() {
+  document.getElementById("n").textContent = score;
+}`;
+
+  const AI_CODE =
+`(function () {
+  "use strict";
+  const STORAGE_KEY = null;
+  const DEFAULTS = { start: 0, step: 1, min: 0, max: Infinity, wrap: false };
+
+  function normaliseOptions(opts) {
+    const out = Object.create(null);
+    for (const k of Object.keys(DEFAULTS)) {
+      out[k] = Object.prototype.hasOwnProperty.call(opts || {}, k)
+        ? opts[k]
+        : DEFAULTS[k];
+    }
+    if (typeof out.step !== "number" || Number.isNaN(out.step)) out.step = 1;
+    if (out.min > out.max) { const t = out.min; out.min = out.max; out.max = t; }
+    return out;
+  }
+
+  function clamp(value, lo, hi, wrap) {
+    if (value < lo) return wrap ? hi : lo;
+    if (value > hi) return wrap ? lo : hi;
+    return value;
+  }
+
+  function createCounter(options) {
+    const cfg = normaliseOptions(options);
+    let value = clamp(cfg.start, cfg.min, cfg.max, false);
+    const listeners = new Set();
+
+    function emit() {
+      for (const fn of listeners) {
+        try { fn(value); } catch (err) { /* listener errors are non-fatal */ }
+      }
+    }
+
+    return {
+      get current() { return value; },
+      increment(by) {
+        const delta = typeof by === "number" ? by : cfg.step;
+        value = clamp(value + delta, cfg.min, cfg.max, cfg.wrap);
+        emit();
+        return value;
+      },
+      reset() { value = cfg.start; emit(); return value; },
+      subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); }
+    };
+  }
+
+  function mount(root, counter) {
+    if (!root) throw new TypeError("mount(): root element is required");
+    const out = root.querySelector("[data-counter-value]") || root;
+    const unsubscribe = counter.subscribe(v => { out.textContent = String(v); });
+    root.addEventListener("click", ev => {
+      const t = ev.target.closest("[data-counter-action]");
+      if (!t) return;`;
+
+  const RUNGS = [
+    {
+      n: "Rung one",
+      t: "Code you wrote",
+      readTitle: "Nine lines. Read them.",
+      readKind: "code",
+      readBody: HAND_CODE,
+      readNote: "That is the whole thing. You can hold it in your head. If it misbehaves you already know where to look.",
+      readVerdict: { ok: true, text: "Reading worked. It took eleven seconds." },
+      checkTitle: "Click the button and watch.",
+      checkKind: "text",
+      checkBody: "You pressed it. The number on screen went 0 → 1. Pressed it again: 2.",
+      checkNote: "You did not need to read anything to learn that. Checking is faster here — but it is not your only option.",
+      checkVerdict: { ok: true, text: "Checking worked. It took two seconds." }
+    },
+    {
+      n: "Rung two",
+      t: "Code AI wrote",
+      readTitle: "Also a counter. Read it.",
+      readKind: "code",
+      readBody: AI_CODE + "\n\n      /* … and 312 more lines. */",
+      readNote: "Nobody has read this. But somebody could — it is ordinary code, sitting in a file, and every line of it means something definite. This is the rung your own apps live on.",
+      readVerdict: { ok: true, text: "Reading still works. It would take about twenty minutes." },
+      checkTitle: "Click the button and watch.",
+      checkKind: "text",
+      checkBody: "You pressed it. The number on screen went 0 → 1. Pressed it again: 2.",
+      checkNote: "Identical result, three hundred lines later. This is the rung where checking starts to be the realistic route rather than the lazy one — and where \"nobody read it\" quietly becomes true.",
+      checkVerdict: { ok: true, text: "Checking worked. It took two seconds." }
+    },
+    {
+      n: "Rung three",
+      t: "A model",
+      readTitle: "Here it is. You are reading it right now.",
+      readKind: "weights",
+      readBody: null,
+      readNote: "These are the numbers. There is no other layer underneath, no source file that explains them, no comment anybody wrote. Stare as long as you like. Nothing here tells you whether this model is good at maths, or polite, or about to make something up.",
+      readVerdict: { ok: false, text: "Reading did not work. It cannot — this is not a door." },
+      checkTitle: "Ask it something and see what happens.",
+      checkKind: "text",
+      checkBody: "You asked it a question. You read the answer. You asked a harder one. You noticed where it got shaky.",
+      checkNote: "That is how anybody knows anything about one of these — including the people who built it. Researchers do study model internals, and that work is real and unfinished. But it is not reading, and it does not predict behavior the way reading code does.",
+      checkVerdict: { ok: true, text: "Checking worked. It is the only door there is." }
+    }
+  ];
+
+  const rungsEl = document.getElementById("rungs");
+  const panelEl = document.getElementById("rungPanel");
+
+  if (rungsEl && panelEl) {
+    // Deterministic pseudo-random weights: the same grid every visit, so the
+    // instructor can point at a specific number and it is still there tomorrow.
+    let seed = 1987;
+    function nextWeight() {
+      seed = (seed * 1103515245 + 12345) % 2147483648;
+      return ((seed / 2147483648) * 2 - 1).toFixed(3);
+    }
+    const WEIGHTS = Array.from({ length: 240 }, nextWeight);
+
+    RUNGS.forEach((r, i) => {
+      const box = document.createElement("div");
+      box.className = "rungbox";
+      box.innerHTML =
+        '<span class="rn">' + r.n + '</span>' +
+        '<span class="rt">' + r.t + '</span>' +
+        '<span class="rbtns">' +
+          '<button type="button" data-i="' + i + '" data-door="read">read it</button>' +
+          '<button type="button" data-i="' + i + '" data-door="check">check it</button>' +
+        '</span>';
+      rungsEl.appendChild(box);
+    });
+
+    function show(i, door) {
+      const r = RUNGS[i];
+      const title = door === "read" ? r.readTitle : r.checkTitle;
+      const kind  = door === "read" ? r.readKind  : r.checkKind;
+      const body  = door === "read" ? r.readBody  : r.checkBody;
+      const note  = door === "read" ? r.readNote  : r.checkNote;
+      const v     = door === "read" ? r.readVerdict : r.checkVerdict;
+
+      let bodyHTML = "";
+      if (kind === "code") {
+        const esc = body.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        bodyHTML = "<pre><code>" + esc + "</code></pre>";
+      } else if (kind === "weights") {
+        bodyHTML = '<div class="weights">' +
+          WEIGHTS.map(w => "<span>" + w + "</span>").join("") +
+          "</div>";
+      } else {
+        bodyHTML = "<p style='margin:0'>" + body + "</p>";
+      }
+
+      panelEl.innerHTML =
+        "<h4>" + r.t + " · " + title + "</h4>" +
+        bodyHTML +
+        '<p style="margin:.6rem 0 0;color:#5a5a52">' + note + "</p>" +
+        '<p class="verdictline ' + (v.ok ? "ok" : "no") + '">' + v.text + "</p>";
+
+      Array.from(rungsEl.children).forEach((b, j) => b.classList.toggle("on", j === i));
+    }
+
+    rungsEl.addEventListener("click", ev => {
+      const b = ev.target.closest("button[data-door]");
+      if (!b) return;
+      show(Number(b.dataset.i), b.dataset.door);
+    });
+  }
+
+  /* ---------- 2. The confident summary ---------- */
+
+  const CLAIMS = [
+    { text: "It asks three questions.",
+      ok: true,
+      why: "In the code. The questions list has exactly three items in it." },
+    { text: "It adds one point for each correct answer.",
+      ok: true,
+      why: "In the code. If your choice matches the stored answer, score goes up by one." },
+    { text: "It shows your final score when you run out of questions.",
+      ok: true,
+      why: 'In the code. The last branch writes "Done! Score: " and the number.' },
+    { text: "It saves your best score so you can try to beat it later.",
+      ok: false,
+      why: "NOT in the code. Nothing here saves anything. Close the tab and the score is gone. This is the one — and notice it is the most reasonable-sounding claim on the list." },
+    { text: "It moves on to the next question whether you were right or wrong.",
+      ok: true,
+      why: "In the code. current goes up by one outside the if, so it happens either way." }
+  ];
+
+  const claimList = document.getElementById("claimList");
+  const claimTally = document.getElementById("claimTally");
+  const claimInsight = document.getElementById("claimInsight");
+
+  if (claimList) {
+    let checked = 0;
+    CLAIMS.forEach((c, i) => {
+      const el = document.createElement("div");
+      el.className = "claim";
+      el.innerHTML =
+        '<span class="ctext">' + (i + 1) + ". " + c.text + "</span>" +
+        '<button type="button" data-i="' + i + '">check this one</button>' +
+        '<span class="cv"></span>';
+      claimList.appendChild(el);
+    });
+
+    claimList.addEventListener("click", ev => {
+      const b = ev.target.closest("button[data-i]");
+      if (!b) return;
+      const i = Number(b.dataset.i);
+      const c = CLAIMS[i];
+      const el = b.closest(".claim");
+      if (el.classList.contains("done")) return;
+      el.classList.add("done", c.ok ? "yes" : "no");
+      el.querySelector(".cv").textContent = c.why;
+      checked++;
+      claimTally.textContent = checked + " of 5 checked.";
+      if (checked === CLAIMS.length && claimInsight) claimInsight.style.display = "";
+    });
+  }
+
+  /* ---------- 3. Where else this happened ---------- */
+
+  const FIELDS = [
+    { key: "photo", label: "Photography", when: "from about 1839", pre: true,
+      stopped: "Rendering a likeness by hand, stroke by stroke — what painters spent whole lifetimes learning.",
+      instead: "Choosing what is worth photographing, and when. The camera has never once told anybody where to point it.",
+      seeing: "The viewfinder: a live preview of the picture before the picture exists.",
+      catch: "Painting did not die when this happened. Image-making moved from the hand to the eye, and a new craft — seeing — grew where the old one had been." },
+    { key: "nav", label: "Navigation", when: "from about 2005", pre: true,
+      stopped: "Reading the map, planning the route, and holding where-you-are in your head the whole way.",
+      instead: "Deciding where to go and why — and noticing when the route is obviously wrong.",
+      seeing: "One highlighted line on a road network you have never surveyed, and a voice saying turn left.",
+      catch: "This is the honest cost on the list. The mental map you used to build for free, just by getting lost, now does not get built unless you decide to build it. Researchers have found links between heavy turn-by-turn use and weaker spatial memory. Nobody is saying throw away your phone — the question is which things you want to keep being able to do." },
+    { key: "sheet", label: "Spreadsheets", when: "1979", pre: true,
+      stopped: "The arithmetic. Every cell by hand, and the whole ledger again when one number changed.",
+      instead: 'Asking "what if?" — change one assumption and watch the entire model answer.',
+      seeing: "The grid recalculating in front of you the instant you type.",
+      catch: "The sheet never lies about the arithmetic. That turned out to be the danger: people stopped looking, and structural mistakes hid in plain sight inside perfectly correct sums." },
+    { key: "chess", label: "Chess", when: "1997, then 2017", pre: true,
+      stopped: "Calculating the lines by hand, move after move, deep into the position.",
+      instead: "Deciding which engine line to trust and actually play.",
+      seeing: "A single number — +0.7 — and the moves the engine would choose.",
+      catch: "1997 took the calculation. 2017 took the part everybody said machines could never have: the feel for a position. Human judgment did not disappear. It moved up one level, to judging the judge." },
+    { key: "med", label: "Medicine", when: "now", pre: false,
+      stopped: "Sweeping every image in a scan by eye, hunting for the one bad spot among thousands.",
+      instead: "Deciding what the finding means for this particular patient — and signing the report.",
+      seeing: "A flag on the region the system finds suspicious, and a map of where it was looking.",
+      catch: "Two opposite ways to get this wrong, and both have happened: trust the flag and miss what it did not flag, or see so many flags that you start waving them away." },
+    { key: "bio", label: "Biology", when: "2020", pre: false,
+      stopped: "Years of laboratory work — sometimes an entire PhD — to find the shape of one protein.",
+      instead: "Asking what the protein does, now that its shape is simply available to look up.",
+      seeing: "The predicted shape, coloured by how sure the model is: dark blue rely on this, orange do not.",
+      catch: "This is the good news on the list, and it is the only entry with it. Every other tool here — including the AI writing your code — hands you its solid parts and its shaky parts in exactly the same confident voice. This one tells you where to doubt it." }
+  ];
+
+  const chipsEl = document.getElementById("whereChips");
+  const cardEl = document.getElementById("whereCard");
+
+  if (chipsEl && cardEl) {
+    FIELDS.forEach((f, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = f.label;
+      b.dataset.i = i;
+      b.setAttribute("aria-pressed", "false");
+      chipsEl.appendChild(b);
+    });
+
+    function showField(i) {
+      const f = FIELDS[i];
+      cardEl.innerHTML =
+        "<h4>" + f.label +
+          '<span class="when">' + f.when + "</span>" +
+          '<span class="badge' + (f.pre ? "" : " now") + '">' +
+            (f.pre ? "before AI" : "AI, now") + "</span>" +
+        "</h4>" +
+        "<dl>" +
+          "<dt>Stopped doing by hand</dt><dd>" + f.stopped + "</dd>" +
+          "<dt>Does instead</dt><dd>" + f.instead + "</dd>" +
+          "<dt>How they see in</dt><dd>" + f.seeing + "</dd>" +
+        "</dl>" +
+        '<p class="catch">' + f.catch + "</p>";
+      Array.from(chipsEl.children).forEach((b, j) =>
+        b.setAttribute("aria-pressed", j === i ? "true" : "false"));
+    }
+
+    chipsEl.addEventListener("click", ev => {
+      const b = ev.target.closest("button[data-i]");
+      if (b) showField(Number(b.dataset.i));
+    });
+
+    showField(0);
+  }
+
+})();
+</script>
+
+<script>
 (async function(){
-  let data;
-  try { data = await fetch('data/rubric.json').then(r=>r.json()); }
-  catch(e){ document.getElementById('roundA').innerHTML='<p class="err">Could not load the data. Serve this folder over HTTP or open the deployed page.</p>'; return; }
+  // Inlined 2026 rebuild: this page used to fetch data/rubric.json, which made it
+  // the one Study page that broke from file://. The data now travels with the page.
+  const data = {
+    "note": "The panels below are illustrative — two small groups rating the same three openings, one on gut feeling and one using the rubric. The per-criterion scores are authored so the page can compute the comparison in the browser. Visitor choices stay local and are not collected, exported, or submitted.",
+    "rubric": [
+      { "id":"fit", "name":"Fit", "definition":"Does it suit its job — an opening that makes you want the next line?", "s1":"wrong tool for the job", "s5":"exactly right for its purpose" },
+      { "id":"form", "name":"Form", "definition":"Do the parts work together — rhythm, image, and sense pulling one way?", "s1":"parts fight each other", "s5":"every word earns its place" },
+      { "id":"surprise", "name":"Earned surprise", "definition":"Is the unexpected part doing real work, or just being weird?", "s1":"no surprise, or random weirdness", "s5":"a surprise that opens the whole story" },
+      { "id":"return", "name":"Return", "definition":"Would you willingly read it a second time?", "s1":"once was plenty", "s5":"better the second time" }
+    ],
+    "items": [
+      { "id":"storm", "text":"It was a dark and stormy night, and Sarah couldn't sleep.",
+        "untrained":[2,4,3,5,2,4], "trained":[2,2,3,2,2,2],
+        "trainedByCrit":{ "fit":[2,3,3,2,2,3], "form":[3,2,3,2,3,2], "surprise":[1,1,2,2,1,2], "return":[2,2,3,2,1,2] } },
+      { "id":"pigeon", "text":"The last time I saw my father, he was teaching a pigeon to trust him.",
+        "untrained":[5,3,5,2,4,3], "trained":[5,4,5,5,4,5],
+        "trainedByCrit":{ "fit":[5,4,5,5,4,4], "form":[5,4,4,5,4,5], "surprise":[5,5,5,5,4,5], "return":[5,4,5,4,4,5] } },
+      { "id":"monday", "text":"Monday arrived like a returned library book: overdue, faintly damp, and nobody's favorite.",
+        "untrained":[4,1,5,2,5,3], "trained":[4,4,3,4,4,4],
+        "trainedByCrit":{ "fit":[4,4,3,4,3,4], "form":[4,5,4,4,4,4], "surprise":[4,4,3,5,4,4], "return":[4,3,3,3,4,4] } }
+    ]
+  };
 
   const readerA={}, readerB={};
 
