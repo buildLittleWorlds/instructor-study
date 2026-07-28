@@ -54,7 +54,7 @@
   .session .eyebrow { font-size:.72rem; letter-spacing:.055em; text-transform:uppercase; color:var(--accent); font-weight:800; }
   .session h3 { margin:.18rem 0 .3rem; font-size:1.15rem; }
   .session p { margin:0; font-size:.9rem; color:var(--muted); }
-  .utility-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+  .utility-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(22rem,100%),1fr)); gap:1rem; }
   .utility { padding:1.2rem; border-radius:15px; text-decoration:none; }
   .utility:first-child { background:var(--blue-soft); border:1px solid #cbd9e7; }
   .utility:last-child { background:var(--orange-soft); border:1px solid #e8c8b4; }
@@ -91,7 +91,7 @@
   <nav class="quick-nav" aria-label="Jump to a collection">
     <a href="#current-project">Current project</a>
     <a href="#all-sessions">All session apps</a>
-    <a href="#explore">Anthology and gallery</a>
+    <a href="#explore">The Anthology</a>
   </nav>
 
   <section id="current-project" class="featured" aria-labelledby="current-project-title">
@@ -158,9 +158,9 @@
     <div class="section-head">
       <div>
         <div class="kicker" style="color:var(--orange)">Where does this go next?</div>
-        <h2 id="sisters-title">The two sister sites</h2>
+        <h2 id="sisters-title">The sister site</h2>
       </div>
-      <p>Each study page lands one idea. Trailheads marks starting points from it into your own territory; the Bestiary houses the paper-apps that come back.</p>
+      <p>Each study page lands one idea. Trailheads marks starting points from it into your own territory.</p>
     </div>
     <div class="utility-grid">
       <a class="utility" href="https://buildlittleworlds.github.io/paper-app-trailheads/" style="background:var(--orange-soft);border:1px solid #e8c8b4;">
@@ -168,21 +168,15 @@
         <h3>Open Trailheads</h3>
         <p>Each session's idea, restarted from your own territory — living things, games, music, stories, art, everyday life, and the app you're already building — with a spark question and a prompt to start from. Nothing there is an assignment.</p>
       </a>
-      <a class="utility" href="https://buildlittleworlds.github.io/paper-app-bestiary/" style="background:#efecf6;border:1px solid #d9d0ec;">
-        <div class="eyebrow" style="color:#5b4b8a">Where the work lands</div>
-        <h3>Open the Bestiary</h3>
-        <p>A natural-history museum of the paper-apps this cohort has built — every published creature named, described, and shelved in the hall of the idea it best teaches. What comes back from the trails gets housed here.</p>
-      </a>
     </div>
   </section>
 
   <section id="explore" aria-labelledby="explore-title">
     <div class="section-head">
-      <div><div class="kicker">Browse beyond the sessions</div><h2 id="explore-title">Explore and share</h2></div>
+      <div><div class="kicker">Browse beyond the sessions</div><h2 id="explore-title">Explore</h2></div>
     </div>
     <div class="utility-grid">
       <a class="utility" href="anthology/"><div class="eyebrow">The idea museum</div><h3>The Anthology</h3><p>Browse twenty-one interactive explanations and borrow one small interaction pattern for a different idea.</p></a>
-      <a class="utility" href="proceedings/"><div class="eyebrow">Optional public display</div><h3>Paper-App Studio Gallery</h3><p>Visit the instructor-curated display board for approved public student examples.</p></a>
     </div>
   </section>
 

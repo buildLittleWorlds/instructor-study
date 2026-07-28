@@ -1,8 +1,9 @@
 (function () {
-  // Shared cross-site navigation for the three Paper-App Studio sites.
-  // Identical file in all three repos (instructor-study, trailheads, bestiary).
-  // Each page sets which site it belongs to with data-site="study|trailheads|bestiary"
+  // Shared cross-site navigation for the Paper-App Studio sites.
+  // Identical file in instructor-study and trailheads.
+  // Each page sets which site it belongs to with data-site="study|trailheads"
   // on the <script> tag; the bar auto-detects from the path as a fallback.
+  // The Bestiary is intentionally not linked from here for now.
 
   var script = document.currentScript;
   var rootUrl = script ? new URL('.', script.src) : new URL('./', window.location.href);
@@ -10,18 +11,16 @@
 
   var SITES = {
     study: { label: 'Study', home: 'https://buildlittleworlds.github.io/instructor-study/', match: ['/instructor-study'] },
-    trailheads: { label: 'Trailheads', home: 'https://buildlittleworlds.github.io/paper-app-trailheads/', match: ['/paper-app-trailheads', '/trailheads'] },
-    bestiary: { label: 'Bestiary', home: 'https://buildlittleworlds.github.io/paper-app-bestiary/', match: ['/paper-app-bestiary', '/bestiary'] }
+    trailheads: { label: 'Trailheads', home: 'https://buildlittleworlds.github.io/paper-app-trailheads/', match: ['/paper-app-trailheads', '/trailheads'] }
   };
-  var SPINE = ['study', 'trailheads', 'bestiary'];
+  var SPINE = ['study', 'trailheads'];
 
   var ACCENTS = {
     study: { base: '#2f6f5e', soft: '#e7f1ee', deep: '#214f44' },
-    trailheads: { base: '#c96b32', soft: '#faeee6', deep: '#8f4a1e' },
-    bestiary: { base: '#5b4b8a', soft: '#efecf6', deep: '#3c3489' }
+    trailheads: { base: '#c96b32', soft: '#faeee6', deep: '#8f4a1e' }
   };
 
-  // Within-site "Sessions" dropdowns. Bestiary is a single hall-based page, so it has none.
+  // Within-site "Sessions" dropdowns.
   var SESSIONS = {
     study: [
       ['session-01/', '1', 'Map of Meaning'],
@@ -49,8 +48,7 @@
 
   // Extra within-site links that live only on the Study site.
   var STUDY_LINKS = [
-    ['anthology/', 'Anthology', true],
-    ['proceedings/', 'Gallery', true] // true == hide on small screens
+    ['anthology/', 'Anthology', true] // true == hide on small screens
   ];
 
   function detectSite() {
@@ -87,7 +85,7 @@
   function atHome() {
     // At the site root (index), no session/sub-area matched.
     if (activeSessionKey()) return false;
-    if (self === 'study' && (studyExtraActive('anthology') || studyExtraActive('proceedings'))) return false;
+    if (self === 'study' && studyExtraActive('anthology')) return false;
     return true;
   }
 
