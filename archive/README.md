@@ -13,6 +13,7 @@ The first versions of the Session 1-3 instructor papers were formally similar to
 ## Curiosity pivot
 
 - `2026-07-10-curiosity-pivot-later-session-chain/` preserves the retired continuous-study Sessions 5 and 7-9, the old Session 10 judge/panel chain, the Session 4 and 6 pre-cleanup pages, and the previous site shell.
+- `2026-07-28-pre-one-thing-sequence/` preserves the retired standalone Sessions 7-10 immediately before the cumulative instructor paper-app **What Makes Something One Thing?** began.
 
 Do not restore an archived page by copying it over an active session. Rebuild from the parent course's current `CURRICULUM_NORTH_STAR.md` and `session-build-specs.md`, then borrow only the interaction or technical idea that still helps.
 

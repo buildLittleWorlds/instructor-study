@@ -22,18 +22,41 @@ session-03/                Attention Spotlight - opens dial #1: neighborhood
 session-04/                The Slop Detector + Rule Forge + reward model - opens dial #2: the rule
 session-05/                The Next Move - curiosity into direction (curiosity-era rebuild)
 session-06/                The Agreement Machine + gun bench + yardstick demo
-session-07/                The Debug Loop - opens dial #3: iteration (curiosity-era rebuild)
-session-08/                The Naming of Things - census and honest scope (curiosity-era rebuild)
-session-09/                The Argument You Run - lineage and reader path (curiosity-era rebuild)
-session-10/                The Second Opinion - authorship, glider credit, note forge
+session-07/                What Makes Something One Thing? v1 - One Pattern, New Cells
+session-08/                reserved for v2 - One Part, Several Wholes (not active)
+session-09/                reserved for v3 - One Passage, Several Characters (not active)
+session-10/                reserved for v4 - One Point, Several Neighborhoods (not active)
+session-11/                reserved for v5 - One Token, Several Contexts (not active)
 archive/                   historical instructor artifacts; not course authority
 ```
 
-Sessions 5 and 7-9 were rebuilt on 2026-07-12 from the parent course's `session-build-specs.md` as curiosity-era instructor demonstrations: self-contained pages, no class ratings, exports, or shared datasets. Their previous continuous-study versions remain archived.
+Session 7 begins one cumulative instructor example that will develop through Session 11. Only Session 7 is currently active. Later versions remain unlisted until a real preceding-session encounter supplies evidence for an interactive revision and a written revision.
+
+The standalone Sessions 7-10 retired on 2026-07-28 are preserved under `archive/2026-07-28-pre-one-thing-sequence/`. Do not treat the reserved later routes or the roadmap as evidence that their planned interactions have been built or tested.
+
+## Cumulative instructor-example contract
+
+Every active version distinguishes:
+
+1. **Today’s course practice** - the transferable practice students apply to their own paper-apps.
+2. **The instructor example** - the current state of Daniel’s individuation paper-app.
+3. **The development record** - what was kept, tried, encountered, changed, rejected, and provisionally claimed.
+
+The repeated reader action is:
+
+> select a part → assign it to one or more wholes → inspect overlap or change → state and revise the rule
+
+The conceptual sequence is fixed, but its evidence is not prewritten:
+
+- Session 7 - persistence through changing cells.
+- Session 8 - one visual part participating in several wholes.
+- Session 9 - one passage participating in several characters or relations.
+- Session 10 - embeddings as several semantic neighborhoods and as a second observer, not an authority.
+- Session 11 - query-relative attention as a stress test, with authored teaching vectors clearly separated from model evidence.
 
 ## Data and interaction rule
 
-Current instructor pages may compute from shipped illustrative data or run a model in the browser. They do not ask students to export ratings, paste JSON, supply a shared panel, or update a class dataset.
+Current instructor pages may compute from shipped illustrative data or run a model in the browser. They do not ask students to export ratings, paste JSON, supply a shared panel, or update a class dataset. The Session 7 reader’s marks and writing remain in memory only and disappear on refresh.
 
 ## Local preview
 

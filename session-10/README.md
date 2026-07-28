@@ -1,43 +1,105 @@
-# Session 10 Instructor Paper-App: The Second Opinion
+# Session 10 Planned Instructor Paper-App: One Point, Several Neighborhoods
 
-A standalone instructor example about AI-assisted authorship and responsibility.
+This route is reserved for **Version 4 of 5** of **What Makes Something One Thing?** It is not an active session page. Embeddings first enter the instructor example here.
 
-The page keeps one interaction from the earlier version: the reader toggles between two notes that disclose the same AI help. One apologizes and narrates process; the other documents direction, testing, revision, and responsibility.
+## Course practice that must remain primary
 
-**v2 (2026-07-12) adds two modules:**
+Session 10 asks students to document responsibility through their real project record:
 
-1. **Who is the author of the glider?** A real glider loops on a small wrapped board while the reader assigns four claims to a cast (Conway / Richard Guy / Bill Gosper / the rule itself / you, just now): who invented the rule, who found the glider, who built the gun, who made *this* glider move. The reveal walks the history — rule authored by Conway (searched, 1968–70), glider *found* by Guy (1969), gun *engineered* by Gosper ($50 wager, 1970) — and lands the field's actual solution: it never crowned one author; it **named contributions**, which is what an authorship note does. Coda: Conway's love/hate relationship with the invention that eclipsed him (Numberphile); made things outgrow their makers. A mapping table ties each historical role to the student's project, with AI named as the new party in the middle that owns nothing.
-2. **The authorship-note forge.** An eight-moment invented-but-typical build log; the reader files each moment under *AI helped me… / I chose… / I tested… / I changed or rejected…* (or leaves it out) and the note assembles live. Honesty flags are computed against the log: filing a moment where it doesn't belong, documenting no tests, omitting the "AI wrote ~80% of the final JavaScript" moment, or filing everything under AI-helped (the apology pattern, diagnosable). Filing everything honestly earns the responsibility-note verdict. The existing two-notes toggle remains above as the worked example.
+- consequential AI contributions;
+- human judgments and revisions;
+- tests and observed results;
+- rejected or postponed changes;
+- commits, screenshots, chats, or other provenance that actually exists.
 
-## Course role
+The instructor page must use the real Versions 1–3 record. Do not invent a clean retrospective build log.
 
-- Make AI assistance visible without treating it as misconduct.
-- Separate contribution from typing every line.
-- Show that authorship can rest on choosing, directing, testing, revising, explaining, and publishing.
-- Give students a short model for their own authorship note — and now a place to practice the filing before writing it.
+## Planned instructor delta
 
-The page does not use the former Session 7 dataset, an AI judge, human panel scores, ratings exports, or class data. The forge checks the reader's filing locally against the shipped log; nothing is collected or submitted.
+Readers annotate the original literary fragments before loading a model. The page then compares each fragment with predeclared semantic anchors such as:
 
-## Cellular automata callback
+- Character A’s intention;
+- Character B’s interpretation;
+- the relationship between them;
+- the surrounding setting or context.
 
-Name the layers in a Game of Life app:
+The result should show that one embedding point may be near several neighborhoods without forcing a winner.
 
-1. Conway chose the rule.
-2. The student chose the idea and directed the build.
-3. AI generated or revised code and prose.
-4. The computer executed the rule.
-5. The pattern emerged.
+## Technical contract
 
-The glider module now makes this manipulable — four claims, four different honest answers — and the landing question is the crib sheet's: **Who is the author of the glider? Now answer it for your app.**
+- Runtime: pinned `@huggingface/transformers@4.2.0`.
+- Model: `Xenova/all-MiniLM-L6-v2`.
+- Task: `feature-extraction`.
+- Inference: mean pooling with normalization.
+- Measurement: cosine similarity.
+- Baseline device: CPU/WASM; WebGPU is optional enhancement, never required.
+- Loading: initiated only by an explicit reader action.
+- One pipeline instance is reused and disposed when the page unloads.
+- Progress, retry, and recoverable failure states are visible.
+- The exact model revision and license must be recorded before activation.
+- Typed reader text, if supported, remains in-browser and is neither stored nor transmitted by the application.
 
-## Using it in the 15-minute Bridge
+## Visual contract
 
-1. Run the four glider claims with the room voting each before a volunteer clicks.
-2. Read the history reveal aloud; pause on *rule by / discovered by / constructed by*.
-3. Use the confession-versus-responsibility toggle as the central exhibit.
-4. File three or four forge moments live — let the room catch a deliberate misfiling and watch the flag fire.
-5. Land: "Both notes can be factually true. One apologizes; one documents responsibility. Write the second kind." Students add authorship notes grounded in real decisions.
+Use two linked views:
 
-## Preview
+1. a deterministic 2-D projection of the curated anchors and fragments;
+2. exact similarity bars for the selected point.
 
-Open `index.html` directly or serve the Instructor Study repository over HTTP. The page is self-contained and has no data dependency; authored content (claims, cast, build log) sits in `EDIT HERE` blocks in the script.
+State plainly that the projection distorts the 384-dimensional geometry. Do not title either view as an attention map or classifier.
+
+## Fallback contract
+
+Bake curated measurements generated by the same pinned package, model revision, pooling, and normalization settings.
+
+- Live and baked curated values must agree within a documented tolerance.
+- If model loading fails, the curated comparison remains available.
+- Arbitrary new text is disabled rather than assigned invented values.
+- A visible failure message preserves the human annotation workflow.
+
+## Epistemic labels
+
+Use:
+
+- model similarity;
+- neighborhood;
+- comparison;
+- model output;
+- possible disagreement.
+
+Do not use:
+
+- confidence;
+- truth;
+- proof;
+- ground truth;
+- attention weight;
+- “the model says this belongs to Character A.”
+
+Predeclare anchors before inspecting results. Do not repeatedly rewrite them to manufacture an attractive map. Flat, counterintuitive, or disagreeing results may become the most useful evidence.
+
+## Evidence gate
+
+Before replacing the holding page:
+
+1. Complete and verify Version 3.
+2. Record its real sound-off encounter and revision.
+3. Assemble the actual Versions 1–3 provenance trail.
+4. Pin the model revision and verify its license and ONNX assets.
+5. Generate and audit baked measurements.
+6. Test success, slow-load, offline, and ordinary-device failure paths.
+
+## Required verification when built
+
+- Human annotation works before any model request.
+- Loading occurs only after activation.
+- Progress and retry are accessible.
+- Live and baked curated values agree within tolerance.
+- Model failure leaves a meaningful paper-app.
+- A fragment can remain close to several anchors.
+- No embedding value is labeled attention, confidence, truth, or proof.
+- The authorship note identifies what AI contributed and what Daniel decided.
+
+## Current status
+
+Planned and unlisted. The active cumulative version remains `/session-07/`.

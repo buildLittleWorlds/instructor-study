@@ -61,10 +61,11 @@ source. Zero `fetch(` calls remain in `index.html`; that is the check.
 Then **"So what is actually new?"** names three things and only three — the fallible layer, the
 unreadable layer, and the change in who can do what — before the page hands off to its second half.
 
-## The evaluation half (Session 7 content)
+## The evaluation half (bridge into Session 7)
 
 These modules are unchanged and still verified. They are **not run in the room during Session 6**;
-they are the hand-off, and Session 7's run-of-show opens on them.
+they are the hand-off, and Session 7's run-of-show can open on them before the new instructor
+example.
 
 - **A window, not a verdict.** *Mostly unseen system → chosen check → observable evidence → where to
   look next.* Plus **"My check shows ___; it does not show ___."**
@@ -109,8 +110,10 @@ reveal it. Click through all six fields so the switcher is warm.
 ## Using it in Session 7
 
 Open the lower half. Window visual → gun bench (let a student do the damaging) → the five checks.
-The yardstick slider if the room is quick. Then switch tabs to the Session 7 page for the describe
-gate.
+The yardstick slider if the room is quick. Then switch to **One Pattern, New Cells** and ask a
+different kind of debugging question: the Life engine computes correctly, but does marking five
+fixed positions actually follow the glider? This separates a code check from an interaction check
+and a claim check before students return to their own projects.
 
 ## Files
 

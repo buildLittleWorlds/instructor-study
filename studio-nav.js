@@ -30,10 +30,7 @@
       ['session-04/', '4', 'Slop Detector'],
       ['session-05/', '5', 'Next Move'],
       ['session-06/', '6', 'Agreement Machine'],
-      ['session-07/', '7', 'Debug Loop'],
-      ['session-08/', '8', 'Naming of Things'],
-      ['session-09/', '9', 'Argument You Run'],
-      ['session-10/', '10', 'Second Opinion']
+      ['session-07/', '7', 'One Pattern, New Cells']
     ],
     trailheads: [
       ['session-03/', '3', 'What Counts as Context'],
@@ -49,7 +46,7 @@
 
   // Extra within-site links that live only on the Study site.
   var STUDY_LINKS = [
-    ['anthology/', 'Anthology', false],
+    ['anthology/', 'Anthology', true],
     ['proceedings/', 'Gallery', true] // true == hide on small screens
   ];
 
@@ -154,7 +151,7 @@
       '.studio-nav__session span{color:#6b6b76;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;font-weight:800;}',
       '.studio-nav__session strong{font-size:.88rem;font-weight:780;}',
       '.studio-nav__session[aria-current="page"] span{color:rgba(255,255,255,.78);}',
-      '@media (max-width:640px){.studio-nav__inner{width:min(100% - .85rem,72rem);min-height:3rem;gap:.4rem;flex-wrap:wrap;}.studio-nav__brand{font-size:.82rem;}.studio-nav__brand::before{display:none;}.studio-nav__links{gap:.08rem;}.studio-nav__site,.studio-nav__link,.studio-nav summary{padding:.5rem .5rem;font-size:.78rem;}.studio-nav__extra{margin-left:.2rem;padding-left:.3rem;}.studio-nav__panel{position:fixed;left:.5rem;right:.5rem;top:auto;width:auto;grid-template-columns:1fr;max-height:70vh;overflow:auto;}.studio-nav__link--optional{display:none!important;}}'
+      '@media (max-width:640px){.studio-nav__inner{width:min(100% - .85rem,72rem);min-height:3rem;gap:.15rem;flex-wrap:wrap;padding:.2rem 0;}.studio-nav__brand{width:100%;justify-content:center;padding:.25rem;font-size:.82rem;}.studio-nav__brand::before{display:none;}.studio-nav__links{width:100%;max-width:100%;justify-content:flex-start;gap:.08rem;overflow-x:auto;padding-bottom:.12rem;}.studio-nav__spine,.studio-nav__extra{flex:0 0 auto;}.studio-nav__site,.studio-nav__link,.studio-nav summary{padding:.5rem .5rem;font-size:.78rem;}.studio-nav__extra{margin-left:.2rem;padding-left:.3rem;}.studio-nav__panel{position:fixed;left:.5rem;right:.5rem;top:auto;width:auto;grid-template-columns:1fr;max-height:70vh;overflow:auto;}.studio-nav__link--optional{display:none!important;}}'
     ].join('');
     document.head.appendChild(style);
   }
