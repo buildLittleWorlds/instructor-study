@@ -23,16 +23,16 @@ session-04/                The Slop Detector + Rule Forge + reward model - opens
 session-05/                The Next Move - curiosity into direction (curiosity-era rebuild)
 session-06/                The Agreement Machine + gun bench + yardstick demo
 session-07/                What Makes Something One Thing? v1 - One Pattern, New Cells
-session-08/                reserved for v2 - One Part, Several Wholes (not active)
-session-09/                reserved for v3 - One Passage, Several Characters (not active)
-session-10/                reserved for v4 - One Point, Several Neighborhoods (not active)
+session-08/                v2 - One Part, Several Wholes
+session-09/                v3 - One Passage, Several Characters
+session-10/                v4 - One Point, Several Neighborhoods
 session-11/                reserved for v5 - One Token, Several Contexts (not active)
 archive/                   historical instructor artifacts; not course authority
 ```
 
-Session 7 begins one cumulative instructor example that will develop through Session 11. Only Session 7 is currently active. Later versions remain unlisted until a real preceding-session encounter supplies evidence for an interactive revision and a written revision.
+Session 7 begins one cumulative instructor example. Sessions 8–10 are published in advance so students can see how one project accumulates, changes medium, and revises its paper layer. Each later version uses a prominently labeled simulated teaching encounter to demonstrate possible revision logic without pretending that a participant event occurred.
 
-The standalone Sessions 7-10 retired on 2026-07-28 are preserved under `archive/2026-07-28-pre-one-thing-sequence/`. Do not treat the reserved later routes or the roadmap as evidence that their planned interactions have been built or tested.
+The standalone Sessions 7-10 retired on 2026-07-28 are preserved under `archive/2026-07-28-pre-one-thing-sequence/`. Session 11 remains a reserved route and should not be treated as built or tested.
 
 ## Cumulative instructor-example contract
 
@@ -46,7 +46,7 @@ The repeated reader action is:
 
 > select a part → assign it to one or more wholes → inspect overlap or change → state and revise the rule
 
-The conceptual sequence is fixed, but its evidence is not prewritten:
+The conceptual sequence is fixed. Sessions 8–10 distinguish simulated encounter evidence from actual technical evidence:
 
 - Session 7 - persistence through changing cells.
 - Session 8 - one visual part participating in several wholes.
@@ -56,7 +56,7 @@ The conceptual sequence is fixed, but its evidence is not prewritten:
 
 ## Data and interaction rule
 
-Current instructor pages may compute from shipped illustrative data or run a model in the browser. They do not ask students to export ratings, paste JSON, supply a shared panel, or update a class dataset. The Session 7 reader’s marks and writing remain in memory only and disappear on refresh.
+Current instructor pages may compute from shipped illustrative data or run a model in the browser. They do not ask students to export ratings, paste JSON, supply a shared panel, or update a class dataset. Reader marks, annotations, and writing remain in memory only and disappear on refresh.
 
 ## Local preview
 

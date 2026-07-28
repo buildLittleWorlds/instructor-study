@@ -30,7 +30,10 @@
       ['session-04/', '4', 'Slop Detector'],
       ['session-05/', '5', 'Next Move'],
       ['session-06/', '6', 'Agreement Machine'],
-      ['session-07/', '7', 'One Pattern, New Cells']
+      ['session-07/', '7', 'One Pattern, New Cells'],
+      ['session-08/', '8', 'One Part, Several Wholes'],
+      ['session-09/', '9', 'One Passage, Several Characters'],
+      ['session-10/', '10', 'One Point, Several Neighborhoods']
     ],
     trailheads: [
       ['session-03/', '3', 'What Counts as Context'],

@@ -1,61 +1,70 @@
-# Session 8 Planned Instructor Paper-App: One Part, Several Wholes
+# Session 8 Instructor Paper-App: One Part, Several Wholes
 
-This route is reserved for **Version 2 of 5** of **What Makes Something One Thing?** It is deliberately not an active session page yet.
+This is **Version 2 of 5** of the cumulative instructor example **What Makes Something One Thing?**
 
-## Course practice that must remain primary
+It is an instructor demonstration, not the student assignment. Students use the Session 8 practice to clarify the central action and written claim of their own evolving paper-apps.
 
-Session 8 teaches students to:
+## Public artifact
 
-- clarify the central action of their own paper-app;
-- use taste as emphasis and restraint;
-- strengthen the written paper layer;
-- distinguish what the page shows, what a source supports, and what remains open;
-- reject or postpone one plausible feature.
+- `index.html` — a self-contained HTML/CSS/JavaScript paper-app.
+- Stable route: `/session-08/`
+- New medium: original layered SVG artwork.
+- Carried forward: the verified Session 7 Game of Life case.
 
-The instructor’s individuation project is an example carried through that practice, not a replacement assignment.
+## Revision logic
 
-## Planned instructor delta
+This advance-release version uses an authored scenario to demonstrate how evidence could motivate revision:
 
-Add an original layered SVG image with one selectable droplet or reflected region. The reader can assign that region to:
+> possible observation → possible interpretation → interactive and written revision
+
+The page labels this material **Simulated teaching encounter — not participant data**. It contains no invented quotation and makes no claim about an actual reader. The development ledger keeps the simulation separate from actual technical results.
+
+The simulated Session 7 observation motivates two changes:
+
+1. the four-part recurring action is placed near the top;
+2. one in-memory Boundary Notebook lets a reader state and revise a rule across cases.
+
+## New interaction
+
+The reader selects a suspended droplet in an original SVG and can assign it simultaneously to:
 
 - the plant;
 - the reflected sky;
 - the water cycle;
-- the composition itself;
-- more than one whole simultaneously.
+- the composition.
 
-Visible overlays must encode overlapping membership without implying that every assignment is equally well supported.
+Assignments appear through visible overlays and a textual status message. Color is not the only signal.
 
-The repeated interaction remains:
+## Taste and restraint
 
-> select a part → assign it to one or more wholes → inspect overlap → state and revise the rule
+This version visibly rejects an image uploader and automatic segmentation. Those additions would move attention toward model performance before the human boundary-making action is intelligible.
 
-## Deliberate rejection
+The paper layer distinguishes:
 
-Do not add an image uploader, model-based segmentation, or generated-image feature in this version. The reason should be visible: those additions would turn the page toward AI performance before the human act of drawing and revising a boundary is intelligible.
+- what the page directly shows;
+- what a source supports;
+- what remains open.
 
-## Evidence gate
+## Verification
 
-Before replacing the holding page:
+From the browser console:
 
-1. Conduct a real Session 7 reader encounter.
-2. Record behavior separately from interpretation.
-3. Identify one interactive revision and one written revision caused by that encounter.
-4. Enter those facts in the carried-forward development ledger.
-5. Classify at least one Version 2 claim as directly shown, source-supported, or still open.
+```js
+S8.selftest()
+```
 
-Do not write a fictional quotation, participant response, or usability result.
+Expected: `pass: true`.
 
-## Required verification when built
+Then verify:
 
-- One SVG region can be assigned to multiple wholes.
-- Every assignment is exposed in text as well as color.
-- Reset removes all assignments and writing.
-- Keyboard interaction reaches every region and whole.
-- The original Session 7 Life case remains usable.
-- The page includes the Version 1 → Version 2 interactive and written revisions.
-- No uploads, persistence, analytics, or external inference occur.
+1. the Life case still reports 3 surviving, 2 born, and 2 departed positions after one generation;
+2. the droplet can receive all four memberships at once;
+3. every active membership appears in text;
+4. the SVG droplet is operable with Enter and Space;
+5. reset removes all overlays and assignments;
+6. Boundary Notebook entries disappear after refresh;
+7. no upload, account, analytics, persistence, or model request occurs.
 
-## Current status
+## Source boundary
 
-Planned and unlisted. The active cumulative version remains `/session-07/`.
+The artwork and interpretive prose are original course material. The external water-cycle link supports only the material-process example; it does not decide the visual interpretation.

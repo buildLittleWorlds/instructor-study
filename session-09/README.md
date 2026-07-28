@@ -1,59 +1,61 @@
-# Session 9 Planned Instructor Paper-App: One Passage, Several Characters
+# Session 9 Instructor Paper-App: One Passage, Several Characters
 
-This route is reserved for **Version 3 of 5** of **What Makes Something One Thing?** It is not an active session page.
+This is **Version 3 of 5** of **What Makes Something One Thing?**
 
-## Course practice that must remain primary
+It is an instructor demonstration, not the student assignment. Students retain the existing Session 9 practice: conduct one bounded sound-off encounter, separate observation from interpretation, and revise the reader’s path through their own paper-app.
 
-Session 9 teaches students to conduct one sound-off encounter:
+## Public artifact
 
-1. Give the page to a first-time reader.
-2. Do not narrate or rescue the interaction.
-3. Observe the reader’s route and words.
-4. Separate the observation from its interpretation.
-5. Revise a label, instruction, order, or path.
+- `index.html` — a self-contained HTML/CSS/JavaScript paper-app.
+- Stable route: `/session-09/`
+- New medium: an original microfiction.
+- Carried forward: the verified Life case, original SVG case, and Boundary Notebook.
 
-One reader provides bounded evidence, not a general usability verdict.
+## Revision logic
 
-## Planned instructor delta
+The page uses a clearly labeled simulated teaching encounter to make a possible Session 8 → 9 revision visible in advance. It does not present the scenario as a completed usability test.
 
-Add an original 120–180-word microfiction containing:
+The hypothetical reader treats a singular membership prompt as a one-answer quiz. The resulting revision:
 
-- two characters with different intentions;
-- a shared object or remembered event;
-- at least one sentence whose meaning depends on their relation;
-- fragments that plausibly participate in more than one category.
+- says **choose every whole that fits**;
+- keeps each membership visible in words;
+- carries the plural instruction into the passage annotation.
 
-Readers assign fragments to Character A, Character B, their relationship, setting/context, or multiple categories.
+No participant quotation is fabricated. The scenario is authored pedagogy, not research evidence.
 
-The repeated interaction remains:
+## Original microfiction
 
-> select a part → assign it to one or more wholes → inspect overlap → state and revise the rule
+**Between the Chairs** contains two characters, a shared history, two objects, and a setting that also participates in the story’s relational work. Eight highlighted fragments can be assigned to:
 
-The conceptual purpose is not automatic character classification. It is to ask how textual evidence helps construct a character while also participating in relationships, narration, setting, and another character’s understanding.
+- Mara;
+- Ivo;
+- their relationship;
+- setting or context;
+- several categories at once.
 
-## Evidence gate
+The interface calls every annotation an interpretation rather than ground truth.
 
-Before replacing the holding page:
+## Verification
 
-1. Complete and verify Version 2.
-2. Conduct a real sound-off encounter with that version.
-3. Record actions and words without converting paraphrase into quotation.
-4. Identify one reader-path revision.
-5. Carry the actual Version 1–2 ledger forward.
+From the browser console:
 
-Do not invent a reader, response, quotation, or successful outcome.
+```js
+S9.selftest()
+```
 
-## Required verification when built
+Expected: `pass: true`.
 
-- Every passage fragment is keyboard-operable.
-- A fragment can receive multiple memberships.
-- Membership is communicated without color alone.
-- Reset clears annotations.
-- The Life and image cases remain usable.
-- The page states that annotation is an interpretation, not ground truth.
-- The development record identifies the actual sound-off evidence and resulting revision.
-- The original text’s authorship and purpose are disclosed.
+Then verify:
 
-## Current status
+1. all eight fragments are keyboard-operable buttons;
+2. one fragment can receive several memberships;
+3. the annotation record communicates every membership in text;
+4. reset clears all passage annotations;
+5. the Life and SVG cases remain usable;
+6. the simulated encounter is unmistakably labeled;
+7. the story’s authorship and teaching purpose are disclosed;
+8. no reader action or writing persists after refresh.
 
-Planned and unlisted. The active cumulative version remains `/session-07/`.
+## Sound-off teaching use
+
+The simulated encounter shows the revision pattern before class. A later real encounter, if Daniel conducts one, should be recorded separately and must not be blended with this authored scenario.

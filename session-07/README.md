@@ -106,7 +106,7 @@ Then perform the visible behavioral check:
 - Exercise every grid and form control with mouse and keyboard.
 - Check mobile width around 390 px and desktop width around 1280 px.
 - Refresh and confirm no selections or writing persist.
-- Confirm Session 8 is described as planned, not as completed work or evidence.
+- Follow the advance-release link and confirm Session 8 labels its motivating encounter as simulated teaching evidence rather than participant data.
 
 ## Development record discipline
 
@@ -116,16 +116,18 @@ This version records only evidence that already exists:
 - a fixed-coordinate boundary fails to include two newly born glider cells;
 - the app was deliberately changed from a repair simulation into a boundary-making interaction.
 
-Do not add a reader-response claim until a real reader encounter has occurred. Session 8 must begin by recording that encounter separately from Daniel’s interpretation.
+The advance-release Sessions 8–10 may use invented but plausible teaching scenarios to demonstrate how revision could proceed before a class encounter occurs. Every such scenario must be visibly labeled as simulated, contain no fabricated participant quotation, and remain separate from actual technical results.
 
 ## Next-version contract
 
-Session 8 is planned as **One Part, Several Wholes**, using an original SVG image. It should not be activated merely because its idea is known. Build and publish it only after Version 1 supplies a real encounter that motivates at least:
+Session 8 is **One Part, Several Wholes**, using an original SVG image. Its simulated encounter must motivate:
 
 - one interaction revision;
 - one written revision;
 - one feature deliberately rejected or postponed;
 - one claim classified as directly shown, source-supported, or still open.
+
+If a real encounter later occurs, record it as a separate dated observation rather than rewriting the simulation as if it had predicted the participant.
 
 ## Local preview
 
