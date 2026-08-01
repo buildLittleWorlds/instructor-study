@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>One Motif, Several Wholes — Instructor Study Session 8 (Second Revision)</title>
+<title>One Motif, Several Wholes — Instructor Study Session 8 (Third Revision)</title>
 <script defer src="../../studio-nav.js" data-site="study"></script>
 <style>
   :root{--ink:#22222a;--muted:#666873;--paper:#f8f6f0;--card:#fffefa;--line:#ddd9cf;--green:#2f6f5e;--green-deep:#214f44;--green-soft:#e7f1ee;--gold:#b5751b;--gold-soft:#fff2d6;--blue:#315f91;--blue-soft:#eef3f8;--violet:#6b55a5;--orange:#c96b32;--red:#9b443f;--sand:#b9974a}
@@ -36,6 +36,10 @@
   .break-note.muted{background:transparent;border:1px dashed #999}
   .break-note.nudged{background:var(--orange)}
   .mode-row{display:flex;gap:.45rem;flex-wrap:wrap;margin:.6rem 0}
+  .joint-maps{margin-top:.8rem}.joint-row{display:grid;grid-template-columns:7.5rem 1fr;gap:.5rem;align-items:center;margin:.45rem 0}.joint-row>span{color:var(--muted);font-size:.75rem;font-weight:850;text-transform:uppercase;letter-spacing:.04em;text-align:right}
+  .joint-strip{display:grid;grid-template-columns:repeat(29,1fr);gap:2px;padding:3px;border-radius:8px;background:#f4f1e9}.joint-cell{min-height:1.35rem;border-radius:3px;background:#eae6dc}.joint-cell.user{background:var(--orange)}.joint-cell.named{background:var(--green)}
+  .joint-names{margin:.5rem 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:.4rem .9rem;color:var(--muted);font-size:.76rem}.joint-names strong{color:var(--green-deep)}
+  #joints-mark{min-height:3.4rem;font-size:1.05rem}
   .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.compare-card{padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card);font-size:.9rem}.compare-card.holds{border-top:4px solid var(--green)}.compare-card.breaks{border-top:4px solid var(--red)}.compare-card ul{margin:.3rem 0 0;padding-left:1.1rem}.compare-card li{margin:.5rem 0;color:var(--muted)}.compare-card li strong{color:var(--ink)}
   .seed{max-width:70rem;margin-top:2.2rem;padding:1.15rem 1.3rem;border:2px dashed #d7bd87;border-radius:16px;background:#fffaf0}.seed-label{display:inline-block;margin-bottom:.5rem;padding:.28rem .48rem;border-radius:6px;background:var(--gold-soft);color:#765018;font-size:.72rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.seed h3{font-size:1.35rem}.seed p{font-size:.98rem}.seed [lang="grc"]{font-style:normal;font-weight:700;color:var(--green-deep)}
   .notebook{display:grid;grid-template-columns:minmax(14rem,.55fr) minmax(0,1.45fr);gap:1rem;padding:1.2rem;border:1px solid #b8d2c7;border-radius:18px;background:var(--green-soft)}.notebook label{display:block;font-family:system-ui,sans-serif;font-size:.8rem;font-weight:850}.notebook select,.notebook textarea{width:100%;margin-top:.35rem;padding:.65rem;border:1px solid #9db3aa;border-radius:9px;background:white}.notebook textarea{min-height:7rem;resize:vertical}.notebook-entry{margin-top:.7rem;padding:.7rem;border-radius:9px;background:white;font-family:system-ui,sans-serif;font-size:.84rem}.notebook-entry strong{color:var(--green-deep)}
@@ -47,48 +51,46 @@
   footer{margin-top:3.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
   @media(max-width:840px){.case-grid,.notebook,.compare-grid{grid-template-columns:1fr}.practice-grid,.sim-grid,.claim-key{grid-template-columns:1fr}}
   @media(max-width:620px){main{width:min(100% - 1rem,76rem);padding-top:1.5rem}.stages{grid-template-columns:1fr 1fr}.case-heading{display:block}.case-state{display:inline-block;margin:.4rem 0}.paper-grid{grid-template-columns:1fr}.paper-card.current{grid-column:auto}.ledger-row{grid-template-columns:1fr}.ledger dt{padding-bottom:.25rem}.ledger dd{padding-top:.35rem}fieldset{grid-template-columns:1fr}.version-nav{flex-direction:column}}
-  .revision-note{display:flex;gap:.8rem;max-width:70rem;margin:1.4rem 0;padding:1rem 1.1rem;border:2px solid var(--gold);border-radius:15px;background:var(--gold-soft);font-size:.9rem;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.revision-note .boundary-mark{background:var(--gold)}
 </style>
 </head>
 <body>
 <main>
 <article>
   <header>
-    <div class="kicker">Instructor Study · Session 8 · Version 2 of 5 · Second revision · 2026-08-01</div>
+    <div class="kicker">Instructor Study · Session 8 · Version 2 of 5 · Third revision · 2026-08-01</div>
     <h1>One Motif, Several Wholes</h1>
-    <p class="deck">Same music, better questions. Every click on this page now answers in sound: hold one note while the world changes around it, or break one part and hear whether the whole survives.</p>
-    <div class="revision-note"><span class="boundary-mark" aria-hidden="true">↻</span><div><strong>Revised a third time, 2026-08-01.</strong> A Trailheads card — <em>“Is ‘the chorus’ a discovery or a decision?”</em> — caught the build’s narration below naming the sections before the ear could find them. <a href="../revised-3/"><strong>Open the third revision: map the joints yourself, then let the names arrive →</strong></a> This page stays public so the whole chain can be compared.</div></div>
-    <div class="boundary"><span class="boundary-mark" aria-hidden="true">i</span><div><strong>This is Daniel’s cumulative instructor example, not the student assignment.</strong> Students keep developing their own paper-apps. This page is the <strong>second revision</strong> of Version 2. The chain is public: <a href="../">the original image version</a> → <a href="../revised/">the first musical revision</a> → this page. Each earlier version wears a banner explaining what its classroom encounter taught.</div></div>
+    <p class="deck">Same music, one new question: when you hear the song fall into sections — did you discover those joints, or did the names decide them for you? This time, you map first and the names come after.</p>
+    <div class="boundary"><span class="boundary-mark" aria-hidden="true">i</span><div><strong>This is Daniel’s cumulative instructor example, not the student assignment.</strong> Students keep developing their own paper-apps. This page is the <strong>third revision</strong> of Version 2. The chain is public: <a href="../">the original image version</a> → <a href="../revised/">the first musical revision</a> → <a href="../revised-2/">the sound-first revision</a> → this page. Each earlier version wears a banner explaining what its encounter taught.</div></div>
     <div class="stages" aria-label="Cumulative instructor-example versions">
       <a class="stage complete" href="../../session-07/"><span>Version 1</span><strong>Cells</strong></a>
-      <a class="stage current" href="./" aria-current="page"><span>Version 2 · rev 2</span><strong>Music</strong></a>
+      <a class="stage current" href="./" aria-current="page"><span>Version 2 · rev 3</span><strong>Music</strong></a>
       <div class="stage future" aria-disabled="true"><span>Version 3</span><strong>Text</strong></div>
       <div class="stage future" aria-disabled="true"><span>Version 4</span><strong>Embeddings</strong></div>
     </div>
     <div class="action-spine"><strong>The recurring action:</strong> select a part → assign every whole that fits → inspect overlap or change → state and revise the rule. <span class="small">This revision performs it in sound: hold a part while the wholes change; remove a part and hear the whole notice.</span></div>
     <nav class="jump-links" aria-label="Page sections">
-      <a href="#course-practice">Today’s practice</a><a href="#why-revised">Why revised again</a><a href="#cases">Bench &amp; build</a><a href="#unmoved">The unmoved note</a><a href="#break">Break it and listen</a><a href="#comparison">Glider ↔ motif</a><a href="#notebook">Boundary Notebook</a><a href="#paper">Paper layer</a><a href="#record">Development record</a>
+      <a href="#course-practice">Today’s practice</a><a href="#why-revised">Why revised again</a><a href="#cases">Bench &amp; build</a><a href="#unmoved">The unmoved note</a><a href="#break">Break it and listen</a><a href="#joints">Mark the joints</a><a href="#comparison">Glider ↔ motif</a><a href="#notebook">Boundary Notebook</a><a href="#paper">Paper layer</a><a href="#record">Development record</a>
     </nav>
   </header>
 
   <section id="course-practice" aria-labelledby="practice-title">
     <div class="eyebrow">Today’s course practice</div>
     <h2 id="practice-title">Use taste to sharpen the central action</h2>
-    <p>The instructor example models the practice below — twice now. The first revision ripped out an image that told instead of performed. This one rips out a silent grid for the same crime.</p>
+    <p>The instructor example models the practice below — three times now. The image told with buttons; the silent grid told with colors; the narration told with words. Each revision caught the same disease in a new organ.</p>
     <div class="practice-grid"><div class="practice-card"><h3>Emphasize</h3><p>Make one reader action unmistakable — and on a page about music, make it audible.</p></div><div class="practice-card"><h3>Qualify</h3><p>Separate what the interaction directly shows, what a source supports, and what remains an open interpretive claim.</p></div><div class="practice-card"><h3>Restrain</h3><p>Reject one plausible feature when it would distract from the question the page is trying to make visible.</p></div></div>
   </section>
 
   <section id="why-revised" aria-labelledby="why-title">
     <div class="real-encounter">
-      <div class="real-label">Real teaching encounter · instructor observation · not participant data</div>
-      <h2 id="why-title">Why the silent grid was replaced</h2>
-      <p>The first revision’s own first reading (2026-08-01) found the flaw. No student is quoted or identified.</p>
+      <div class="real-label">A new kind of encounter · a Trailheads card, reinterpreted</div>
+      <h2 id="why-title">Why the narration lost its head start</h2>
+      <p>This revision’s encounter was not a reader or a rewatch. It was a card from the course’s own <a href="https://buildlittleworlds.github.io/paper-app-trailheads/session-08/">Trailheads Session 8 page</a> — a site built to ignite <em>new</em> projects — reinterpreted for an existing one: <strong>keep the card’s move, drop its topic.</strong></p>
       <div class="sim-grid">
-        <div class="sim-step"><strong>Observation</strong><p>The bench sang — playing parts alone and combining them landed immediately. But the annotated piano roll answered clicks with colored outlines and a sentence. On a page about music, the central interaction was silent.</p></div>
-        <div class="sim-step"><strong>Interpretation</strong><p>Membership was being told, not performed — the pond image’s mistake back in a new costume. A silent click on a sound page is a broken promise, and reasoning about sound while withholding it is exactly the flatness the first revision was built to fix.</p></div>
-        <div class="sim-step"><strong>Revision</strong><p>Replace the silent grid with two experiments in which every action answers in sound: hold one note while the wholes change around it, and break one part to hear whether the whole survives. Make the layer toggles live during playback.</p></div>
+        <div class="sim-step"><strong>The card</strong><p>“Is ‘the chorus’ a discovery or a decision?” — one song mapped two ways, as raw time blocks and then with part names; the reader marks where the chorus starts and notices the name did some of the deciding.</p></div>
+        <div class="sim-step"><strong>What it caught</strong><p>This page’s build narrates its own structure <em>while it plays</em> — “the pre-chorus,” “the chorus” — names arriving before the hearing. The third instance of the same flaw: the image told with buttons, the roll told with colors, the narration tells with words.</p></div>
+        <div class="sim-step"><strong>Revision</strong><p>A names-off pass. The build plays unlabeled; the reader marks every joint they hear; only then are the two maps laid side by side — theirs and the analysis’s. The narrated build stays, because name-after still needs the names.</p></div>
       </div>
-      <p style="margin-top:1rem">Everything that worked is kept: the four layers, the combination bench, the isolate-then-combine build modeled on the music-shop scene in <em>Once</em>, and the cited scale-degree analysis. <a href="https://www.youtube.com/watch?v=EbeT30m1n4U">The scene itself lives on YouTube</a> — this page deliberately contains none of it.</p>
+      <p style="margin-top:1rem">Everything from the earlier revisions is kept: the bench, the looping combination, the two labs, the two-cycle build, and the cited scale-degree analysis. <a href="https://www.youtube.com/watch?v=EbeT30m1n4U">The scene itself lives on YouTube</a> — this page deliberately contains none of it.</p>
     </div>
   </section>
 
@@ -226,6 +228,33 @@
     </div>
   </section>
 
+  <section class="lab" id="joints" aria-labelledby="joints-title">
+    <div class="case-heading">
+      <div><div class="eyebrow">Experiment 3 · map first, name after</div><h2 id="joints-title">Mark the joints</h2></div>
+      <span class="case-state new">New in this revision</span>
+    </div>
+    <p class="case-intro">The build plays with its narration hidden — no names, no section labels, just the music. Press <strong>Mark</strong> every time you hear <em>a new section begins here</em>. When it ends, the page lays your map beside the analysis’s named map. The differences are the finding. This is the glider’s <strong>Mark live cells</strong> move carried into time: there you drew a boundary in space and tested it against the rule; here you draw boundaries in time and test them against the names.</p>
+    <div class="case-grid">
+      <div>
+        <div class="joint-maps" id="joint-maps" hidden>
+          <div class="joint-row"><span>Your map</span><div class="joint-strip" id="joints-user-strip" aria-label="Your marked joints across 29 bars"></div></div>
+          <div class="joint-row"><span>The named map</span><div class="joint-strip" id="joints-named-strip" aria-label="The analysis boundaries across 29 bars"></div></div>
+          <ul class="joint-names" id="joints-names"></ul>
+        </div>
+        <div id="joints-status" class="status" role="status" aria-live="polite">Nothing mapped yet. Play it unlabeled and trust your ear.</div>
+        <p class="small">Your marks stay in memory only and are never sent anywhere. The page does not grade them — a joint the named map lacks is a finding, not an error. The question is the Trailheads card’s own: do the names describe the structure, or help create it?</p>
+      </div>
+      <div class="control-panel">
+        <div class="button-row">
+          <button id="joints-play" type="button"><strong>Play unlabeled &amp; mark</strong></button>
+          <button id="joints-finish" class="quiet" type="button" disabled>Finish &amp; reveal</button>
+        </div>
+        <button id="joints-mark" type="button" disabled style="width:100%;margin-top:.6rem">Mark — a new section starts here</button>
+        <p class="small">Keep the Mark button focused and press <strong>Space</strong> or <strong>Enter</strong> at each joint. About a minute and forty seconds; finish early if you like.</p>
+      </div>
+    </div>
+  </section>
+
   <section id="comparison" aria-labelledby="compare-title">
     <div class="eyebrow">The two cases, side by side</div>
     <h2 id="compare-title">The glider and the motif</h2>
@@ -280,11 +309,11 @@
     <div class="eyebrow">Paper layer · rewritten in the second revision</div>
     <h2 id="paper-title">A figure can participate in more than one organized whole</h2>
   <div class="paper-grid">
-    <div class="paper-card"><div class="paper-label">Question</div><p>When a handful of notes recurs — played alone, layered under a line, flipped into a chorus, swelled and stripped back — what keeps it one thing? And is a part anything at all outside the wholes that sound around it?</p></div>
+    <div class="paper-card"><div class="paper-label">Question</div><p>When a handful of notes recurs — played alone, layered under a line, flipped into a chorus, swelled and stripped back — what keeps it one thing? And when the whole falls into sections, do names like <em>chorus</em> describe joints the ear finds, or decide them?</p></div>
     <div class="paper-card"><div class="paper-label">Observation</div><p>The page directly shows that a held C changes character as the chords change around it while its frequency does not move; that silencing or nudging single notes leaves the figure sometimes intact and sometimes broken — and that one particular nudge lands on the chorus’s own cells; and that the glider still verifies its counts one section above.</p></div>
     <div class="paper-card"><div class="paper-label">Interpretation</div><p>The glider persists by propagation: a rule forces the next cells. The motif persists by repetition and relation: nothing forces its return — an author chose it, and a listener re-binds it. What a part <em>is</em> — root, fifth, third, tension — is decided by the whole that is sounding, not by the part alone.</p></div>
     <div class="paper-card"><div class="paper-label">Limitation</div><p>The audio here is an original synthesis of chords and analyzed figures — an analysis, not the song. The pre-chorus line is a course approximation. The labs report facts and replay sound; the verdicts — did the whole survive? did the note change? — belong to each reader’s ear, and ears differ. One song settles nothing about musical unity in general.</p></div>
-    <div class="paper-card current"><div class="paper-label">Current claim · Version 2, second revision</div><p>A part can belong to several wholes — and which whole is sounding decides what the part is. Hold the part fixed and change the whole: the part changes character. The relations are the identity.</p></div>
+    <div class="paper-card current"><div class="paper-label">Current claim · Version 2, third revision</div><p>A part can belong to several wholes — and which whole is sounding decides what the part is. The names of wholes are hypotheses, not facts: map first, name after, and let the two maps argue.</p></div>
     <div class="paper-card"><div class="paper-label">Next move</div><p>Move from notes whose wholes can be heard to phrases whose participation in character and relationship must be interpreted.</p></div>
   </div>
     <div class="claim-key"><div class="shown"><strong>Directly shown</strong><br>The held C’s frequency never moves while its character changes; edits to single notes audibly change or spare the whole; the layers combine into one build; the glider counts verify.</div><div class="sourced"><strong>Source-supported</strong><br>Key, chords, the 1-2-3-2 / 1-2-7-1 reading, “this C becomes the fifth of F,” the pre-chorus drop-out, the third-above and unison textures, and the additive crescendo — per the cited analysis video and the course research notes.</div><div class="open"><strong>Still open</strong><br>Alone, is a note anything more than a frequency — or does character only exist inside a whole?</div></div>
@@ -293,8 +322,8 @@
   <section id="record" aria-labelledby="record-title">
     <div class="eyebrow">Development record</div>
     <h2 id="record-title">The revision remains inspectable</h2>
-    <p>The ledger separates the real encounters that motivated each revision from actual technical results. The replaced versions are not hidden: <a href="../">the original</a> and <a href="../revised/">the first revision</a> are both still public.</p>
-    <dl class="ledger"><div class="ledger-row"><dt>Kept</dt><dd>The verified glider case, the four-layer bench, the isolate-then-combine build with its narration and pre-chorus drop-out, the second-voice toggle, the Boundary Notebook, the Greek seed, and the cited scale-degree analysis.</dd></div><div class="ledger-row"><dt>Tried</dt><dd>An annotated piano roll with silent click-to-assign membership, and separate play-buttons for the verse and chorus cells (the first revision).</dd></div><div class="ledger-row"><dt>Encountered</dt><dd><strong>Actual instructor observation, not participant data:</strong> on the first revision’s first reading (2026-08-01), the bench sang but the roll went silent — clicking a note produced colored outlines and a sentence. Membership told, not performed: the pond image’s mistake in a new costume.</dd></div><div class="ledger-row"><dt>Changed</dt><dd>Replaced the silent grid with two sound-first experiments — the unmoved note (one held C recharacterized by four chords, paired with a fixed cell whose fate is decided by its neighbors) and break-it-and-listen (silence or nudge single notes with instant replay, the chorus mutation discoverable by play) — and made the layer toggles live during playback. Same-day extension after first use: the combination now loops until stopped, and the build runs the song’s full two-cycle form — second verse, a pre-chorus where nobody drops out, the chorus twice — about a minute and forty seconds of room for live layer surgery.</dd></div><div class="ledger-row"><dt>Rejected</dt><dd>A correctness grader for edits — the page reports facts and replays sound; whether the whole survived is the reader’s ear’s verdict, not the code’s. Everything the earlier versions rejected stays rejected: no recording, lyric, or vocal; no autoplay; no pitch detection or uploads.</dd></div><div class="ledger-row"><dt>Actual technical result</dt><dd>The Life fixture still passes generations 0–4. The center-cell fate readout matches B3/S23 for all neighbor counts 0–8. The drone pads contain no C in any voicing — the held note completes every chord. Nudges move notes by diatonic scale steps and the chorus detector fires exactly on 1-2-7-1. In third mode every second-voice note sits a diatonic third above its concurrent lead note; in unison mode the interval is zero; every pitch on the page is in C major; the 29-bar build keeps every entrance check, with the second pre-chorus carrying both voices. The looping combination reschedules from fresh note data each pass, so a second-voice change takes effect on the next loop. No audio files, uploads, or network requests.</dd></div><div class="ledger-row claim"><dt>Current claim</dt><dd>A defensible whole is relationally constrained — and which whole is sounding decides what the part is.</dd></div></dl>
+    <p>The ledger separates the real encounters that motivated each revision from actual technical results. The replaced versions are not hidden: <a href="../">the original</a>, <a href="../revised/">the first revision</a>, and <a href="../revised-2/">the second revision</a> are all still public.</p>
+    <dl class="ledger"><div class="ledger-row"><dt>Kept</dt><dd>The verified glider case, the four-layer bench with its looping combination and live toggles, the two-cycle build with its narration and pre-chorus drop-out, the unmoved-note and break-it-and-listen labs, the second-voice toggle, the Boundary Notebook, the Greek seed, and the cited scale-degree analysis.</dd></div><div class="ledger-row"><dt>Tried</dt><dd>Real-time narration as the only way to hear the build’s structure — names always arriving before the hearing. (Earlier in the chain: the silent annotated roll; before that, the pond image.)</dd></div><div class="ledger-row"><dt>Encountered</dt><dd><strong>A Trailheads card, reinterpreted — the course’s divergence site fed back into the artifact for the first time.</strong> “Is ‘the chorus’ a discovery or a decision?” was written to ignite a new project; stripped to its move — map first, name after — it caught this page naming its sections before the ear could find them, the third tell-first instance. The card and the observation are the instructor’s own; no participant data.</dd></div><div class="ledger-row"><dt>Changed</dt><dd>Added the names-off pass: the build plays unlabeled while the reader marks every joint they hear, then their map and the analysis’s named map are revealed side by side, differences reported as facts. The narrated build stays — name-after still needs the names to arrive eventually.</dd></div><div class="ledger-row"><dt>Rejected</dt><dd>Auto-grading the reader’s marks — a joint the named map lacks is a finding, not an error. Removing the narrated build. And everything the earlier versions rejected stays rejected: no recording, lyric, or vocal; no autoplay; no pitch detection or uploads.</dd></div><div class="ledger-row"><dt>Actual technical result</dt><dd>The Life fixture still passes generations 0–4. The center-cell fate readout matches B3/S23 for all neighbor counts 0–8. The drone pads contain no C in any voicing — the held note completes every chord. Nudges move notes by diatonic scale steps and the chorus detector fires exactly on 1-2-7-1. In third mode every second-voice note sits a diatonic third above its concurrent lead note; in unison mode the interval is zero; every pitch on the page is in C major; the 29-bar build keeps every entrance check, with the second pre-chorus carrying both voices. The joint boundaries are derived from the same narration data the build plays from (bars 1, 3, 5, 7, 11, 15, 17, 21, 29); marks quantize to bars and stay in memory. No audio files, uploads, or network requests.</dd></div><div class="ledger-row claim"><dt>Current claim</dt><dd>A defensible whole is relationally constrained — and which whole is sounding decides what the part is.</dd></div></dl>
     <div class="source-box"><strong>Source boundary.</strong> “Falling Slowly” is in C major and rocks between the C and F chords; the chorus adds the relative minor (C–F–Am–F); the pre-chorus runs Am–G–F (a cited live-session reading adds the return to G: 6-5-4-5), and in it the second voice drops out, returning for the chorus. The scale-degree reading of the melody — verse 1-2-3-2, chorus 1-2-7-1, “this C becomes the fifth of F,” nothing outside the key — comes from <a href="https://www.youtube.com/watch?v=NK-K816Yi_s">Michael Palmisano’s analysis of a live duet performance</a> (2026); the arrangement facts are compiled in the course’s research notes (2026-08-01) from published editions and press. The song won the Academy Award for Best Original Song (2008). <a href="https://www.youtube.com/watch?v=EbeT30m1n4U">The scene itself lives here</a>, not on this page.</div>
   </section>
 
@@ -304,11 +333,11 @@
       <h2 id="next-title">The next version changes medium again</h2>
       <p>Move from notes whose wholes can be heard to phrases whose participation in character and relationship must be interpreted.</p>
       <a href="../../session-09/">Continue to Version 3: One Passage, Several Characters</a>
-      <div class="version-nav"><a href="../../session-07/">← Back to Version 1</a><a href="../">Original Version 2</a><a href="../revised/">First revision</a><a href="../../">Instructor Study home</a></div>
+      <div class="version-nav"><a href="../../session-07/">← Back to Version 1</a><a href="../">Original Version 2</a><a href="../revised/">First revision</a><a href="../revised-2/">Second revision</a><a href="../../">Instructor Study home</a></div>
     </div>
   </section>
 
-  <footer>What Makes Something One Thing? · Version 2 (second revision) · No accounts, analytics, uploads, or stored reader data. “Falling Slowly” was written by Glen Hansard and Markéta Irglová for <em>Once</em> (2007), dir. John Carney; this page synthesizes short analyzed figures for educational commentary and reproduces no part of the recording, performance, or lyrics.</footer>
+  <footer>What Makes Something One Thing? · Version 2 (third revision) · No accounts, analytics, uploads, or stored reader data. “Falling Slowly” was written by Glen Hansard and Markéta Irglová for <em>Once</em> (2007), dir. John Carney; this page synthesizes short analyzed figures for educational commentary and reproduces no part of the recording, performance, or lyrics.</footer>
 </article>
 </main>
 
@@ -602,6 +631,7 @@
       g.linearRampToValueAtTime(.35,t0 + 29*BAR*STEP);
     }
     audio.mode = mode;
+    audio.t0 = t0;
     audio.loop = options && options.loopFactory ? {factory:options.loopFactory,steps:totalSteps,t0,nextAt:t0 + totalSteps*STEP,count:1,max:options.maxLoops || 32} : null;
     audio.endTime = t0 + totalSteps * STEP + .3;
     q("#audio-status").innerHTML = description;
@@ -845,6 +875,54 @@
   q("#break-restore")?.addEventListener("click",() => { breakState.notes = breakBase(); renderBreak(); q("#break-status").innerHTML = "Restored. The figure is whole again."; });
   renderBreak();
 
+  /* ---------- Experiment 3: mark the joints ---------- */
+  const JOINT_LABELS = {1:"the figure",3:"chords join",5:"verse",7:"pre-chorus",11:"chorus",15:"verse 2",17:"pre-chorus 2",21:"chorus ×2",29:"outro"};
+  const JOINT_BOUNDS = BUILD_NARRATION.map((item) => item.bar);
+  const markBar = (elapsed) => Math.min(BUILD_BARS.length, Math.max(1, Math.floor(elapsed / (BAR * STEP)) + 1));
+  const joints = {marks:[], watch:0};
+  function jointsReveal() {
+    if(joints.watch) { clearInterval(joints.watch); joints.watch = 0; }
+    q("#joints-mark").disabled = true;
+    q("#joints-finish").disabled = true;
+    const userStrip = q("#joints-user-strip"), namedStrip = q("#joints-named-strip");
+    userStrip.innerHTML = ""; namedStrip.innerHTML = "";
+    for(let bar=1; bar<=BUILD_BARS.length; bar++) {
+      const userCell = document.createElement("div");
+      userCell.className = "joint-cell" + (joints.marks.includes(bar) ? " user" : "");
+      userStrip.appendChild(userCell);
+      const namedCell = document.createElement("div");
+      namedCell.className = "joint-cell" + (JOINT_BOUNDS.includes(bar) ? " named" : "");
+      namedStrip.appendChild(namedCell);
+    }
+    q("#joints-names").innerHTML = JOINT_BOUNDS.map((bar) => "<li><strong>" + bar + "</strong> " + esc(JOINT_LABELS[bar]) + "</li>").join("");
+    q("#joint-maps").hidden = false;
+    const near = joints.marks.filter((mark) => JOINT_BOUNDS.some((bound) => Math.abs(bound - mark) <= 1)).length;
+    q("#joints-status").innerHTML = joints.marks.length
+      ? "<strong>You marked " + joints.marks.length + " joint" + (joints.marks.length === 1 ? "" : "s") + "; the analysis names " + JOINT_BOUNDS.length + " boundaries.</strong> " + near + " of your marks land within one bar of a named boundary. Where the maps disagree is the finding — was the chorus discovered, or decided?"
+      : "<strong>You marked no joints — one unbroken thing.</strong> That is also a map, and the named map now has to argue with it.";
+  }
+  q("#joints-play")?.addEventListener("click",() => {
+    joints.marks = [];
+    q("#joint-maps").hidden = true;
+    q("#joints-mark").disabled = false;
+    q("#joints-finish").disabled = false;
+    play(buildEvents(),BUILD_BARS.length*BAR,"joints","<strong>Playing unlabeled.</strong> No names until the reveal. Press Mark at every joint you hear.");
+    q("#joints-status").textContent = "Listening… mark every joint you hear.";
+    q("#joints-mark").focus();
+    if(joints.watch) clearInterval(joints.watch);
+    joints.watch = setInterval(() => { if(audio.mode !== "joints") jointsReveal(); },500);
+  });
+  q("#joints-mark")?.addEventListener("click",() => {
+    if(audio.mode !== "joints" || !audio.ctx) return;
+    const bar = markBar(audio.ctx.currentTime - audio.t0);
+    if(joints.marks[joints.marks.length-1] !== bar) joints.marks.push(bar);
+    q("#joints-status").textContent = "Mark " + joints.marks.length + " recorded. Keep listening.";
+  });
+  q("#joints-finish")?.addEventListener("click",() => {
+    stopAudio("Stopped. The maps are below.");
+    jointsReveal();
+  });
+
   /* ---------- Boundary Notebook (carried forward) ---------- */
   const notebookEntries = new Map();
   q("#save-rule")?.addEventListener("click",() => {
@@ -901,8 +979,11 @@
       return !before && after;
     })();
     const breakGridOk = qa(".break-note").length === breakState.notes.length;
+    const jointsOk = JOINT_BOUNDS.join(",") === "1,3,5,7,11,15,17,21,29"
+      && JOINT_BOUNDS.every((bound) => JOINT_LABELS[bound])
+      && markBar(0) === 1 && markBar(10*BAR*STEP + .01) === 11 && markBar(99999) === 29;
     const mediaOk = !document.querySelector("audio,video");
-    const motifCase = {pass:countsOk && diatonicOk && thirdsOk && unisonOk && orderOk && buildLenOk && secondCycleOk && fateOk && padsOmitC && nudgeOk && detectOk && breakGridOk && mediaOk,countsOk,diatonicOk,thirdsOk,unisonOk,orderOk,buildLenOk,secondCycleOk,fateOk,padsOmitC,nudgeOk,detectOk,breakGridOk,mediaOk};
+    const motifCase = {pass:countsOk && diatonicOk && thirdsOk && unisonOk && orderOk && buildLenOk && secondCycleOk && fateOk && padsOmitC && nudgeOk && detectOk && breakGridOk && jointsOk && mediaOk,countsOk,diatonicOk,thirdsOk,unisonOk,orderOk,buildLenOk,secondCycleOk,fateOk,padsOmitC,nudgeOk,detectOk,breakGridOk,jointsOk,mediaOk};
     return {pass:lifeCases.every((item) => item.pass) && motifCase.pass,lifeCases,motifCase};
   }
   const api = {selftest,reset:() => location.reload()};
