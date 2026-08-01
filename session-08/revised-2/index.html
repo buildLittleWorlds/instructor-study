@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Motif, Several Wholes — Instructor Study Session 8 (Second Revision)</title>
+<script defer src="../../studio-nav.js" data-site="study"></script>
+<style>
+  :root{--ink:#22222a;--muted:#666873;--paper:#f8f6f0;--card:#fffefa;--line:#ddd9cf;--green:#2f6f5e;--green-deep:#214f44;--green-soft:#e7f1ee;--gold:#b5751b;--gold-soft:#fff2d6;--blue:#315f91;--blue-soft:#eef3f8;--violet:#6b55a5;--orange:#c96b32;--red:#9b443f;--sand:#b9974a}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:1.05rem/1.65 Georgia,"Times New Roman",serif}button,select,textarea{font:inherit}
+  main{width:min(76rem,calc(100% - 2rem));margin:0 auto;padding:2.7rem 0 5rem}article>section{margin-top:4rem;scroll-margin-top:5rem}h1{max-width:14ch;margin:.25rem 0 .7rem;font-size:clamp(3rem,7vw,6rem);line-height:.98;letter-spacing:-.055em}h2{margin:.15rem 0 .55rem;font-size:clamp(1.75rem,3vw,2.55rem);line-height:1.12}h3{margin:.2rem 0 .45rem;line-height:1.2}p{margin:.45rem 0 1rem}a{color:var(--green-deep)}
+  .kicker,.eyebrow,.boundary,.stage,.jump-links,.practice-card,.real-encounter,.case-state,.control-panel,.legend,.caption,.notice,.status,.paper-label,.ledger,.source-box,.small,.bench,.break-labels,.narration,.compare-card,.lab,footer{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .kicker,.eyebrow{color:var(--green);font-size:.76rem;font-weight:850;letter-spacing:.075em;text-transform:uppercase}.deck{max-width:55ch;color:var(--muted);font-size:1.25rem}
+  .boundary{display:flex;gap:.8rem;max-width:70rem;margin:1.4rem 0;padding:1rem 1.1rem;border:1px solid #b8d2c7;border-radius:15px;background:var(--green-soft);font-size:.9rem}.boundary-mark{display:grid;place-items:center;flex:0 0 1.7rem;height:1.7rem;border-radius:50%;background:var(--green);color:white;font-weight:900}
+  .stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem;margin:1.35rem 0}.stage{display:grid;gap:.12rem;padding:.75rem .8rem;border:1px solid var(--line);border-radius:12px;background:var(--card);text-decoration:none}.stage span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em}.stage strong{font-size:.9rem}.stage.complete{border-color:#b8d2c7;background:#f3f8f5}.stage.current{border:2px solid var(--green);background:var(--green-soft)}.stage.future{opacity:.55}
+  .jump-links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}.jump-links a{padding:.48rem .72rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.82rem;font-weight:800;text-decoration:none}
+  .practice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}.practice-card{padding:1rem;border:1px solid var(--line);border-top:4px solid var(--green);border-radius:13px;background:var(--card);font-size:.9rem}.practice-card p{margin:0;color:var(--muted)}
+  .real-encounter{padding:1.15rem;border:2px solid #9ec7b8;border-radius:16px;background:#f0f7f4}.real-label{display:inline-block;margin-bottom:.5rem;padding:.28rem .48rem;border-radius:6px;background:var(--green-soft);color:var(--green-deep);font-size:.72rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.sim-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.sim-step{padding:.85rem;border-radius:10px;background:rgba(255,255,255,.8)}.sim-step strong{display:block;color:var(--green-deep);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}.sim-step p{margin:.35rem 0 0;font-size:.88rem}
+  .action-spine{margin:1.2rem 0;padding:1rem;border-left:4px solid var(--orange);background:#fff8f2;font-size:1.05rem}.action-spine strong{color:#8f4a1e}
+  .case{padding:clamp(1rem,3vw,1.7rem);border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 14px 38px rgba(34,34,42,.06)}.case+.case{margin-top:1.25rem}.case-heading{display:flex;align-items:start;justify-content:space-between;gap:1rem}.case-state{flex:0 0 auto;padding:.35rem .55rem;border-radius:999px;font-size:.7rem;font-weight:850;text-transform:uppercase;letter-spacing:.04em}.case-state.new{background:var(--gold-soft);color:#765018}.case-state.kept{background:var(--green-soft);color:var(--green-deep)}.case-intro{max-width:65ch;color:var(--muted)}
+  .case-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(18rem,.75fr);gap:1.2rem;align-items:start}.control-panel,.source-box{padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6}
+  button{min-height:2.55rem;padding:.55rem .78rem;border:1px solid #9db3aa;border-radius:9px;background:white;color:var(--green-deep);font-weight:760;cursor:pointer}button:hover,button:focus-visible{border-color:var(--green);background:var(--green-soft);outline:3px solid rgba(47,111,94,.18)}button[aria-pressed=true],button.selected{border-color:var(--green);background:var(--green);color:white}button:disabled{cursor:not-allowed;opacity:.45}button.quiet{border-color:var(--line);color:var(--muted)}.button-row{display:flex;flex-wrap:wrap;gap:.45rem}fieldset{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin:.9rem 0;padding:.8rem;border:1px solid var(--line);border-radius:11px}legend{padding:0 .3rem;font-size:.82rem;font-weight:850}
+  .status{margin:.8rem 0;padding:.8rem;border-radius:10px;background:var(--green-soft);font-size:.86rem}.notice,.caption,.small{color:var(--muted);font-size:.8rem}.mini-readout{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;padding:.65rem .75rem;border-radius:10px;background:#f1efe9}.mini-readout span{color:var(--muted);font-size:.75rem;text-transform:uppercase}.mini-readout strong{font-size:1.4rem}
+  .life-grid{display:grid;grid-template-columns:repeat(9,1fr);aspect-ratio:1;gap:3px;padding:6px;border-radius:12px;background:#d5d1c8}.life-cell{min-height:0;padding:0;border:0;border-radius:4px;background:#f5f2ea;aspect-ratio:1}.life-cell.alive{background:var(--green)}.life-cell.marked{box-shadow:inset 0 0 0 4px #efb83f}.life-cell.born{background:#3d7eaa}.life-cell.departed{background:#f4d5cf}.legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.55rem;color:var(--muted);font-size:.78rem}.legend i{display:inline-block;width:.75rem;height:.75rem;margin-right:.25rem;border-radius:3px;vertical-align:-.05rem}.legend .live{background:var(--green)}.legend .marked{background:#efb83f}.legend .l-arp{background:var(--green)}.legend .l-lead{background:var(--blue)}.legend .l-muted{background:#f5f2ea;border:1px dashed #999}.legend .l-nudged{background:var(--orange)}
+  .bench{padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6}.bench-row{margin:.6rem 0}.bench-row>span{display:block;margin-bottom:.35rem;color:var(--muted);font-size:.75rem;font-weight:850;text-transform:uppercase;letter-spacing:.05em}
+  .narration{margin-top:.6rem;padding:.7rem .8rem;border-radius:10px;background:var(--blue-soft);font-size:.85rem}
+  .lab{margin-top:1.25rem;padding:clamp(1rem,3vw,1.7rem);border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 14px 38px rgba(34,34,42,.06)}
+  .drone-hz{display:inline-block;padding:.3rem .55rem;border-radius:8px;background:#f1efe9;font-variant-numeric:tabular-nums;font-weight:850;font-size:.85rem}
+  .context-row{display:flex;flex-wrap:wrap;gap:.45rem;margin:.7rem 0}
+  .fate-grid{display:grid;grid-template-columns:repeat(3,3rem);grid-template-rows:repeat(3,3rem);gap:4px;padding:6px;border-radius:12px;background:#d5d1c8;width:max-content}.fate-cell{min-height:0;padding:0;border:0;border-radius:6px;background:#f5f2ea}.fate-cell.on{background:var(--green)}.fate-cell.center{background:#efb83f;cursor:default}
+  .break-flex{display:flex;gap:.4rem}.break-labels{display:grid;row-gap:2px;color:var(--muted);font-size:.66rem;font-weight:800;text-align:right;padding-right:.15rem}.break-labels div{display:flex;align-items:center;justify-content:flex-end}
+  .break-grid{position:relative;flex:1;display:grid;grid-template-columns:repeat(16,1fr);gap:2px;background:
+    linear-gradient(90deg,transparent calc(50% - 1px),#c9c3b4 calc(50% - 1px),#c9c3b4 calc(50% + 1px),transparent calc(50% + 1px)),#f4f1e9;border-radius:8px;padding:2px}
+  .break-note{min-height:0;padding:0;border:1px solid rgba(34,34,42,.25);border-radius:4px}
+  .break-note.arp{background:var(--green)}.break-note.lead{background:var(--blue)}
+  .break-note.muted{background:transparent;border:1px dashed #999}
+  .break-note.nudged{background:var(--orange)}
+  .mode-row{display:flex;gap:.45rem;flex-wrap:wrap;margin:.6rem 0}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.compare-card{padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card);font-size:.9rem}.compare-card.holds{border-top:4px solid var(--green)}.compare-card.breaks{border-top:4px solid var(--red)}.compare-card ul{margin:.3rem 0 0;padding-left:1.1rem}.compare-card li{margin:.5rem 0;color:var(--muted)}.compare-card li strong{color:var(--ink)}
+  .seed{max-width:70rem;margin-top:2.2rem;padding:1.15rem 1.3rem;border:2px dashed #d7bd87;border-radius:16px;background:#fffaf0}.seed-label{display:inline-block;margin-bottom:.5rem;padding:.28rem .48rem;border-radius:6px;background:var(--gold-soft);color:#765018;font-size:.72rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.seed h3{font-size:1.35rem}.seed p{font-size:.98rem}.seed [lang="grc"]{font-style:normal;font-weight:700;color:var(--green-deep)}
+  .notebook{display:grid;grid-template-columns:minmax(14rem,.55fr) minmax(0,1.45fr);gap:1rem;padding:1.2rem;border:1px solid #b8d2c7;border-radius:18px;background:var(--green-soft)}.notebook label{display:block;font-family:system-ui,sans-serif;font-size:.8rem;font-weight:850}.notebook select,.notebook textarea{width:100%;margin-top:.35rem;padding:.65rem;border:1px solid #9db3aa;border-radius:9px;background:white}.notebook textarea{min-height:7rem;resize:vertical}.notebook-entry{margin-top:.7rem;padding:.7rem;border-radius:9px;background:white;font-family:system-ui,sans-serif;font-size:.84rem}.notebook-entry strong{color:var(--green-deep)}
+  .paper-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}.paper-card{padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card)}.paper-card.current{grid-column:1/-1;border-color:#b8d2c7;background:var(--green-soft)}.paper-label{color:var(--green);font-size:.72rem;font-weight:900;letter-spacing:.05em;text-transform:uppercase}.paper-card p{margin:.35rem 0 0}
+  .claim-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin-top:.9rem}.claim-key div{padding:.8rem;border-radius:10px;font-family:system-ui,sans-serif;font-size:.82rem}.claim-key .shown{background:var(--green-soft)}.claim-key .sourced{background:var(--blue-soft)}.claim-key .open{background:var(--gold-soft)}
+  .ledger{overflow:hidden;border:1px solid var(--line);border-radius:15px;background:var(--card)}.ledger-row{display:grid;grid-template-columns:12rem 1fr;border-bottom:1px solid var(--line)}.ledger-row:last-child{border-bottom:0}.ledger dt,.ledger dd{margin:0;padding:.8rem .9rem}.ledger dt{background:#f1efe9;color:var(--green-deep);font-weight:850}.ledger dd{font-size:.87rem}.ledger .claim dt,.ledger .claim dd{background:var(--green-soft)}
+  .source-box{margin-top:1rem;font-size:.82rem}
+  .next-card{padding:1.1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.next-card a{font-family:system-ui,sans-serif;font-weight:850}.version-nav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.7rem;margin-top:1rem;font-family:system-ui,sans-serif;font-size:.85rem}
+  footer{margin-top:3.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
+  @media(max-width:840px){.case-grid,.notebook,.compare-grid{grid-template-columns:1fr}.practice-grid,.sim-grid,.claim-key{grid-template-columns:1fr}}
+  @media(max-width:620px){main{width:min(100% - 1rem,76rem);padding-top:1.5rem}.stages{grid-template-columns:1fr 1fr}.case-heading{display:block}.case-state{display:inline-block;margin:.4rem 0}.paper-grid{grid-template-columns:1fr}.paper-card.current{grid-column:auto}.ledger-row{grid-template-columns:1fr}.ledger dt{padding-bottom:.25rem}.ledger dd{padding-top:.35rem}fieldset{grid-template-columns:1fr}.version-nav{flex-direction:column}}
+</style>
+</head>
+<body>
+<main>
+<article>
+  <header>
+    <div class="kicker">Instructor Study · Session 8 · Version 2 of 5 · Second revision · 2026-08-01</div>
+    <h1>One Motif, Several Wholes</h1>
+    <p class="deck">Same music, better questions. Every click on this page now answers in sound: hold one note while the world changes around it, or break one part and hear whether the whole survives.</p>
+    <div class="boundary"><span class="boundary-mark" aria-hidden="true">i</span><div><strong>This is Daniel’s cumulative instructor example, not the student assignment.</strong> Students keep developing their own paper-apps. This page is the <strong>second revision</strong> of Version 2. The chain is public: <a href="../">the original image version</a> → <a href="../revised/">the first musical revision</a> → this page. Each earlier version wears a banner explaining what its classroom encounter taught.</div></div>
+    <div class="stages" aria-label="Cumulative instructor-example versions">
+      <a class="stage complete" href="../../session-07/"><span>Version 1</span><strong>Cells</strong></a>
+      <a class="stage current" href="./" aria-current="page"><span>Version 2 · rev 2</span><strong>Music</strong></a>
+      <div class="stage future" aria-disabled="true"><span>Version 3</span><strong>Text</strong></div>
+      <div class="stage future" aria-disabled="true"><span>Version 4</span><strong>Embeddings</strong></div>
+    </div>
+    <div class="action-spine"><strong>The recurring action:</strong> select a part → assign every whole that fits → inspect overlap or change → state and revise the rule. <span class="small">This revision performs it in sound: hold a part while the wholes change; remove a part and hear the whole notice.</span></div>
+    <nav class="jump-links" aria-label="Page sections">
+      <a href="#course-practice">Today’s practice</a><a href="#why-revised">Why revised again</a><a href="#cases">Bench &amp; build</a><a href="#unmoved">The unmoved note</a><a href="#break">Break it and listen</a><a href="#comparison">Glider ↔ motif</a><a href="#notebook">Boundary Notebook</a><a href="#paper">Paper layer</a><a href="#record">Development record</a>
+    </nav>
+  </header>
+
+  <section id="course-practice" aria-labelledby="practice-title">
+    <div class="eyebrow">Today’s course practice</div>
+    <h2 id="practice-title">Use taste to sharpen the central action</h2>
+    <p>The instructor example models the practice below — twice now. The first revision ripped out an image that told instead of performed. This one rips out a silent grid for the same crime.</p>
+    <div class="practice-grid"><div class="practice-card"><h3>Emphasize</h3><p>Make one reader action unmistakable — and on a page about music, make it audible.</p></div><div class="practice-card"><h3>Qualify</h3><p>Separate what the interaction directly shows, what a source supports, and what remains an open interpretive claim.</p></div><div class="practice-card"><h3>Restrain</h3><p>Reject one plausible feature when it would distract from the question the page is trying to make visible.</p></div></div>
+  </section>
+
+  <section id="why-revised" aria-labelledby="why-title">
+    <div class="real-encounter">
+      <div class="real-label">Real teaching encounter · instructor observation · not participant data</div>
+      <h2 id="why-title">Why the silent grid was replaced</h2>
+      <p>The first revision’s own first reading (2026-08-01) found the flaw. No student is quoted or identified.</p>
+      <div class="sim-grid">
+        <div class="sim-step"><strong>Observation</strong><p>The bench sang — playing parts alone and combining them landed immediately. But the annotated piano roll answered clicks with colored outlines and a sentence. On a page about music, the central interaction was silent.</p></div>
+        <div class="sim-step"><strong>Interpretation</strong><p>Membership was being told, not performed — the pond image’s mistake back in a new costume. A silent click on a sound page is a broken promise, and reasoning about sound while withholding it is exactly the flatness the first revision was built to fix.</p></div>
+        <div class="sim-step"><strong>Revision</strong><p>Replace the silent grid with two experiments in which every action answers in sound: hold one note while the wholes change around it, and break one part to hear whether the whole survives. Make the layer toggles live during playback.</p></div>
+      </div>
+      <p style="margin-top:1rem">Everything that worked is kept: the four layers, the combination bench, the isolate-then-combine build modeled on the music-shop scene in <em>Once</em>, and the cited scale-degree analysis. <a href="https://www.youtube.com/watch?v=EbeT30m1n4U">The scene itself lives on YouTube</a> — this page deliberately contains none of it.</p>
+    </div>
+  </section>
+
+  <section id="cases" aria-labelledby="cases-title">
+    <div class="eyebrow">The growing artifact</div>
+    <h2 id="cases-title">Earlier cases stay usable as the question changes medium</h2>
+    <p>Nothing below is a recap card. The glider remains live so a reader can deliberately descend to the prior evidence and compare it with the new case.</p>
+
+<section class="case" id="life-case" aria-labelledby="life-title">
+  <div class="case-heading">
+    <div><div class="eyebrow">Case 1 · discrete cells</div><h2 id="life-title">One pattern, new cells</h2></div>
+    <span class="case-state kept">Carried forward</span>
+  </div>
+  <p class="case-intro">Select the five live cells as the thing, advance the glider, then inspect what survived, appeared, and disappeared.</p>
+  <div class="case-grid">
+    <div>
+      <div id="life-grid" class="life-grid" role="group" aria-label="Interactive nine by nine Game of Life grid"></div>
+      <div class="legend"><span><i class="live"></i> live</span><span><i class="marked"></i> your boundary</span></div>
+    </div>
+    <div class="control-panel">
+      <div class="mini-readout"><span>Generation</span><strong id="life-generation">0</strong></div>
+      <div class="button-row">
+        <button id="life-mark" type="button">Mark live cells</button>
+        <button id="life-advance" type="button">Advance</button>
+        <button id="life-compare" type="button">Compare</button>
+        <button id="life-reset" class="quiet" type="button">Reset</button>
+      </div>
+      <div id="life-status" class="status" role="status" aria-live="polite">Mark what you think the glider is.</div>
+      <p class="notice"><strong>Actual computation.</strong> This page computes Conway’s B3/S23 rule and checks generations 0–4 against a fixture.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="motif-case" aria-labelledby="motif-title">
+  <div class="case-heading">
+    <div><div class="eyebrow">Case 2 · musical figure</div><h2 id="motif-title">One motif, several wholes</h2></div>
+    <span class="case-state kept">Kept from the first revision</span>
+  </div>
+  <p class="case-intro">A two-bar figure in C major — the rocking C–F gesture that opens <em>“Falling Slowly”</em> (Glen Hansard &amp; Markéta Irglová, from <em>Once</em>, 2007). Hear each part alone, then combine them. New in this revision: <strong>the layer toggles work while the music plays</strong> — pull a layer out mid-build and drop it back in.</p>
+
+  <div class="bench">
+    <div class="bench-row"><span>Hear each part alone</span>
+      <div class="button-row">
+        <button id="play-arp" type="button">The figure (arpeggio)</button>
+        <button id="play-chords" type="button">The chords</button>
+        <button id="play-lead" type="button">The verse line</button>
+        <button id="play-harm" type="button">The second voice</button>
+      </div>
+    </div>
+    <div class="bench-row"><span>The second voice — two documented ways to combine the same line</span>
+      <div class="button-row">
+        <button class="voice-style" data-style="third" type="button" aria-pressed="true">A third above (the recorded duet)</button>
+        <button class="voice-style" data-style="unison" type="button" aria-pressed="false">In unison (the live session)</button>
+      </div>
+    </div>
+    <div class="bench-row"><span>Live layers — these work while the music plays</span>
+      <div class="button-row">
+        <button class="layer-toggle" data-layer="arp" type="button" aria-pressed="true">Arpeggio</button>
+        <button class="layer-toggle" data-layer="chords" type="button" aria-pressed="true">Chords</button>
+        <button class="layer-toggle" data-layer="lead" type="button" aria-pressed="true">Verse line</button>
+        <button class="layer-toggle" data-layer="harm" type="button" aria-pressed="true">Second voice</button>
+        <button id="play-combo" type="button"><strong>Play the combination</strong></button>
+      </div>
+    </div>
+    <div class="bench-row"><span>The shop scene as an interaction — parts enter, the second voice drops out and returns, swell, strip back (about 50 seconds)</span>
+      <div class="button-row">
+        <button id="play-build" type="button"><strong>Play the build</strong></button>
+        <button id="stop-audio" class="quiet" type="button">Stop</button>
+      </div>
+    </div>
+    <div id="audio-status" class="status" role="status" aria-live="polite">Nothing is playing. Every sound on this page is synthesized in your browser from plain note data — no recording is embedded or downloaded.</div>
+    <div id="build-narration" class="narration" role="status" aria-live="polite" hidden></div>
+    <p class="small">The verse and chorus lines follow a published scale-degree analysis of the melody (cited below); they remain synthesized approximations, not the recording. The pre-chorus line is an original course approximation. Try it: start the build, then pull the chords out mid-swell — the whole keeps walking with no floor under it, and it is still the whole. The glider never has the same cells two generations running; the build never has the same layers two bars running; neither stops being itself.</p>
+  </div>
+</section>
+  </section>
+
+  <section class="lab" id="unmoved" aria-labelledby="unmoved-title">
+    <div class="case-heading">
+      <div><div class="eyebrow">Experiment 1 · context changes the part</div><h2 id="unmoved-title">The unmoved note</h2></div>
+      <span class="case-state new">New in this revision</span>
+    </div>
+    <p class="case-intro">One C, held. It never stops sounding and never changes pitch — the readout proves it. Change the chord underneath and listen to the same note become four different things. The cited analysis says it in passing: when the harmony moves to F, <em>this C becomes the fifth of F</em>. Here you can hold the C in your hand while it happens.</p>
+    <div class="case-grid">
+      <div>
+        <div class="button-row" style="margin-bottom:.6rem">
+          <button id="drone-toggle" type="button" aria-pressed="false"><strong>Hold the C</strong></button>
+          <span class="drone-hz" id="drone-hz">C4 · 261.63 Hz · not sounding</span>
+        </div>
+        <div class="context-row" role="group" aria-label="Choose the chord under the held C">
+          <button class="context-button" data-context="alone" type="button" aria-pressed="true">Alone</button>
+          <button class="context-button" data-context="C" type="button" aria-pressed="false">Inside C major</button>
+          <button class="context-button" data-context="F" type="button" aria-pressed="false">Inside F major</button>
+          <button class="context-button" data-context="Am" type="button" aria-pressed="false">Inside A minor</button>
+          <button class="context-button" data-context="G" type="button" aria-pressed="false">Against G major</button>
+        </div>
+        <div id="drone-status" class="status" role="status" aria-live="polite">Press <strong>Hold the C</strong>, then move it from room to room.</div>
+        <p class="small">The pads deliberately never play a C. The one you are holding completes every chord — the same part, finishing four different wholes.</p>
+      </div>
+      <div class="control-panel">
+        <h3 style="margin-top:0">The same move on the board</h3>
+        <p class="small">One live cell, fixed in the center. Toggle its neighbors and watch its next-generation fate flip under B3/S23. Change the neighbors, never the cell.</p>
+        <div class="fate-grid" id="fate-grid" role="group" aria-label="Three by three neighborhood. The center cell is fixed live; the eight neighbors toggle."></div>
+        <div id="fate-status" class="status" role="status" aria-live="polite">0 live neighbors — next generation, the center cell <strong>dies of isolation</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lab" id="break" aria-labelledby="break-title">
+    <div class="case-heading">
+      <div><div class="eyebrow">Experiment 2 · the whole notices</div><h2 id="break-title">Break it and listen</h2></div>
+      <span class="case-state new">New in this revision</span>
+    </div>
+    <p class="case-intro">The two-bar figure, editable. Click a note to <strong>silence</strong> it (the cell dies) or, in nudge mode, to <strong>step it down the scale</strong> (the cell mutates). After every edit the bar replays, so your ear — not the page — judges what the whole can survive. Somewhere in here is a famous mutation: the analysis reads the verse cell as <strong>1-2-3-2</strong> and the chorus cell as <strong>1-2-7-1</strong>. If your nudges land on it, the page will tell you.</p>
+    <div class="case-grid">
+      <div>
+        <div class="break-flex">
+          <div class="break-labels" id="break-labels" aria-hidden="true"></div>
+          <div class="break-grid" id="break-grid" role="group" aria-label="Editable grid of the two-bar figure. Rows are pitches, columns are eighth-note steps. Click a note to silence or nudge it."></div>
+        </div>
+        <div class="legend"><span><i class="l-arp"></i> arpeggio</span><span><i class="l-lead"></i> verse line</span><span><i class="l-muted"></i> silenced</span><span><i class="l-nudged"></i> nudged</span></div>
+      </div>
+      <div class="control-panel">
+        <div class="mode-row" role="group" aria-label="What a click does">
+          <button id="mode-mute" type="button" aria-pressed="true">Click silences</button>
+          <button id="mode-nudge" type="button" aria-pressed="false">Click nudges down</button>
+        </div>
+        <div class="button-row">
+          <button id="break-play" type="button">Play the whole figure</button>
+          <button id="break-restore" class="quiet" type="button">Restore the original</button>
+        </div>
+        <div id="break-status" class="status" role="status" aria-live="polite">The figure is intact. Break something.</div>
+        <p class="small">Some notes are scaffolding — silence one arpeggio note and the whole shrugs. Some are load-bearing — silence the 3 of 1-2-3-2 and the figure loses its turn. Flip one cell of the glider above and it usually shreds within a few generations; this whole tolerates more, and one of its mutations turned out to be the chorus. Two kinds of unity, told apart by experiment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="comparison" aria-labelledby="compare-title">
+    <div class="eyebrow">The two cases, side by side</div>
+    <h2 id="compare-title">The glider and the motif</h2>
+    <p>Both cases put the same question in front of a reader: a whole made of parts that change. The analogy is useful exactly as far as it holds — and instructive where it breaks.</p>
+    <div class="compare-grid">
+      <div class="compare-card holds"><h3>Where the analogy holds</h3><ul>
+        <li><strong>Both live on a grid of discrete parts.</strong> Cells on the board; notes on the roll. Each part is either there or not.</li>
+        <li><strong>Both stay recognizable while their parts change.</strong> The glider’s five cells are replaced as it travels; the verse cell returns as the chorus cell with its turn flipped (3-2 → 7-1), and the ear still says <em>same thing</em>.</li>
+        <li><strong>Both wholes are drawn by an observer.</strong> The B3/S23 rule never mentions a glider; the air never carries a motif. Grouping is something a reader or listener does — which is why the Boundary Notebook asks for your rule.</li>
+        <li><strong>One part can serve several wholes at once.</strong> The held C completes the C chord, the F chord, the A-minor chord, and the G-major tension in turn — same pitch, four memberships, all audible.</li>
+      </ul></div>
+      <div class="compare-card breaks"><h3>Where the analogy breaks</h3><ul>
+        <li><strong>Rule versus choice.</strong> Life’s next generation is forced by one law; nothing forces the next note. The glider’s changed cells are consequences; the chorus’s changed cells were decisions.</li>
+        <li><strong>Local versus contextual meaning.</strong> A cell’s fate depends only on its eight neighbors. A note’s role depends on everything sounding with and around it — the unmoved note above is the proof you can hold.</li>
+        <li><strong>Nobody versus somebody.</strong> No one chooses the glider’s next cells. Every note here was chosen — first by the songwriters, then, for these synthesized lines, by the instructor. Whose name goes on a whole is Session 10’s question.</li>
+        <li><strong>Fragile versus resilient unity.</strong> Perturb the glider and it usually disintegrates; perturb the figure and it often survives — and one of its mutations is the chorus. Break-it-and-listen makes the difference an experiment, not a claim.</li>
+      </ul></div>
+    </div>
+    <p class="notice" style="margin-top:.9rem"><strong>The course’s standing rule applies:</strong> analogies find questions, not answers. Nothing above claims the song computes, or that the board sings.</p>
+
+    <aside class="seed" aria-labelledby="seed-title">
+      <div class="seed-label">Seed · planted 2026-08-01 · to be grown in a later version</div>
+      <h3 id="seed-title">The word for untying</h3>
+      <p>The oldest name for what this page does is Greek. <span lang="grc">ἀνάλυσις</span> (<em>análysis</em>) comes from <span lang="grc">ἀναλύειν</span> (<em>analýein</em>), “to unloose, to untie” — <span lang="grc">ἀνά</span> (“up, throughout”) plus <span lang="grc">λύσις</span> (“a loosening, a setting free”). Before it meant breaking a problem into components, it meant untying a knot. Its old companion is <span lang="grc">σύνθεσις</span> (<em>sýnthesis</em>), “a placing together.”</p>
+      <p>The bench above does both, in that order. The solo buttons are <span lang="grc">ἀνάλυσις</span>: they untie the figure and set each strand free to be examined alone. The build is <span lang="grc">σύνθεσις</span>: it places the strands back together until they are one thing again. The music-shop scene is a lesson conducted in exactly this grammar — untie the song, hand someone one strand, then bind it again with a second pair of hands.</p>
+      <p>Whether the untied strands or the retied knot is the <em>real</em> thing — whether a whole survives its own analysis — is this page’s open question wearing older clothes. Left here to grow.</p>
+    </aside>
+  </section>
+
+  <section id="notebook" aria-labelledby="notebook-title">
+    <div class="eyebrow">State and revise the rule</div>
+    <h2 id="notebook-title">Boundary Notebook</h2>
+    <div class="notebook">
+      <div>
+        <label for="rule-case">Case
+          <select id="rule-case"><option value="Glider">Glider</option><option value="Motif">Motif</option></select>
+        </label>
+        <p class="small">Entries stay in memory only and disappear when the page is refreshed.</p>
+      </div>
+      <div>
+        <label for="rule-text">What rule are you using to decide what counts as one thing?
+          <textarea id="rule-text" placeholder="I count this as one thing when…"></textarea>
+        </label>
+        <div class="button-row"><button id="save-rule" type="button">Save this provisional rule</button></div>
+        <div id="rule-status" class="status" role="status" aria-live="polite">No rule saved yet.</div>
+        <div id="notebook-entries"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="paper" aria-labelledby="paper-title">
+    <div class="eyebrow">Paper layer · rewritten in the second revision</div>
+    <h2 id="paper-title">A figure can participate in more than one organized whole</h2>
+  <div class="paper-grid">
+    <div class="paper-card"><div class="paper-label">Question</div><p>When a handful of notes recurs — played alone, layered under a line, flipped into a chorus, swelled and stripped back — what keeps it one thing? And is a part anything at all outside the wholes that sound around it?</p></div>
+    <div class="paper-card"><div class="paper-label">Observation</div><p>The page directly shows that a held C changes character as the chords change around it while its frequency does not move; that silencing or nudging single notes leaves the figure sometimes intact and sometimes broken — and that one particular nudge lands on the chorus’s own cells; and that the glider still verifies its counts one section above.</p></div>
+    <div class="paper-card"><div class="paper-label">Interpretation</div><p>The glider persists by propagation: a rule forces the next cells. The motif persists by repetition and relation: nothing forces its return — an author chose it, and a listener re-binds it. What a part <em>is</em> — root, fifth, third, tension — is decided by the whole that is sounding, not by the part alone.</p></div>
+    <div class="paper-card"><div class="paper-label">Limitation</div><p>The audio here is an original synthesis of chords and analyzed figures — an analysis, not the song. The pre-chorus line is a course approximation. The labs report facts and replay sound; the verdicts — did the whole survive? did the note change? — belong to each reader’s ear, and ears differ. One song settles nothing about musical unity in general.</p></div>
+    <div class="paper-card current"><div class="paper-label">Current claim · Version 2, second revision</div><p>A part can belong to several wholes — and which whole is sounding decides what the part is. Hold the part fixed and change the whole: the part changes character. The relations are the identity.</p></div>
+    <div class="paper-card"><div class="paper-label">Next move</div><p>Move from notes whose wholes can be heard to phrases whose participation in character and relationship must be interpreted.</p></div>
+  </div>
+    <div class="claim-key"><div class="shown"><strong>Directly shown</strong><br>The held C’s frequency never moves while its character changes; edits to single notes audibly change or spare the whole; the layers combine into one build; the glider counts verify.</div><div class="sourced"><strong>Source-supported</strong><br>Key, chords, the 1-2-3-2 / 1-2-7-1 reading, “this C becomes the fifth of F,” the pre-chorus drop-out, the third-above and unison textures, and the additive crescendo — per the cited analysis video and the course research notes.</div><div class="open"><strong>Still open</strong><br>Alone, is a note anything more than a frequency — or does character only exist inside a whole?</div></div>
+  </section>
+
+  <section id="record" aria-labelledby="record-title">
+    <div class="eyebrow">Development record</div>
+    <h2 id="record-title">The revision remains inspectable</h2>
+    <p>The ledger separates the real encounters that motivated each revision from actual technical results. The replaced versions are not hidden: <a href="../">the original</a> and <a href="../revised/">the first revision</a> are both still public.</p>
+    <dl class="ledger"><div class="ledger-row"><dt>Kept</dt><dd>The verified glider case, the four-layer bench, the isolate-then-combine build with its narration and pre-chorus drop-out, the second-voice toggle, the Boundary Notebook, the Greek seed, and the cited scale-degree analysis.</dd></div><div class="ledger-row"><dt>Tried</dt><dd>An annotated piano roll with silent click-to-assign membership, and separate play-buttons for the verse and chorus cells (the first revision).</dd></div><div class="ledger-row"><dt>Encountered</dt><dd><strong>Actual instructor observation, not participant data:</strong> on the first revision’s first reading (2026-08-01), the bench sang but the roll went silent — clicking a note produced colored outlines and a sentence. Membership told, not performed: the pond image’s mistake in a new costume.</dd></div><div class="ledger-row"><dt>Changed</dt><dd>Replaced the silent grid with two sound-first experiments — the unmoved note (one held C recharacterized by four chords, paired with a fixed cell whose fate is decided by its neighbors) and break-it-and-listen (silence or nudge single notes with instant replay, the chorus mutation discoverable by play) — and made the layer toggles live during playback.</dd></div><div class="ledger-row"><dt>Rejected</dt><dd>A correctness grader for edits — the page reports facts and replays sound; whether the whole survived is the reader’s ear’s verdict, not the code’s. Everything the earlier versions rejected stays rejected: no recording, lyric, or vocal; no autoplay; no pitch detection or uploads.</dd></div><div class="ledger-row"><dt>Actual technical result</dt><dd>The Life fixture still passes generations 0–4. The center-cell fate readout matches B3/S23 for all neighbor counts 0–8. The drone pads contain no C in any voicing — the held note completes every chord. Nudges move notes by diatonic scale steps and the chorus detector fires exactly on 1-2-7-1. In third mode every second-voice note sits a diatonic third above its concurrent lead note; in unison mode the interval is zero; every pitch on the page is in C major; the build’s entrances keep their documented order. No audio files, uploads, or network requests.</dd></div><div class="ledger-row claim"><dt>Current claim</dt><dd>A defensible whole is relationally constrained — and which whole is sounding decides what the part is.</dd></div></dl>
+    <div class="source-box"><strong>Source boundary.</strong> “Falling Slowly” is in C major and rocks between the C and F chords; the chorus adds the relative minor (C–F–Am–F); the pre-chorus runs Am–G–F (a cited live-session reading adds the return to G: 6-5-4-5), and in it the second voice drops out, returning for the chorus. The scale-degree reading of the melody — verse 1-2-3-2, chorus 1-2-7-1, “this C becomes the fifth of F,” nothing outside the key — comes from <a href="https://www.youtube.com/watch?v=NK-K816Yi_s">Michael Palmisano’s analysis of a live duet performance</a> (2026); the arrangement facts are compiled in the course’s research notes (2026-08-01) from published editions and press. The song won the Academy Award for Best Original Song (2008). <a href="https://www.youtube.com/watch?v=EbeT30m1n4U">The scene itself lives here</a>, not on this page.</div>
+  </section>
+
+  <section aria-labelledby="next-title">
+    <div class="next-card">
+      <div class="eyebrow">Where this version leaves the project</div>
+      <h2 id="next-title">The next version changes medium again</h2>
+      <p>Move from notes whose wholes can be heard to phrases whose participation in character and relationship must be interpreted.</p>
+      <a href="../../session-09/">Continue to Version 3: One Passage, Several Characters</a>
+      <div class="version-nav"><a href="../../session-07/">← Back to Version 1</a><a href="../">Original Version 2</a><a href="../revised/">First revision</a><a href="../../">Instructor Study home</a></div>
+    </div>
+  </section>
+
+  <footer>What Makes Something One Thing? · Version 2 (second revision) · No accounts, analytics, uploads, or stored reader data. “Falling Slowly” was written by Glen Hansard and Markéta Irglová for <em>Once</em> (2007), dir. John Carney; this page synthesizes short analyzed figures for educational commentary and reproduces no part of the recording, performance, or lyrics.</footer>
+</article>
+</main>
+
+<script>
+(() => {
+  "use strict";
+  const VERSION = 8;
+  const q = (selector, root = document) => root.querySelector(selector);
+  const qa = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const esc = (value) => String(value).replace(/[&<>"']/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+
+  /* ---------- Case 1: the glider (carried forward verbatim) ---------- */
+  const SIZE = 9;
+  const START = [[2,1],[3,2],[1,3],[2,3],[3,3]];
+  const FIXTURES = [
+    [[2,1],[3,2],[1,3],[2,3],[3,3]],
+    [[1,2],[3,2],[2,3],[3,3],[2,4]],
+    [[3,2],[1,3],[3,3],[2,4],[3,4]],
+    [[2,2],[3,3],[4,3],[2,4],[3,4]],
+    [[3,2],[4,3],[2,4],[3,4],[4,4]]
+  ];
+  const cellKey = (x,y) => x + "," + y;
+  const toSet = (cells) => new Set(cells.map(([x,y]) => cellKey(x,y)));
+  const splitKey = (key) => key.split(",").map(Number);
+  const sameSet = (a,b) => a.size === b.size && [...a].every((value) => b.has(value));
+  function lifeStep(cells) {
+    const counts = new Map();
+    cells.forEach((key) => {
+      const [x,y] = splitKey(key);
+      for(let dx=-1;dx<=1;dx++) for(let dy=-1;dy<=1;dy++) {
+        if(dx === 0 && dy === 0) continue;
+        const neighbor = cellKey(x+dx,y+dy);
+        counts.set(neighbor,(counts.get(neighbor)||0)+1);
+      }
+    });
+    const next = new Set();
+    counts.forEach((count,key) => {
+      if(count === 3 || (count === 2 && cells.has(key))) next.add(key);
+    });
+    return next;
+  }
+  let lifeCurrent = toSet(START);
+  let lifePrevious = null;
+  let lifeMarked = new Set();
+  let generation = 0;
+  function renderLife() {
+    const grid = q("#life-grid");
+    if(!grid) return;
+    const focus = document.activeElement?.dataset?.cell;
+    grid.innerHTML = "";
+    for(let y=0;y<SIZE;y++) for(let x=0;x<SIZE;x++) {
+      const key = cellKey(x,y);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "life-cell";
+      button.dataset.cell = key;
+      const alive = lifeCurrent.has(key);
+      if(alive) button.classList.add("alive");
+      if(lifeMarked.has(key)) button.classList.add("marked");
+      if(lifePrevious && alive && !lifePrevious.has(key)) button.classList.add("born");
+      if(lifePrevious && !alive && lifePrevious.has(key)) button.classList.add("departed");
+      button.setAttribute("aria-pressed",lifeMarked.has(key) ? "true" : "false");
+      button.setAttribute("aria-label","row " + (y+1) + ", column " + (x+1) + (alive ? ", live" : ", empty") + (lifeMarked.has(key) ? ", marked as part of the glider" : ""));
+      button.addEventListener("click",() => {
+        lifeMarked.has(key) ? lifeMarked.delete(key) : lifeMarked.add(key);
+        renderLife();
+      });
+      grid.appendChild(button);
+    }
+    q("#life-generation").textContent = generation;
+    if(focus) q('[data-cell="' + focus + '"]')?.focus();
+  }
+  q("#life-mark")?.addEventListener("click",() => {
+    lifeMarked = new Set(lifeCurrent);
+    q("#life-status").innerHTML = "<strong>Five positions marked.</strong> Advance to test whether this fixed boundary follows the pattern.";
+    renderLife();
+  });
+  q("#life-advance")?.addEventListener("click",() => {
+    lifePrevious = new Set(lifeCurrent);
+    lifeCurrent = lifeStep(lifeCurrent);
+    generation += 1;
+    q("#life-status").innerHTML = "<strong>The rule ran.</strong> Compare the new live cells with your marked boundary.";
+    renderLife();
+  });
+  q("#life-compare")?.addEventListener("click",() => {
+    if(!lifePrevious) {
+      q("#life-status").textContent = "Advance the glider once before comparing.";
+      return;
+    }
+    const survived = [...lifeCurrent].filter((key) => lifePrevious.has(key)).length;
+    const born = [...lifeCurrent].filter((key) => !lifePrevious.has(key)).length;
+    const departed = [...lifePrevious].filter((key) => !lifeCurrent.has(key)).length;
+    const markedAlive = [...lifeMarked].filter((key) => lifeCurrent.has(key)).length;
+    q("#life-status").innerHTML = "<strong>" + survived + " survived, " + born + " appeared, " + departed + " disappeared.</strong> " + markedAlive + " of your marked positions are live now.";
+  });
+  q("#life-reset")?.addEventListener("click",() => {
+    lifeCurrent = toSet(START); lifePrevious = null; lifeMarked = new Set(); generation = 0;
+    q("#life-status").textContent = "Mark what you think the glider is.";
+    renderLife();
+  });
+  renderLife();
+
+  /* ---------- Shared music data ---------- */
+  const TEMPO = 70;
+  const STEP = 60 / TEMPO / 2;
+  const BAR = 8;
+  const MIDI = {C2:36,D2:38,E2:40,F2:41,G2:43,A2:45,B2:47,C3:48,D3:50,E3:52,F3:53,G3:55,A3:57,B3:59,C4:60,D4:62,E4:64,F4:65,G4:67,A4:69,B4:71,C5:72};
+  const SCALE = ["C","D","E","F","G","A","B"];
+  function scaleShift(pitch,stepsDown) {
+    const letter = pitch.slice(0,1);
+    let octave = Number(pitch.slice(1));
+    let index = SCALE.indexOf(letter);
+    for(let i=0;i<stepsDown;i++) { index -= 1; if(index < 0) { index = 6; octave -= 1; } }
+    return SCALE[index] + octave;
+  }
+  function diatonicThird(pitch) {
+    const letter = pitch.slice(0,1), octave = Number(pitch.slice(1));
+    const index = SCALE.indexOf(letter);
+    const upIndex = (index + 2) % 7;
+    return SCALE[upIndex] + (upIndex < index ? octave + 1 : octave);
+  }
+  const ARP = {
+    C:  ["C3","G3","C4","E4","G4","E4","C4","G3"],
+    F:  ["F2","C3","F3","A3","C4","A3","F3","C3"],
+    Am: ["A2","E3","A3","C4","E4","C4","A3","E3"],
+    G:  ["G2","D3","G3","B3","D4","B3","G3","D3"]
+  };
+  const PAD = {C:["C3","E3","G3"],F:["F3","A3","C4"],Am:["A3","C4","E4"],G:["G3","B3","D4"]};
+  const MOTIF_CHORDS = ["C","F"];
+  const LEAD2 = [
+    {t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"E4"},{t:6,d:2,p:"D4"},
+    {t:8,d:2,p:"C4"},{t:10,d:2,p:"D4"},{t:12,d:2,p:"F4"},{t:14,d:2,p:"E4"}
+  ];
+  let voiceStyle = "third";
+  const secondVoice = (pitch) => voiceStyle === "third" ? diatonicThird(pitch) : pitch;
+  function motifEvents(style) {
+    const saved = voiceStyle;
+    if(style) voiceStyle = style;
+    const events = [];
+    MOTIF_CHORDS.forEach((chord,bar) => {
+      ARP[chord].forEach((pitch,step) => events.push({layer:"arp",t:bar*BAR+step,d:1,p:pitch}));
+      PAD[chord].forEach((pitch) => events.push({layer:"chords",t:bar*BAR,d:BAR,p:pitch}));
+    });
+    LEAD2.forEach((note) => events.push({layer:"lead",...note}));
+    LEAD2.forEach((note) => events.push({layer:"harm",t:note.t,d:note.d,p:secondVoice(note.p)}));
+    voiceStyle = saved;
+    return events;
+  }
+  const BUILD_BARS = ["C","F","C","F","C","F","Am","G","F","G","C","F","Am","F","C"];
+  const BUILD_IN = {arp:1,chords:3,lead:5,harm:11};
+  const BUILD_OUT = {arp:15,chords:14,lead:14,harm:14};
+  const BUILD_LEAD = {
+    5:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"E4"},{t:6,d:2,p:"D4"}],
+    6:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"F4"},{t:6,d:2,p:"E4"}],
+    7:[{t:0,d:6,p:"A4"},{t:6,d:2,p:"G4"}],
+    8:[{t:0,d:6,p:"G4"},{t:6,d:2,p:"F4"}],
+    9:[{t:0,d:4,p:"F4"},{t:4,d:4,p:"E4"}],
+    10:[{t:0,d:8,p:"D4"}],
+    11:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"B3"},{t:6,d:2,p:"C4"}],
+    12:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"B3"},{t:6,d:2,p:"C4"}],
+    13:[{t:0,d:8,p:"G4"}],
+    14:[{t:0,d:8,p:"F4"}]
+  };
+  function buildEvents(style) {
+    const events = [];
+    BUILD_BARS.forEach((chord,index) => {
+      const bar = index + 1, offset = index * BAR;
+      if(bar >= BUILD_IN.arp && bar <= BUILD_OUT.arp) ARP[chord].forEach((pitch,step) => events.push({layer:"arp",t:offset+step,d:1,p:pitch,bar}));
+      if(bar >= BUILD_IN.chords && bar <= BUILD_OUT.chords) PAD[chord].forEach((pitch) => events.push({layer:"chords",t:offset,d:BAR,p:pitch,bar}));
+      if(bar >= BUILD_IN.lead && bar <= BUILD_OUT.lead) (BUILD_LEAD[bar]||[]).forEach((note) => {
+        events.push({layer:"lead",t:offset+note.t,d:note.d,p:note.p,bar});
+        if(bar >= BUILD_IN.harm) {
+          const saved = voiceStyle;
+          if(style) voiceStyle = style;
+          events.push({layer:"harm",t:offset+note.t,d:note.d,p:secondVoice(note.p),bar});
+          voiceStyle = saved;
+        }
+      });
+    });
+    return events;
+  }
+  const BUILD_NARRATION = [
+    {bar:1,text:"Bars 1–2 · the figure alone — the rocking C–F arpeggio."},
+    {bar:3,text:"Bars 3–4 · + the chords, sustained underneath."},
+    {bar:5,text:"Bars 5–6 · + the verse line: scale degrees 1-2-3-2, then 1-2-4-3 over F."},
+    {bar:7,text:"Bars 7–10 · the pre-chorus turn (Am–G–F–G, 6-5-4-5). The second voice drops out — one voice alone."},
+    {bar:11,text:"Bars 11–14 · the chorus (C–F–Am–F): the verse cell flips to 1-2-7-1, the second voice returns, and everything swells."},
+    {bar:15,text:"Bar 15 · back to the figure alone, quiet."}
+  ];
+
+  /* ---------- Audio engine: layer gains are live ---------- */
+  const audio = {ctx:null,master:null,layers:null,sources:[],endTime:0,raf:0,mode:null};
+  const layerOn = {arp:true,chords:true,lead:true,harm:true};
+  function ensureContext() {
+    if(!audio.ctx) {
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      audio.ctx = new Ctor();
+      audio.master = audio.ctx.createGain();
+      audio.master.gain.value = .9;
+      audio.master.connect(audio.ctx.destination);
+      audio.layers = {};
+      ["arp","chords","lead","harm"].forEach((layer) => {
+        const gain = audio.ctx.createGain();
+        gain.gain.value = layerOn[layer] ? 1 : 0;
+        gain.connect(audio.master);
+        audio.layers[layer] = gain;
+      });
+    }
+    if(audio.ctx.state === "suspended") audio.ctx.resume();
+    return audio.ctx;
+  }
+  function setLayer(layer,on) {
+    layerOn[layer] = on;
+    if(audio.ctx) audio.layers[layer].gain.linearRampToValueAtTime(on ? 1 : 0,audio.ctx.currentTime + .08);
+  }
+  function voice(ctx,event,t0,destination) {
+    const start = t0 + event.t * STEP;
+    const stopAt = start + Math.max(event.d * STEP, .18) + .25;
+    const gain = ctx.createGain();
+    const out = destination || audio.layers[event.layer] || audio.master;
+    if(ctx.createStereoPanner && (event.layer === "lead" || event.layer === "harm") && !destination) {
+      const pan = ctx.createStereoPanner();
+      pan.pan.value = event.layer === "lead" ? -.14 : .2;
+      gain.connect(pan); pan.connect(out);
+    } else gain.connect(out);
+    const osc = ctx.createOscillator();
+    osc.type = event.layer === "chords" ? "sine" : event.layer === "harm" ? "sawtooth" : "triangle";
+    osc.frequency.value = 440 * Math.pow(2,(MIDI[event.p]-69)/12);
+    if(event.layer === "harm") {
+      const filter = ctx.createBiquadFilter();
+      filter.type = "lowpass"; filter.frequency.value = 1600;
+      osc.connect(filter); filter.connect(gain);
+    } else osc.connect(gain);
+    const g = gain.gain;
+    g.setValueAtTime(0,start);
+    if(event.layer === "arp") {
+      g.linearRampToValueAtTime(.17,start+.012);
+      g.exponentialRampToValueAtTime(.0008,start+Math.min(1.1,event.d*STEP+.4));
+    } else if(event.layer === "chords") {
+      g.linearRampToValueAtTime(.075,start+.15);
+      g.setValueAtTime(.075,start+event.d*STEP-.2);
+      g.linearRampToValueAtTime(.0001,start+event.d*STEP+.15);
+    } else {
+      const peak = event.layer === "lead" ? .15 : .07;
+      g.linearRampToValueAtTime(peak,start+.045);
+      g.setValueAtTime(peak,start+event.d*STEP-.08);
+      g.linearRampToValueAtTime(.0001,start+event.d*STEP+.12);
+      const lfo = ctx.createOscillator(), lfoGain = ctx.createGain();
+      lfo.frequency.value = 5.4; lfoGain.gain.value = 5.5;
+      lfo.connect(lfoGain); lfoGain.connect(osc.detune);
+      lfo.start(start); lfo.stop(stopAt);
+      audio.sources.push(lfo);
+    }
+    osc.start(start); osc.stop(stopAt);
+    audio.sources.push(osc);
+  }
+  function stopAudio(message) {
+    audio.sources.forEach((source) => { try { source.stop(); } catch(error) {} });
+    audio.sources = [];
+    if(audio.raf) cancelAnimationFrame(audio.raf);
+    audio.raf = 0; audio.mode = null; audio.endTime = 0;
+    if(audio.master && audio.ctx) {
+      audio.master.gain.cancelScheduledValues(audio.ctx.currentTime);
+      audio.master.gain.setValueAtTime(.9,audio.ctx.currentTime);
+    }
+    q("#build-narration").hidden = true;
+    if(message) q("#audio-status").innerHTML = message;
+  }
+  function play(events,totalSteps,mode,description) {
+    stopAudio();
+    const ctx = ensureContext();
+    const t0 = ctx.currentTime + .1;
+    events.forEach((event) => voice(ctx,event,t0));
+    if(mode === "build") {
+      const g = audio.master.gain;
+      g.setValueAtTime(.9,t0);
+      g.setValueAtTime(.9,t0 + 10*BAR*STEP);
+      g.linearRampToValueAtTime(1.3,t0 + 12*BAR*STEP);
+      g.setValueAtTime(1.3,t0 + 14*BAR*STEP);
+      g.linearRampToValueAtTime(.35,t0 + 15*BAR*STEP);
+    }
+    audio.mode = mode;
+    audio.endTime = t0 + totalSteps * STEP + .3;
+    q("#audio-status").innerHTML = description;
+    const narration = q("#build-narration");
+    if(mode === "build") narration.hidden = false;
+    function frame() {
+      const now = ctx.currentTime;
+      if(now >= audio.endTime) { stopAudio("Finished. Nothing was downloaded or recorded — every note was synthesized here."); return; }
+      if(mode === "build") {
+        const step = (now - t0) / STEP;
+        if(step >= 0) {
+          const bar = Math.floor(step / BAR) + 1;
+          const line = [...BUILD_NARRATION].reverse().find((item) => bar >= item.bar);
+          if(line) narration.textContent = line.text;
+        }
+      }
+      audio.raf = requestAnimationFrame(frame);
+    }
+    audio.raf = requestAnimationFrame(frame);
+  }
+  const styleLabel = () => voiceStyle === "third" ? "a third above" : "in unison";
+  function setToggles(layers) {
+    ["arp","chords","lead","harm"].forEach((layer) => {
+      const on = layers.includes(layer);
+      setLayer(layer,on);
+      q('.layer-toggle[data-layer="' + layer + '"]').setAttribute("aria-pressed",on ? "true" : "false");
+    });
+  }
+  q("#play-arp")?.addEventListener("click",() => { setToggles(["arp"]); play(motifEvents(),16,"solo","<strong>Playing the figure alone</strong> — two bars, synthesized in your browser. The layer toggles below show what you hear."); });
+  q("#play-chords")?.addEventListener("click",() => { setToggles(["chords"]); play(motifEvents(),16,"solo","<strong>Playing the chords alone</strong> — C, then F, sustained."); });
+  q("#play-lead")?.addEventListener("click",() => { setToggles(["lead"]); play(motifEvents(),16,"solo","<strong>Playing the verse line alone</strong> — degrees 1-2-3-2, then 1-2-4-3 over F."); });
+  q("#play-harm")?.addEventListener("click",() => { setToggles(["harm"]); play(motifEvents(),16,"solo","<strong>Playing the second voice alone</strong> — currently " + styleLabel() + "."); });
+  qa(".voice-style").forEach((button) => button.addEventListener("click",() => {
+    voiceStyle = button.dataset.style;
+    qa(".voice-style").forEach((other) => other.setAttribute("aria-pressed",other === button ? "true" : "false"));
+    q("#audio-status").innerHTML = "Second voice set to <strong>" + styleLabel() + "</strong>. Takes effect the next time you press play.";
+  }));
+  qa(".layer-toggle").forEach((button) => button.addEventListener("click",() => {
+    const layer = button.dataset.layer;
+    const on = button.getAttribute("aria-pressed") !== "true";
+    button.setAttribute("aria-pressed",on ? "true" : "false");
+    setLayer(layer,on);
+    if(audio.mode) q("#audio-status").innerHTML = "<strong>" + (on ? "Dropped " : "Pulled ") + {arp:"the arpeggio",chords:"the chords",lead:"the verse line",harm:"the second voice"}[layer] + (on ? " back in" : " out") + " — live.</strong> The whole keeps going.";
+  }));
+  q("#play-combo")?.addEventListener("click",() => {
+    ["arp","chords","lead","harm"].forEach((layer) => setLayer(layer,q('.layer-toggle[data-layer="' + layer + '"]').getAttribute("aria-pressed") === "true"));
+    play(motifEvents(),16,"combo","<strong>Playing all four layers</strong> — gated by the toggles, second voice " + styleLabel() + ". Flip a toggle while it plays.");
+  });
+  q("#play-build")?.addEventListener("click",() => {
+    play(buildEvents(),15*BAR,"build","<strong>Playing the build</strong> — parts enter, the second voice drops out and returns " + styleLabel() + ", swell, strip back. Try pulling a layer out mid-swell.");
+  });
+  q("#stop-audio")?.addEventListener("click",() => stopAudio("Stopped. Nothing is playing."));
+  addEventListener("pagehide",() => { stopDrone(); stopAudio(); },{once:true});
+
+  /* ---------- Experiment 1: the unmoved note ---------- */
+  const CONTEXT_PADS = {C:["E3","G3"],F:["F3","A3","F4"],Am:["A3","E4"],G:["G3","B3","D4"]};
+  const CONTEXT_TEXT = {
+    alone:"<strong>Alone.</strong> A pitch and nothing more: 261.63 Hz, hanging in the air.",
+    C:"<strong>Inside C major.</strong> The held note is the <strong>root</strong> — home. Everything else in the chord arranges itself around it.",
+    F:"<strong>Inside F major.</strong> The same unbroken note is now the <strong>fifth</strong> — someone else’s house, your C floating near the roof. The cited analysis names this exact move: this C becomes the fifth of F.",
+    Am:"<strong>Inside A minor.</strong> Now it is the <strong>third</strong> — the note that decides the chord’s color, and the color is minor.",
+    G:"<strong>Against G major.</strong> Now it is a <strong>fourth against the root</strong> — a suspension. It leans, and your ear wants it to fall one step and resolve."
+  };
+  const drone = {osc:null,gain:null,pad:[],context:"alone",active:false};
+  function stopPad() {
+    drone.pad.forEach((node) => { try { node.osc.stop(); } catch(error) {} });
+    drone.pad = [];
+  }
+  function startPad(name) {
+    if(!drone.active || name === "alone") return;
+    const ctx = ensureContext();
+    (CONTEXT_PADS[name]||[]).forEach((pitch) => {
+      const osc = ctx.createOscillator(), gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = 440 * Math.pow(2,(MIDI[pitch]-69)/12);
+      gain.gain.setValueAtTime(0,ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(.06,ctx.currentTime + .25);
+      osc.connect(gain); gain.connect(audio.master);
+      osc.start();
+      drone.pad.push({osc,gain});
+    });
+  }
+  function setContext(name) {
+    drone.context = name;
+    qa(".context-button").forEach((button) => button.setAttribute("aria-pressed",button.dataset.context === name ? "true" : "false"));
+    stopPad();
+    startPad(name);
+    q("#drone-status").innerHTML = CONTEXT_TEXT[name] + (drone.active ? "" : " <em>(Press Hold the C to hear it.)</em>");
+  }
+  function stopDrone() {
+    if(drone.osc) { try { drone.osc.stop(); } catch(error) {} drone.osc = null; }
+    stopPad();
+    drone.active = false;
+    q("#drone-toggle")?.setAttribute("aria-pressed","false");
+    const hz = q("#drone-hz"); if(hz) hz.textContent = "C4 · 261.63 Hz · not sounding";
+  }
+  q("#drone-toggle")?.addEventListener("click",() => {
+    if(drone.active) { stopDrone(); q("#drone-status").innerHTML = "Released. The note is gone; the rooms are still there."; return; }
+    const ctx = ensureContext();
+    const osc = ctx.createOscillator(), gain = ctx.createGain();
+    osc.type = "triangle";
+    osc.frequency.value = 440 * Math.pow(2,(MIDI.C4-69)/12);
+    gain.gain.setValueAtTime(0,ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(.11,ctx.currentTime + .2);
+    osc.connect(gain); gain.connect(audio.master);
+    osc.start();
+    drone.osc = osc; drone.gain = gain; drone.active = true;
+    q("#drone-toggle").setAttribute("aria-pressed","true");
+    q("#drone-hz").textContent = "C4 · 261.63 Hz · sounding — and it will not change";
+    setContext(drone.context);
+  });
+  qa(".context-button").forEach((button) => button.addEventListener("click",() => setContext(button.dataset.context)));
+
+  /* The fate lab: one fixed live cell, eight toggleable neighbors, B3/S23. */
+  const fate = {neighbors:new Array(8).fill(false)};
+  const centerFate = (count) => count === 2 || count === 3;
+  function fateText(count) {
+    if(centerFate(count)) return count + " live neighbor" + (count === 1 ? "" : "s") + " — next generation, the center cell <strong>survives</strong>.";
+    return count + " live neighbor" + (count === 1 ? "" : "s") + " — next generation, the center cell <strong>dies of " + (count < 2 ? "isolation" : "overcrowding") + "</strong>.";
+  }
+  function renderFate() {
+    const grid = q("#fate-grid");
+    if(!grid) return;
+    grid.innerHTML = "";
+    let index = 0;
+    for(let position=0;position<9;position++) {
+      if(position === 4) {
+        const center = document.createElement("div");
+        center.className = "fate-cell center";
+        center.setAttribute("aria-label","center cell, fixed live");
+        grid.appendChild(center);
+        continue;
+      }
+      const slot = index;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "fate-cell" + (fate.neighbors[slot] ? " on" : "");
+      button.setAttribute("aria-pressed",fate.neighbors[slot] ? "true" : "false");
+      button.setAttribute("aria-label","neighbor " + (slot+1) + (fate.neighbors[slot] ? ", live" : ", empty"));
+      button.addEventListener("click",() => { fate.neighbors[slot] = !fate.neighbors[slot]; renderFate(); });
+      grid.appendChild(button);
+      index += 1;
+    }
+    const count = fate.neighbors.filter(Boolean).length;
+    q("#fate-status").innerHTML = fateText(count);
+  }
+  renderFate();
+
+  /* ---------- Experiment 2: break it and listen ---------- */
+  const breakState = {mode:"mute",notes:[]};
+  function breakBase() {
+    const notes = [];
+    MOTIF_CHORDS.forEach((chord,bar) => {
+      ARP[chord].forEach((pitch,step) => notes.push({layer:"arp",t:bar*BAR+step,d:1,orig:pitch,nudge:0,muted:false}));
+    });
+    LEAD2.forEach((note) => notes.push({layer:"lead",t:note.t,d:note.d,orig:note.p,nudge:0,muted:false}));
+    return notes;
+  }
+  breakState.notes = breakBase();
+  const notePitch = (note) => scaleShift(note.orig,note.nudge);
+  const BREAK_PITCHES = (() => {
+    const set = new Set();
+    breakBase().forEach((note) => { for(let n=0;n<4;n++) set.add(scaleShift(note.orig,n)); });
+    return [...set].sort((a,b) => MIDI[b]-MIDI[a]);
+  })();
+  const CHORUS_TARGET = ["C4","D4","B3","C4"];
+  function chorusDetected() {
+    const bar1 = breakState.notes.filter((note) => note.layer === "lead" && note.t < BAR && !note.muted).map(notePitch);
+    return bar1.length === 4 && bar1.every((pitch,index) => pitch === CHORUS_TARGET[index]);
+  }
+  function breakSummary() {
+    const muted = breakState.notes.filter((note) => note.muted).length;
+    const nudged = breakState.notes.filter((note) => !note.muted && note.nudge > 0).length;
+    let text = !muted && !nudged ? "The figure is intact. Break something."
+      : "<strong>" + muted + " note" + (muted === 1 ? "" : "s") + " silenced, " + nudged + " nudged.</strong> Listen — did the whole survive? Your ear is the judge.";
+    if(chorusDetected()) text = "<strong>You just composed the chorus’s turn: 1-2-7-1.</strong> The mutation you found by clicking is the one the songwriters chose. Same opening cells, one changed turn — and it is still the same song.";
+    return text;
+  }
+  function renderBreak() {
+    const labels = q("#break-labels"), grid = q("#break-grid");
+    if(!grid) return;
+    labels.innerHTML = ""; grid.innerHTML = "";
+    labels.style.gridTemplateRows = "repeat(" + BREAK_PITCHES.length + ",1.15rem)";
+    grid.style.gridTemplateRows = "repeat(" + BREAK_PITCHES.length + ",1.15rem)";
+    BREAK_PITCHES.forEach((pitch) => { const label = document.createElement("div"); label.textContent = pitch; labels.appendChild(label); });
+    breakState.notes.forEach((note,index) => {
+      const button = document.createElement("button");
+      const pitch = notePitch(note);
+      button.type = "button";
+      button.className = "break-note " + note.layer + (note.muted ? " muted" : "") + (!note.muted && note.nudge > 0 ? " nudged" : "");
+      button.style.gridColumn = (note.t + 1) + " / span " + note.d;
+      button.style.gridRow = (BREAK_PITCHES.indexOf(pitch) + 1);
+      const bar = Math.floor(note.t / BAR) + 1, beat = Math.floor((note.t % BAR) / 2) + 1;
+      button.setAttribute("aria-label",(note.muted ? "silenced " : "") + pitch + (note.nudge ? " (was " + note.orig + ")" : "") + ", bar " + bar + " beat " + beat + ", " + (note.layer === "arp" ? "arpeggio" : "verse line") + ". " + (breakState.mode === "mute" ? "Click to " + (note.muted ? "restore" : "silence") + "." : "Click to nudge down one scale step."));
+      button.addEventListener("click",() => {
+        if(breakState.mode === "mute") note.muted = !note.muted;
+        else { note.muted = false; note.nudge = (note.nudge + 1) % 4; }
+        renderBreak();
+        replayBar(Math.floor(note.t / BAR));
+      });
+      grid.appendChild(button);
+    });
+    q("#break-status").innerHTML = breakSummary();
+  }
+  function breakEvents(barFilter) {
+    const events = [];
+    breakState.notes.forEach((note) => {
+      if(note.muted) return;
+      if(barFilter !== undefined && Math.floor(note.t / BAR) !== barFilter) return;
+      events.push({layer:note.layer,t:barFilter !== undefined ? note.t - barFilter*BAR : note.t,d:note.d,p:notePitch(note)});
+    });
+    const chords = barFilter !== undefined ? [MOTIF_CHORDS[barFilter]] : MOTIF_CHORDS;
+    chords.forEach((chord,bar) => PAD[chord].forEach((pitch) => events.push({layer:"chords",t:bar*BAR,d:BAR,p:pitch})));
+    return events;
+  }
+  function replayBar(bar) {
+    ["arp","chords","lead","harm"].forEach((layer) => setLayer(layer,true));
+    qa(".layer-toggle").forEach((button) => button.setAttribute("aria-pressed","true"));
+    play(breakEvents(bar),BAR,"break","<strong>Replaying bar " + (bar+1) + " with your edits.</strong> " + breakSummary());
+  }
+  q("#mode-mute")?.addEventListener("click",() => { breakState.mode = "mute"; q("#mode-mute").setAttribute("aria-pressed","true"); q("#mode-nudge").setAttribute("aria-pressed","false"); renderBreak(); });
+  q("#mode-nudge")?.addEventListener("click",() => { breakState.mode = "nudge"; q("#mode-nudge").setAttribute("aria-pressed","true"); q("#mode-mute").setAttribute("aria-pressed","false"); renderBreak(); });
+  q("#break-play")?.addEventListener("click",() => {
+    ["arp","chords","lead","harm"].forEach((layer) => setLayer(layer,true));
+    qa(".layer-toggle").forEach((button) => button.setAttribute("aria-pressed","true"));
+    play(breakEvents(),16,"break","<strong>Playing the whole figure with your edits.</strong> " + breakSummary());
+  });
+  q("#break-restore")?.addEventListener("click",() => { breakState.notes = breakBase(); renderBreak(); q("#break-status").innerHTML = "Restored. The figure is whole again."; });
+  renderBreak();
+
+  /* ---------- Boundary Notebook (carried forward) ---------- */
+  const notebookEntries = new Map();
+  q("#save-rule")?.addEventListener("click",() => {
+    const caseName = q("#rule-case").value;
+    const rule = q("#rule-text").value.trim();
+    if(!rule) { q("#rule-status").textContent = "Write a provisional rule before saving it."; return; }
+    notebookEntries.set(caseName,rule);
+    q("#rule-status").textContent = "Rule saved in this page only. Revise it after another case.";
+    q("#notebook-entries").innerHTML = [...notebookEntries.entries()].map(([name,text]) =>
+      '<div class="notebook-entry"><strong>' + esc(name) + ':</strong> ' + esc(text) + '</div>'
+    ).join("");
+  });
+
+  /* ---------- Self-test ---------- */
+  function selftest() {
+    const lifeCases = [];
+    let state = toSet(FIXTURES[0]);
+    for(let index=1;index<FIXTURES.length;index++) {
+      state = lifeStep(state);
+      lifeCases.push({generation:index,pass:sameSet(state,toSet(FIXTURES[index]))});
+    }
+    const motifThird = motifEvents("third"), motifUnison = motifEvents("unison"), buildThird = buildEvents("third");
+    const counts = {arp:0,chords:0,lead:0,harm:0};
+    motifThird.forEach((event) => counts[event.layer]++);
+    const countsOk = counts.arp === 16 && counts.chords === 6 && counts.lead === LEAD2.length && counts.harm === LEAD2.length;
+    const diatonic = new Set([0,2,4,5,7,9,11]);
+    const allPitches = motifThird.concat(buildThird).map((event) => event.p)
+      .concat(breakBase().flatMap((note) => [0,1,2,3].map((n) => scaleShift(note.orig,n))))
+      .concat(Object.values(CONTEXT_PADS).flat());
+    const diatonicOk = allPitches.every((pitch) => diatonic.has(MIDI[pitch] % 12));
+    const pairInterval = (events) => events.filter((event) => event.layer === "harm").map((harmony) => {
+      const partner = events.find((event) => event.layer === "lead" && event.t === harmony.t && event.d === harmony.d);
+      return partner ? MIDI[harmony.p] - MIDI[partner.p] : NaN;
+    });
+    const thirdsOk = pairInterval(motifThird).concat(pairInterval(buildThird)).every((interval) => interval === 3 || interval === 4);
+    const unisonOk = pairInterval(motifUnison).every((interval) => interval === 0);
+    const firstBar = (layer) => Math.min(...buildThird.filter((event) => event.layer === layer).map((event) => event.bar));
+    const dropoutOk = buildThird.filter((event) => event.layer === "harm" && event.bar >= 7 && event.bar <= 10).length === 0;
+    const orderOk = firstBar("arp") === 1 && firstBar("chords") === 3 && firstBar("lead") === 5 && firstBar("harm") === 11
+      && buildThird.filter((event) => event.bar === 15).every((event) => event.layer === "arp") && dropoutOk;
+    const fateOk = [0,1,2,3,4,5,6,7,8].every((count) => centerFate(count) === (count === 2 || count === 3));
+    const padsOmitC = Object.values(CONTEXT_PADS).flat().every((pitch) => MIDI[pitch] % 12 !== 0);
+    const nudgeOk = scaleShift("E4",1) === "D4" && scaleShift("E4",2) === "C4" && scaleShift("E4",3) === "B3" && scaleShift("C3",3) === "G2";
+    const detectOk = (() => {
+      const saved = breakState.notes;
+      breakState.notes = breakBase();
+      const before = chorusDetected();
+      breakState.notes.filter((note) => note.layer === "lead" && note.t < BAR).forEach((note,index) => { note.nudge = [0,0,3,1][index]; });
+      const after = chorusDetected();
+      breakState.notes = saved;
+      return !before && after;
+    })();
+    const breakGridOk = qa(".break-note").length === breakState.notes.length;
+    const mediaOk = !document.querySelector("audio,video");
+    const motifCase = {pass:countsOk && diatonicOk && thirdsOk && unisonOk && orderOk && fateOk && padsOmitC && nudgeOk && detectOk && breakGridOk && mediaOk,countsOk,diatonicOk,thirdsOk,unisonOk,orderOk,fateOk,padsOmitC,nudgeOk,detectOk,breakGridOk,mediaOk};
+    return {pass:lifeCases.every((item) => item.pass) && motifCase.pass,lifeCases,motifCase};
+  }
+  const api = {selftest,reset:() => location.reload()};
+  window["S" + VERSION] = api;
+  window.OneThing = api;
+})();
+</script>
+</body>
+</html>
