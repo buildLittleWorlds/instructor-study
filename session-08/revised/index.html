@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Motif, Several Wholes — Instructor Study Session 8 (Revised)</title>
+<script defer src="../../studio-nav.js" data-site="study"></script>
+<style>
+  :root{--ink:#22222a;--muted:#666873;--paper:#f8f6f0;--card:#fffefa;--line:#ddd9cf;--green:#2f6f5e;--green-deep:#214f44;--green-soft:#e7f1ee;--gold:#b5751b;--gold-soft:#fff2d6;--blue:#315f91;--blue-soft:#eef3f8;--violet:#6b55a5;--orange:#c96b32;--red:#9b443f;--sand:#b9974a}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:1.05rem/1.65 Georgia,"Times New Roman",serif}button,select,textarea{font:inherit}
+  main{width:min(76rem,calc(100% - 2rem));margin:0 auto;padding:2.7rem 0 5rem}article>section{margin-top:4rem;scroll-margin-top:5rem}h1{max-width:14ch;margin:.25rem 0 .7rem;font-size:clamp(3rem,7vw,6rem);line-height:.98;letter-spacing:-.055em}h2{margin:.15rem 0 .55rem;font-size:clamp(1.75rem,3vw,2.55rem);line-height:1.12}h3{margin:.2rem 0 .45rem;line-height:1.2}p{margin:.45rem 0 1rem}a{color:var(--green-deep)}
+  .kicker,.eyebrow,.boundary,.stage,.jump-links,.practice-card,.real-encounter,.case-state,.control-panel,.legend,.caption,.notice,.status,.paper-label,.ledger,.source-box,.small,.bench,.roll-labels,.narration,.compare-card,.cells-demo,footer{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .kicker,.eyebrow{color:var(--green);font-size:.76rem;font-weight:850;letter-spacing:.075em;text-transform:uppercase}.deck{max-width:55ch;color:var(--muted);font-size:1.25rem}
+  .boundary{display:flex;gap:.8rem;max-width:70rem;margin:1.4rem 0;padding:1rem 1.1rem;border:1px solid #b8d2c7;border-radius:15px;background:var(--green-soft);font-size:.9rem}.boundary-mark{display:grid;place-items:center;flex:0 0 1.7rem;height:1.7rem;border-radius:50%;background:var(--green);color:white;font-weight:900}
+  .stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem;margin:1.35rem 0}.stage{display:grid;gap:.12rem;padding:.75rem .8rem;border:1px solid var(--line);border-radius:12px;background:var(--card);text-decoration:none}.stage span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em}.stage strong{font-size:.9rem}.stage.complete{border-color:#b8d2c7;background:#f3f8f5}.stage.current{border:2px solid var(--green);background:var(--green-soft)}.stage.future{opacity:.55}
+  .jump-links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}.jump-links a{padding:.48rem .72rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.82rem;font-weight:800;text-decoration:none}
+  .practice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}.practice-card{padding:1rem;border:1px solid var(--line);border-top:4px solid var(--green);border-radius:13px;background:var(--card);font-size:.9rem}.practice-card p{margin:0;color:var(--muted)}
+  .real-encounter{padding:1.15rem;border:2px solid #9ec7b8;border-radius:16px;background:#f0f7f4}.real-label{display:inline-block;margin-bottom:.5rem;padding:.28rem .48rem;border-radius:6px;background:var(--green-soft);color:var(--green-deep);font-size:.72rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.sim-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.sim-step{padding:.85rem;border-radius:10px;background:rgba(255,255,255,.8)}.sim-step strong{display:block;color:var(--green-deep);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}.sim-step p{margin:.35rem 0 0;font-size:.88rem}
+  .action-spine{margin:1.2rem 0;padding:1rem;border-left:4px solid var(--orange);background:#fff8f2;font-size:1.05rem}.action-spine strong{color:#8f4a1e}
+  .case{padding:clamp(1rem,3vw,1.7rem);border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 14px 38px rgba(34,34,42,.06)}.case+.case{margin-top:1.25rem}.case-heading{display:flex;align-items:start;justify-content:space-between;gap:1rem}.case-state{flex:0 0 auto;padding:.35rem .55rem;border-radius:999px;font-size:.7rem;font-weight:850;text-transform:uppercase;letter-spacing:.04em}.case-state.new{background:var(--gold-soft);color:#765018}.case-state.kept{background:var(--green-soft);color:var(--green-deep)}.case-intro{max-width:65ch;color:var(--muted)}
+  .case-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(18rem,.75fr);gap:1.2rem;align-items:start}.control-panel,.source-box{padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6}
+  button{min-height:2.55rem;padding:.55rem .78rem;border:1px solid #9db3aa;border-radius:9px;background:white;color:var(--green-deep);font-weight:760;cursor:pointer}button:hover,button:focus-visible{border-color:var(--green);background:var(--green-soft);outline:3px solid rgba(47,111,94,.18)}button[aria-pressed=true],button.selected{border-color:var(--green);background:var(--green);color:white}button:disabled{cursor:not-allowed;opacity:.45}button.quiet{border-color:var(--line);color:var(--muted)}.button-row{display:flex;flex-wrap:wrap;gap:.45rem}fieldset{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin:.9rem 0;padding:.8rem;border:1px solid var(--line);border-radius:11px}legend{padding:0 .3rem;font-size:.82rem;font-weight:850}
+  .status{margin:.8rem 0;padding:.8rem;border-radius:10px;background:var(--green-soft);font-size:.86rem}.notice,.caption,.small{color:var(--muted);font-size:.8rem}.mini-readout{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;padding:.65rem .75rem;border-radius:10px;background:#f1efe9}.mini-readout span{color:var(--muted);font-size:.75rem;text-transform:uppercase}.mini-readout strong{font-size:1.4rem}
+  .life-grid{display:grid;grid-template-columns:repeat(9,1fr);aspect-ratio:1;gap:3px;padding:6px;border-radius:12px;background:#d5d1c8}.life-cell{min-height:0;padding:0;border:0;border-radius:4px;background:#f5f2ea;aspect-ratio:1}.life-cell.alive{background:var(--green)}.life-cell.marked{box-shadow:inset 0 0 0 4px #efb83f}.life-cell.born{background:#3d7eaa}.life-cell.departed{background:#f4d5cf}.legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.55rem;color:var(--muted);font-size:.78rem}.legend i{display:inline-block;width:.75rem;height:.75rem;margin-right:.25rem;border-radius:3px;vertical-align:-.05rem}.legend .live{background:var(--green)}.legend .marked{background:#efb83f}.legend .l-arp{background:var(--green)}.legend .l-chord{background:var(--sand)}.legend .l-lead{background:var(--blue)}.legend .l-harm{background:var(--violet)}
+  .bench{padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6}.bench-row{margin:.6rem 0}.bench-row>span{display:block;margin-bottom:.35rem;color:var(--muted);font-size:.75rem;font-weight:850;text-transform:uppercase;letter-spacing:.05em}
+  .cells-demo{margin-top:1.2rem;padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fdfcf8}.cell-strips{display:grid;gap:.7rem;margin:.6rem 0}.cell-strip{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}.cell-strip .strip-label{min-width:11rem;font-size:.82rem;font-weight:800}.degree-cells{display:flex;gap:.3rem}.degree-cell{display:grid;place-items:center;width:2.6rem;height:2.6rem;border:1px solid var(--line);border-radius:8px;background:#f1efe9;font-weight:900;font-size:1.05rem;color:var(--green-deep)}.degree-cell.changed{background:var(--gold-soft);border-color:var(--gold);color:#765018}
+  .roll-wrap{border:1px solid var(--line);border-radius:14px;background:#fdfcf8;padding:1rem}.roll-flex{display:flex;gap:.4rem}.roll-labels{display:grid;row-gap:2px;color:var(--muted);font-size:.68rem;font-weight:800;text-align:right;padding-right:.15rem}.roll-labels div{display:flex;align-items:center;justify-content:flex-end}
+  .roll{position:relative;flex:1;display:grid;grid-template-columns:repeat(16,1fr);gap:2px;padding:0;background:
+    repeating-linear-gradient(90deg,transparent 0,transparent calc(12.5% - 1px),#e4e0d6 calc(12.5% - 1px),#e4e0d6 12.5%),
+    linear-gradient(90deg,transparent calc(50% - 1px),#c9c3b4 calc(50% - 1px),#c9c3b4 calc(50% + 1px),transparent calc(50% + 1px)),#f4f1e9;border-radius:8px}
+  .roll-note{min-height:0;padding:0;border:1px solid rgba(34,34,42,.25);border-radius:4px;z-index:2}
+  .roll-note.arp{background:var(--green)}.roll-note.lead{background:var(--blue)}.roll-note.harm{background:var(--violet)}.roll-note.chordpad{background:var(--sand);opacity:.5;z-index:1}
+  .roll-note.selected{outline:3px solid var(--orange);outline-offset:1px;z-index:3}
+  .roll-note.member-line{box-shadow:0 0 0 3px #7ea8d8}
+  .roll-note.member-chord{box-shadow:0 0 0 3px #d8b25e}
+  .roll.member-motif{outline:4px solid var(--orange);outline-offset:3px}
+  .playhead{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:4;pointer-events:none;display:none}
+  .narration{margin-top:.6rem;padding:.7rem .8rem;border-radius:10px;background:var(--blue-soft);font-size:.85rem}
+  .seed{max-width:70rem;margin-top:2.2rem;padding:1.15rem 1.3rem;border:2px dashed #d7bd87;border-radius:16px;background:#fffaf0}.seed-label{display:inline-block;margin-bottom:.5rem;padding:.28rem .48rem;border-radius:6px;background:var(--gold-soft);color:#765018;font-size:.72rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.seed h3{font-size:1.35rem}.seed p{font-size:.98rem}.seed [lang="grc"]{font-style:normal;font-weight:700;color:var(--green-deep)}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.compare-card{padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card);font-size:.9rem}.compare-card.holds{border-top:4px solid var(--green)}.compare-card.breaks{border-top:4px solid var(--red)}.compare-card ul{margin:.3rem 0 0;padding-left:1.1rem}.compare-card li{margin:.5rem 0;color:var(--muted)}.compare-card li strong{color:var(--ink)}
+  .notebook{display:grid;grid-template-columns:minmax(14rem,.55fr) minmax(0,1.45fr);gap:1rem;padding:1.2rem;border:1px solid #b8d2c7;border-radius:18px;background:var(--green-soft)}.notebook label{display:block;font-family:system-ui,sans-serif;font-size:.8rem;font-weight:850}.notebook select,.notebook textarea{width:100%;margin-top:.35rem;padding:.65rem;border:1px solid #9db3aa;border-radius:9px;background:white}.notebook textarea{min-height:7rem;resize:vertical}.notebook-entry{margin-top:.7rem;padding:.7rem;border-radius:9px;background:white;font-family:system-ui,sans-serif;font-size:.84rem}.notebook-entry strong{color:var(--green-deep)}
+  .paper-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}.paper-card{padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card)}.paper-card.current{grid-column:1/-1;border-color:#b8d2c7;background:var(--green-soft)}.paper-label{color:var(--green);font-size:.72rem;font-weight:900;letter-spacing:.05em;text-transform:uppercase}.paper-card p{margin:.35rem 0 0}
+  .claim-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin-top:.9rem}.claim-key div{padding:.8rem;border-radius:10px;font-family:system-ui,sans-serif;font-size:.82rem}.claim-key .shown{background:var(--green-soft)}.claim-key .sourced{background:var(--blue-soft)}.claim-key .open{background:var(--gold-soft)}
+  .ledger{overflow:hidden;border:1px solid var(--line);border-radius:15px;background:var(--card)}.ledger-row{display:grid;grid-template-columns:12rem 1fr;border-bottom:1px solid var(--line)}.ledger-row:last-child{border-bottom:0}.ledger dt,.ledger dd{margin:0;padding:.8rem .9rem}.ledger dt{background:#f1efe9;color:var(--green-deep);font-weight:850}.ledger dd{font-size:.87rem}.ledger .claim dt,.ledger .claim dd{background:var(--green-soft)}
+  .source-box{margin-top:1rem;font-size:.82rem}
+  .next-card{padding:1.1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.next-card a{font-family:system-ui,sans-serif;font-weight:850}.version-nav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.7rem;margin-top:1rem;font-family:system-ui,sans-serif;font-size:.85rem}
+  footer{margin-top:3.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
+  @media(max-width:840px){.case-grid,.notebook,.compare-grid{grid-template-columns:1fr}.practice-grid,.sim-grid,.claim-key{grid-template-columns:1fr}}
+  @media(max-width:620px){main{width:min(100% - 1rem,76rem);padding-top:1.5rem}.stages{grid-template-columns:1fr 1fr}.case-heading{display:block}.case-state{display:inline-block;margin:.4rem 0}.paper-grid{grid-template-columns:1fr}.paper-card.current{grid-column:auto}.ledger-row{grid-template-columns:1fr}.ledger dt{padding-bottom:.25rem}.ledger dd{padding-top:.35rem}fieldset{grid-template-columns:1fr}.version-nav{flex-direction:column}}
+</style>
+</head>
+<body>
+<main>
+<article>
+  <header>
+    <div class="kicker">Instructor Study · Session 8 · Version 2 of 5 · Revised 2026-08-01</div>
+    <h1>One Motif, Several Wholes</h1>
+    <p class="deck">The image is gone. A two-bar musical figure now asks the question in time: can a handful of notes stay one thing while everything around them changes — and belong to several wholes at once?</p>
+    <div class="boundary"><span class="boundary-mark" aria-hidden="true">i</span><div><strong>This is Daniel’s cumulative instructor example, not the student assignment.</strong> Students keep developing their own paper-apps. This page is the <strong>revised</strong> Version 2: its first case — a pond image — did not survive its first classroom encounter and was replaced. <a href="../">The original Version 2 remains public as the before.</a></div></div>
+    <div class="stages" aria-label="Cumulative instructor-example versions">
+      <a class="stage complete" href="../../session-07/"><span>Version 1</span><strong>Cells</strong></a>
+      <a class="stage current" href="./" aria-current="page"><span>Version 2 · revised</span><strong>Music</strong></a>
+      <div class="stage future" aria-disabled="true"><span>Version 3</span><strong>Text</strong></div>
+      <div class="stage future" aria-disabled="true"><span>Version 4</span><strong>Embeddings</strong></div>
+    </div>
+    <div class="action-spine"><strong>The recurring action:</strong> select a part → assign every whole that fits → inspect overlap or change → state and revise the rule.</div>
+    <nav class="jump-links" aria-label="Page sections">
+      <a href="#course-practice">Today’s practice</a><a href="#why-revised">Why revised</a><a href="#cases">Interactive cases</a><a href="#comparison">Glider ↔ motif</a><a href="#notebook">Boundary Notebook</a><a href="#paper">Paper layer</a><a href="#record">Development record</a>
+    </nav>
+  </header>
+
+  <section id="course-practice" aria-labelledby="practice-title">
+    <div class="eyebrow">Today’s course practice</div>
+    <h2 id="practice-title">Use taste to sharpen the central action</h2>
+    <p>The instructor example models the practice below. It does not replace the work students do on their own evolving paper-app — and this revision is the practice performed in public: one addition that competed with the center was ripped out and replaced.</p>
+    <div class="practice-grid"><div class="practice-card"><h3>Emphasize</h3><p>Make one reader action unmistakable: select a part, assign every whole that fits, and inspect the overlap.</p></div><div class="practice-card"><h3>Qualify</h3><p>Separate what the interaction directly shows, what a source supports, and what remains an open interpretive claim.</p></div><div class="practice-card"><h3>Restrain</h3><p>Reject one plausible feature when it would distract from the question the page is trying to make visible.</p></div></div>
+  </section>
+
+  <section id="why-revised" aria-labelledby="why-title">
+    <div class="real-encounter">
+      <div class="real-label">Real teaching encounter · instructor observation · not participant data</div>
+      <h2 id="why-title">Why the image case was replaced</h2>
+      <p>Unlike the original Version 2, whose motivating scenario was a labeled simulation, this revision is driven by an actual, dated observation. No student is quoted or identified.</p>
+      <div class="sim-grid">
+        <div class="sim-step"><strong>Observation</strong><p>Walking the class through the Sessions 7–10 arc (2026-07-28), the pond image read as flat beside the moving glider. Its four memberships were asserted by buttons more than perceived in the picture; nothing in the image <em>behaved</em>.</p></div>
+        <div class="sim-step"><strong>Interpretation</strong><p>The medium fought the question. A still image can only tell plural membership; it cannot perform it. The glider’s whole point is identity through change <em>in time</em> — the companion case needed time inside it.</p></div>
+        <div class="sim-step"><strong>Revision</strong><p>Replace the image with a short musical figure, synthesized in the browser. Notes are cells on a grid; chords, lines, and the build are wholes; the ear does the grouping. The glider, the recurring action, and the notebook all stay.</p></div>
+      </div>
+      <p style="margin-top:1rem">The replacement medium came from rewatching the music-shop scene in <em>Once</em> (2007): one musician teaches the other the song by <strong>isolating its parts and then combining them</strong> — the chords played alone, the lead voice joining, a second voice entering above it, the room swelling — filmed in long takes with only a handful of cuts while the camera slowly pushes in. The film stages the arrangement’s own architecture. The <em>Play the build</em> button below is that scene turned into an interaction. A <a href="https://www.youtube.com/watch?v=NK-K816Yi_s">guitar teacher’s close reading of a live duet performance</a>, published this same week, supplied the scale-degree analysis the motif cells below use — and the observation that in that session the voices move largely in unison, which the second-voice toggle lets you hear for yourself. <a href="https://www.youtube.com/watch?v=k8mtXwtapX4">The song itself lives on YouTube</a> — this page deliberately contains none of it.</p>
+    </div>
+  </section>
+
+  <section id="cases" aria-labelledby="cases-title">
+    <div class="eyebrow">The growing artifact</div>
+    <h2 id="cases-title">Earlier cases stay usable as the question changes medium</h2>
+    <p>Nothing below is a recap card. The glider remains live so a reader can deliberately descend to the prior evidence and compare it with the new case.</p>
+
+<section class="case" id="life-case" aria-labelledby="life-title">
+  <div class="case-heading">
+    <div><div class="eyebrow">Case 1 · discrete cells</div><h2 id="life-title">One pattern, new cells</h2></div>
+    <span class="case-state kept">Carried forward</span>
+  </div>
+  <p class="case-intro">Select the five live cells as the thing, advance the glider, then inspect what survived, appeared, and disappeared.</p>
+  <div class="case-grid">
+    <div>
+      <div id="life-grid" class="life-grid" role="group" aria-label="Interactive nine by nine Game of Life grid"></div>
+      <div class="legend"><span><i class="live"></i> live</span><span><i class="marked"></i> your boundary</span></div>
+    </div>
+    <div class="control-panel">
+      <div class="mini-readout"><span>Generation</span><strong id="life-generation">0</strong></div>
+      <div class="button-row">
+        <button id="life-mark" type="button">Mark live cells</button>
+        <button id="life-advance" type="button">Advance</button>
+        <button id="life-compare" type="button">Compare</button>
+        <button id="life-reset" class="quiet" type="button">Reset</button>
+      </div>
+      <div id="life-status" class="status" role="status" aria-live="polite">Mark what you think the glider is.</div>
+      <p class="notice"><strong>Actual computation.</strong> This page computes Conway’s B3/S23 rule and checks generations 0–4 against a fixture.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case" id="motif-case" aria-labelledby="motif-title">
+  <div class="case-heading">
+    <div><div class="eyebrow">Case 2 · musical figure</div><h2 id="motif-title">One motif, several wholes</h2></div>
+    <span class="case-state new">New in this revision</span>
+  </div>
+  <p class="case-intro">A two-bar figure in C major — the rocking C–F gesture that opens <em>“Falling Slowly”</em> (Glen Hansard &amp; Markéta Irglová, from <em>Once</em>, 2007). Hear each part alone, then combine them; then select any single note and assign every whole that fits.</p>
+
+  <div class="bench">
+    <div class="bench-row"><span>Hear each part alone</span>
+      <div class="button-row">
+        <button id="play-arp" type="button">The figure (arpeggio)</button>
+        <button id="play-chords" type="button">The chords</button>
+        <button id="play-lead" type="button">The verse line</button>
+        <button id="play-harm" type="button">The second voice</button>
+      </div>
+    </div>
+    <div class="bench-row"><span>The second voice — two documented ways to combine the same line</span>
+      <div class="button-row">
+        <button class="voice-style" data-style="third" type="button" aria-pressed="true">A third above (the recorded duet)</button>
+        <button class="voice-style" data-style="unison" type="button" aria-pressed="false">In unison (the live session)</button>
+      </div>
+    </div>
+    <div class="bench-row"><span>Combine — choose layers, then play them together</span>
+      <div class="button-row">
+        <button class="layer-toggle" data-layer="arp" type="button" aria-pressed="true">Arpeggio</button>
+        <button class="layer-toggle" data-layer="chords" type="button" aria-pressed="true">Chords</button>
+        <button class="layer-toggle" data-layer="lead" type="button" aria-pressed="true">Verse line</button>
+        <button class="layer-toggle" data-layer="harm" type="button" aria-pressed="true">Second voice</button>
+        <button id="play-combo" type="button"><strong>Play the combination</strong></button>
+      </div>
+    </div>
+    <div class="bench-row"><span>The shop scene as an interaction — parts enter, the second voice drops out and returns, swell, strip back (about 50 seconds)</span>
+      <div class="button-row">
+        <button id="play-build" type="button"><strong>Play the build</strong></button>
+        <button id="stop-audio" class="quiet" type="button">Stop</button>
+      </div>
+    </div>
+    <div id="audio-status" class="status" role="status" aria-live="polite">Nothing is playing. Every sound on this page is synthesized in your browser from plain note data — no recording is embedded or downloaded.</div>
+    <div id="build-narration" class="narration" role="status" aria-live="polite" hidden></div>
+    <p class="small">The verse and chorus lines follow a published scale-degree analysis of the melody (cited below); they remain synthesized approximations, not the recording. The pre-chorus line is an original course approximation. The second voice is generated from the lead by rule — a diatonic third above (the recorded duet’s device) or unison (what the cited live session mostly does).</p>
+  </div>
+
+  <div class="cells-demo" aria-labelledby="cells-title">
+    <h3 id="cells-title">The cell that changes</h3>
+    <p class="small" style="max-width:65ch">The cited analysis reads the verse melody as scale degrees <strong>1-2-3-2</strong> over C, and the chorus answer as <strong>1-2-7-1</strong> — the same two opening cells, with the turn flipped: instead of rising to 3 and falling back, it dips to the leading tone and resolves. One song, one motif family, one changed cell. Compare the glider above: its identity also survives a changed cell — but there a rule forces the change, and here a songwriter chose it.</p>
+    <div class="cell-strips">
+      <div class="cell-strip">
+        <span class="strip-label">Verse cell · 1-2-3-2</span>
+        <div class="degree-cells" aria-hidden="true"><span class="degree-cell">1</span><span class="degree-cell">2</span><span class="degree-cell">3</span><span class="degree-cell">2</span></div>
+        <button id="play-verse-cell" type="button">Play it</button>
+      </div>
+      <div class="cell-strip">
+        <span class="strip-label">Chorus cell · 1-2-7-1</span>
+        <div class="degree-cells" aria-hidden="true"><span class="degree-cell">1</span><span class="degree-cell">2</span><span class="degree-cell changed">7</span><span class="degree-cell changed">1</span></div>
+        <button id="play-chorus-cell" type="button">Play it</button>
+      </div>
+      <div class="cell-strip">
+        <span class="strip-label">Back to back</span>
+        <button id="play-both-cells" type="button">Play both</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="case-grid" style="margin-top:1.2rem">
+    <div class="roll-wrap">
+      <div class="roll-flex">
+        <div class="roll-labels" id="roll-labels" aria-hidden="true"></div>
+        <div class="roll" id="roll" role="group" aria-label="Piano roll of the two-bar figure. Rows are pitches, columns are eighth-note steps. Each note is a selectable button.">
+          <div class="playhead" id="playhead"></div>
+        </div>
+      </div>
+      <div class="legend"><span><i class="l-arp"></i> arpeggio</span><span><i class="l-chord"></i> chord pad</span><span><i class="l-lead"></i> verse line</span><span><i class="l-harm"></i> second voice (drawn a third above)</span></div>
+      <p class="caption">The same picture as the Life board: a grid of cells, on or off. Here rows are pitches and columns are time. A chord is a <strong>vertical</strong> whole, a line is a <strong>horizontal</strong> whole, the motif is a <strong>window</strong> of the grid — and the glider is a <strong>moving cluster</strong> on its own grid above.</p>
+    </div>
+    <div class="control-panel">
+      <p class="small" style="margin-top:0"><strong>Select any note on the roll,</strong> then assign every whole that gives it a defensible role.</p>
+      <fieldset>
+        <legend>Choose every whole that fits</legend>
+        <button class="whole-button" data-whole="line" type="button" aria-pressed="false">the verse line</button>
+        <button class="whole-button" data-whole="chord" type="button" aria-pressed="false">the chord sounding</button>
+        <button class="whole-button" data-whole="motif" type="button" aria-pressed="false">the two-bar figure</button>
+        <button class="whole-button" data-whole="build" type="button" aria-pressed="false">the whole build</button>
+      </fieldset>
+      <div id="motif-status" class="status" role="status" aria-live="polite">Select a note, then assign one or more wholes.</div>
+      <button id="motif-reset" class="quiet" type="button">Reset motif case</button>
+      <div class="source-box"><strong>Source boundary.</strong> “Falling Slowly” is in C major and rocks between the C and F chords; the chorus adds the relative minor (C–F–Am–F); the pre-chorus runs Am–G–F (a cited live-session reading adds the return to G: 6-5-4-5), and in it the second voice drops out, returning for the chorus. The recording is one long crescendo built by adding parts, then stripping back to the opening figure. The scale-degree reading of the melody — verse 1-2-3-2, chorus 1-2-7-1, nothing outside the key — comes from <a href="https://www.youtube.com/watch?v=NK-K816Yi_s">Michael Palmisano’s analysis of a live duet performance</a> (2026); the arrangement facts are compiled in the course’s research notes (2026-08-01) from published editions and press. The song won the Academy Award for Best Original Song (2008). <a href="https://www.youtube.com/watch?v=k8mtXwtapX4">The recording itself lives here</a>, not on this page.</div>
+    </div>
+  </div>
+</section>
+  </section>
+
+  <section id="comparison" aria-labelledby="compare-title">
+    <div class="eyebrow">The two cases, side by side</div>
+    <h2 id="compare-title">The glider and the motif</h2>
+    <p>Both cases put the same question in front of a reader: a whole made of parts that change. The analogy is useful exactly as far as it holds — and instructive where it breaks.</p>
+    <div class="compare-grid">
+      <div class="compare-card holds"><h3>Where the analogy holds</h3><ul>
+        <li><strong>Both live on a grid of discrete parts.</strong> Cells on the board; notes on the roll. Each part is either there or not.</li>
+        <li><strong>Both stay recognizable while their parts change.</strong> The glider’s five cells are replaced as it travels; the verse cell returns as the chorus cell with its turn flipped (3-2 → 7-1), and the ear still says <em>same thing</em>.</li>
+        <li><strong>Both wholes are drawn by an observer.</strong> The B3/S23 rule never mentions a glider; the air never carries a motif. Grouping is something a reader or listener does — which is why the Boundary Notebook asks for your rule.</li>
+        <li><strong>One part can serve several wholes at once.</strong> A note is simultaneously in a chord (vertical), a line (horizontal), and the figure (a window of the grid). That is the droplet’s question, now audible.</li>
+      </ul></div>
+      <div class="compare-card breaks"><h3>Where the analogy breaks</h3><ul>
+        <li><strong>Rule versus choice.</strong> Life’s next generation is forced by one law; nothing forces the next note. The glider’s changed cells are consequences; the chorus’s changed cells were decisions.</li>
+        <li><strong>Local versus contextual meaning.</strong> A cell’s fate depends only on its eight neighbors. A note’s role depends on everything sounding with and around it — the same C is the root of the C chord and, a bar later, the fifth of F.</li>
+        <li><strong>Nobody versus somebody.</strong> No one chooses the glider’s next cells. Every note here was chosen — first by the songwriters, then, for these synthesized lines, by the instructor. Whose name goes on a whole is Session 10’s question.</li>
+        <li><strong>Doubling has no Life analogue.</strong> Two voices can occupy the same line — in unison, or a third apart — and the whole thickens without adding any new cells to the pattern. The cited live-session reading locates the duet’s power in exactly that unison, two people breathing one line.</li>
+      </ul></div>
+    </div>
+    <p class="notice" style="margin-top:.9rem"><strong>The course’s standing rule applies:</strong> analogies find questions, not answers. Nothing above claims the song computes, or that the board sings.</p>
+
+    <aside class="seed" aria-labelledby="seed-title">
+      <div class="seed-label">Seed · planted 2026-08-01 · to be grown in a later version</div>
+      <h3 id="seed-title">The word for untying</h3>
+      <p>The oldest name for what this page does is Greek. <span lang="grc">ἀνάλυσις</span> (<em>análysis</em>) comes from <span lang="grc">ἀναλύειν</span> (<em>analýein</em>), “to unloose, to untie” — <span lang="grc">ἀνά</span> (“up, throughout”) plus <span lang="grc">λύσις</span> (“a loosening, a setting free”). Before it meant breaking a problem into components, it meant untying a knot. Its old companion is <span lang="grc">σύνθεσις</span> (<em>sýnthesis</em>), “a placing together.”</p>
+      <p>The bench above does both, in that order. The solo buttons are <span lang="grc">ἀνάλυσις</span>: they untie the figure and set each strand free to be examined alone. The build is <span lang="grc">σύνθεσις</span>: it places the strands back together until they are one thing again. The music-shop scene is a lesson conducted in exactly this grammar — untie the song, hand someone one strand, then bind it again with a second pair of hands.</p>
+      <p>Whether the untied strands or the retied knot is the <em>real</em> thing — whether a whole survives its own analysis — is this page’s open question wearing older clothes. Left here to grow.</p>
+    </aside>
+  </section>
+
+  <section id="notebook" aria-labelledby="notebook-title">
+    <div class="eyebrow">State and revise the rule</div>
+    <h2 id="notebook-title">Boundary Notebook</h2>
+    <div class="notebook">
+      <div>
+        <label for="rule-case">Case
+          <select id="rule-case"><option value="Glider">Glider</option><option value="Motif">Motif</option></select>
+        </label>
+        <p class="small">Entries stay in memory only and disappear when the page is refreshed.</p>
+      </div>
+      <div>
+        <label for="rule-text">What rule are you using to decide what counts as one thing?
+          <textarea id="rule-text" placeholder="I count this as one thing when…"></textarea>
+        </label>
+        <div class="button-row"><button id="save-rule" type="button">Save this provisional rule</button></div>
+        <div id="rule-status" class="status" role="status" aria-live="polite">No rule saved yet.</div>
+        <div id="notebook-entries"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="paper" aria-labelledby="paper-title">
+    <div class="eyebrow">Paper layer · rewritten in the revision</div>
+    <h2 id="paper-title">A figure can participate in more than one organized whole</h2>
+  <div class="paper-grid">
+    <div class="paper-card"><div class="paper-label">Question</div><p>When a handful of notes recurs — played alone, layered under a line, flipped into a chorus, swelled and stripped back — what keeps it one thing? And is its unity in the notes, in their relations, or in the listener grouping them?</p></div>
+    <div class="paper-card"><div class="paper-label">Observation</div><p>The page directly shows that the same synthesized notes can be heard alone and inside larger wholes without changing pitch or duration; that one selected note can hold several simultaneous memberships; that one changed cell turns the verse cell into the chorus cell; and that the glider still verifies its counts one section above.</p></div>
+    <div class="paper-card"><div class="paper-label">Interpretation</div><p>The glider persists by propagation: a rule forces the next cells. The motif persists by repetition and relation: nothing forces its return — an author chose it, and a listener re-binds it. Both boundaries are defensible, but the constraint behind each is different in kind.</p></div>
+    <div class="paper-card"><div class="paper-label">Limitation</div><p>The audio here is an original synthesis of chords and analyzed figures — an analysis, not the song. The pre-chorus line is a course approximation, and one song settles nothing about musical unity in general. The two cited sources describe different performances, and they differ (thirds versus unison); the toggle presents both rather than deciding.</p></div>
+    <div class="paper-card current"><div class="paper-label">Current claim · Version 2, revised</div><p>A part can belong to several wholes when each membership names a defensible relation — and in music the relations are audible: simultaneity makes a chord, succession makes a line, recurrence makes a motif, and doubling makes one line into a duet.</p></div>
+    <div class="paper-card"><div class="paper-label">Next move</div><p>Move from notes whose wholes can be heard to phrases whose participation in character and relationship must be interpreted.</p></div>
+  </div>
+    <div class="claim-key"><div class="shown"><strong>Directly shown</strong><br>One note can hold several assignments; the layers combine into one audible build; one changed cell flips verse into chorus; the glider counts verify.</div><div class="sourced"><strong>Source-supported</strong><br>Key, chords, the 1-2-3-2 / 1-2-7-1 reading, the pre-chorus drop-out, the third-above and unison textures, and the additive crescendo — per the cited analysis video and the course research notes.</div><div class="open"><strong>Still open</strong><br>Is the motif’s unity in the notes, in the relations, or in the listener?</div></div>
+  </section>
+
+  <section id="record" aria-labelledby="record-title">
+    <div class="eyebrow">Development record</div>
+    <h2 id="record-title">The revision remains inspectable</h2>
+    <p>The ledger separates the real instructor encounter that motivated this revision from actual technical results, and records what was rejected on the way. The replaced case is not hidden: <a href="../">the original Version 2 is still public</a>.</p>
+    <dl class="ledger"><div class="ledger-row"><dt>Kept</dt><dd>The verified glider case, the four-part recurring action, the Boundary Notebook, and the question of persistence through changing parts.</dd></div><div class="ledger-row"><dt>Tried</dt><dd>An original pond image whose suspended droplet could take four simultaneous memberships (the first Version 2).</dd></div><div class="ledger-row"><dt>Encountered</dt><dd><strong>Actual instructor observation, not participant data:</strong> presenting the Sessions 7–10 arc in class (2026-07-28), the still image read as flat beside the moving glider — its memberships were told by buttons rather than performed. Rewatching the music-shop scene in <em>Once</em> that week, and a close-reading video published the same week, supplied the replacement: parts isolated, then combined, in time — with a scale-degree analysis precise enough to check in code.</dd></div><div class="ledger-row"><dt>Changed</dt><dd>Replaced the image case with a synthesized figure and a piano-roll grid — the same cells-on-a-grid language as the Life board — plus an additive build that performs isolate-then-combine, a verse/chorus cell comparison, and a second-voice toggle (third above versus unison) reflecting the two cited textures. The paper layer and claim were rewritten to match.</dd></div><div class="ledger-row"><dt>Rejected</dt><dd>Embedding the recording, the voices, or any lyric — copyright, and it would swap analysis for playback. Autoplaying anything — sound starts only on a reader’s press. Automatic pitch detection or audio upload — model performance before the human grouping question, the same reason the first Version 2 rejected an image uploader and segmentation.</dd></div><div class="ledger-row"><dt>Planted</dt><dd>A seed, deliberately left small: the Greek etymology of <span lang="grc">ἀνάλυσις</span> (“untying”) and <span lang="grc">σύνθεσις</span> (“placing together”) as the page’s own vocabulary for decomposition and recomposition. To be grown in a later version rather than centered now.</dd></div><div class="ledger-row"><dt>Actual technical result</dt><dd>The Life fixture still passes generations 0–4. The synth schedules four layers from plain note data; in third mode every second-voice note sits a diatonic third (3 or 4 semitones) above its concurrent lead note, and in unison mode the interval is zero; every pitch on the page is in C major — the cited “nothing out of key” claim, enforced by the self-test; the build’s entrances follow the documented order (figure → chords → verse line → drop-out pre-chorus → second voice returns for the chorus swell → figure). No audio files, uploads, or network requests.</dd></div><div class="ledger-row claim"><dt>Current claim</dt><dd>A defensible whole is relationally constrained — and different wholes can constrain the same part in different, audible ways.</dd></div></dl>
+  </section>
+
+  <section aria-labelledby="next-title">
+    <div class="next-card">
+      <div class="eyebrow">Where this version leaves the project</div>
+      <h2 id="next-title">The next version changes medium again</h2>
+      <p>Move from notes whose wholes can be heard to phrases whose participation in character and relationship must be interpreted.</p>
+      <a href="../../session-09/">Continue to Version 3: One Passage, Several Characters</a>
+      <div class="version-nav"><a href="../../session-07/">← Back to Version 1</a><a href="../">Original Version 2 (the before)</a><a href="../../">Instructor Study home</a></div>
+    </div>
+  </section>
+
+  <footer>What Makes Something One Thing? · Version 2 (revised) · No accounts, analytics, uploads, or stored reader data. “Falling Slowly” was written by Glen Hansard and Markéta Irglová for <em>Once</em> (2007), dir. John Carney; this page synthesizes short analyzed figures for educational commentary and reproduces no part of the recording, performance, or lyrics.</footer>
+</article>
+</main>
+
+<script>
+(() => {
+  "use strict";
+  const VERSION = 8;
+  const q = (selector, root = document) => root.querySelector(selector);
+  const qa = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const esc = (value) => String(value).replace(/[&<>"']/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+
+  /* ---------- Case 1: the glider (carried forward verbatim) ---------- */
+  const SIZE = 9;
+  const START = [[2,1],[3,2],[1,3],[2,3],[3,3]];
+  const FIXTURES = [
+    [[2,1],[3,2],[1,3],[2,3],[3,3]],
+    [[1,2],[3,2],[2,3],[3,3],[2,4]],
+    [[3,2],[1,3],[3,3],[2,4],[3,4]],
+    [[2,2],[3,3],[4,3],[2,4],[3,4]],
+    [[3,2],[4,3],[2,4],[3,4],[4,4]]
+  ];
+  const cellKey = (x,y) => x + "," + y;
+  const toSet = (cells) => new Set(cells.map(([x,y]) => cellKey(x,y)));
+  const splitKey = (key) => key.split(",").map(Number);
+  const sameSet = (a,b) => a.size === b.size && [...a].every((value) => b.has(value));
+  function lifeStep(cells) {
+    const counts = new Map();
+    cells.forEach((key) => {
+      const [x,y] = splitKey(key);
+      for(let dx=-1;dx<=1;dx++) for(let dy=-1;dy<=1;dy++) {
+        if(dx === 0 && dy === 0) continue;
+        const neighbor = cellKey(x+dx,y+dy);
+        counts.set(neighbor,(counts.get(neighbor)||0)+1);
+      }
+    });
+    const next = new Set();
+    counts.forEach((count,key) => {
+      if(count === 3 || (count === 2 && cells.has(key))) next.add(key);
+    });
+    return next;
+  }
+  let lifeCurrent = toSet(START);
+  let lifePrevious = null;
+  let lifeMarked = new Set();
+  let generation = 0;
+  function renderLife() {
+    const grid = q("#life-grid");
+    if(!grid) return;
+    const focus = document.activeElement?.dataset?.cell;
+    grid.innerHTML = "";
+    for(let y=0;y<SIZE;y++) for(let x=0;x<SIZE;x++) {
+      const key = cellKey(x,y);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "life-cell";
+      button.dataset.cell = key;
+      const alive = lifeCurrent.has(key);
+      if(alive) button.classList.add("alive");
+      if(lifeMarked.has(key)) button.classList.add("marked");
+      if(lifePrevious && alive && !lifePrevious.has(key)) button.classList.add("born");
+      if(lifePrevious && !alive && lifePrevious.has(key)) button.classList.add("departed");
+      button.setAttribute("aria-pressed",lifeMarked.has(key) ? "true" : "false");
+      button.setAttribute("aria-label","row " + (y+1) + ", column " + (x+1) + (alive ? ", live" : ", empty") + (lifeMarked.has(key) ? ", marked as part of the glider" : ""));
+      button.addEventListener("click",() => {
+        lifeMarked.has(key) ? lifeMarked.delete(key) : lifeMarked.add(key);
+        renderLife();
+      });
+      grid.appendChild(button);
+    }
+    q("#life-generation").textContent = generation;
+    if(focus) q('[data-cell="' + focus + '"]')?.focus();
+  }
+  q("#life-mark")?.addEventListener("click",() => {
+    lifeMarked = new Set(lifeCurrent);
+    q("#life-status").innerHTML = "<strong>Five positions marked.</strong> Advance to test whether this fixed boundary follows the pattern.";
+    renderLife();
+  });
+  q("#life-advance")?.addEventListener("click",() => {
+    lifePrevious = new Set(lifeCurrent);
+    lifeCurrent = lifeStep(lifeCurrent);
+    generation += 1;
+    q("#life-status").innerHTML = "<strong>The rule ran.</strong> Compare the new live cells with your marked boundary.";
+    renderLife();
+  });
+  q("#life-compare")?.addEventListener("click",() => {
+    if(!lifePrevious) {
+      q("#life-status").textContent = "Advance the glider once before comparing.";
+      return;
+    }
+    const survived = [...lifeCurrent].filter((key) => lifePrevious.has(key)).length;
+    const born = [...lifeCurrent].filter((key) => !lifePrevious.has(key)).length;
+    const departed = [...lifePrevious].filter((key) => !lifeCurrent.has(key)).length;
+    const markedAlive = [...lifeMarked].filter((key) => lifeCurrent.has(key)).length;
+    q("#life-status").innerHTML = "<strong>" + survived + " survived, " + born + " appeared, " + departed + " disappeared.</strong> " + markedAlive + " of your marked positions are live now.";
+  });
+  q("#life-reset")?.addEventListener("click",() => {
+    lifeCurrent = toSet(START); lifePrevious = null; lifeMarked = new Set(); generation = 0;
+    q("#life-status").textContent = "Mark what you think the glider is.";
+    renderLife();
+  });
+  renderLife();
+
+  /* ---------- Case 2: the motif ---------- */
+  // Steps are eighth notes; TEMPO gives a felt ~70 BPM. Every pitch on this page is diatonic to C major.
+  const TEMPO = 70;
+  const STEP = 60 / TEMPO / 2;
+  const BAR = 8;
+  const MIDI = {C2:36,D2:38,E2:40,F2:41,G2:43,A2:45,B2:47,C3:48,D3:50,E3:52,F3:53,G3:55,A3:57,B3:59,C4:60,D4:62,E4:64,F4:65,G4:67,A4:69,B4:71,C5:72};
+  const SCALE = ["C","D","E","F","G","A","B"];
+  function diatonicThird(pitch) {
+    const letter = pitch.slice(0,1), octave = Number(pitch.slice(1));
+    const index = SCALE.indexOf(letter);
+    const upIndex = (index + 2) % 7;
+    return SCALE[upIndex] + (upIndex < index ? octave + 1 : octave);
+  }
+  // Per-chord accompaniment patterns (one bar of eighth notes) and sustained pads.
+  const ARP = {
+    C:  ["C3","G3","C4","E4","G4","E4","C4","G3"],
+    F:  ["F2","C3","F3","A3","C4","A3","F3","C3"],
+    Am: ["A2","E3","A3","C4","E4","C4","A3","E3"],
+    G:  ["G2","D3","G3","B3","D4","B3","G3","D3"]
+  };
+  const PAD = {C:["C3","E3","G3"],F:["F3","A3","C4"],Am:["A3","C4","E4"],G:["G3","B3","D4"]};
+  const MOTIF_CHORDS = ["C","F"];
+  // The verse line follows the cited scale-degree analysis: 1-2-3-2 over C, 1-2-4-3 over F
+  // (the C that opens the F bar becomes the fifth of F). A synthesized approximation, not a transcription.
+  const LEAD2 = [
+    {t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"E4"},{t:6,d:2,p:"D4"},
+    {t:8,d:2,p:"C4"},{t:10,d:2,p:"D4"},{t:12,d:2,p:"F4"},{t:14,d:2,p:"E4"}
+  ];
+  let voiceStyle = "third"; // "third" (the recorded duet) or "unison" (the cited live session)
+  const secondVoice = (pitch) => voiceStyle === "third" ? diatonicThird(pitch) : pitch;
+  function motifEvents(style) {
+    const saved = voiceStyle;
+    if(style) voiceStyle = style;
+    const events = [];
+    MOTIF_CHORDS.forEach((chord,bar) => {
+      ARP[chord].forEach((pitch,step) => events.push({layer:"arp",t:bar*BAR+step,d:1,p:pitch}));
+      PAD[chord].forEach((pitch) => events.push({layer:"chords",t:bar*BAR,d:BAR,p:pitch}));
+    });
+    LEAD2.forEach((note) => events.push({layer:"lead",...note}));
+    LEAD2.forEach((note) => events.push({layer:"harm",t:note.t,d:note.d,p:secondVoice(note.p)}));
+    voiceStyle = saved;
+    return events;
+  }
+  // The build: the documented crescendo architecture, with the pre-chorus drop-out.
+  // Bars (1-indexed): figure alone; + chords; + verse line; pre-chorus Am-G-F-G with the
+  // second voice OUT; chorus C-F-Am-F with the second voice back and the swell; figure alone.
+  const BUILD_BARS = ["C","F","C","F","C","F","Am","G","F","G","C","F","Am","F","C"];
+  const BUILD_IN = {arp:1,chords:3,lead:5,harm:11};
+  const BUILD_OUT = {arp:15,chords:14,lead:14,harm:14};
+  const BUILD_LEAD = {
+    5:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"E4"},{t:6,d:2,p:"D4"}],
+    6:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"F4"},{t:6,d:2,p:"E4"}],
+    7:[{t:0,d:6,p:"A4"},{t:6,d:2,p:"G4"}],
+    8:[{t:0,d:6,p:"G4"},{t:6,d:2,p:"F4"}],
+    9:[{t:0,d:4,p:"F4"},{t:4,d:4,p:"E4"}],
+    10:[{t:0,d:8,p:"D4"}],
+    11:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"B3"},{t:6,d:2,p:"C4"}],
+    12:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"B3"},{t:6,d:2,p:"C4"}],
+    13:[{t:0,d:8,p:"G4"}],
+    14:[{t:0,d:8,p:"F4"}]
+  };
+  function buildEvents(style) {
+    const events = [];
+    BUILD_BARS.forEach((chord,index) => {
+      const bar = index + 1, offset = index * BAR;
+      if(bar >= BUILD_IN.arp && bar <= BUILD_OUT.arp) ARP[chord].forEach((pitch,step) => events.push({layer:"arp",t:offset+step,d:1,p:pitch,bar}));
+      if(bar >= BUILD_IN.chords && bar <= BUILD_OUT.chords) PAD[chord].forEach((pitch) => events.push({layer:"chords",t:offset,d:BAR,p:pitch,bar}));
+      if(bar >= BUILD_IN.lead && bar <= BUILD_OUT.lead) (BUILD_LEAD[bar]||[]).forEach((note) => {
+        events.push({layer:"lead",t:offset+note.t,d:note.d,p:note.p,bar});
+        if(bar >= BUILD_IN.harm) {
+          const saved = voiceStyle;
+          if(style) voiceStyle = style;
+          events.push({layer:"harm",t:offset+note.t,d:note.d,p:secondVoice(note.p),bar});
+          voiceStyle = saved;
+        }
+      });
+    });
+    return events;
+  }
+  const BUILD_NARRATION = [
+    {bar:1,text:"Bars 1–2 · the figure alone — the rocking C–F arpeggio."},
+    {bar:3,text:"Bars 3–4 · + the chords, sustained underneath."},
+    {bar:5,text:"Bars 5–6 · + the verse line: scale degrees 1-2-3-2, then 1-2-4-3 over F."},
+    {bar:7,text:"Bars 7–10 · the pre-chorus turn (Am–G–F–G, 6-5-4-5). The second voice drops out — one voice alone."},
+    {bar:11,text:"Bars 11–14 · the chorus (C–F–Am–F): the verse cell flips to 1-2-7-1, the second voice returns, and everything swells."},
+    {bar:15,text:"Bar 15 · back to the figure alone, quiet."}
+  ];
+  // The two motif cells from the cited analysis, as quarter notes.
+  const VERSE_CELL = ["C4","D4","E4","D4"];
+  const CHORUS_CELL = ["C4","D4","B3","C4"];
+  function cellEvents(cells,offsetSteps) {
+    return cells.map((pitch,index) => ({layer:"lead",t:offsetSteps + index*2,d:2,p:pitch}));
+  }
+
+  /* Audio engine: plain oscillators, one shared context, nothing fetched. */
+  const audio = {ctx:null,master:null,sources:[],endTime:0,raf:0,mode:null};
+  function ensureContext() {
+    if(!audio.ctx) {
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      audio.ctx = new Ctor();
+      audio.master = audio.ctx.createGain();
+      audio.master.gain.value = .9;
+      audio.master.connect(audio.ctx.destination);
+    }
+    if(audio.ctx.state === "suspended") audio.ctx.resume();
+    return audio.ctx;
+  }
+  function voice(ctx,event,t0) {
+    const start = t0 + event.t * STEP;
+    const stopAt = start + Math.max(event.d * STEP, .18) + .25;
+    const gain = ctx.createGain();
+    if(ctx.createStereoPanner && (event.layer === "lead" || event.layer === "harm")) {
+      const pan = ctx.createStereoPanner();
+      pan.pan.value = event.layer === "lead" ? -.14 : .2;
+      gain.connect(pan); pan.connect(audio.master);
+    } else gain.connect(audio.master);
+    const osc = ctx.createOscillator();
+    osc.type = event.layer === "chords" ? "sine" : event.layer === "harm" ? "sawtooth" : "triangle";
+    osc.frequency.value = 440 * Math.pow(2,(MIDI[event.p]-69)/12);
+    let source = osc;
+    if(event.layer === "harm") {
+      // Soften the sawtooth so the second voice reads as a different color, not a buzz.
+      const filter = ctx.createBiquadFilter();
+      filter.type = "lowpass"; filter.frequency.value = 1600;
+      osc.connect(filter); filter.connect(gain); source = null;
+    } else osc.connect(gain);
+    const g = gain.gain;
+    g.setValueAtTime(0,start);
+    if(event.layer === "arp") {
+      g.linearRampToValueAtTime(.17,start+.012);
+      g.exponentialRampToValueAtTime(.0008,start+Math.min(1.1,event.d*STEP+.4));
+    } else if(event.layer === "chords") {
+      g.linearRampToValueAtTime(.075,start+.15);
+      g.setValueAtTime(.075,start+event.d*STEP-.2);
+      g.linearRampToValueAtTime(.0001,start+event.d*STEP+.15);
+    } else {
+      const peak = event.layer === "lead" ? .15 : .07;
+      g.linearRampToValueAtTime(peak,start+.045);
+      g.setValueAtTime(peak,start+event.d*STEP-.08);
+      g.linearRampToValueAtTime(.0001,start+event.d*STEP+.12);
+      const lfo = ctx.createOscillator(), lfoGain = ctx.createGain();
+      lfo.frequency.value = 5.4; lfoGain.gain.value = 5.5;
+      lfo.connect(lfoGain); lfoGain.connect(osc.detune);
+      lfo.start(start); lfo.stop(stopAt);
+      audio.sources.push(lfo);
+    }
+    osc.start(start); osc.stop(stopAt);
+    audio.sources.push(osc);
+  }
+  function stopAudio(message) {
+    audio.sources.forEach((source) => { try { source.stop(); } catch(error) {} });
+    audio.sources = [];
+    if(audio.raf) cancelAnimationFrame(audio.raf);
+    audio.raf = 0; audio.mode = null; audio.endTime = 0;
+    if(audio.master && audio.ctx) {
+      audio.master.gain.cancelScheduledValues(audio.ctx.currentTime);
+      audio.master.gain.setValueAtTime(.9,audio.ctx.currentTime);
+    }
+    q("#playhead").style.display = "none";
+    q("#build-narration").hidden = true;
+    if(message) q("#audio-status").innerHTML = message;
+  }
+  function play(events,totalSteps,mode,description) {
+    stopAudio();
+    const ctx = ensureContext();
+    const t0 = ctx.currentTime + .1;
+    events.forEach((event) => voice(ctx,event,t0));
+    if(mode === "build") {
+      const g = audio.master.gain;
+      g.setValueAtTime(.9,t0);
+      g.setValueAtTime(.9,t0 + 10*BAR*STEP);
+      g.linearRampToValueAtTime(1.3,t0 + 12*BAR*STEP);
+      g.setValueAtTime(1.3,t0 + 14*BAR*STEP);
+      g.linearRampToValueAtTime(.35,t0 + 15*BAR*STEP);
+    }
+    audio.mode = mode;
+    audio.endTime = t0 + totalSteps * STEP + .3;
+    q("#audio-status").innerHTML = description;
+    const playhead = q("#playhead");
+    const narration = q("#build-narration");
+    if(mode === "build") narration.hidden = false;
+    function frame() {
+      const now = ctx.currentTime;
+      if(now >= audio.endTime) { stopAudio("Finished. Nothing was downloaded or recorded — every note was synthesized here."); return; }
+      const step = (now - t0) / STEP;
+      if(mode !== "build" && step >= 0 && step <= 16) {
+        playhead.style.display = "block";
+        playhead.style.left = Math.min(100,step/16*100) + "%";
+      }
+      if(mode === "build" && step >= 0) {
+        const bar = Math.floor(step / BAR) + 1;
+        const line = [...BUILD_NARRATION].reverse().find((item) => bar >= item.bar);
+        if(line) narration.textContent = line.text;
+      }
+      audio.raf = requestAnimationFrame(frame);
+    }
+    audio.raf = requestAnimationFrame(frame);
+  }
+  const styleLabel = () => voiceStyle === "third" ? "a third above" : "in unison";
+  q("#play-arp")?.addEventListener("click",() => play(motifEvents().filter((event) => event.layer === "arp"),16,"solo","<strong>Playing the figure alone</strong> — two bars, synthesized in your browser."));
+  q("#play-chords")?.addEventListener("click",() => play(motifEvents().filter((event) => event.layer === "chords"),16,"solo","<strong>Playing the chords alone</strong> — C, then F, sustained."));
+  q("#play-lead")?.addEventListener("click",() => play(motifEvents().filter((event) => event.layer === "lead"),16,"solo","<strong>Playing the verse line alone</strong> — degrees 1-2-3-2, then 1-2-4-3 over F."));
+  q("#play-harm")?.addEventListener("click",() => play(motifEvents().filter((event) => event.layer === "harm"),16,"solo","<strong>Playing the second voice alone</strong> — currently " + styleLabel() + "."));
+  qa(".voice-style").forEach((button) => button.addEventListener("click",() => {
+    voiceStyle = button.dataset.style;
+    qa(".voice-style").forEach((other) => other.setAttribute("aria-pressed",other === button ? "true" : "false"));
+    q("#audio-status").innerHTML = "Second voice set to <strong>" + styleLabel() + "</strong>. Play the combination or the build to hear the difference.";
+  }));
+  qa(".layer-toggle").forEach((button) => button.addEventListener("click",() => {
+    button.setAttribute("aria-pressed",button.getAttribute("aria-pressed") === "true" ? "false" : "true");
+  }));
+  q("#play-combo")?.addEventListener("click",() => {
+    const chosen = new Set(qa(".layer-toggle").filter((button) => button.getAttribute("aria-pressed") === "true").map((button) => button.dataset.layer));
+    if(!chosen.size) { q("#audio-status").textContent = "Choose at least one layer to combine."; return; }
+    play(motifEvents().filter((event) => chosen.has(event.layer)),16,"combo","<strong>Playing " + chosen.size + " layer" + (chosen.size === 1 ? "" : "s") + " together</strong> — second voice " + styleLabel() + ".");
+  });
+  q("#play-build")?.addEventListener("click",() => {
+    play(buildEvents(),15*BAR,"build","<strong>Playing the build</strong> — parts enter, the second voice drops out and returns " + styleLabel() + ", swell, strip back.");
+  });
+  q("#play-verse-cell")?.addEventListener("click",() => play(cellEvents(VERSE_CELL,0),8,"cells","<strong>The verse cell:</strong> 1-2-3-2 — up to the third and back."));
+  q("#play-chorus-cell")?.addEventListener("click",() => play(cellEvents(CHORUS_CELL,0),8,"cells","<strong>The chorus cell:</strong> 1-2-7-1 — the turn flips down to the leading tone and resolves."));
+  q("#play-both-cells")?.addEventListener("click",() => play(cellEvents(VERSE_CELL,0).concat(cellEvents(CHORUS_CELL,10)),18,"cells","<strong>Back to back:</strong> 1-2-3-2, then 1-2-7-1. Same opening cells; one changed turn."));
+  q("#stop-audio")?.addEventListener("click",() => stopAudio("Stopped. Nothing is playing."));
+  addEventListener("pagehide",() => stopAudio(),{once:true});
+
+  /* The piano roll: rows are pitches, columns are eighth-note steps. Drawn in the third-above voicing. */
+  const ROLL_EVENTS = motifEvents("third");
+  const ROLL_PITCHES = [...new Set(ROLL_EVENTS.map((event) => event.p))].sort((a,b) => MIDI[b]-MIDI[a]);
+  const rollLabels = q("#roll-labels");
+  const roll = q("#roll");
+  ROLL_PITCHES.forEach((pitch) => { const label = document.createElement("div"); label.textContent = pitch; rollLabels.appendChild(label); });
+  rollLabels.style.gridTemplateRows = "repeat(" + ROLL_PITCHES.length + ",1.55rem)";
+  roll.style.gridTemplateRows = "repeat(" + ROLL_PITCHES.length + ",1.55rem)";
+  let selectedNote = null;
+  const motifWholes = new Set();
+  const motifWholeNames = {line:"the verse line",chord:"the chord sounding",motif:"the two-bar figure",build:"the whole build"};
+  const layerNames = {arp:"arpeggio",chords:"chord pad",lead:"verse line",harm:"second voice"};
+  ROLL_EVENTS.forEach((event,index) => {
+    const note = document.createElement("button");
+    note.type = "button";
+    note.className = "roll-note " + (event.layer === "chords" ? "chordpad" : event.layer);
+    note.dataset.index = index;
+    note.style.gridColumn = (event.t + 1) + " / span " + event.d;
+    note.style.gridRow = (ROLL_PITCHES.indexOf(event.p) + 1);
+    const beat = Math.floor((event.t % BAR) / 2) + 1, bar = Math.floor(event.t / BAR) + 1;
+    note.setAttribute("aria-label",event.p + ", bar " + bar + " beat " + beat + ", " + layerNames[event.layer] + ". Select this note.");
+    note.setAttribute("aria-pressed","false");
+    note.addEventListener("click",() => selectNote(index));
+    roll.appendChild(note);
+  });
+  function renderMotif() {
+    qa(".roll-note",roll).forEach((note) => {
+      const index = Number(note.dataset.index);
+      note.classList.toggle("selected",selectedNote === index);
+      note.setAttribute("aria-pressed",selectedNote === index ? "true" : "false");
+      note.classList.remove("member-line","member-chord");
+    });
+    roll.classList.remove("member-motif");
+    qa(".whole-button").forEach((button) => button.setAttribute("aria-pressed",motifWholes.has(button.dataset.whole) ? "true" : "false"));
+    const status = q("#motif-status");
+    if(selectedNote === null) { status.textContent = "Select a note, then assign one or more wholes."; return; }
+    const selected = ROLL_EVENTS[selectedNote];
+    if(motifWholes.has("line")) qa(".roll-note",roll).forEach((note) => { if(ROLL_EVENTS[Number(note.dataset.index)].layer === "lead") note.classList.add("member-line"); });
+    if(motifWholes.has("chord")) qa(".roll-note",roll).forEach((note) => {
+      const other = ROLL_EVENTS[Number(note.dataset.index)];
+      if(other.t <= selected.t && selected.t < other.t + other.d) note.classList.add("member-chord");
+    });
+    if(motifWholes.has("motif")) roll.classList.add("member-motif");
+    const names = [...motifWholes].map((key) => motifWholeNames[key]);
+    const beat = Math.floor((selected.t % BAR) / 2) + 1, bar = Math.floor(selected.t / BAR) + 1;
+    const where = selected.p + " (bar " + bar + ", beat " + beat + ", " + layerNames[selected.layer] + ")";
+    status.innerHTML = names.length
+      ? "<strong>" + esc(where) + " assigned to " + esc(names.join(", ")) + ".</strong> The same note now participates in " + names.length + " named whole" + (names.length === 1 ? "" : "s") + "." + (motifWholes.has("build") ? " In the build, this figure returns as bars 1–2, 3–4, and 5–6 — and its cells flip in the chorus." : "")
+      : "<strong>" + esc(where) + " selected.</strong> Choose every whole that fits.";
+  }
+  function selectNote(index) { selectedNote = index; renderMotif(); }
+  qa(".whole-button").forEach((button) => button.addEventListener("click",() => {
+    if(selectedNote === null) { q("#motif-status").textContent = "Select a note on the roll first."; return; }
+    const key = button.dataset.whole;
+    motifWholes.has(key) ? motifWholes.delete(key) : motifWholes.add(key);
+    renderMotif();
+  }));
+  q("#motif-reset")?.addEventListener("click",() => { selectedNote = null; motifWholes.clear(); renderMotif(); });
+  renderMotif();
+
+  /* ---------- Boundary Notebook (carried forward) ---------- */
+  const notebookEntries = new Map();
+  q("#save-rule")?.addEventListener("click",() => {
+    const caseName = q("#rule-case").value;
+    const rule = q("#rule-text").value.trim();
+    if(!rule) { q("#rule-status").textContent = "Write a provisional rule before saving it."; return; }
+    notebookEntries.set(caseName,rule);
+    q("#rule-status").textContent = "Rule saved in this page only. Revise it after another case.";
+    q("#notebook-entries").innerHTML = [...notebookEntries.entries()].map(([name,text]) =>
+      '<div class="notebook-entry"><strong>' + esc(name) + ':</strong> ' + esc(text) + '</div>'
+    ).join("");
+  });
+
+  /* ---------- Self-test ---------- */
+  function selftest() {
+    const lifeCases = [];
+    let state = toSet(FIXTURES[0]);
+    for(let index=1;index<FIXTURES.length;index++) {
+      state = lifeStep(state);
+      lifeCases.push({generation:index,pass:sameSet(state,toSet(FIXTURES[index]))});
+    }
+    const motifThird = motifEvents("third"), motifUnison = motifEvents("unison"), buildThird = buildEvents("third");
+    const counts = {arp:0,chords:0,lead:0,harm:0};
+    motifThird.forEach((event) => counts[event.layer]++);
+    const countsOk = counts.arp === 16 && counts.chords === 6 && counts.lead === LEAD2.length && counts.harm === LEAD2.length;
+    const diatonic = new Set([0,2,4,5,7,9,11]);
+    const diatonicOk = motifThird.concat(buildThird,cellEvents(VERSE_CELL,0),cellEvents(CHORUS_CELL,0)).every((event) => diatonic.has(MIDI[event.p] % 12));
+    const pairInterval = (events) => events.filter((event) => event.layer === "harm").map((harmony) => {
+      const partner = events.find((event) => event.layer === "lead" && event.t === harmony.t && event.d === harmony.d);
+      return partner ? MIDI[harmony.p] - MIDI[partner.p] : NaN;
+    });
+    const thirdsOk = pairInterval(motifThird).concat(pairInterval(buildThird)).every((interval) => interval === 3 || interval === 4);
+    const unisonOk = pairInterval(motifUnison).every((interval) => interval === 0);
+    const firstBar = (layer) => Math.min(...buildThird.filter((event) => event.layer === layer).map((event) => event.bar));
+    const dropoutOk = buildThird.filter((event) => event.layer === "harm" && event.bar >= 7 && event.bar <= 10).length === 0;
+    const orderOk = firstBar("arp") === 1 && firstBar("chords") === 3 && firstBar("lead") === 5 && firstBar("harm") === 11
+      && buildThird.filter((event) => event.bar === 15).every((event) => event.layer === "arp") && dropoutOk;
+    const cellsOk = VERSE_CELL.length === 4 && CHORUS_CELL.length === 4 && VERSE_CELL[0] === CHORUS_CELL[0] && VERSE_CELL[1] === CHORUS_CELL[1] && VERSE_CELL[2] !== CHORUS_CELL[2];
+    const rollOk = qa(".roll-note").length === motifThird.length;
+    const mediaOk = !document.querySelector("audio,video");
+    const motifCase = {pass:countsOk && diatonicOk && thirdsOk && unisonOk && orderOk && cellsOk && rollOk && mediaOk,countsOk,diatonicOk,thirdsOk,unisonOk,orderOk,cellsOk,rollOk,mediaOk};
+    return {pass:lifeCases.every((item) => item.pass) && motifCase.pass,lifeCases,motifCase};
+  }
+  const api = {selftest,reset:() => location.reload()};
+  window["S" + VERSION] = api;
+  window.OneThing = api;
+})();
+</script>
+</body>
+</html>
