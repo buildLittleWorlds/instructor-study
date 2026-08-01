@@ -148,10 +148,10 @@
         <button class="layer-toggle" data-layer="chords" type="button" aria-pressed="true">Chords</button>
         <button class="layer-toggle" data-layer="lead" type="button" aria-pressed="true">Verse line</button>
         <button class="layer-toggle" data-layer="harm" type="button" aria-pressed="true">Second voice</button>
-        <button id="play-combo" type="button"><strong>Play the combination</strong></button>
+        <button id="play-combo" type="button"><strong>Play the combination — loops until you stop</strong></button>
       </div>
     </div>
-    <div class="bench-row"><span>The shop scene as an interaction — parts enter, the second voice drops out and returns, swell, strip back (about 50 seconds)</span>
+    <div class="bench-row"><span>The shop scene as an interaction — two verses, the drop-out, the chorus twice, strip back (about 1:40)</span>
       <div class="button-row">
         <button id="play-build" type="button"><strong>Play the build</strong></button>
         <button id="stop-audio" class="quiet" type="button">Stop</button>
@@ -292,7 +292,7 @@
     <div class="eyebrow">Development record</div>
     <h2 id="record-title">The revision remains inspectable</h2>
     <p>The ledger separates the real encounters that motivated each revision from actual technical results. The replaced versions are not hidden: <a href="../">the original</a> and <a href="../revised/">the first revision</a> are both still public.</p>
-    <dl class="ledger"><div class="ledger-row"><dt>Kept</dt><dd>The verified glider case, the four-layer bench, the isolate-then-combine build with its narration and pre-chorus drop-out, the second-voice toggle, the Boundary Notebook, the Greek seed, and the cited scale-degree analysis.</dd></div><div class="ledger-row"><dt>Tried</dt><dd>An annotated piano roll with silent click-to-assign membership, and separate play-buttons for the verse and chorus cells (the first revision).</dd></div><div class="ledger-row"><dt>Encountered</dt><dd><strong>Actual instructor observation, not participant data:</strong> on the first revision’s first reading (2026-08-01), the bench sang but the roll went silent — clicking a note produced colored outlines and a sentence. Membership told, not performed: the pond image’s mistake in a new costume.</dd></div><div class="ledger-row"><dt>Changed</dt><dd>Replaced the silent grid with two sound-first experiments — the unmoved note (one held C recharacterized by four chords, paired with a fixed cell whose fate is decided by its neighbors) and break-it-and-listen (silence or nudge single notes with instant replay, the chorus mutation discoverable by play) — and made the layer toggles live during playback.</dd></div><div class="ledger-row"><dt>Rejected</dt><dd>A correctness grader for edits — the page reports facts and replays sound; whether the whole survived is the reader’s ear’s verdict, not the code’s. Everything the earlier versions rejected stays rejected: no recording, lyric, or vocal; no autoplay; no pitch detection or uploads.</dd></div><div class="ledger-row"><dt>Actual technical result</dt><dd>The Life fixture still passes generations 0–4. The center-cell fate readout matches B3/S23 for all neighbor counts 0–8. The drone pads contain no C in any voicing — the held note completes every chord. Nudges move notes by diatonic scale steps and the chorus detector fires exactly on 1-2-7-1. In third mode every second-voice note sits a diatonic third above its concurrent lead note; in unison mode the interval is zero; every pitch on the page is in C major; the build’s entrances keep their documented order. No audio files, uploads, or network requests.</dd></div><div class="ledger-row claim"><dt>Current claim</dt><dd>A defensible whole is relationally constrained — and which whole is sounding decides what the part is.</dd></div></dl>
+    <dl class="ledger"><div class="ledger-row"><dt>Kept</dt><dd>The verified glider case, the four-layer bench, the isolate-then-combine build with its narration and pre-chorus drop-out, the second-voice toggle, the Boundary Notebook, the Greek seed, and the cited scale-degree analysis.</dd></div><div class="ledger-row"><dt>Tried</dt><dd>An annotated piano roll with silent click-to-assign membership, and separate play-buttons for the verse and chorus cells (the first revision).</dd></div><div class="ledger-row"><dt>Encountered</dt><dd><strong>Actual instructor observation, not participant data:</strong> on the first revision’s first reading (2026-08-01), the bench sang but the roll went silent — clicking a note produced colored outlines and a sentence. Membership told, not performed: the pond image’s mistake in a new costume.</dd></div><div class="ledger-row"><dt>Changed</dt><dd>Replaced the silent grid with two sound-first experiments — the unmoved note (one held C recharacterized by four chords, paired with a fixed cell whose fate is decided by its neighbors) and break-it-and-listen (silence or nudge single notes with instant replay, the chorus mutation discoverable by play) — and made the layer toggles live during playback. Same-day extension after first use: the combination now loops until stopped, and the build runs the song’s full two-cycle form — second verse, a pre-chorus where nobody drops out, the chorus twice — about a minute and forty seconds of room for live layer surgery.</dd></div><div class="ledger-row"><dt>Rejected</dt><dd>A correctness grader for edits — the page reports facts and replays sound; whether the whole survived is the reader’s ear’s verdict, not the code’s. Everything the earlier versions rejected stays rejected: no recording, lyric, or vocal; no autoplay; no pitch detection or uploads.</dd></div><div class="ledger-row"><dt>Actual technical result</dt><dd>The Life fixture still passes generations 0–4. The center-cell fate readout matches B3/S23 for all neighbor counts 0–8. The drone pads contain no C in any voicing — the held note completes every chord. Nudges move notes by diatonic scale steps and the chorus detector fires exactly on 1-2-7-1. In third mode every second-voice note sits a diatonic third above its concurrent lead note; in unison mode the interval is zero; every pitch on the page is in C major; the 29-bar build keeps every entrance check, with the second pre-chorus carrying both voices. The looping combination reschedules from fresh note data each pass, so a second-voice change takes effect on the next loop. No audio files, uploads, or network requests.</dd></div><div class="ledger-row claim"><dt>Current claim</dt><dd>A defensible whole is relationally constrained — and which whole is sounding decides what the part is.</dd></div></dl>
     <div class="source-box"><strong>Source boundary.</strong> “Falling Slowly” is in C major and rocks between the C and F chords; the chorus adds the relative minor (C–F–Am–F); the pre-chorus runs Am–G–F (a cited live-session reading adds the return to G: 6-5-4-5), and in it the second voice drops out, returning for the chorus. The scale-degree reading of the melody — verse 1-2-3-2, chorus 1-2-7-1, “this C becomes the fifth of F,” nothing outside the key — comes from <a href="https://www.youtube.com/watch?v=NK-K816Yi_s">Michael Palmisano’s analysis of a live duet performance</a> (2026); the arrangement facts are compiled in the course’s research notes (2026-08-01) from published editions and press. The song won the Academy Award for Best Original Song (2008). <a href="https://www.youtube.com/watch?v=EbeT30m1n4U">The scene itself lives here</a>, not on this page.</div>
   </section>
 
@@ -455,9 +455,11 @@
     voiceStyle = saved;
     return events;
   }
-  const BUILD_BARS = ["C","F","C","F","C","F","Am","G","F","G","C","F","Am","F","C"];
+  // Two full cycles, after the song's own form: verse / pre-chorus (drop-out) / chorus,
+  // then second verse / pre-chorus (both voices stay) / the chorus twice, and a quiet outro.
+  const BUILD_BARS = ["C","F","C","F","C","F","Am","G","F","G","C","F","Am","F","C","F","Am","G","F","G","C","F","Am","F","C","F","Am","F","C"];
   const BUILD_IN = {arp:1,chords:3,lead:5,harm:11};
-  const BUILD_OUT = {arp:15,chords:14,lead:14,harm:14};
+  const BUILD_OUT = {arp:29,chords:28,lead:28,harm:28};
   const BUILD_LEAD = {
     5:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"E4"},{t:6,d:2,p:"D4"}],
     6:[{t:0,d:2,p:"C4"},{t:2,d:2,p:"D4"},{t:4,d:2,p:"F4"},{t:6,d:2,p:"E4"}],
@@ -470,6 +472,8 @@
     13:[{t:0,d:8,p:"G4"}],
     14:[{t:0,d:8,p:"F4"}]
   };
+  // The second cycle reuses the analyzed templates bar for bar.
+  Object.entries({15:5,16:6,17:7,18:8,19:9,20:10,21:11,22:12,23:13,24:14,25:11,26:12,27:13,28:14}).forEach(([to,from]) => { BUILD_LEAD[to] = BUILD_LEAD[from]; });
   function buildEvents(style) {
     const events = [];
     BUILD_BARS.forEach((chord,index) => {
@@ -494,11 +498,14 @@
     {bar:5,text:"Bars 5–6 · + the verse line: scale degrees 1-2-3-2, then 1-2-4-3 over F."},
     {bar:7,text:"Bars 7–10 · the pre-chorus turn (Am–G–F–G, 6-5-4-5). The second voice drops out — one voice alone."},
     {bar:11,text:"Bars 11–14 · the chorus (C–F–Am–F): the verse cell flips to 1-2-7-1, the second voice returns, and everything swells."},
-    {bar:15,text:"Bar 15 · back to the figure alone, quiet."}
+    {bar:15,text:"Bars 15–16 · second verse — both voices stay in this time. A good moment to start pulling layers."},
+    {bar:17,text:"Bars 17–20 · the pre-chorus again — nobody drops out now; the texture only grows."},
+    {bar:21,text:"Bars 21–28 · the chorus twice, at full height. Pull a layer out mid-swell and drop it back in."},
+    {bar:29,text:"Bar 29 · back to the figure alone, quiet."}
   ];
 
   /* ---------- Audio engine: layer gains are live ---------- */
-  const audio = {ctx:null,master:null,layers:null,sources:[],endTime:0,raf:0,mode:null};
+  const audio = {ctx:null,master:null,layers:null,sources:[],endTime:0,raf:0,timer:0,mode:null,loop:null};
   const layerOn = {arp:true,chords:true,lead:true,harm:true};
   function ensureContext() {
     if(!audio.ctx) {
@@ -567,7 +574,8 @@
     audio.sources.forEach((source) => { try { source.stop(); } catch(error) {} });
     audio.sources = [];
     if(audio.raf) cancelAnimationFrame(audio.raf);
-    audio.raf = 0; audio.mode = null; audio.endTime = 0;
+    if(audio.timer) clearInterval(audio.timer);
+    audio.raf = 0; audio.timer = 0; audio.mode = null; audio.endTime = 0; audio.loop = null;
     if(audio.master && audio.ctx) {
       audio.master.gain.cancelScheduledValues(audio.ctx.currentTime);
       audio.master.gain.setValueAtTime(.9,audio.ctx.currentTime);
@@ -575,29 +583,46 @@
     q("#build-narration").hidden = true;
     if(message) q("#audio-status").innerHTML = message;
   }
-  function play(events,totalSteps,mode,description) {
+  function play(events,totalSteps,mode,description,options) {
     stopAudio();
     const ctx = ensureContext();
     const t0 = ctx.currentTime + .1;
     events.forEach((event) => voice(ctx,event,t0));
     if(mode === "build") {
+      // The long arc: first swell, a slight settle for the second verse, then the full-height double chorus.
       const g = audio.master.gain;
       g.setValueAtTime(.9,t0);
       g.setValueAtTime(.9,t0 + 10*BAR*STEP);
-      g.linearRampToValueAtTime(1.3,t0 + 12*BAR*STEP);
-      g.setValueAtTime(1.3,t0 + 14*BAR*STEP);
-      g.linearRampToValueAtTime(.35,t0 + 15*BAR*STEP);
+      g.linearRampToValueAtTime(1.2,t0 + 12*BAR*STEP);
+      g.linearRampToValueAtTime(1.0,t0 + 16*BAR*STEP);
+      g.linearRampToValueAtTime(1.35,t0 + 21*BAR*STEP);
+      g.setValueAtTime(1.35,t0 + 28*BAR*STEP);
+      g.linearRampToValueAtTime(.35,t0 + 29*BAR*STEP);
     }
     audio.mode = mode;
+    audio.loop = options && options.loopFactory ? {factory:options.loopFactory,steps:totalSteps,t0,nextAt:t0 + totalSteps*STEP,count:1,max:options.maxLoops || 32} : null;
     audio.endTime = t0 + totalSteps * STEP + .3;
     q("#audio-status").innerHTML = description;
     const narration = q("#build-narration");
     if(mode === "build") narration.hidden = false;
-    function frame() {
+    // Scheduling runs on a timer, not requestAnimationFrame — rAF freezes in hidden tabs,
+    // which would strand the loop. The 2.5-second lookahead absorbs background throttling.
+    audio.timer = setInterval(() => {
       const now = ctx.currentTime;
-      if(now >= audio.endTime) { stopAudio("Finished. Nothing was downloaded or recorded — every note was synthesized here."); return; }
+      if(audio.loop && audio.loop.count < audio.loop.max && now > audio.loop.nextAt - 2.5) {
+        const at = audio.loop.nextAt;
+        audio.loop.factory().forEach((event) => voice(ctx,event,at));
+        audio.loop.nextAt = at + audio.loop.steps * STEP;
+        audio.loop.count += 1;
+        audio.endTime = audio.loop.nextAt + .3;
+        const audible = Math.max(1,Math.floor((now - audio.loop.t0) / (audio.loop.steps * STEP)) + 1);
+        q("#audio-status").innerHTML = "<strong>Loop " + audible + " — it keeps going.</strong> Pull layers out, drop them back in; a second-voice change takes effect on the next pass. Press Stop when you’re done.";
+      }
+      if(now >= audio.endTime) stopAudio("Finished. Nothing was downloaded or recorded — every note was synthesized here.");
+    },400);
+    function frame() {
       if(mode === "build") {
-        const step = (now - t0) / STEP;
+        const step = (ctx.currentTime - t0) / STEP;
         if(step >= 0) {
           const bar = Math.floor(step / BAR) + 1;
           const line = [...BUILD_NARRATION].reverse().find((item) => bar >= item.bar);
@@ -634,10 +659,10 @@
   }));
   q("#play-combo")?.addEventListener("click",() => {
     ["arp","chords","lead","harm"].forEach((layer) => setLayer(layer,q('.layer-toggle[data-layer="' + layer + '"]').getAttribute("aria-pressed") === "true"));
-    play(motifEvents(),16,"combo","<strong>Playing all four layers</strong> — gated by the toggles, second voice " + styleLabel() + ". Flip a toggle while it plays.");
+    play(motifEvents(),16,"combo","<strong>Playing all four layers on a loop</strong> — gated by the toggles, second voice " + styleLabel() + ". It keeps going until you press Stop: flip toggles while it plays.",{loopFactory:() => motifEvents()});
   });
   q("#play-build")?.addEventListener("click",() => {
-    play(buildEvents(),15*BAR,"build","<strong>Playing the build</strong> — parts enter, the second voice drops out and returns " + styleLabel() + ", swell, strip back. Try pulling a layer out mid-swell.");
+    play(buildEvents(),29*BAR,"build","<strong>Playing the build</strong> — two verses, the drop-out, and the chorus twice, about a minute and forty seconds. Pull a layer out mid-swell and drop it back in.");
   });
   q("#stop-audio")?.addEventListener("click",() => stopAudio("Stopped. Nothing is playing."));
   addEventListener("pagehide",() => { stopDrone(); stopAudio(); },{once:true});
@@ -857,7 +882,10 @@
     const firstBar = (layer) => Math.min(...buildThird.filter((event) => event.layer === layer).map((event) => event.bar));
     const dropoutOk = buildThird.filter((event) => event.layer === "harm" && event.bar >= 7 && event.bar <= 10).length === 0;
     const orderOk = firstBar("arp") === 1 && firstBar("chords") === 3 && firstBar("lead") === 5 && firstBar("harm") === 11
-      && buildThird.filter((event) => event.bar === 15).every((event) => event.layer === "arp") && dropoutOk;
+      && buildThird.filter((event) => event.bar === 29).every((event) => event.layer === "arp") && dropoutOk;
+    const buildLenOk = BUILD_BARS.length === 29;
+    const secondCycleOk = buildThird.some((event) => event.layer === "harm" && event.bar >= 17 && event.bar <= 20)
+      && buildThird.some((event) => event.layer === "lead" && event.bar === 28);
     const fateOk = [0,1,2,3,4,5,6,7,8].every((count) => centerFate(count) === (count === 2 || count === 3));
     const padsOmitC = Object.values(CONTEXT_PADS).flat().every((pitch) => MIDI[pitch] % 12 !== 0);
     const nudgeOk = scaleShift("E4",1) === "D4" && scaleShift("E4",2) === "C4" && scaleShift("E4",3) === "B3" && scaleShift("C3",3) === "G2";
@@ -872,7 +900,7 @@
     })();
     const breakGridOk = qa(".break-note").length === breakState.notes.length;
     const mediaOk = !document.querySelector("audio,video");
-    const motifCase = {pass:countsOk && diatonicOk && thirdsOk && unisonOk && orderOk && fateOk && padsOmitC && nudgeOk && detectOk && breakGridOk && mediaOk,countsOk,diatonicOk,thirdsOk,unisonOk,orderOk,fateOk,padsOmitC,nudgeOk,detectOk,breakGridOk,mediaOk};
+    const motifCase = {pass:countsOk && diatonicOk && thirdsOk && unisonOk && orderOk && buildLenOk && secondCycleOk && fateOk && padsOmitC && nudgeOk && detectOk && breakGridOk && mediaOk,countsOk,diatonicOk,thirdsOk,unisonOk,orderOk,buildLenOk,secondCycleOk,fateOk,padsOmitC,nudgeOk,detectOk,breakGridOk,mediaOk};
     return {pass:lifeCases.every((item) => item.pass) && motifCase.pass,lifeCases,motifCase};
   }
   const api = {selftest,reset:() => location.reload()};
