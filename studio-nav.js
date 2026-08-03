@@ -31,7 +31,7 @@
       ['session-06/', '6', 'Agreement Machine'],
       ['session-07/', '7', 'One Pattern, New Cells'],
       ['session-08/', '8', 'One Part, Several Wholes'],
-      ['session-09/', '9', 'One Passage, Several Characters'],
+      ['session-09/', '9', 'One Motif, One Reader Path'],
       ['session-10/', '10', 'One Point, Several Neighborhoods']
     ],
     trailheads: [

@@ -23,14 +23,14 @@ session-04/                The Slop Detector + Rule Forge + reward model - opens
 session-05/                The Next Move - curiosity into direction (curiosity-era rebuild)
 session-06/                The Agreement Machine + gun bench + yardstick demo
 session-07/                What Makes Something One Thing? v1 - One Pattern, New Cells
-session-08/                v2 - One Part, Several Wholes
-session-09/                v3 - One Passage, Several Characters
-session-10/                v4 - One Point, Several Neighborhoods
+session-08/                v2 before - image, followed by revised/, revised-2/, and revised-3/ music pages
+session-09/                v3 - One Motif, One Reader Path
+session-10/                older v4 draft; reconcile to the music/reader-path chain before reuse
 session-11/                reserved for v5 - One Token, Several Contexts (not active)
 archive/                   historical instructor artifacts; not course authority
 ```
 
-Session 7 begins one cumulative instructor example. Sessions 8–10 are published in advance so students can see how one project accumulates, changes medium, and revises its paper layer. Each later version uses a prominently labeled simulated teaching encounter to demonstrate possible revision logic without pretending that a participant event occurred.
+Session 7 begins one cumulative instructor example. Session 8 now contains a public image-to-music revision chain, culminating in `revised-3/` with sound-first experiments, listener mapping, an abstract, four analytical sections, and six sources. Session 9 carries that artifact forward, revises its reader path, and adds a bounded paper-side bridge from Gestalt grouping to current mechanistic interpretability research. It begins with an instructor audit, leaves the real first-time-reader result open, and does not claim that the music app inspects a model.
 
 The standalone Sessions 7-10 retired on 2026-07-28 are preserved under `archive/2026-07-28-pre-one-thing-sequence/`. Session 11 remains a reserved route and should not be treated as built or tested.
 
@@ -46,13 +46,14 @@ The repeated reader action is:
 
 > select a part → assign it to one or more wholes → inspect overlap or change → state and revise the rule
 
-The conceptual sequence is fixed. Sessions 8–10 distinguish simulated encounter evidence from actual technical evidence:
+The current conceptual sequence distinguishes instructor observations, provisional interpretations,
+reader evidence, source support, and actual technical evidence:
 
 - Session 7 - persistence through changing cells.
-- Session 8 - one visual part participating in several wholes.
-- Session 9 - one passage participating in several characters or relations.
-- Session 10 - embeddings as several semantic neighborhoods and as a second observer, not an authority.
-- Session 11 - query-relative attention as a stress test, with authored teaching vectors clearly separated from model evidence.
+- Session 8 - image-to-music revisions; parts and wholes become audible, testable, and source-backed.
+- Session 9 - the same music paper-app receives a provisional entrance, then meets a first-time reader.
+- Session 10 - authorship and provenance should grow from the actual revision, source, and reader record; the older embedding draft is not yet reconciled.
+- Session 11 - remains planned and must follow the reconciled Session 10 path.
 
 ## Data and interaction rule
 

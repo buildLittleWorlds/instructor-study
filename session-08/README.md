@@ -1,18 +1,23 @@
 # Session 8 Instructor Paper-App: One Part, Several Wholes
 
-> **Revised 2026-08-01.** This page is now the *before*. Presenting the Sessions 7–10 arc in class
-> (2026-07-28), the pond-image case read as flat beside the moving glider — a real instructor
-> observation, not participant data. The revision at **`revised/` — One Motif, Several Wholes —
-> replaces the image with a synthesized two-bar musical figure** built from "Falling Slowly"
+> **Revision chain completed 2026-08-01; reconciled for Session 9 on 2026-08-03.** The stable
+> `/session-08/` page is the *before*. Presenting the Sessions 7–10 arc in class (2026-07-28), the
+> pond-image case read as flat beside the moving glider — a real instructor observation, not
+> participant data. The first revision at **`revised/` — One Motif, Several Wholes — replaces the
+> image with a synthesized two-bar musical figure** built from "Falling Slowly"
 > (Hansard & Irglová, *Once*, 2007): four layers (arpeggio, chords, verse line, second voice) that
 > can be heard alone or combined, an isolate-then-combine build modeled on the film's music-shop
 > scene, a verse-cell/chorus-cell comparison (scale degrees 1-2-3-2 → 1-2-7-1, per a cited
 > analysis), a second-voice toggle (third above vs. unison, reflecting two cited performances), and
 > a piano-roll grid in the Life board's visual language. All audio is synthesized in the browser
 > from plain note data; no recording, lyric, or vocal is reproduced; sound only starts on a
-> reader's press.
+> reader's press. `revised-2/` then makes every musical action answer in sound. `revised-3/` adds
+> **Mark the joints**, the abstract, four analytical sections, and a six-source shelf. That third
+> revision is the authoritative Session 8 endpoint and the direct parent of Session 9's reader-path
+> revision.
 >
-> **Verification for the revised page:** open `revised/`, run `S8.selftest()` → `pass: true`
+> **Verification for the authoritative endpoint:** open `revised-3/`, run `S8.selftest()` →
+> `pass: true`
 > (life fixture gens 0–4, layer counts, every pitch diatonic to C major, second voice a diatonic
 > third above the lead in third mode and identical in unison mode, build entrances in the order
 > figure → chords → lead → drop-out pre-chorus → second voice at the chorus, cells demo, roll
