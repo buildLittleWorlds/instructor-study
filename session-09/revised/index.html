@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generated Again — Instructor Study Session 9 V2</title>
+<script defer src="../../studio-nav.js" data-site="study"></script>
+<style>
+  :root{
+    --ink:#202127;--muted:#666873;--paper:#f7f5ef;--card:#fffefa;--line:#dcd8ce;
+    --green:#2f6f5e;--green-deep:#214f44;--green-soft:#e7f1ee;
+    --blue:#315f91;--blue-soft:#eaf1f8;--gold:#9b681c;--gold-soft:#fff1d3;
+    --rose:#8d4944;--rose-soft:#f7e9e6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font:1.05rem/1.65 Georgia,"Times New Roman",serif}
+  button{font:inherit}
+  a{color:var(--green-deep)}
+  main{width:min(72rem,calc(100% - 2rem));margin:0 auto;padding:3.2rem 0 5rem}
+  header{max-width:62rem;padding-bottom:2.3rem;border-bottom:1px solid var(--line)}
+  h1{max-width:12ch;margin:.3rem 0 .8rem;font-size:clamp(3.3rem,8vw,6.5rem);line-height:.92;letter-spacing:-.06em}
+  h2{margin:.2rem 0 .6rem;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.08}
+  h3{margin:.15rem 0 .45rem;line-height:1.2}
+  p{margin:.5rem 0 1rem}
+  section{margin-top:4.5rem;scroll-margin-top:5rem}
+  .kicker,.eyebrow,.notice,.status,.legend,.controls,.strand-label,.source-list,.claim-boundary,.version-nav,footer{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .kicker,.eyebrow{color:var(--green);font-size:.76rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+  .deck{max-width:48ch;color:var(--muted);font-size:1.3rem}
+  .cut-note{max-width:56rem;margin-top:1.4rem;padding:1rem 1.15rem;border-left:4px solid var(--gold);background:var(--gold-soft)}
+  .route{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.2rem;font-family:system-ui,sans-serif}
+  .route a{padding:.48rem .75rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.82rem;font-weight:800;text-decoration:none}
+  .case{padding:clamp(1rem,3vw,1.7rem);border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 14px 36px rgba(34,34,42,.055)}
+  .case+.case{margin-top:1.25rem}
+  .case-intro{max-width:64ch;color:var(--muted)}
+  .case-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(18rem,.75fr);gap:1.2rem;align-items:start}
+  .controls{padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6}
+  button{min-height:2.55rem;padding:.55rem .78rem;border:1px solid #9db3aa;border-radius:9px;background:white;color:var(--green-deep);font-weight:760;cursor:pointer}
+  button:hover,button:focus-visible{border-color:var(--green);background:var(--green-soft);outline:3px solid rgba(47,111,94,.18)}
+  button[aria-pressed="true"]{border-color:var(--green);background:var(--green);color:white}
+  button.quiet{border-color:var(--line);color:var(--muted)}
+  .button-row{display:flex;flex-wrap:wrap;gap:.45rem}
+  .mini-readout{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;padding:.65rem .75rem;border-radius:10px;background:#f1efe9;font-family:system-ui,sans-serif}
+  .mini-readout span{color:var(--muted);font-size:.75rem;text-transform:uppercase}.mini-readout strong{font-size:1.4rem}
+  .status{margin:.8rem 0;padding:.8rem;border-radius:10px;background:var(--green-soft);font-size:.86rem}
+  .notice{color:var(--muted);font-size:.81rem}
+  .life-grid{display:grid;grid-template-columns:repeat(9,1fr);aspect-ratio:1;gap:3px;padding:6px;border-radius:12px;background:#d5d1c8}
+  .life-cell{min-height:0;padding:0;border:0;border-radius:4px;background:#f5f2ea;aspect-ratio:1}
+  .life-cell.alive{background:var(--green)}.life-cell.marked{box-shadow:inset 0 0 0 4px #efb83f}.life-cell.born{background:#3d7eaa}.life-cell.departed{background:#efc6be}
+  .legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.55rem;color:var(--muted);font-size:.78rem}
+  .legend i{display:inline-block;width:.75rem;height:.75rem;margin-right:.25rem;border-radius:3px;vertical-align:-.05rem}
+  .legend .live{background:var(--green)}.legend .marked{background:#efb83f}.legend .born{background:#3d7eaa}.legend .departed{background:#efc6be}
+  .bench{display:grid;gap:1rem;padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6;font-family:system-ui,sans-serif}
+  .bench-row>span{display:block;margin-bottom:.4rem;color:var(--muted);font-size:.75rem;font-weight:850;letter-spacing:.05em;text-transform:uppercase}
+  .strands{display:grid;gap:.45rem;padding:1rem;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+  .strand{display:grid;grid-template-columns:7rem 1fr;gap:.65rem;align-items:center}
+  .strand-label{color:var(--muted);font-size:.75rem;font-weight:800;text-align:right}
+  .strand-line{display:grid;grid-template-columns:repeat(16,1fr);gap:3px}
+  .strand-line i{height:1.05rem;border-radius:3px;background:#e8e5dd}
+  .strand.arp .strand-line i:nth-child(odd){background:var(--green)}
+  .strand.chords .strand-line i:nth-child(-n+8){background:#e3b55a}.strand.chords .strand-line i:nth-child(n+9){background:#d99b55}
+  .strand.lead .strand-line i:nth-child(1),.strand.lead .strand-line i:nth-child(3),.strand.lead .strand-line i:nth-child(5),.strand.lead .strand-line i:nth-child(7),.strand.lead .strand-line i:nth-child(9),.strand.lead .strand-line i:nth-child(11),.strand.lead .strand-line i:nth-child(13),.strand.lead .strand-line i:nth-child(15){background:var(--blue)}
+  .strand.harm .strand-line i:nth-child(1),.strand.harm .strand-line i:nth-child(3),.strand.harm .strand-line i:nth-child(5),.strand.harm .strand-line i:nth-child(7),.strand.harm .strand-line i:nth-child(9),.strand.harm .strand-line i:nth-child(11),.strand.harm .strand-line i:nth-child(13),.strand.harm .strand-line i:nth-child(15){background:#7b62a8}
+  .theory-intro{max-width:70ch;font-size:1.18rem}
+  .theory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+  .theory-card{padding:1.05rem;border:1px solid var(--line);border-top:4px solid var(--green);border-radius:14px;background:var(--card)}
+  .theory-card:nth-child(2){border-top-color:var(--blue)}.theory-card:nth-child(3){border-top-color:var(--rose)}
+  .theory-card p{color:var(--muted);font-size:.95rem}.theory-card strong{color:var(--ink)}
+  .bridge{max-width:66rem;margin-top:1rem;padding:1.2rem 1.3rem;border:1px solid #b8d2c7;border-radius:16px;background:var(--green-soft)}
+  .bridge p{max-width:75ch}
+  .comparison{width:100%;margin:1.2rem 0;border-collapse:collapse;background:var(--card)}
+  .comparison th,.comparison td{padding:.8rem;border:1px solid var(--line);text-align:left;vertical-align:top}
+  .comparison th{background:#f1efe9;font-family:system-ui,sans-serif;font-size:.78rem;letter-spacing:.03em;text-transform:uppercase}
+  .comparison td:first-child{font-weight:700}
+  .claim-boundary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin-top:1rem}
+  .claim-boundary div{padding:.9rem;border-radius:11px;font-size:.84rem}.shown{background:var(--green-soft)}.proposed{background:var(--blue-soft)}.open{background:var(--gold-soft)}
+  .source-list{max-width:68rem;margin:1rem 0 0;padding:0;list-style:none}
+  .source-list li{margin:.65rem 0;padding:.85rem 1rem;border-left:4px solid var(--blue);background:var(--card);font-size:.9rem}
+  .version-nav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.7rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem}
+  footer{margin-top:2.2rem;color:var(--muted);font-size:.82rem}
+  @media(max-width:850px){.case-grid,.theory-grid,.claim-boundary{grid-template-columns:1fr}}
+  @media(max-width:620px){main{width:min(100% - 1rem,72rem);padding-top:1.8rem}.strand{grid-template-columns:1fr}.strand-label{text-align:left}.comparison,.comparison thead,.comparison tbody,.comparison tr,.comparison th,.comparison td{display:block}.comparison th{display:none}.comparison td{border-top:0}.comparison td:first-child{border-top:1px solid var(--line);background:#f1efe9}}
+</style>
+</head>
+<body>
+<main>
+<article>
+  <header>
+    <div class="kicker">Instructor Study · Session 9 · V2</div>
+    <h1>Generated again</h1>
+    <p class="deck">A glider has no permanent cells. A motif has no single permanent setting. Must a belief or memory be stored as a finished thing in order to be real?</p>
+    <div class="cut-note"><strong>This revision subtracts.</strong> The preceding page accumulated entrances, experiments, notebooks, interpretability analogies, and eleven sources. This version keeps two encounters and one theoretical disagreement. The cutting is the lesson.</div>
+    <nav class="route" aria-label="Page route"><a href="#glider">Run the glider</a><a href="#motif">Hear the motif</a><a href="#theory">Read the disagreement</a></nav>
+  </header>
+
+  <section id="glider" class="case" aria-labelledby="glider-title">
+    <div class="eyebrow">Case 1 · discrete cells</div>
+    <h2 id="glider-title">One pattern, new cells</h2>
+    <p class="case-intro">Mark the five live cells, advance once, and compare. The program can verify which cells survived; it cannot settle whether the moving pattern is one real thing.</p>
+    <div class="case-grid">
+      <div>
+        <div id="life-grid" class="life-grid" role="group" aria-label="Interactive nine by nine Game of Life grid"></div>
+        <div class="legend"><span><i class="live"></i>live now</span><span><i class="marked"></i>your boundary</span><span><i class="born"></i>appeared</span><span><i class="departed"></i>disappeared</span></div>
+      </div>
+      <div class="controls">
+        <div class="mini-readout"><span>Generation</span><strong id="life-generation">0</strong></div>
+        <div class="button-row"><button id="life-mark" type="button">Mark live cells</button><button id="life-advance" type="button">Advance</button><button id="life-compare" type="button">Compare</button><button id="life-reset" class="quiet" type="button">Reset</button></div>
+        <div id="life-status" class="status" role="status" aria-live="polite">Mark what you think the glider is.</div>
+        <p class="notice"><strong>Computed here:</strong> Conway’s B3/S23 rule. <strong>Not computed:</strong> the identity judgment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="motif" class="case" aria-labelledby="motif-title">
+    <div class="eyebrow">Case 2 · musical figure</div>
+    <h2 id="motif-title">One motif, several wholes</h2>
+    <p class="case-intro">Hear a two-bar figure in C major alone, then inside chords and two melodic lines. The notes do not change when the surrounding whole changes what they sound like.</p>
+    <div class="case-grid">
+      <div class="bench">
+        <div class="bench-row"><span>Hear one strand</span><div class="button-row"><button id="play-arp" type="button">The figure</button><button id="play-chords" type="button">The chords</button><button id="play-lead" type="button">The verse line</button><button id="play-harm" type="button">The second voice</button></div></div>
+        <div class="bench-row"><span>Build one whole</span><div class="button-row"><button class="layer-toggle" data-layer="arp" type="button" aria-pressed="true">Figure</button><button class="layer-toggle" data-layer="chords" type="button" aria-pressed="true">Chords</button><button class="layer-toggle" data-layer="lead" type="button" aria-pressed="true">Verse line</button><button class="layer-toggle" data-layer="harm" type="button" aria-pressed="false">Second voice</button><button id="play-combo" type="button">Play selected layers</button><button id="stop-audio" class="quiet" type="button">Stop</button></div></div>
+        <div id="audio-status" class="status" role="status" aria-live="polite">Nothing is playing. All sound is synthesized here from note data; no recording is embedded.</div>
+      </div>
+      <div>
+        <div class="strands" aria-label="Four musical strands arranged over sixteen time steps">
+          <div class="strand arp"><span class="strand-label">figure</span><span class="strand-line" aria-hidden="true"></span></div>
+          <div class="strand chords"><span class="strand-label">chords</span><span class="strand-line" aria-hidden="true"></span></div>
+          <div class="strand lead"><span class="strand-label">verse line</span><span class="strand-line" aria-hidden="true"></span></div>
+          <div class="strand harm"><span class="strand-label">second voice</span><span class="strand-line" aria-hidden="true"></span></div>
+        </div>
+        <p class="notice"><strong>One note, several relations:</strong> succession makes it part of a line; simultaneity makes it part of a chord; recurrence makes it part of a motif. These are interpretations of relations, not labels stored inside the note.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="theory" aria-labelledby="theory-title">
+    <div class="eyebrow">Three claims, not one conclusion</div>
+    <h2 id="theory-title">What if persistence is a way of being generated?</h2>
+    <p class="theory-intro">The two encounters make one possibility vivid: something can recur without preserving the same material. They do not prove how human memory works. The sources below turn that analogy into a disagreement worth keeping open.</p>
+    <div class="theory-grid">
+      <article class="theory-card"><h3>1 · Dennett: real patterns</h3><p>For Daniel Dennett, a glider is real because the higher-level description captures and predicts regularity more efficiently than a cell-by-cell inventory. His larger target is belief: a belief need not be a sentence stored in a particular place to be real. It can be a stable, predictive pattern in how a person responds.</p><p><strong>Question:</strong> Is “the motif” similarly real because it lets us anticipate recurrence across changing settings?</p></article>
+      <article class="theory-card"><h3>2 · Barenholtz: generated now</h3><p>Elan Barenholtz advances a stronger proposal. What feels like retrieving a finished memory or belief may instead be a new continuation generated from present context and parameters shaped by experience. Stability would then mean reliably generating related answers—not reopening the same internal file.</p><p><strong>Question:</strong> When the cue changes, how much change can a generated memory survive before it is no longer the same memory?</p></article>
+      <article class="theory-card"><h3>3 · Spens and Burgess: generation plus traces</h3><p>A peer-reviewed computational model agrees that recall is generative but retains rapid hippocampal encoding and replay. Generative schemas gradually reconstruct predictable structure while unusual details may still depend on stored traces. “Reconstructed” therefore does not automatically mean “nothing stored.”</p><p><strong>Question:</strong> Is the better contrast storage versus generation, or several kinds of constraint working together?</p></article>
+    </div>
+
+    <aside class="bridge">
+      <h3>Language is the bridge—and the caution</h3>
+      <p>Barenholtz calls language <em>autogenerative</em>: its statistical organization makes coherent continuation learnable without an externally supplied symbolic rulebook. His July 2026 preprint reports that the contribution of ordered prior context to later words decays approximately as <em>1/d</em> across ten corpora and six language families. That is evidence about a regularity in language. The paper explicitly says it characterizes the <em>product</em>, not the cognitive process that produced it. It therefore motivates the memory hypothesis without establishing it.</p>
+    </aside>
+
+    <table class="comparison">
+      <thead><tr><th>Case</th><th>What persists?</th><th>What generates the next appearance?</th><th>What this page can honestly say</th></tr></thead>
+      <tbody>
+        <tr><td>Glider</td><td>A five-cell moving organization</td><td>A known local rule applied to the current board</td><td>The identity is higher-level; the transition is exactly computable.</td></tr>
+        <tr><td>Motif</td><td>A recognizable musical relation</td><td>Composed notes, performance, and a listener’s grouping</td><td>The same notes can participate in several audible wholes.</td></tr>
+        <tr><td>Memory or belief</td><td>A response pattern across occasions</td><td>Possibly context-sensitive generation constrained by learning and traces</td><td>This is a research and philosophical dispute, not a result of the app.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="claim-boundary"><div class="shown"><strong>Directly shown</strong><br>The glider’s cells change under a verified rule. Musical layers can be separated and recombined without changing their note data.</div><div class="proposed"><strong>Source-proposed</strong><br>Beliefs may be real predictive patterns; remembering may be generative; language contains long-range order-specific regularity.</div><div class="open"><strong>Still open</strong><br>Whether human cognition is fundamentally autoregressive, what is stored, and which continuities are enough for one memory, belief, or self.</div></div>
+  </section>
+
+  <section id="sources" aria-labelledby="sources-title">
+    <div class="eyebrow">A short shelf</div>
+    <h2 id="sources-title">Five sources that change the question</h2>
+    <ul class="source-list">
+      <li><a href="https://dl.tufts.edu/concern/pdfs/wp988x11s"><strong>Daniel Dennett, “Real Patterns” (1991)</strong></a> — the glider, compression, prediction, and the reality of beliefs.</li>
+      <li><a href="https://elanbarenholtz.substack.com/p/is-memory-real"><strong>Elan Barenholtz, “Memory Isn’t Real (Part 1)” (2025)</strong></a> — the accessible statement of the just-in-time generation hypothesis.</li>
+      <li><a href="https://elanbarenholtz.substack.com/p/autogeneration-the-hidden-property"><strong>Barenholtz, “Autogeneration” (2025)</strong></a> — the proposed bridge from language’s internal statistical structure to cognition.</li>
+      <li><a href="https://arxiv.org/abs/2607.25184"><strong>Barenholtz, “A scaling law of contextual persistence in human language” (2026 preprint)</strong></a> — a new quantitative result about ordered context, presented here as preprint evidence about language rather than settled evidence about memory.</li>
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10963272/"><strong>Eleanor Spens and Neil Burgess, “A generative model of memory construction and consolidation” (2024)</strong></a> — an open, peer-reviewed model that makes recall generative without discarding hippocampal encoding and replay.</li>
+    </ul>
+  </section>
+
+  <nav class="version-nav" aria-label="Version links"><a href="../">← Session 9 V1: the accumulated page</a><a href="../../">Instructor Study home</a></nav>
+  <footer>What Makes Something One Thing? · Session 9 V2 · No accounts, analytics, uploads, recordings, or stored reader data. The music interaction uses original browser synthesis derived from the earlier instructor study and reproduces no recording or lyrics.</footer>
+</article>
+</main>
+
+<script>
+(() => {
+  "use strict";
+  const q = (selector,root=document) => root.querySelector(selector);
+  const qa = (selector,root=document) => [...root.querySelectorAll(selector)];
+
+  /* Draw the compact strand diagram without repeating sixteen empty spans in the HTML. */
+  qa(".strand-line").forEach((line) => { for(let i=0;i<16;i+=1) line.appendChild(document.createElement("i")); });
+
+  /* Case 1: Conway glider. */
+  const SIZE = 9;
+  const START = [[2,1],[3,2],[1,3],[2,3],[3,3]];
+  const FIXTURES = [
+    [[2,1],[3,2],[1,3],[2,3],[3,3]],
+    [[1,2],[3,2],[2,3],[3,3],[2,4]],
+    [[3,2],[1,3],[3,3],[2,4],[3,4]],
+    [[2,2],[3,3],[4,3],[2,4],[3,4]],
+    [[3,2],[4,3],[2,4],[3,4],[4,4]]
+  ];
+  const key = (x,y) => `${x},${y}`;
+  const toSet = (cells) => new Set(cells.map(([x,y]) => key(x,y)));
+  let life = toSet(START), marked = new Set(), previous = null, generation = 0, comparing = false;
+  function step(state){
+    const next = new Set();
+    for(let y=0;y<SIZE;y+=1) for(let x=0;x<SIZE;x+=1){
+      let neighbors=0;
+      for(let dy=-1;dy<=1;dy+=1) for(let dx=-1;dx<=1;dx+=1) if((dx||dy)&&state.has(key(x+dx,y+dy))) neighbors+=1;
+      const alive=state.has(key(x,y));
+      if(neighbors===3||(alive&&neighbors===2)) next.add(key(x,y));
+    }
+    return next;
+  }
+  function renderLife(){
+    const grid=q("#life-grid"); grid.innerHTML="";
+    for(let y=0;y<SIZE;y+=1) for(let x=0;x<SIZE;x+=1){
+      const k=key(x,y), button=document.createElement("button"), alive=life.has(k);
+      button.type="button"; button.className="life-cell"+(alive?" alive":"")+(marked.has(k)?" marked":"");
+      if(comparing&&previous){ if(alive&&!previous.has(k)) button.classList.add("born"); if(!alive&&previous.has(k)) button.classList.add("departed"); }
+      button.setAttribute("aria-label",`row ${y+1}, column ${x+1}${alive?", live":", empty"}${marked.has(k)?", marked as part of the glider":""}`);
+      button.addEventListener("click",()=>{ marked.has(k)?marked.delete(k):marked.add(k); renderLife(); });
+      grid.appendChild(button);
+    }
+    q("#life-generation").textContent=String(generation);
+  }
+  q("#life-mark").addEventListener("click",()=>{ marked=new Set(life); comparing=false; q("#life-status").textContent="The five current live cells are marked. Advance once."; renderLife(); });
+  q("#life-advance").addEventListener("click",()=>{ previous=new Set(life); life=step(life); generation+=1; comparing=false; q("#life-status").textContent="The rule produced a new generation. Compare it with your marked boundary."; renderLife(); });
+  q("#life-compare").addEventListener("click",()=>{
+    if(!previous){q("#life-status").textContent="Advance once before comparing.";return;}
+    comparing=true;
+    const survived=[...previous].filter((k)=>life.has(k)).length, appeared=[...life].filter((k)=>!previous.has(k)).length, disappeared=[...previous].filter((k)=>!life.has(k)).length;
+    q("#life-status").innerHTML=`<strong>${survived} survived · ${appeared} appeared · ${disappeared} disappeared.</strong> The five-cell organization moved. Did one thing persist?`;
+    renderLife();
+  });
+  q("#life-reset").addEventListener("click",()=>{ life=toSet(START); marked=new Set(); previous=null; generation=0; comparing=false; q("#life-status").textContent="Mark what you think the glider is."; renderLife(); });
+  renderLife();
+
+  /* Case 2: a deliberately short, browser-synthesized motif bench. */
+  const TEMPO=72, STEP=60/TEMPO/2;
+  const MIDI={C3:48,E3:52,F3:53,G3:55,A3:57,C4:60,D4:62,E4:64,F4:65,G4:67,A4:69,C5:72};
+  const EVENTS=[];
+  const arp=["C3","G3","C4","E4","G4","E4","C4","G3","F3","C4","F4","A4","C5","A4","F4","C4"];
+  arp.forEach((p,t)=>EVENTS.push({layer:"arp",p,t,d:1}));
+  [["C3","E3","G3"], ["F3","A3","C4"]].forEach((chord,bar)=>chord.forEach((p)=>EVENTS.push({layer:"chords",p,t:bar*8,d:8})));
+  const lead=["C4","D4","E4","D4","C4","D4","F4","E4"];
+  lead.forEach((p,i)=>EVENTS.push({layer:"lead",p,t:i*2,d:2}));
+  const harmony=["E4","F4","G4","F4","E4","F4","A4","G4"];
+  harmony.forEach((p,i)=>EVENTS.push({layer:"harm",p,t:i*2,d:2}));
+  const audio={ctx:null,master:null,sources:[]};
+  function stopAudio(message){audio.sources.forEach((source)=>{try{source.stop();}catch(error){}});audio.sources=[];if(message)q("#audio-status").textContent=message;}
+  function ensureAudio(){if(!audio.ctx){const Ctor=window.AudioContext||window.webkitAudioContext;audio.ctx=new Ctor();audio.master=audio.ctx.createGain();audio.master.gain.value=.7;audio.master.connect(audio.ctx.destination);}if(audio.ctx.state==="suspended")audio.ctx.resume();return audio.ctx;}
+  function play(events,label){
+    stopAudio(); const ctx=ensureAudio(), t0=ctx.currentTime+.08;
+    events.forEach((event)=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),start=t0+event.t*STEP,end=start+event.d*STEP;osc.type=event.layer==="chords"?"sine":event.layer==="harm"?"sawtooth":"triangle";osc.frequency.value=440*Math.pow(2,(MIDI[event.p]-69)/12);osc.connect(gain);gain.connect(audio.master);gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(event.layer==="chords"?.065:.12,start+.03);gain.gain.setValueAtTime(event.layer==="chords"?.065:.12,Math.max(start+.04,end-.08));gain.gain.linearRampToValueAtTime(.0001,end+.08);osc.start(start);osc.stop(end+.1);audio.sources.push(osc);});
+    q("#audio-status").innerHTML=`<strong>Playing ${label}.</strong> Listen for what becomes audible only in combination.`;
+  }
+  const byLayer=(layer)=>EVENTS.filter((event)=>event.layer===layer);
+  q("#play-arp").addEventListener("click",()=>play(byLayer("arp"),"the figure alone"));
+  q("#play-chords").addEventListener("click",()=>play(byLayer("chords"),"the C and F chords alone"));
+  q("#play-lead").addEventListener("click",()=>play(byLayer("lead"),"the verse line alone"));
+  q("#play-harm").addEventListener("click",()=>play(byLayer("harm"),"the second voice alone"));
+  qa(".layer-toggle").forEach((button)=>button.addEventListener("click",()=>button.setAttribute("aria-pressed",button.getAttribute("aria-pressed")==="true"?"false":"true")));
+  q("#play-combo").addEventListener("click",()=>{const selected=new Set(qa(".layer-toggle").filter((b)=>b.getAttribute("aria-pressed")==="true").map((b)=>b.dataset.layer));if(!selected.size){q("#audio-status").textContent="Select at least one layer.";return;}play(EVENTS.filter((event)=>selected.has(event.layer)),`${selected.size} selected layer${selected.size===1?"":"s"} together`);});
+  q("#stop-audio").addEventListener("click",()=>stopAudio("Stopped. Nothing is playing."));
+  addEventListener("pagehide",()=>stopAudio(),{once:true});
+
+  function sameSet(a,b){return a.size===b.size&&[...a].every((item)=>b.has(item));}
+  function selftest(){
+    let state=toSet(FIXTURES[0]); const lifeCases=[];
+    for(let i=1;i<FIXTURES.length;i+=1){state=step(state);lifeCases.push({generation:i,pass:sameSet(state,toSet(FIXTURES[i]))});}
+    const layers={arp:byLayer("arp").length,chords:byLayer("chords").length,lead:byLayer("lead").length,harm:byLayer("harm").length};
+    const pitchesOk=EVENTS.every((event)=>Number.isFinite(MIDI[event.p]));
+    const mediaOk=!document.querySelector("audio,video");
+    const motif={pass:layers.arp===16&&layers.chords===6&&layers.lead===8&&layers.harm===8&&pitchesOk&&mediaOk,layers,pitchesOk,mediaOk};
+    return {pass:lifeCases.every((item)=>item.pass)&&motif.pass,lifeCases,motif};
+  }
+  const startupTest=selftest();
+  document.documentElement.dataset.selftest=startupTest.pass?"pass":"fail";
+  window.S9V2={selftest,reset:()=>location.reload()};
+})();
+</script>
+</body>
+</html>

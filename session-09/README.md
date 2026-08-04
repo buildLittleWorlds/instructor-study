@@ -1,4 +1,30 @@
-# Session 9 Instructor Paper-App: One Motif, One Reader Path
+# Session 9 Instructor Paper-App
+
+Session 9 now has two public versions. The second is a deliberate subtraction pass: it uses less
+material to make the revision itself visible.
+
+## Current revision
+
+- `revised/index.html` — **Generated Again**, Session 9 V2.
+- Stable route: `/session-09/revised/`.
+- Keeps only one live glider, one compact version of **Case 2 · musical figure — One motif,
+  several wholes**, and a short theoretical disagreement.
+- Connects Daniel Dennett's real-pattern account to Elan Barenholtz's proposed autoregressive
+  account of memory and language.
+- Uses Spens and Burgess's peer-reviewed generative-memory model as a counterpressure: generative
+  reconstruction need not imply that nothing is encoded or stored.
+- Labels Barenholtz's July 2026 contextual-persistence paper as a preprint and preserves its own
+  limitation: it characterizes linguistic products, not the cognitive process that produced them.
+
+The V2 claim boundary is intentionally small:
+
+1. the app directly computes the glider and synthesizes separable musical layers;
+2. the sources propose different accounts of patterns, beliefs, language, and memory;
+3. the app does not establish how a human brain stores or generates a memory.
+
+Run `S9V2.selftest()` in the browser console. Expected: `pass: true`.
+
+## Earlier accumulated version
 
 This is **Version 3 of 5** of **What Makes Something One Thing?** It continues the strongest
 Session 8 music revision rather than replacing it with a new medium.
@@ -92,6 +118,7 @@ Then verify manually:
 
 ## Live teaching use
 
-Show the Session 8 revision chain briefly, then hand this page to a first-time reader without a
-tour. Record the route before explaining it. The page's three entrances are provisional until that
-encounter occurs.
+Use the original page to show how reasonable additions can accumulate. Then open V2 and ask what
+became easier to encounter after the entrances, labs, notebook, development ledger, and large source
+shelf were removed. The subtraction is not presented as proof that shorter is always better; it is
+the next test in the revision trajectory.
