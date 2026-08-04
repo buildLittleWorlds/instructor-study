@@ -1,9 +1,29 @@
 # Session 9 Instructor Paper-App
 
-Session 9 now has two public versions. The second is a deliberate subtraction pass: it uses less
-material to make the revision itself visible.
+Session 9 now has three public versions. V1 accumulates, V2 deliberately subtracts, and V3 expands
+one connection that became visible only after the subtraction.
 
 ## Current revision
+
+- `revised-2/index.html` — **Nothing Moves. Something Travels.**, Session 9 V3.
+- Stable route: `/session-09/revised-2/`.
+- Adds a cumulative participation trail so movement can be distinguished from repeated local
+  generation.
+- Lets the reader copy only the current five-cell configuration to a fresh board, demonstrating
+  that the pattern can continue without carrying its displayed history.
+- Lets the reader damage that present constraint and inspect how continuation changes.
+- Maps present context, one-step production, and feedback onto Barenholtz's autoregressive proposal.
+- Explicitly separates that useful analogy from his stronger autogeneration claim: Conway's rule is
+  fixed and externally supplied, not learned from the board's statistical structure.
+- Retains one compact original music encounter to move from exact continuation toward altered
+  context and degraded-cue generation.
+
+The V3 claim boundary remains explicit: the glider makes persistence without transport visible,
+but it does not show that human memory uses Conway-like rules or that no memory traces are stored.
+
+Run `S9V3.selftest()` in the browser console. Expected: `pass: true`.
+
+## Contraction revision
 
 - `revised/index.html` — **Generated Again**, Session 9 V2.
 - Stable route: `/session-09/revised/`.

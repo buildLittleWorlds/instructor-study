@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nothing Moves. Something Travels. — Instructor Study Session 9 V3</title>
+<script defer src="../../studio-nav.js" data-site="study"></script>
+<style>
+  :root{
+    --ink:#202127;--muted:#666873;--paper:#f6f4ed;--card:#fffefa;--line:#d9d5ca;
+    --green:#2f6f5e;--green-deep:#214f44;--green-soft:#e7f1ee;
+    --blue:#315f91;--blue-soft:#eaf1f8;--gold:#9b681c;--gold-soft:#fff1d3;
+    --rose:#8d4944;--rose-soft:#f7e9e6;--violet:#67568f;--violet-soft:#eee9f6;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font:1.05rem/1.65 Georgia,"Times New Roman",serif}
+  button{font:inherit} a{color:var(--green-deep)}
+  main{width:min(76rem,calc(100% - 2rem));margin:0 auto;padding:3.2rem 0 5rem}
+  header{max-width:66rem;padding-bottom:2.4rem;border-bottom:1px solid var(--line)}
+  h1{max-width:13ch;margin:.3rem 0 .8rem;font-size:clamp(3rem,7.6vw,6.3rem);line-height:.94;letter-spacing:-.055em}
+  h2{margin:.2rem 0 .65rem;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.08}
+  h3{margin:.15rem 0 .45rem;line-height:1.2}
+  p{margin:.5rem 0 1rem} section{margin-top:4.7rem;scroll-margin-top:5rem}
+  .kicker,.eyebrow,.status,.notice,.legend,.controls,.route,.version-note,.question-grid,.source-list,.claim-line,.version-nav,footer{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .kicker,.eyebrow{color:var(--green);font-size:.76rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+  .deck{max-width:49ch;color:var(--muted);font-size:1.3rem}
+  .version-note{max-width:62rem;margin-top:1.4rem;padding:1rem 1.15rem;border-left:4px solid var(--blue);background:var(--blue-soft)}
+  .route{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.2rem}
+  .route a{padding:.48rem .75rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.82rem;font-weight:800;text-decoration:none}
+  .thesis{max-width:68rem;margin:3rem 0 0;padding:clamp(1.2rem,3vw,2rem);border:1px solid #b8d2c7;border-radius:20px;background:var(--green-soft)}
+  .thesis p{max-width:48ch;margin:.3rem 0;font-size:clamp(1.45rem,3vw,2.25rem);line-height:1.25}
+  .case{padding:clamp(1rem,3vw,1.7rem);border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 14px 36px rgba(34,34,42,.055)}
+  .case-intro{max-width:68ch;color:var(--muted)}
+  .life-layout{display:grid;grid-template-columns:minmax(20rem,1.25fr) minmax(19rem,.75fr);gap:1.2rem;align-items:start}
+  .life-grid{display:grid;grid-template-columns:repeat(13,1fr);aspect-ratio:1;gap:2px;padding:6px;border-radius:12px;background:#d5d1c8}
+  .life-cell{min-height:0;padding:0;border:0;border-radius:3px;background:#f5f2ea;aspect-ratio:1;cursor:default}
+  .life-cell.trail{background:#d9e6e1}.life-cell.alive{background:var(--green)}.life-cell.born{background:#3d7eaa;box-shadow:inset 0 0 0 2px #d7e9f5}.life-cell.damaged{background:#efc6be;box-shadow:inset 0 0 0 3px var(--rose)}
+  .legend{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.55rem;color:var(--muted);font-size:.78rem}
+  .legend i{display:inline-block;width:.75rem;height:.75rem;margin-right:.25rem;border-radius:3px;vertical-align:-.05rem}
+  .legend .live{background:var(--green)}.legend .born{background:#3d7eaa}.legend .trail{background:#d9e6e1}.legend .damaged{background:#efc6be}
+  .controls{padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6}
+  .readouts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem}
+  .readout{padding:.65rem .75rem;border-radius:10px;background:#f1efe9}.readout span{display:block;color:var(--muted);font-size:.7rem;text-transform:uppercase}.readout strong{font-size:1.25rem}
+  button{min-height:2.55rem;padding:.55rem .78rem;border:1px solid #9db3aa;border-radius:9px;background:white;color:var(--green-deep);font-weight:760;cursor:pointer}
+  button:hover,button:focus-visible{border-color:var(--green);background:var(--green-soft);outline:3px solid rgba(47,111,94,.18)}
+  button[aria-pressed="true"]{border-color:var(--green);background:var(--green);color:white}
+  button.quiet{border-color:var(--line);color:var(--muted)} button.danger{border-color:#d0aaa6;color:var(--rose)}
+  .button-row{display:flex;flex-wrap:wrap;gap:.45rem}
+  .status{margin:.8rem 0;padding:.8rem;border-radius:10px;background:var(--green-soft);font-size:.86rem}
+  .notice{color:var(--muted);font-size:.81rem}
+  .question-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin-top:1.1rem}
+  .question-grid button{height:100%;text-align:left;background:#fbfaf6}.question-grid button strong{display:block;margin-bottom:.25rem}.question-grid button span{color:var(--muted);font-size:.8rem;font-weight:500}
+  .answer{min-height:4.5rem;margin-top:.7rem;padding:.85rem 1rem;border-radius:12px;background:var(--gold-soft)}
+  .sequence{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin-top:1rem}
+  .sequence article{position:relative;padding:1.05rem;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+  .sequence article:not(:last-child)::after{content:"→";position:absolute;right:-.72rem;top:42%;z-index:2;color:var(--green);font:900 1.4rem system-ui,sans-serif}
+  .sequence b{display:block;color:var(--green);font:850 .76rem system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+  .bridge{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-top:1rem}
+  .bridge article{padding:1.1rem;border-radius:14px}.bridge .fit{background:var(--blue-soft)}.bridge .break{background:var(--gold-soft)}
+  .bridge p{color:var(--muted);font-size:.94rem}
+  .bench{display:grid;gap:1rem;padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6;font-family:system-ui,sans-serif}
+  .bench-row>span{display:block;margin-bottom:.4rem;color:var(--muted);font-size:.75rem;font-weight:850;letter-spacing:.05em;text-transform:uppercase}
+  .music-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:1rem;align-items:start}
+  .memory-spectrum{display:grid;gap:.6rem}.spectrum-card{padding:.9rem 1rem;border-left:4px solid var(--green);background:var(--card)}.spectrum-card:nth-child(2){border-left-color:var(--violet)}.spectrum-card:nth-child(3){border-left-color:var(--rose)}
+  .spectrum-card span{display:block;color:var(--muted);font:500 .82rem system-ui,sans-serif}
+  .paper-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
+  .paper-card{padding:1.05rem;border:1px solid var(--line);border-top:4px solid var(--green);border-radius:14px;background:var(--card)}
+  .paper-card:nth-child(2){border-top-color:var(--blue)}.paper-card:nth-child(3){border-top-color:var(--rose)}
+  .paper-card p{color:var(--muted);font-size:.95rem}
+  .claim-line{margin-top:1rem;padding:1rem 1.1rem;border-radius:12px;background:var(--violet-soft)}
+  .source-list{max-width:70rem;margin:1rem 0 0;padding:0;list-style:none}.source-list li{margin:.65rem 0;padding:.85rem 1rem;border-left:4px solid var(--blue);background:var(--card);font-size:.9rem}
+  .version-nav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.7rem;margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem}
+  footer{margin-top:2.2rem;color:var(--muted);font-size:.82rem}
+  @media(max-width:880px){.life-layout,.music-layout,.bridge,.paper-grid{grid-template-columns:1fr}.question-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:650px){main{width:min(100% - 1rem,76rem);padding-top:1.8rem}.sequence,.question-grid{grid-template-columns:1fr}.sequence article:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-1.25rem}}
+</style>
+</head>
+<body>
+<main><article>
+  <header>
+    <div class="kicker">Instructor Study · Session 9 · V3</div>
+    <h1>Nothing moves. Something travels.</h1>
+    <p class="deck">A glider does not cross the board by carrying its cells with it. It becomes the next glider, and then the next. What if memory also persists by being generated again?</p>
+    <div class="version-note"><strong>This revision expands for a reason.</strong> V1 accumulated material. V2 cut back to two encounters and one disagreement. V3 keeps that restraint but develops one connection the shorter page only named: the glider as a visible model of persistence through sequential generation.</div>
+    <nav class="route" aria-label="Page route"><a href="#encounter">Follow the glider</a><a href="#connection">Build the connection</a><a href="#music">Change the kind of trace</a><a href="#paper">Read the paper argument</a></nav>
+  </header>
+
+  <aside class="thesis"><div class="eyebrow">The proposition to test</div><p>The glider is not transported. It is regenerated.</p><span>No cell contains it. Conway’s rule does not store its journey. The moving thing appears in the relation among successive boards.</span></aside>
+
+  <section id="encounter" class="case" aria-labelledby="encounter-title">
+    <div class="eyebrow">Encounter · one present becomes another</div>
+    <h2 id="encounter-title">Watch the pattern leave its material behind</h2>
+    <p class="case-intro">Advance slowly at first. Green and blue show what is alive now. The pale trail records every location that has previously participated. Nothing in that trail moves, yet the organization crosses the board.</p>
+    <div class="life-layout">
+      <div>
+        <div id="life-grid" class="life-grid" role="img" aria-label="Thirteen by thirteen Game of Life grid showing a glider and its cumulative trail"></div>
+        <div class="legend"><span><i class="live"></i>alive now</span><span><i class="born"></i>new this step</span><span><i class="trail"></i>participated earlier</span><span><i class="damaged"></i>removed trace</span></div>
+      </div>
+      <div class="controls">
+        <div class="readouts"><div class="readout"><span>Generation</span><strong id="life-generation">0</strong></div><div class="readout"><span>Board</span><strong id="life-board">Original</strong></div></div>
+        <div class="button-row"><button id="life-step" type="button">Advance once</button><button id="life-run" type="button" aria-pressed="false">Run</button><button id="life-copy" type="button">Copy the present</button><button id="life-damage" class="danger" type="button">Damage the trace</button><button id="life-reset" class="quiet" type="button">Reset</button></div>
+        <div id="life-status" class="status" role="status" aria-live="polite">Advance once. Look for cells that disappear while the glider continues.</div>
+        <p class="notice"><strong>Copy the present</strong> moves only the current live-cell configuration to a fresh board. It carries no trail or earlier boards. <strong>Damage the trace</strong> removes one live cell before continuation.</p>
+      </div>
+    </div>
+    <div class="question-grid" aria-label="Four possible locations for the glider">
+      <button class="where" data-answer="cells" type="button"><strong>The five cells?</strong><span>But most are replaced after one step.</span></button>
+      <button class="where" data-answer="rule" type="button"><strong>The B3/S23 rule?</strong><span>But the same rule produces many non-gliders.</span></button>
+      <button class="where" data-answer="sequence" type="button"><strong>The sequence?</strong><span>Perhaps its identity exists across states.</span></button>
+      <button class="where" data-answer="prediction" type="button"><strong>Our prediction?</strong><span>Calling it a glider compresses what comes next.</span></button>
+    </div>
+    <div id="where-answer" class="answer" role="status">Where is the glider? Choose a possibility. The app will complicate it rather than grade it.</div>
+  </section>
+
+  <section id="connection" aria-labelledby="connection-title">
+    <div class="eyebrow">The interpretive turn</div>
+    <h2 id="connection-title">A whole can exist only as it unfolds</h2>
+    <p class="case-intro">Barenholtz’s autoregressive proposal adds more than the familiar observation that memory is imperfect. It asks whether the remembered content was ever stored as a finished, replayable thing.</p>
+    <div class="sequence">
+      <article><b>1 · Present context</b><h3>A state, not a journey</h3><p>The board contains the current arrangement. In Barenholtz’s proposal, a cue and learned parameters constrain what can be generated now.</p></article>
+      <article><b>2 · Local production</b><h3>One next element</h3><p>Conway’s rule produces one next board. An autoregressive system produces one next element rather than retrieving an already completed sequence.</p></article>
+      <article><b>3 · Feedback</b><h3>The output becomes context</h3><p>The new board becomes the next input. Repetition creates an extended coherence that no single step contains in advance.</p></article>
+    </div>
+    <div class="bridge">
+      <article class="fit"><div class="eyebrow">Where the analogy earns its place</div><h3>Persistence without transport</h3><p>No glider-object passes from cell to cell. No future trajectory is stored on the board. A familiar higher-level organization emerges through dependable continuation. This makes Barenholtz’s alternative to the archive metaphor visible.</p></article>
+      <article class="break"><div class="eyebrow">Where the analogy must stop</div><h3>A fixed rule is not learned memory</h3><p>Conway’s deterministic rule is supplied from outside and the complete current board is retained. Barenholtz’s stronger autogeneration proposal concerns a continuation function recoverable from a domain’s statistical structure. The glider illustrates autoregressive unfolding; it does not establish a theory of human memory.</p></article>
+    </div>
+  </section>
+
+  <section id="music" class="case" aria-labelledby="music-title">
+    <div class="eyebrow">Second encounter · change the kind of trace</div>
+    <h2 id="music-title">From exact continuation to imperfect remembrance</h2>
+    <p class="case-intro">The glider regenerates under an exact rule. Musical memory is less obedient. Hear one original figure by itself and in changing surroundings, then use the comparison to imagine a generator working from only a degraded trace.</p>
+    <div class="music-layout">
+      <div class="bench">
+        <div class="bench-row"><span>Hear one strand</span><div class="button-row"><button id="play-figure" type="button">The figure</button><button id="play-line" type="button">The new line</button><button id="play-setting" type="button">The setting</button></div></div>
+        <div class="bench-row"><span>Hear relations</span><div class="button-row"><button id="play-whole" type="button">Play together</button><button id="stop-audio" class="quiet" type="button">Stop</button></div></div>
+        <div id="audio-status" class="status" role="status" aria-live="polite">Nothing is playing. All sound is synthesized from original note data in this page.</div>
+      </div>
+      <div class="memory-spectrum">
+        <div class="spectrum-card"><strong>Exact present</strong><span>A copied glider-state plus the same fixed rule produces the same continuation.</span></div>
+        <div class="spectrum-card"><strong>Altered context</strong><span>The same musical figure participates in a different audible whole.</span></div>
+        <div class="spectrum-card"><strong>Degraded cue</strong><span>A generative music system could make something newly coherent from only a vague stylistic and emotional trace.</span></div>
+      </div>
+    </div>
+    <p class="notice"><strong>Proposed next encounter, not evidence yet:</strong> compare an original song with a separately generated song prompted only by high-level, non-identifying qualities. Ask what kind of resemblance feels like memory without treating the AI system as a model of the human brain.</p>
+  </section>
+
+  <section id="paper" aria-labelledby="paper-title">
+    <div class="eyebrow">Paper argument · three pressures</div>
+    <h2 id="paper-title">What kind of reality does regeneration make?</h2>
+    <div class="paper-grid">
+      <article class="paper-card"><h3>Dennett: the pattern is real</h3><p>“Glider” is a useful higher-level description because it compresses cellular activity and supports prediction. A pattern need not be an additional material object in order to earn explanatory reality.</p></article>
+      <article class="paper-card"><h3>Barenholtz: the content is made now</h3><p>What appears to be retrieval may be context-sensitive generation shaped by learned parameters. Stability could consist in reliably producing related continuations, not reopening the same stored representation.</p></article>
+      <article class="paper-card"><h3>Generative-memory research: keep constraints</h3><p>Generative reconstruction need not mean that nothing is encoded. Models such as Spens and Burgess retain hippocampal encoding and replay while explaining how schemas reconstruct predictable structure.</p></article>
+    </div>
+    <div class="claim-line"><strong>V3’s provisional claim:</strong> the glider suggests that continuity can be real without being transported or stored as a completed whole. It gives us a way to imagine Barenholtz’s proposal, not evidence that minds implement Conway-like rules or contain no memory traces.</div>
+  </section>
+
+  <section id="sources" aria-labelledby="sources-title">
+    <div class="eyebrow">A short shelf</div><h2 id="sources-title">Sources that separate the claims</h2>
+    <ul class="source-list">
+      <li><a href="https://dl.tufts.edu/concern/pdfs/wp988x11s"><strong>Daniel Dennett, “Real Patterns” (1991)</strong></a> — why gliders and beliefs may be real as compressive, predictive patterns.</li>
+      <li><a href="https://elanbarenholtz.substack.com/p/is-memory-real"><strong>Elan Barenholtz, “Memory Isn’t Real (Part 1)” (2025)</strong></a> — the accessible statement of memory as just-in-time generation rather than retrieval of a finished representation.</li>
+      <li><a href="https://elanbarenholtz.substack.com/p/memory-isnt-real-part-2"><strong>Barenholtz, “Memory Isn’t Real (Part 2)” (2025)</strong></a> — function, feedback, and the claim that an extended sequence need not be stored in advance.</li>
+      <li><a href="https://elanbarenholtz.substack.com/p/autogeneration-the-hidden-property"><strong>Barenholtz, “Autogeneration” (2025)</strong></a> — the stronger proposal that a continuation function can be recovered from a domain’s internal statistical structure.</li>
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10963272/"><strong>Eleanor Spens and Neil Burgess, “A generative model of memory construction and consolidation” (2024)</strong></a> — an open, peer-reviewed model combining generative reconstruction with encoding and replay.</li>
+    </ul>
+  </section>
+
+  <nav class="version-nav" aria-label="Version links"><a href="../">← Session 9 V1: accumulation</a><a href="../revised/">Session 9 V2: contraction</a><a href="../../">Instructor Study home</a></nav>
+  <footer>What Makes Something One Thing? · Session 9 V3 · No accounts, analytics, uploads, recordings, or stored reader data. The music uses original browser synthesis and no copyrighted recording, lyric, or melody.</footer>
+</article></main>
+
+<script>
+(() => {
+  "use strict";
+  const q=(selector,root=document)=>root.querySelector(selector), qa=(selector,root=document)=>[...root.querySelectorAll(selector)];
+  const SIZE=13, START=[[2,1],[3,2],[1,3],[2,3],[3,3]], key=(x,y)=>`${x},${y}`, parse=(k)=>k.split(",").map(Number), toSet=(cells)=>new Set(cells.map(([x,y])=>key(x,y)));
+  let life=toSet(START), previous=null, trail=new Set(life), born=new Set(), damaged=new Set(), generation=0, board="Original", timer=null;
+  function step(state){const next=new Set();for(let y=0;y<SIZE;y+=1)for(let x=0;x<SIZE;x+=1){let n=0;for(let dy=-1;dy<=1;dy+=1)for(let dx=-1;dx<=1;dx+=1)if((dx||dy)&&state.has(key(x+dx,y+dy)))n+=1;const alive=state.has(key(x,y));if(n===3||(alive&&n===2))next.add(key(x,y));}return next;}
+  function render(){const grid=q("#life-grid");grid.innerHTML="";for(let y=0;y<SIZE;y+=1)for(let x=0;x<SIZE;x+=1){const k=key(x,y),cell=document.createElement("span");cell.className="life-cell"+(trail.has(k)?" trail":"")+(life.has(k)?" alive":"")+(born.has(k)?" born":"")+(damaged.has(k)?" damaged":"");cell.setAttribute("aria-hidden","true");grid.appendChild(cell);}q("#life-generation").textContent=String(generation);q("#life-board").textContent=board;}
+  function advance(message=true){previous=new Set(life);const next=step(life);born=new Set([...next].filter(k=>!life.has(k)));life=next;generation+=1;life.forEach(k=>trail.add(k));damaged.clear();render();if(message){const survived=[...previous].filter(k=>life.has(k)).length;q("#life-status").innerHTML=`<strong>${survived} cells survived; ${born.size} appeared.</strong> The material changed. Does the same glider continue?`;}}
+  function stopRun(){if(timer){clearInterval(timer);timer=null;}q("#life-run").setAttribute("aria-pressed","false");q("#life-run").textContent="Run";}
+  function normalize(state){const cells=[...state].map(parse),minX=Math.min(...cells.map(c=>c[0])),minY=Math.min(...cells.map(c=>c[1]));return toSet(cells.map(([x,y])=>[x-minX+2,y-minY+2]));}
+  q("#life-step").addEventListener("click",()=>{stopRun();advance();});
+  q("#life-run").addEventListener("click",()=>{if(timer){stopRun();q("#life-status").textContent="Paused. The current output is now the complete input for whatever happens next.";return;}q("#life-run").setAttribute("aria-pressed","true");q("#life-run").textContent="Pause";timer=setInterval(()=>{if(!life.size||generation>=30){stopRun();return;}advance(false);q("#life-status").textContent="Each output is becoming the next input. The pale trail records participation, not motion.";},430);});
+  q("#life-copy").addEventListener("click",()=>{stopRun();if(!life.size){q("#life-status").textContent="There is no living configuration to copy. Reset and try again.";return;}life=normalize(life);previous=null;trail=new Set(life);born=new Set();damaged=new Set();generation=0;board="Fresh copy";q("#life-status").innerHTML="<strong>Only the present configuration was copied.</strong> Its path and earlier boards are gone. Advance it: is that enough history for the glider to continue?";render();});
+  q("#life-damage").addEventListener("click",()=>{stopRun();if(!life.size)return;const victim=[...life].sort()[0];life.delete(victim);damaged=new Set([victim]);born.clear();q("#life-status").innerHTML="<strong>One part of the present constraint was removed.</strong> Advance and see whether the familiar continuation survives.";render();});
+  q("#life-reset").addEventListener("click",()=>{stopRun();life=toSet(START);previous=null;trail=new Set(life);born=new Set();damaged=new Set();generation=0;board="Original";q("#life-status").textContent="Advance once. Look for cells that disappear while the glider continues.";render();});render();
+  const answers={cells:"The cells realize the glider now, but they cannot by themselves explain its persistence: after one step, only some remain.",rule:"The rule supplies the transition, but it contains no special instruction named “glider.” Countless other worlds unfold under the same rule.",sequence:"This locates identity in a temporally extended relation. But the whole sequence never exists on the board at once; it is available only by being generated.",prediction:"Dennett’s answer: the glider earns reality because the higher-level description compresses the cell history and lets us anticipate what comes next."};
+  qa(".where").forEach(button=>button.addEventListener("click",()=>{q("#where-answer").textContent=answers[button.dataset.answer];}));
+
+  const TEMPO=72,UNIT=60/TEMPO/2,MIDI={C3:48,E3:52,F3:53,G3:55,A3:57,C4:60,D4:62,E4:64,F4:65,G4:67,A4:69,C5:72},EVENTS=[];
+  ["C3","G3","C4","E4","G4","E4","C4","G3","F3","C4","F4","A4","C5","A4","F4","C4"].forEach((p,t)=>EVENTS.push({layer:"figure",p,t,d:1}));
+  ["C4","D4","E4","D4","C4","D4","F4","E4"].forEach((p,i)=>EVENTS.push({layer:"line",p,t:i*2,d:2}));
+  [["C3","E3","G3"],["F3","A3","C4"]].forEach((chord,bar)=>chord.forEach(p=>EVENTS.push({layer:"setting",p,t:bar*8,d:8})));
+  const audio={ctx:null,master:null,sources:[]};function stopAudio(message){audio.sources.forEach(source=>{try{source.stop();}catch(error){}});audio.sources=[];if(message)q("#audio-status").textContent=message;}
+  function ensureAudio(){if(!audio.ctx){const Ctor=window.AudioContext||window.webkitAudioContext;audio.ctx=new Ctor();audio.master=audio.ctx.createGain();audio.master.gain.value=.65;audio.master.connect(audio.ctx.destination);}if(audio.ctx.state==="suspended")audio.ctx.resume();return audio.ctx;}
+  function play(layers,label){stopAudio();const ctx=ensureAudio(),t0=ctx.currentTime+.08;EVENTS.filter(e=>layers.includes(e.layer)).forEach(e=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),start=t0+e.t*UNIT,end=start+e.d*UNIT;osc.type=e.layer==="setting"?"sine":e.layer==="line"?"triangle":"triangle";osc.frequency.value=440*Math.pow(2,(MIDI[e.p]-69)/12);osc.connect(gain);gain.connect(audio.master);gain.gain.setValueAtTime(0,start);gain.gain.linearRampToValueAtTime(e.layer==="setting"?.06:.11,start+.03);gain.gain.setValueAtTime(e.layer==="setting"?.06:.11,Math.max(start+.04,end-.08));gain.gain.linearRampToValueAtTime(.0001,end+.08);osc.start(start);osc.stop(end+.1);audio.sources.push(osc);});q("#audio-status").innerHTML=`<strong>Playing ${label}.</strong> Notice what the context makes the repeated notes become.`;}
+  q("#play-figure").addEventListener("click",()=>play(["figure"],"the figure alone"));q("#play-line").addEventListener("click",()=>play(["line"],"the new line alone"));q("#play-setting").addEventListener("click",()=>play(["setting"],"the harmonic setting alone"));q("#play-whole").addEventListener("click",()=>play(["figure","line","setting"],"all three relations together"));q("#stop-audio").addEventListener("click",()=>stopAudio("Stopped. Nothing is playing."));addEventListener("pagehide",()=>{stopRun();stopAudio();},{once:true});
+  function canonical(state){const cells=[...state].map(parse),minX=Math.min(...cells.map(c=>c[0])),minY=Math.min(...cells.map(c=>c[1]));return cells.map(([x,y])=>`${x-minX},${y-minY}`).sort().join("|");}
+  function selftest(){const g0=toSet(START),g1=step(g0),g2=step(g1),copied=normalize(g1),copyContinues=canonical(step(copied))===canonical(g2),trailGrows=new Set([...g0,...g1]).size>g1.size,damagedState=new Set(g0);damagedState.delete([...damagedState].sort()[0]);const damageChanges=canonical(step(damagedState))!==canonical(g1),layers={figure:EVENTS.filter(e=>e.layer==="figure").length,line:EVENTS.filter(e=>e.layer==="line").length,setting:EVENTS.filter(e=>e.layer==="setting").length},musicOk=layers.figure===16&&layers.line===8&&layers.setting===6&&EVENTS.every(e=>Number.isFinite(MIDI[e.p]))&&!document.querySelector("audio,video");return{pass:g1.size===5&&g2.size===5&&copyContinues&&trailGrows&&damageChanges&&musicOk,life:{g1:g1.size,g2:g2.size,copyContinues,trailGrows,damageChanges},music:{layers,musicOk}};}
+  const startup=selftest();document.documentElement.dataset.selftest=startup.pass?"pass":"fail";window.S9V3={selftest,reset:()=>location.reload()};
+})();
+</script>
+</body>
+</html>
