@@ -2,24 +2,24 @@
 
 Session 9 now has five public versions. V1 accumulates, V2 deliberately subtracts, V3 expands one
 connection that became visible only after the subtraction, V4 turns the Life computation itself
-into music, and V5 makes the musical mapping an explicit Cage/Life experiment.
+into music, and V5 makes the instrument usable for multitrack composition and export.
 
 ## Current revision
 
 - `revised-4/index.html` — **Who Composes the Glider?**, Session 9 V5.
 - Stable route: `/session-09/revised-4/`.
-- Preserves V4's direct row-to-pitch map as the control condition.
-- Adds a repeatable sixteen-generation modulation wave so a traveling glider can rise and fall.
-- Adds a prepared-chance mode: one bounded chance operation chooses sixteen pitch offsets, which
-  then repeat until the reader explicitly prepares another score.
-- Keeps the Life state independent from the musical mapping, allowing the same recent history to be
-  rescored without changing B3/S23.
-- Adds an original source-linked essay comparing the distribution of authorship and contingency in
-  Life, sonification, and selected Cage electronic works.
-- Links to Cage's own autobiographical statement and `The Future of Music: Credo`, the John Cage
-  Trust, the Percussive Arts Society, and the University of Illinois `HPSCHD` archive.
-- States the limit directly: this bounded browser synthesizer neither imitates Cage's style nor
-  reproduces his I Ching practice.
+- Preserves V4's direct row-to-pitch instrument as a live seed editor and control condition.
+- Arranges up to six independent Life voices with editable entries, generation lengths, tempo,
+  mapping, pitch process, register, scale, oscillator, transpose, level, pan, and stereo width.
+- Includes a reproducible chance-prepared voice generator and a three-voice demonstration score.
+- Previews the complete arrangement in real time and renders a 44.1 kHz, 16-bit stereo WAV locally.
+- Exports a ZIP score package containing the WAV, reusable JSON project, and human-readable Markdown
+  ledger with every starting cell and musical decision; JSON projects can be reopened in the app.
+- Adds an original source-linked paper on authorship, rules, contingency, performance, and listening
+  through John Cage, Earle Brown, Iannis Xenakis, George E. Lewis, and Pauline Oliveros.
+- States the limit directly: the system does not imitate those musicians or reproduce Cage's I Ching
+  practice, Brown's performers, Xenakis's stochastic masses, Lewis's improvising software, or the
+  embodied and social practice of Deep Listening.
 
 Run `S9V5.selftest()` in the browser console. Expected: `pass: true`.
 
