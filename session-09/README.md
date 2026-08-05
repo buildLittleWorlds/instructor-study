@@ -1,9 +1,29 @@
 # Session 9 Instructor Paper-App
 
-Session 9 now has three public versions. V1 accumulates, V2 deliberately subtracts, and V3 expands
-one connection that became visible only after the subtraction.
+Session 9 now has four public versions. V1 accumulates, V2 deliberately subtracts, V3 expands one
+connection that became visible only after the subtraction, and V4 makes a structural revision by
+turning the Life computation itself into music.
 
 ## Current revision
+
+- `revised-3/index.html` — **Hear the Pattern Travel**, Session 9 V4.
+- Stable route: `/session-09/revised-3/`.
+- Replaces separate Life and music cases with one cellular instrument: every computed generation
+  becomes one synthesized musical event.
+- Maps cell row to minor-pentatonic pitch, column to stereo position, birth to a bright upper
+  attack, and death to a low pulse.
+- Offers glider, blinker, pulsar, and R-pentomino seeds plus a click-to-draw custom board.
+- Lets the reader switch between absolute board coordinates and translation-invariant pattern
+  coordinates, then replay the same recent history under either mapping.
+- Draws the accumulating score beside the live board and keeps the mapping choices inspectable.
+- Labels the sonification as authored rather than treating the generated music as inherent in Life.
+
+The V4 boundary distinguishes the B3/S23 states actually computed, the musical mapping designed for
+the encounter, and the listener's still-open judgment about continuity.
+
+Run `S9V4.selftest()` in the browser console. Expected: `pass: true`.
+
+## Selective expansion revision
 
 - `revised-2/index.html` — **Nothing Moves. Something Travels.**, Session 9 V3.
 - Stable route: `/session-09/revised-2/`.

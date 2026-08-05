@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hear the Pattern Travel — Instructor Study Session 9 V4</title>
+<script defer src="../../studio-nav.js" data-site="study"></script>
+<style>
+  :root{
+    --night:#070814;--night-2:#101127;--panel:#14162d;--panel-2:#1b1e39;--ink:#f6f2e8;--muted:#aaaac2;
+    --line:#343753;--cyan:#65e7de;--cyan-soft:#173b3d;--gold:#ffc85f;--rose:#ff708c;--violet:#a995ff;
+    --paper:#f5f0e6;--paper-ink:#20212a;--paper-muted:#62636d;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;background:var(--night)}
+  body{margin:0;background:radial-gradient(circle at 78% 8%,#20204a 0,transparent 27rem),radial-gradient(circle at 15% 42%,#0f3540 0,transparent 32rem),var(--night);color:var(--ink);font:1.04rem/1.65 Georgia,"Times New Roman",serif}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background-image:linear-gradient(rgba(101,231,222,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(101,231,222,.12) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 70%)}
+  button,input{font:inherit} a{color:var(--cyan)}
+  main{position:relative;width:min(84rem,calc(100% - 2rem));margin:0 auto;padding:3.4rem 0 5rem}
+  header{max-width:76rem;padding-bottom:2.6rem}
+  h1{max-width:12ch;margin:.3rem 0 1rem;font-size:clamp(3.8rem,9vw,8.4rem);line-height:.84;letter-spacing:-.072em}
+  h2{margin:.15rem 0 .65rem;font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.02;letter-spacing:-.035em}
+  h3{margin:.2rem 0 .5rem;line-height:1.18} p{margin:.5rem 0 1rem}
+  section{margin-top:5.2rem;scroll-margin-top:5rem}
+  .kicker,.eyebrow,.version-note,.route,.thesis,.lab,.status,.readouts,.pattern-picker,.mapping-picker,.mapping-key,.score-caption,.experiment-grid,.boundary,.source-list,.version-nav,footer{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .kicker,.eyebrow{color:var(--cyan);font-size:.76rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+  .deck{max-width:52ch;color:#c8c6d7;font-size:1.35rem}
+  .version-note{max-width:68rem;margin-top:1.5rem;padding:1rem 1.15rem;border-left:4px solid var(--gold);background:rgba(255,200,95,.09);color:#d7d4e2}
+  .route{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.25rem}.route a{padding:.5rem .8rem;border:1px solid var(--line);border-radius:999px;background:rgba(20,22,45,.75);font-size:.82rem;font-weight:850;text-decoration:none}
+  .thesis{display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:center;max-width:72rem;margin-top:2.5rem;padding:1.3rem 1.5rem;border:1px solid rgba(101,231,222,.45);border-radius:18px;background:linear-gradient(135deg,rgba(23,59,61,.88),rgba(20,22,45,.88))}
+  .thesis .pulse{display:grid;place-items:center;width:4.2rem;height:4.2rem;border:1px solid var(--cyan);border-radius:50%;color:var(--cyan);font:900 1.7rem/1 system-ui,sans-serif;box-shadow:0 0 35px rgba(101,231,222,.25)}
+  .thesis strong{display:block;font-size:clamp(1.25rem,2.5vw,1.8rem)}.thesis span{color:var(--muted)}
+  .lab{overflow:hidden;border:1px solid var(--line);border-radius:26px;background:rgba(11,12,27,.9);box-shadow:0 30px 90px rgba(0,0,0,.42)}
+  .lab-top{padding:1.2rem 1.3rem;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(101,231,222,.08),rgba(169,149,255,.08))}
+  .pattern-picker,.mapping-picker{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}.pattern-picker+.mapping-picker{margin-top:.7rem}.control-label{margin-right:.25rem;color:var(--muted);font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+  button{min-height:2.55rem;padding:.55rem .78rem;border:1px solid #484c70;border-radius:9px;background:#171a34;color:var(--ink);font-weight:780;cursor:pointer}
+  button:hover,button:focus-visible{border-color:var(--cyan);background:var(--cyan-soft);outline:3px solid rgba(101,231,222,.18)}
+  button[aria-pressed="true"],button.selected{border-color:var(--cyan);background:var(--cyan);color:#071716}
+  button.primary{border-color:var(--gold);background:var(--gold);color:#251b05}button.quiet{color:var(--muted)}button.stop{border-color:#8a4d63;color:#ffc0cd}
+  .stage{display:grid;grid-template-columns:minmax(22rem,.95fr) minmax(28rem,1.25fr);gap:1px;background:var(--line)}
+  .board-panel,.score-panel{min-width:0;padding:clamp(1rem,2.5vw,1.5rem);background:var(--night-2)}
+  .panel-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:.8rem}.panel-head h3{margin:0;font-size:1.15rem}.panel-head span{color:var(--muted);font-size:.75rem}
+  .life-grid{display:grid;grid-template-columns:repeat(17,1fr);aspect-ratio:1;gap:2px;padding:6px;border:1px solid #3b3f5c;border-radius:16px;background:#090a18}
+  .life-cell{min-height:0;padding:0;border:0;border-radius:3px;background:#1b1e34;aspect-ratio:1;box-shadow:none;transition:background .12s ease,box-shadow .12s ease,transform .12s ease}
+  .life-cell:hover,.life-cell:focus-visible{z-index:2;outline:1px solid var(--cyan);transform:scale(1.18)}
+  .life-cell.trail{background:#262546}.life-cell.alive{background:var(--cyan);box-shadow:0 0 10px rgba(101,231,222,.55)}.life-cell.born{background:var(--gold);box-shadow:0 0 13px rgba(255,200,95,.7)}.life-cell.dead{background:var(--rose);box-shadow:0 0 9px rgba(255,112,140,.55)}
+  .readouts{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-top:.65rem}.readout{padding:.55rem .62rem;border-radius:9px;background:#191b33}.readout span{display:block;color:var(--muted);font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}.readout strong{font-size:1.1rem;font-variant-numeric:tabular-nums}
+  .score-wrap{position:relative;overflow:hidden;border:1px solid #3b3f5c;border-radius:16px;background:#090a18}.score-wrap::after{content:"past generations →";position:absolute;right:.7rem;top:.45rem;color:#6e708e;font:700 .62rem system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;pointer-events:none}
+  #score-canvas{display:block;width:100%;height:clamp(18rem,38vw,28rem)}
+  .score-caption{display:flex;justify-content:space-between;gap:.8rem;margin-top:.55rem;color:var(--muted);font-size:.72rem}.score-caption strong{color:var(--cyan)}
+  .mapping-key{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-top:.75rem}.map-item{padding:.6rem;border:1px solid #2d304b;border-radius:9px;color:var(--muted);font-size:.7rem}.map-item strong{display:block;color:var(--ink);font-size:.74rem}
+  .transport{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;padding:1.15rem 1.3rem;border-top:1px solid var(--line);background:#101229}.button-row{display:flex;flex-wrap:wrap;gap:.5rem}.tempo{display:flex;align-items:center;gap:.65rem;color:var(--muted);font-size:.76rem;font-weight:800}.tempo input{width:10rem;accent-color:var(--cyan)}.tempo output{min-width:3.5rem;color:var(--ink);font-variant-numeric:tabular-nums}
+  .status{margin:0;padding:.85rem 1.3rem;border-top:1px solid var(--line);background:#0c0e20;color:#c5c4d6;font-size:.83rem}.status strong{color:var(--gold)}
+  .mapping-explainer{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:1rem}.mapping-explainer article{padding:1.1rem;border:1px solid var(--line);border-radius:14px;background:rgba(20,22,45,.75)}.mapping-explainer article:last-child{border-color:#655c91}.mapping-explainer p{margin:.3rem 0;color:var(--muted);font-size:.92rem}
+  .experiment-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}.experiment{padding:1.05rem;border:1px solid var(--line);border-top:4px solid var(--cyan);border-radius:14px;background:rgba(20,22,45,.8)}.experiment:nth-child(2){border-top-color:var(--gold)}.experiment:nth-child(3){border-top-color:var(--violet)}.experiment:nth-child(4){border-top-color:var(--rose)}.experiment p{color:var(--muted);font-size:.88rem}.experiment b{color:var(--cyan)}
+  .paper{margin-inline:calc(50% - 50vw);padding:4.5rem max(1rem,calc((100vw - 76rem)/2));background:var(--paper);color:var(--paper-ink)}.paper .eyebrow{color:#2f6f5e}.paper p{max-width:72ch}.paper .lead{font-size:1.2rem}.paper a{color:#214f44}
+  .boundary{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1.2rem}.boundary div{padding:1rem;border-radius:12px;font-size:.84rem}.boundary strong{display:block;margin-bottom:.25rem}.computed{background:#dff1eb}.authored{background:#e8e4f4}.open{background:#fff0cf}
+  .source-list{max-width:72rem;margin:1.2rem 0 0;padding:0;list-style:none}.source-list li{margin:.65rem 0;padding:.9rem 1rem;border-left:4px solid #315f91;background:white;font-size:.9rem}
+  .version-nav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.7rem;margin-top:3rem;padding-top:1rem;border-top:1px solid #d4cfc4;font-size:.84rem}.version-nav a{color:#214f44}
+  footer{margin-top:2.2rem;color:var(--paper-muted);font-size:.8rem}
+  @media(max-width:940px){.stage{grid-template-columns:1fr}.experiment-grid{grid-template-columns:1fr 1fr}.transport{grid-template-columns:1fr}.tempo{justify-content:flex-start}}
+  @media(max-width:660px){main{width:min(100% - 1rem,84rem);padding-top:2rem}h1{font-size:clamp(3.5rem,18vw,5.4rem)}.thesis{grid-template-columns:1fr}.thesis .pulse{width:3.4rem;height:3.4rem}.board-panel,.score-panel{padding:.75rem}.life-grid{gap:1px;padding:4px}.readouts,.mapping-key{grid-template-columns:1fr 1fr}.mapping-explainer,.boundary,.experiment-grid{grid-template-columns:1fr}.score-caption{display:block}.score-caption span{display:block}.tempo{align-items:flex-start;flex-direction:column}.tempo input{width:100%}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.life-cell{transition:none}}
+</style>
+</head>
+<body>
+<main><article>
+  <header>
+    <div class="kicker">Instructor Study · Session 9 · V4 · Live sonification</div>
+    <h1>Hear the pattern travel.</h1>
+    <p class="deck">The board is no longer one example and the music another. Every generation becomes a chord. The same living pattern is calculated, seen, and heard.</p>
+    <div class="version-note"><strong>This revision changes the structure.</strong> V3 placed a Game of Life encounter beside an original music encounter. V4 removes that separation: Conway’s computation now writes the score in real time. V3 remains intact and linked below.</div>
+    <nav class="route" aria-label="Page route"><a href="#instrument">Play the living score</a><a href="#experiments">Compare four patterns</a><a href="#claim">Read the boundary</a></nav>
+    <div class="thesis"><div class="pulse" aria-hidden="true">♪</div><div><strong>One state. Two senses.</strong><span>A cell’s row becomes pitch. Its column becomes stereo position. Birth changes the attack. Death makes a low pulse. The next generation writes the next beat.</span></div></div>
+  </header>
+
+  <section id="instrument" aria-labelledby="instrument-title">
+    <div class="eyebrow">The encounter · a cellular instrument</div>
+    <h2 id="instrument-title">Choose a life. Listen to its way of continuing.</h2>
+    <p class="deck">Start with a glider, then load a periodic or unstable seed. You can also pause and click the board to compose a custom organism. Sound begins only after your action.</p>
+
+    <div class="lab">
+      <div class="lab-top">
+        <div class="pattern-picker" aria-label="Starting patterns"><span class="control-label">Seed</span><button class="preset selected" data-preset="glider" type="button" aria-pressed="true">Glider</button><button class="preset" data-preset="blinker" type="button" aria-pressed="false">Blinker</button><button class="preset" data-preset="pulsar" type="button" aria-pressed="false">Pulsar</button><button class="preset" data-preset="rpentomino" type="button" aria-pressed="false">R-pentomino</button><button id="clear-board" class="quiet" type="button">Clear to draw</button></div>
+        <div class="mapping-picker" aria-label="Listening coordinate system"><span class="control-label">Listen to</span><button class="mode selected" data-mode="board" type="button" aria-pressed="true">The board</button><button class="mode" data-mode="shape" type="button" aria-pressed="false">The pattern</button></div>
+      </div>
+
+      <div class="stage">
+        <div class="board-panel">
+          <div class="panel-head"><h3 id="board-name">Glider · board coordinates</h3><span>Click cells while paused</span></div>
+          <div id="life-grid" class="life-grid" role="grid" aria-label="Editable seventeen by seventeen Game of Life board"></div>
+          <div class="readouts" aria-label="Current Life measurements"><div class="readout"><span>Generation</span><strong id="generation">0</strong></div><div class="readout"><span>Population</span><strong id="population">5</strong></div><div class="readout"><span>Births</span><strong id="births">5</strong></div><div class="readout"><span>Deaths</span><strong id="deaths">0</strong></div></div>
+        </div>
+        <div class="score-panel">
+          <div class="panel-head"><h3>The score the cells are writing</h3><span id="history-count">1 generation visible</span></div>
+          <div class="score-wrap"><canvas id="score-canvas" width="900" height="480" role="img" aria-label="A score plot of the visible Game of Life history"></canvas></div>
+          <div class="score-caption"><span><strong>high pitch</strong> at the top · low pitch at the bottom</span><span>horizontal spread within each beat shows stereo position</span></div>
+          <div class="mapping-key" aria-label="Sonification key"><div class="map-item"><strong>Row → pitch</strong>Minor-pentatonic steps</div><div class="map-item"><strong>Column → space</strong>Left-to-right stereo</div><div class="map-item"><strong>Birth → light</strong>Bright upper attack</div><div class="map-item"><strong>Death → weight</strong>Low percussive pulse</div></div>
+        </div>
+      </div>
+
+      <div class="transport">
+        <div class="button-row"><button id="play" class="primary" type="button" aria-pressed="false">Play evolution</button><button id="step" type="button">One sounding step</button><button id="replay" type="button">Replay recent score</button><button id="reset" class="quiet" type="button">Reset seed</button><button id="stop" class="stop" type="button">Stop sound</button></div>
+        <label class="tempo" for="tempo">Time between generations <input id="tempo" type="range" min="180" max="900" step="30" value="480"><output id="tempo-output" for="tempo">480 ms</output></label>
+      </div>
+      <div id="status" class="status" aria-live="polite"><strong>Ready.</strong> Choose a seed or press Play evolution. Headphones make the left-to-right motion easier to hear.</div>
+    </div>
+
+    <div class="mapping-explainer">
+      <article><div class="eyebrow">Hear the board</div><h3>Location becomes part of the music</h3><p>A glider moving down and right moves through pitch and stereo space. The audible change records where the cells are on the fixed board.</p></article>
+      <article><div class="eyebrow">Hear the pattern</div><h3>Translation is deliberately ignored</h3><p>The living cells are recentered before they are mapped. A translated glider keeps the same four-phase musical cycle. Switch modes and replay the same recent states to hear what the normalization removes.</p></article>
+    </div>
+  </section>
+
+  <section id="experiments" aria-labelledby="experiments-title">
+    <div class="eyebrow">Four seeds · four audible continuations</div>
+    <h2 id="experiments-title">Do different forms leave different musical fingerprints?</h2>
+    <div class="experiment-grid">
+      <article class="experiment"><h3>Glider</h3><p>Five cells repeat a four-generation shape cycle while translating diagonally. In board mode, expect drift through pitch and stereo space; in pattern mode, expect a recurring phrase.</p><b>Persistence through travel</b></article>
+      <article class="experiment"><h3>Blinker</h3><p>Three cells alternate between horizontal and vertical states. Its score should flip between two compact sonorities without going anywhere.</p><b>Period without travel</b></article>
+      <article class="experiment"><h3>Pulsar</h3><p>Forty-eight cells cycle through three large symmetric states. Occupied pitch rows contract and expand as a dense, repeating chordal body.</p><b>Symmetry at scale</b></article>
+      <article class="experiment"><h3>R-pentomino</h3><p>Five cells quickly generate a much less predictable history. Its score becomes denser because the Life computation becomes denser—not because a composed melody was retrieved.</p><b>Growth without a refrain</b></article>
+    </div>
+  </section>
+
+  <section id="claim" class="paper" aria-labelledby="claim-title">
+    <div class="eyebrow">The paper move · what the experiment changes</div>
+    <h2 id="claim-title">The music is not inside the glider.</h2>
+    <p class="lead">This app performs a <em>sonification</em>: it turns selected features of data into sound through an explicit, authored mapping. A glider has no natural pitch, instrument, or rhythm. Row could have controlled timbre instead of pitch; column could have controlled duration instead of stereo position. Another mapping would make another music.</p>
+    <p>That contingency is not a defect. It creates a second individuation experiment. <strong>Hear the board</strong> treats absolute location as meaningful. <strong>Hear the pattern</strong> removes translation and treats internal relation as meaningful. Both use the same cellular history. What changes is the level at which the history is described.</p>
+    <p>Dennett’s account of real patterns helps name the wager: a higher-level description earns its place when it compresses events and supports prediction. The repeated glider phrase does not prove that the glider is an additional object or that cognition works like Life. It lets the reader hear what becomes stable when one kind of variation is ignored.</p>
+    <div class="boundary">
+      <div class="computed"><strong>Computed here</strong>B3/S23 produces every displayed generation. The score is derived from those live-cell coordinates, births, and deaths.</div>
+      <div class="authored"><strong>Designed here</strong>The pitch scale, stereo mapping, timbres, tempo, and normalization are interpretive choices made for this encounter.</div>
+      <div class="open"><strong>Still open</strong>Whether a listener hears one continuing musical identity—and what that judgment could tell us about identity beyond this app.</div>
+    </div>
+    <ul class="source-list">
+      <li><a href="https://dl.tufts.edu/concern/pdfs/wp988x11s"><strong>Daniel Dennett, “Real Patterns” (1991)</strong></a> — the glider as a compressive and predictive higher-level pattern.</li>
+      <li><a href="https://elanbarenholtz.substack.com/p/is-memory-real"><strong>Elan Barenholtz, “Memory Isn’t Real (Part 1)” (2025)</strong></a> — the proposal that stability may consist in constrained generation rather than retrieval of a completed stored representation.</li>
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10963272/"><strong>Eleanor Spens and Neil Burgess, “A generative model of memory construction and consolidation” (2024)</strong></a> — counterpressure against treating generative reconstruction as evidence that encoding and replay do not matter.</li>
+    </ul>
+    <nav class="version-nav" aria-label="Version links"><a href="../revised-2/">← Session 9 V3: Nothing Moves</a><a href="../revised/">Session 9 V2: Generated Again</a><a href="../">Session 9 V1: accumulation</a><a href="../../">Instructor Study home</a></nav>
+    <footer>What Makes Something One Thing? · Session 9 V4 · No accounts, analytics, uploads, recordings, saved scores, or stored reader data. All sound is synthesized locally after a reader action.</footer>
+  </section>
+</article></main>
+
+<script>
+(() => {
+  "use strict";
+  const q=(selector,root=document)=>root.querySelector(selector), qa=(selector,root=document)=>[...root.querySelectorAll(selector)];
+  const SIZE=17, key=(x,y)=>`${x},${y}`, parse=k=>k.split(",").map(Number), toSet=cells=>new Set(cells.map(([x,y])=>key(x,y)));
+  const pulsar=()=>{const cells=[];[2,7,9,14].forEach(y=>[4,5,6,10,11,12].forEach(x=>cells.push([x,y])));[2,7,9,14].forEach(x=>[4,5,6,10,11,12].forEach(y=>cells.push([x,y])));return cells;};
+  const PRESETS={
+    glider:{label:"Glider",cells:[[3,2],[4,3],[2,4],[3,4],[4,4]]},
+    blinker:{label:"Blinker",cells:[[7,8],[8,8],[9,8]]},
+    pulsar:{label:"Pulsar",cells:pulsar()},
+    rpentomino:{label:"R-pentomino",cells:[[8,7],[9,7],[7,8],[8,8],[8,9]]}
+  };
+  const clone=s=>new Set(s), same=(a,b)=>a.size===b.size&&[...a].every(item=>b.has(item));
+  function stepLife(state){const next=new Set();for(let y=0;y<SIZE;y+=1)for(let x=0;x<SIZE;x+=1){let neighbors=0;for(let dy=-1;dy<=1;dy+=1)for(let dx=-1;dx<=1;dx+=1)if((dx||dy)&&state.has(key(x+dx,y+dy)))neighbors+=1;const alive=state.has(key(x,y));if(neighbors===3||(alive&&neighbors===2))next.add(key(x,y));}return next;}
+  function bounds(state){const cells=[...state].map(parse);if(!cells.length)return{minX:0,maxX:0,minY:0,maxY:0,width:1,height:1};const xs=cells.map(c=>c[0]),ys=cells.map(c=>c[1]),minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);return{minX,maxX,minY,maxY,width:maxX-minX+1,height:maxY-minY+1};}
+  function mapCell(cell,state,listenMode=mode){const [x,y]=Array.isArray(cell)?cell:parse(cell);if(listenMode==="board")return{pitch:SIZE-1-y,pan:(x/(SIZE-1))*2-1};const box=bounds(state),relX=x-box.minX,relY=y-box.minY;return{pitch:Math.max(0,Math.min(SIZE-1,Math.round((SIZE-1)/2+(box.height-1)/2-relY))),pan:box.width===1?0:(relX/(box.width-1))*2-1};}
+  function frame(){return{life:clone(life),born:clone(born),dead:clone(dead),generation};}
+
+  let preset="glider",life=toSet(PRESETS.glider.cells),born=clone(life),dead=new Set(),trail=clone(life),generation=0,mode="board",timer=null,replayTimer=null,history=[];
+  const audio={ctx:null,master:null,compressor:null,sources:new Set()};
+  function ensureAudio(){if(!audio.ctx){const Ctor=window.AudioContext||window.webkitAudioContext;if(!Ctor)throw new Error("Web Audio is not supported in this browser.");audio.ctx=new Ctor();audio.master=audio.ctx.createGain();audio.master.gain.value=.72;audio.compressor=audio.ctx.createDynamicsCompressor();audio.compressor.threshold.value=-20;audio.compressor.knee.value=18;audio.compressor.ratio.value=6;audio.compressor.attack.value=.01;audio.compressor.release.value=.24;audio.master.connect(audio.compressor);audio.compressor.connect(audio.ctx.destination);}if(audio.ctx.state==="suspended")audio.ctx.resume();return audio.ctx;}
+  function trackSource(source){audio.sources.add(source);source.addEventListener("ended",()=>audio.sources.delete(source),{once:true});}
+  function stopSources(){audio.sources.forEach(source=>{try{source.stop();}catch(error){}});audio.sources.clear();}
+  function connectPan(node,pan,ctx){if(ctx.createStereoPanner){const panner=ctx.createStereoPanner();panner.pan.value=Math.max(-1,Math.min(1,pan));node.connect(panner);panner.connect(audio.master);}else node.connect(audio.master);}
+  function midiFor(pitch){const scale=[0,3,5,7,10],degree=Math.max(0,Math.min(SIZE-1,pitch));return 45+Math.floor(degree/5)*12+scale[degree%5];}
+  function voicesFor(f,listenMode=mode){return[...f.life].map(cell=>{const mapped=mapCell(cell,f.life,listenMode);return{pitch:mapped.pitch,pan:mapped.pan,birth:f.born.has(cell)};});}
+  function playFrame(f,when,duration,listenMode=mode){const ctx=ensureAudio(),voices=voicesFor(f,listenMode),voiceScale=1/Math.sqrt(Math.max(1,voices.length));voices.forEach(voice=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),end=when+duration;osc.type=voice.birth?"triangle":"sine";osc.frequency.value=440*Math.pow(2,(midiFor(voice.pitch)-69)/12);gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(Math.max(.0025,.058*voiceScale),when+.025);gain.gain.exponentialRampToValueAtTime(.0001,end);osc.connect(gain);connectPan(gain,voice.pan,ctx);trackSource(osc);osc.start(when);osc.stop(end+.03);if(voice.birth){const shimmer=ctx.createOscillator(),shine=ctx.createGain();shimmer.type="sine";shimmer.frequency.value=osc.frequency.value*2;shine.gain.setValueAtTime(.0001,when);shine.gain.exponentialRampToValueAtTime(.018*voiceScale,when+.012);shine.gain.exponentialRampToValueAtTime(.0001,when+Math.min(.16,duration*.5));shimmer.connect(shine);connectPan(shine,voice.pan,ctx);trackSource(shimmer);shimmer.start(when);shimmer.stop(when+Math.min(.18,duration*.55));}});if(f.dead.size){const thud=ctx.createOscillator(),gain=ctx.createGain();thud.type="sine";thud.frequency.setValueAtTime(82,when);thud.frequency.exponentialRampToValueAtTime(46,when+.12);gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(Math.min(.09,.02+f.dead.size*.006),when+.008);gain.gain.exponentialRampToValueAtTime(.0001,when+.14);thud.connect(gain);gain.connect(audio.master);trackSource(thud);thud.start(when);thud.stop(when+.16);}}
+  function soundCurrent(){try{stopSources();const ctx=ensureAudio();playFrame(frame(),ctx.currentTime+.025,Math.max(.18,Number(q("#tempo").value)/1000*.72));}catch(error){q("#status").innerHTML=`<strong>Sound unavailable.</strong> ${error.message}`;}}
+
+  function appendHistory(){history.push(frame());if(history.length>48)history.shift();}
+  function loadPreset(name,play=true){stopAll(false);preset=name;life=toSet(PRESETS[name].cells);born=clone(life);dead=new Set();trail=clone(life);generation=0;history=[];appendHistory();selectButtons(".preset","preset",name);render();q("#status").innerHTML=`<strong>${PRESETS[name].label} loaded.</strong> Its initial state is sounding once. Press Play evolution to hear its continuation.`;if(play)soundCurrent();}
+  function selectButtons(selector,dataKey,value){qa(selector).forEach(button=>{const selected=button.dataset[dataKey]===value;button.classList.toggle("selected",selected);button.setAttribute("aria-pressed",String(selected));});}
+  function advance(play=true){const previous=clone(life),next=stepLife(life);born=new Set([...next].filter(cell=>!previous.has(cell)));dead=new Set([...previous].filter(cell=>!next.has(cell)));life=next;life.forEach(cell=>trail.add(cell));generation+=1;appendHistory();render();if(play){try{const ctx=ensureAudio();playFrame(frame(),ctx.currentTime+.02,Math.max(.16,Number(q("#tempo").value)/1000*.78));}catch(error){q("#status").innerHTML=`<strong>Sound unavailable.</strong> ${error.message}`;}}if(!life.size){stopAll(false);q("#status").innerHTML="<strong>The pattern became empty.</strong> Its score has ended. Reset or choose another seed.";}}
+  function stopRun(){if(timer){clearInterval(timer);timer=null;}q("#play").setAttribute("aria-pressed","false");q("#play").textContent="Play evolution";}
+  function stopReplay(){if(replayTimer){clearTimeout(replayTimer);replayTimer=null;}}
+  function stopAll(cutSound=true){stopRun();stopReplay();if(cutSound)stopSources();}
+
+  function render(){const grid=q("#life-grid");grid.innerHTML="";for(let y=0;y<SIZE;y+=1)for(let x=0;x<SIZE;x+=1){const cellKey=key(x,y),button=document.createElement("button"),alive=life.has(cellKey);button.type="button";button.className="life-cell"+(trail.has(cellKey)?" trail":"")+(alive?" alive":"")+(born.has(cellKey)?" born":"")+(dead.has(cellKey)?" dead":"");button.setAttribute("role","gridcell");button.setAttribute("aria-label",`row ${y+1}, column ${x+1}, ${alive?"alive":"empty"}`);button.addEventListener("click",()=>editCell(cellKey));grid.appendChild(button);}q("#generation").textContent=String(generation);q("#population").textContent=String(life.size);q("#births").textContent=String(born.size);q("#deaths").textContent=String(dead.size);q("#board-name").textContent=`${preset==="custom"?"Custom seed":PRESETS[preset].label} · ${mode==="board"?"board":"pattern"} coordinates`;q("#history-count").textContent=`${history.length} generation${history.length===1?"":"s"} visible`;drawScore();}
+  function editCell(cellKey){stopAll();preset="custom";life.has(cellKey)?life.delete(cellKey):life.add(cellKey);born=clone(life);dead=new Set();trail=clone(life);generation=0;history=[];appendHistory();qa(".preset").forEach(button=>{button.classList.remove("selected");button.setAttribute("aria-pressed","false");});render();q("#status").innerHTML=`<strong>Custom seed: ${life.size} live cell${life.size===1?"":"s"}.</strong> The edited state is sounding once.`;if(life.size)soundCurrent();}
+
+  function drawScore(){const canvas=q("#score-canvas"),rect=canvas.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1),width=Math.max(320,Math.round(rect.width*dpr)),height=Math.max(260,Math.round(rect.height*dpr));if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}const ctx=canvas.getContext("2d");ctx.clearRect(0,0,width,height);ctx.fillStyle="#090a18";ctx.fillRect(0,0,width,height);const padX=34*dpr,padY=24*dpr,innerW=width-padX*2,innerH=height-padY*2;ctx.lineWidth=1*dpr;for(let row=0;row<SIZE;row+=1){const y=padY+(row/(SIZE-1))*innerH;ctx.strokeStyle=row%5===0?"rgba(169,149,255,.2)":"rgba(255,255,255,.055)";ctx.beginPath();ctx.moveTo(padX,y);ctx.lineTo(width-padX,y);ctx.stroke();}const frames=history.slice(-28),slot=innerW/Math.max(1,frames.length),centroids=[];frames.forEach((f,index)=>{const centerX=padX+(index+.5)*slot,voiceList=voicesFor(f,mode);if(voiceList.length){const mean=voiceList.reduce((sum,v)=>sum+v.pitch,0)/voiceList.length;centroids.push([centerX,padY+((SIZE-1-mean)/(SIZE-1))*innerH]);}f.life.forEach(cell=>{const mapped=mapCell(cell,f.life,mode),x=centerX+mapped.pan*slot*.32,y=padY+((SIZE-1-mapped.pitch)/(SIZE-1))*innerH,r=Math.max(2.2*dpr,Math.min(5*dpr,slot*.17)),isBorn=f.born.has(cell);ctx.fillStyle=isBorn?"#ffc85f":"#65e7de";ctx.shadowColor=isBorn?"#ffc85f":"#65e7de";ctx.shadowBlur=7*dpr;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;});if(f.dead.size){ctx.fillStyle="rgba(255,112,140,.72)";ctx.fillRect(centerX-1*dpr,height-padY-5*dpr,2*dpr,5*dpr);}});if(centroids.length>1){ctx.strokeStyle="rgba(255,255,255,.38)";ctx.lineWidth=1.2*dpr;ctx.beginPath();centroids.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke();}canvas.setAttribute("aria-label",`Score plot for ${frames.length} Game of Life generations in ${mode} coordinate mode.`);}
+
+  qa(".preset").forEach(button=>button.addEventListener("click",()=>loadPreset(button.dataset.preset)));
+  qa(".mode").forEach(button=>button.addEventListener("click",()=>{stopAll();mode=button.dataset.mode;selectButtons(".mode","mode",mode);render();soundCurrent();q("#status").innerHTML=mode==="board"?"<strong>Hearing the board.</strong> Absolute row controls pitch and absolute column controls stereo position.":"<strong>Hearing the pattern.</strong> Each state is recentered before pitch and stereo are assigned; translation is ignored.";}));
+  q("#clear-board").addEventListener("click",()=>{stopAll();preset="custom";life=new Set();born=new Set();dead=new Set();trail=new Set();generation=0;history=[];appendHistory();qa(".preset").forEach(button=>{button.classList.remove("selected");button.setAttribute("aria-pressed","false");});render();q("#status").innerHTML="<strong>Blank board.</strong> Click cells to draw a seed, then play its evolution.";});
+  q("#step").addEventListener("click",()=>{stopRun();stopReplay();if(!life.size){q("#status").innerHTML="<strong>No live cells.</strong> Choose a seed or draw one first.";return;}advance(true);q("#status").innerHTML=`<strong>Generation ${generation} sounded.</strong> ${born.size} births and ${dead.size} deaths changed the score.`;});
+  q("#play").addEventListener("click",()=>{stopReplay();if(timer){stopRun();q("#status").innerHTML="<strong>Paused.</strong> Click the board, switch listening modes, or replay the recent history.";return;}if(!life.size){q("#status").innerHTML="<strong>No live cells.</strong> Choose a seed or draw one first.";return;}try{ensureAudio();soundCurrent();}catch(error){q("#status").innerHTML=`<strong>Sound unavailable.</strong> ${error.message}`;return;}q("#play").setAttribute("aria-pressed","true");q("#play").textContent="Pause evolution";q("#status").innerHTML=`<strong>Playing ${preset==="custom"?"the custom seed":PRESETS[preset].label}.</strong> Each generation is becoming the next audible event.`;timer=setInterval(()=>advance(true),Number(q("#tempo").value));});
+  q("#replay").addEventListener("click",()=>{stopAll();const frames=history.slice(-16);if(!frames.length)return;try{const ctx=ensureAudio(),interval=Number(q("#tempo").value)/1000;frames.forEach((f,i)=>playFrame(f,ctx.currentTime+.08+i*interval,Math.max(.16,interval*.78),mode));q("#status").innerHTML=`<strong>Replaying ${frames.length} stored state${frames.length===1?"":"s"} in ${mode} coordinates.</strong> Switch modes afterward to rescore the same cellular history.`;replayTimer=setTimeout(()=>{replayTimer=null;},Math.ceil((frames.length*interval+.2)*1000));}catch(error){q("#status").innerHTML=`<strong>Sound unavailable.</strong> ${error.message}`;}});
+  q("#reset").addEventListener("click",()=>preset==="custom"?loadPreset("glider"):loadPreset(preset));
+  q("#stop").addEventListener("click",()=>{stopAll();q("#status").innerHTML="<strong>Stopped.</strong> The cellular history remains available to replay or rescore.";});
+  q("#tempo").addEventListener("input",event=>{q("#tempo-output").textContent=`${event.target.value} ms`;if(timer){stopRun();q("#status").innerHTML="<strong>Tempo changed.</strong> Press Play evolution to continue at the new interval.";}});
+  addEventListener("resize",drawScore);addEventListener("pagehide",()=>stopAll(),{once:true});
+
+  function translated(state,dx,dy){return new Set([...state].map(cell=>{const[x,y]=parse(cell);return key(x+dx,y+dy);}));}
+  function signature(state,listenMode){return[...state].map(cell=>{const mapped=mapCell(cell,state,listenMode);return`${mapped.pitch}:${mapped.pan.toFixed(3)}`;}).sort().join("|");}
+  function selftest(){const glider=toSet(PRESETS.glider.cells),g1=stepLife(glider),g2=stepLife(g1),g3=stepLife(g2),g4=stepLife(g3),blinker=toSet(PRESETS.blinker.cells),pulsarState=toSet(PRESETS.pulsar.cells),rp=toSet(PRESETS.rpentomino.cells),shifted=translated(glider,5,4);const gliderMoves=g4.size===5&&!same(glider,g4),blinkerPeriod2=same(stepLife(stepLife(blinker)),blinker),pulsarPeriod3=same(stepLife(stepLife(stepLife(pulsarState))),pulsarState),rChanges=!same(stepLife(rp),rp),shapeTranslationInvariant=signature(glider,"shape")===signature(shifted,"shape"),boardTranslationAudible=signature(glider,"board")!==signature(shifted,"board"),mediaFree=!document.querySelector("audio,video"),presetCounts={glider:glider.size,blinker:blinker.size,pulsar:pulsarState.size,rpentomino:rp.size};return{pass:gliderMoves&&blinkerPeriod2&&pulsarPeriod3&&rChanges&&shapeTranslationInvariant&&boardTranslationAudible&&mediaFree&&presetCounts.glider===5&&presetCounts.blinker===3&&presetCounts.pulsar===48&&presetCounts.rpentomino===5,life:{gliderMoves,blinkerPeriod2,pulsarPeriod3,rChanges,presetCounts},mapping:{shapeTranslationInvariant,boardTranslationAudible},mediaFree};}
+  history=[];appendHistory();render();const startup=selftest();document.documentElement.dataset.selftest=startup.pass?"pass":"fail";window.S9V4={selftest,step:()=>advance(false),load:name=>loadPreset(name,false),reset:()=>loadPreset("glider",false)};
+})();
+</script>
+</body>
+</html>
