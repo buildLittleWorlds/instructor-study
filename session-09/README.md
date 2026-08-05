@@ -1,10 +1,29 @@
 # Session 9 Instructor Paper-App
 
-Session 9 now has four public versions. V1 accumulates, V2 deliberately subtracts, V3 expands one
-connection that became visible only after the subtraction, and V4 makes a structural revision by
-turning the Life computation itself into music.
+Session 9 now has five public versions. V1 accumulates, V2 deliberately subtracts, V3 expands one
+connection that became visible only after the subtraction, V4 turns the Life computation itself
+into music, and V5 makes the musical mapping an explicit Cage/Life experiment.
 
 ## Current revision
+
+- `revised-4/index.html` — **Who Composes the Glider?**, Session 9 V5.
+- Stable route: `/session-09/revised-4/`.
+- Preserves V4's direct row-to-pitch map as the control condition.
+- Adds a repeatable sixteen-generation modulation wave so a traveling glider can rise and fall.
+- Adds a prepared-chance mode: one bounded chance operation chooses sixteen pitch offsets, which
+  then repeat until the reader explicitly prepares another score.
+- Keeps the Life state independent from the musical mapping, allowing the same recent history to be
+  rescored without changing B3/S23.
+- Adds an original source-linked essay comparing the distribution of authorship and contingency in
+  Life, sonification, and selected Cage electronic works.
+- Links to Cage's own autobiographical statement and `The Future of Music: Credo`, the John Cage
+  Trust, the Percussive Arts Society, and the University of Illinois `HPSCHD` archive.
+- States the limit directly: this bounded browser synthesizer neither imitates Cage's style nor
+  reproduces his I Ching practice.
+
+Run `S9V5.selftest()` in the browser console. Expected: `pass: true`.
+
+## Previous structural revision
 
 - `revised-3/index.html` — **Hear the Pattern Travel**, Session 9 V4.
 - Stable route: `/session-09/revised-3/`.

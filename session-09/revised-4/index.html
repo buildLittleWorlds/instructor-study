@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who Composes the Glider? — Instructor Study Session 9 V5</title>
+<script defer src="../../studio-nav.js" data-site="study"></script>
+<style>
+  :root{
+    --night:#070814;--night-2:#101127;--panel:#14162d;--panel-2:#1b1e39;--ink:#f6f2e8;--muted:#aaaac2;
+    --line:#343753;--cyan:#65e7de;--cyan-soft:#173b3d;--gold:#ffc85f;--rose:#ff708c;--violet:#a995ff;
+    --paper:#f5f0e6;--paper-ink:#20212a;--paper-muted:#62636d;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;background:var(--night)}
+  body{margin:0;background:radial-gradient(circle at 78% 8%,#20204a 0,transparent 27rem),radial-gradient(circle at 15% 42%,#0f3540 0,transparent 32rem),var(--night);color:var(--ink);font:1.04rem/1.65 Georgia,"Times New Roman",serif}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.17;background-image:linear-gradient(rgba(101,231,222,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(101,231,222,.12) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,black,transparent 70%)}
+  button,input{font:inherit} a{color:var(--cyan)}
+  main{position:relative;width:min(84rem,calc(100% - 2rem));margin:0 auto;padding:3.4rem 0 5rem}
+  header{max-width:76rem;padding-bottom:2.6rem}
+  h1{max-width:12ch;margin:.3rem 0 1rem;font-size:clamp(3.8rem,9vw,8.4rem);line-height:.84;letter-spacing:-.072em}
+  h2{margin:.15rem 0 .65rem;font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.02;letter-spacing:-.035em}
+  h3{margin:.2rem 0 .5rem;line-height:1.18} p{margin:.5rem 0 1rem}
+  section{margin-top:5.2rem;scroll-margin-top:5rem}
+  .kicker,.eyebrow,.version-note,.route,.thesis,.lab,.status,.readouts,.pattern-picker,.mapping-picker,.mapping-key,.score-caption,.experiment-grid,.boundary,.source-list,.version-nav,.synth-sliders,.comparison-table,footer{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .kicker,.eyebrow{color:var(--cyan);font-size:.76rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+  .deck{max-width:52ch;color:#c8c6d7;font-size:1.35rem}
+  .version-note{max-width:68rem;margin-top:1.5rem;padding:1rem 1.15rem;border-left:4px solid var(--gold);background:rgba(255,200,95,.09);color:#d7d4e2}
+  .route{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.25rem}.route a{padding:.5rem .8rem;border:1px solid var(--line);border-radius:999px;background:rgba(20,22,45,.75);font-size:.82rem;font-weight:850;text-decoration:none}
+  .thesis{display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:center;max-width:72rem;margin-top:2.5rem;padding:1.3rem 1.5rem;border:1px solid rgba(101,231,222,.45);border-radius:18px;background:linear-gradient(135deg,rgba(23,59,61,.88),rgba(20,22,45,.88))}
+  .thesis .pulse{display:grid;place-items:center;width:4.2rem;height:4.2rem;border:1px solid var(--cyan);border-radius:50%;color:var(--cyan);font:900 1.7rem/1 system-ui,sans-serif;box-shadow:0 0 35px rgba(101,231,222,.25)}
+  .thesis strong{display:block;font-size:clamp(1.25rem,2.5vw,1.8rem)}.thesis span{color:var(--muted)}
+  .lab{overflow:hidden;border:1px solid var(--line);border-radius:26px;background:rgba(11,12,27,.9);box-shadow:0 30px 90px rgba(0,0,0,.42)}
+  .lab-top{padding:1.2rem 1.3rem;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(101,231,222,.08),rgba(169,149,255,.08))}
+  .pattern-picker,.mapping-picker{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}.pattern-picker+.mapping-picker{margin-top:.7rem}.control-label{margin-right:.25rem;color:var(--muted);font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+  button{min-height:2.55rem;padding:.55rem .78rem;border:1px solid #484c70;border-radius:9px;background:#171a34;color:var(--ink);font-weight:780;cursor:pointer}
+  button:hover,button:focus-visible{border-color:var(--cyan);background:var(--cyan-soft);outline:3px solid rgba(101,231,222,.18)}
+  button[aria-pressed="true"],button.selected{border-color:var(--cyan);background:var(--cyan);color:#071716}
+  button.primary{border-color:var(--gold);background:var(--gold);color:#251b05}button.quiet{color:var(--muted)}button.stop{border-color:#8a4d63;color:#ffc0cd}
+  .stage{display:grid;grid-template-columns:minmax(22rem,.95fr) minmax(28rem,1.25fr);gap:1px;background:var(--line)}
+  .board-panel,.score-panel{min-width:0;padding:clamp(1rem,2.5vw,1.5rem);background:var(--night-2)}
+  .panel-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:.8rem}.panel-head h3{margin:0;font-size:1.15rem}.panel-head span{color:var(--muted);font-size:.75rem}
+  .life-grid{display:grid;grid-template-columns:repeat(17,1fr);aspect-ratio:1;gap:2px;padding:6px;border:1px solid #3b3f5c;border-radius:16px;background:#090a18}
+  .life-cell{min-height:0;padding:0;border:0;border-radius:3px;background:#1b1e34;aspect-ratio:1;box-shadow:none;transition:background .12s ease,box-shadow .12s ease,transform .12s ease}
+  .life-cell:hover,.life-cell:focus-visible{z-index:2;outline:1px solid var(--cyan);transform:scale(1.18)}
+  .life-cell.trail{background:#262546}.life-cell.alive{background:var(--cyan);box-shadow:0 0 10px rgba(101,231,222,.55)}.life-cell.born{background:var(--gold);box-shadow:0 0 13px rgba(255,200,95,.7)}.life-cell.dead{background:var(--rose);box-shadow:0 0 9px rgba(255,112,140,.55)}
+  .readouts{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-top:.65rem}.readout{padding:.55rem .62rem;border-radius:9px;background:#191b33}.readout span{display:block;color:var(--muted);font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}.readout strong{font-size:1.1rem;font-variant-numeric:tabular-nums}
+  .score-wrap{position:relative;overflow:hidden;border:1px solid #3b3f5c;border-radius:16px;background:#090a18}.score-wrap::after{content:"past generations →";position:absolute;right:.7rem;top:.45rem;color:#6e708e;font:700 .62rem system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;pointer-events:none}
+  #score-canvas{display:block;width:100%;height:clamp(18rem,38vw,28rem)}
+  .score-caption{display:flex;justify-content:space-between;gap:.8rem;margin-top:.55rem;color:var(--muted);font-size:.72rem}.score-caption strong{color:var(--cyan)}
+  .mapping-key{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem;margin-top:.75rem}.map-item{padding:.6rem;border:1px solid #2d304b;border-radius:9px;color:var(--muted);font-size:.7rem}.map-item strong{display:block;color:var(--ink);font-size:.74rem}
+  .transport{display:grid;grid-template-columns:1fr minmax(17rem,23rem);gap:1rem;align-items:center;padding:1.15rem 1.3rem;border-top:1px solid var(--line);background:#101229}.button-row{display:flex;flex-wrap:wrap;gap:.5rem}.synth-sliders{display:grid;gap:.55rem}.tempo{display:grid;grid-template-columns:1fr minmax(7rem,10rem) 4.3rem;align-items:center;gap:.65rem;color:var(--muted);font-size:.72rem;font-weight:800}.tempo input{width:100%;accent-color:var(--cyan)}.tempo output{color:var(--ink);font-variant-numeric:tabular-nums;text-align:right}.chance-readout{margin-top:.6rem;color:var(--muted);font-size:.72rem}.chance-readout strong{color:var(--gold)}
+  .status{margin:0;padding:.85rem 1.3rem;border-top:1px solid var(--line);background:#0c0e20;color:#c5c4d6;font-size:.83rem}.status strong{color:var(--gold)}
+  .mapping-explainer{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-top:1rem}.mapping-explainer article{padding:1.1rem;border:1px solid var(--line);border-radius:14px;background:rgba(20,22,45,.75)}.mapping-explainer article:nth-child(2){border-color:#655c91}.mapping-explainer article:nth-child(3){border-color:#8a7040}.mapping-explainer p{margin:.3rem 0;color:var(--muted);font-size:.92rem}
+  .experiment-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}.experiment{padding:1.05rem;border:1px solid var(--line);border-top:4px solid var(--cyan);border-radius:14px;background:rgba(20,22,45,.8)}.experiment:nth-child(2){border-top-color:var(--gold)}.experiment:nth-child(3){border-top-color:var(--violet)}.experiment:nth-child(4){border-top-color:var(--rose)}.experiment p{color:var(--muted);font-size:.88rem}.experiment b{color:var(--cyan)}
+  .paper{margin-inline:calc(50% - 50vw);padding:4.5rem max(1rem,calc((100vw - 76rem)/2));background:var(--paper);color:var(--paper-ink)}.paper .eyebrow{color:#2f6f5e}.paper p{max-width:72ch}.paper .lead{font-size:1.2rem}.paper h3{max-width:40rem;margin-top:2.2rem;font-size:1.42rem}.paper a{color:#214f44}.pullquote{max-width:58rem;margin:1.5rem 0;padding:1.2rem 1.4rem;border-left:5px solid #805d18;background:#fff7df;font-size:1.25rem}.pullquote cite{display:block;margin-top:.5rem;color:var(--paper-muted);font:700 .74rem system-ui,sans-serif}.comparison-table{width:100%;max-width:72rem;margin:1.5rem 0;border-collapse:collapse;background:white;font-size:.86rem}.comparison-table th,.comparison-table td{padding:.8rem .9rem;border:1px solid #d7d1c5;text-align:left;vertical-align:top}.comparison-table th{background:#e7efe9;color:#244b40}.listening-score{max-width:72rem;margin:1.5rem 0;padding:1.2rem 1.35rem;border:1px solid #b6aa8f;border-radius:14px;background:#fffdf8}.listening-score ol{margin:.6rem 0 .2rem;padding-left:1.3rem}.listening-score li+li{margin-top:.45rem}
+  .boundary{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1.2rem}.boundary div{padding:1rem;border-radius:12px;font-size:.84rem}.boundary strong{display:block;margin-bottom:.25rem}.computed{background:#dff1eb}.authored{background:#e8e4f4}.open{background:#fff0cf}
+  .source-list{max-width:72rem;margin:1.2rem 0 0;padding:0;list-style:none}.source-list li{margin:.65rem 0;padding:.9rem 1rem;border-left:4px solid #315f91;background:white;font-size:.9rem}
+  .version-nav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.7rem;margin-top:3rem;padding-top:1rem;border-top:1px solid #d4cfc4;font-size:.84rem}.version-nav a{color:#214f44}
+  footer{margin-top:2.2rem;color:var(--paper-muted);font-size:.8rem}
+  @media(max-width:940px){.stage{grid-template-columns:1fr}.experiment-grid{grid-template-columns:1fr 1fr}.transport{grid-template-columns:1fr}.mapping-explainer{grid-template-columns:1fr 1fr}}
+  @media(max-width:660px){main{width:min(100% - 1rem,84rem);padding-top:2rem}h1{font-size:clamp(3.5rem,18vw,5.4rem)}.thesis{grid-template-columns:1fr}.thesis .pulse{width:3.4rem;height:3.4rem}.board-panel,.score-panel{padding:.75rem}.life-grid{gap:1px;padding:4px}.readouts,.mapping-key{grid-template-columns:1fr 1fr}.mapping-explainer,.boundary,.experiment-grid{grid-template-columns:1fr}.score-caption{display:block}.score-caption span{display:block}.tempo{grid-template-columns:1fr}.tempo output{text-align:left}.comparison-table,.comparison-table tbody,.comparison-table tr,.comparison-table th,.comparison-table td{display:block}.comparison-table thead{position:absolute;clip:rect(0 0 0 0)}.comparison-table tr{border:1px solid #d7d1c5}.comparison-table tr+tr{margin-top:.8rem}.comparison-table td{border:0}.comparison-table td::before{display:block;color:#315f53;font-weight:850;content:attr(data-label)}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.life-cell{transition:none}}
+</style>
+</head>
+<body>
+<main><article>
+  <header>
+    <div class="kicker">Instructor Study · Session 9 · V5 · Cage / Life synthesizer</div>
+    <h1>Who composes the glider?</h1>
+    <p class="deck">Conway’s rules make the motion. A human makes the instrument. A prepared chance score can now bend the glider’s steady descent into a phrase that rises, falls, and refuses the same musical answer.</p>
+    <div class="version-note"><strong>This revision preserves the evidence.</strong> <a href="../revised-3/">V4</a> still maps position directly to pitch. V5 keeps that control condition, then adds a periodic modulation wave and a Cage-inspired prepared-chance contour. The Life computation never changes; the audible reading does.</div>
+    <nav class="route" aria-label="Page route"><a href="#instrument">Play the synthesizer</a><a href="#experiments">Compare three pitch maps</a><a href="#cage-essay">Read the Cage essay</a><a href="#boundary">Check the boundary</a></nav>
+    <div class="thesis"><div class="pulse" aria-hidden="true">♪</div><div><strong>Same life. Different score.</strong><span>Cell row still supplies a pitch. The new modulator moves the whole pitch field over time. In prepared-chance mode, one chance operation writes a sixteen-step contour that repeats until the reader prepares another.</span></div></div>
+  </header>
+
+  <section id="instrument" aria-labelledby="instrument-title">
+    <div class="eyebrow">The encounter · a prepared cellular synthesizer</div>
+    <h2 id="instrument-title">Let one process drive another.</h2>
+    <p class="deck">Start with the glider in Direct mode: its diagonal travel falls in pitch. Then keep the same seed and choose Modulation wave or Prepared chance. Sound begins only after your action.</p>
+
+    <div class="lab">
+      <div class="lab-top">
+        <div class="pattern-picker" aria-label="Starting patterns"><span class="control-label">Seed</span><button class="preset selected" data-preset="glider" type="button" aria-pressed="true">Glider</button><button class="preset" data-preset="blinker" type="button" aria-pressed="false">Blinker</button><button class="preset" data-preset="pulsar" type="button" aria-pressed="false">Pulsar</button><button class="preset" data-preset="rpentomino" type="button" aria-pressed="false">R-pentomino</button><button id="clear-board" class="quiet" type="button">Clear to draw</button></div>
+        <div class="mapping-picker" aria-label="Listening coordinate system"><span class="control-label">Space</span><button class="mode selected" data-mode="board" type="button" aria-pressed="true">The board</button><button class="mode" data-mode="shape" type="button" aria-pressed="false">The pattern</button></div>
+        <div class="mapping-picker" aria-label="Pitch motion"><span class="control-label">Pitch motion</span><button class="pitch-mode selected" data-pitch-mode="direct" type="button" aria-pressed="true">Direct map</button><button class="pitch-mode" data-pitch-mode="wave" type="button" aria-pressed="false">Modulation wave</button><button class="pitch-mode" data-pitch-mode="chance" type="button" aria-pressed="false">Prepared chance</button><button id="prepare-chance" class="quiet" type="button">Prepare another chance score</button></div>
+      </div>
+
+      <div class="stage">
+        <div class="board-panel">
+          <div class="panel-head"><h3 id="board-name">Glider · board coordinates</h3><span>Click cells while paused</span></div>
+          <div id="life-grid" class="life-grid" role="grid" aria-label="Editable seventeen by seventeen Game of Life board"></div>
+          <div class="readouts" aria-label="Current Life measurements"><div class="readout"><span>Generation</span><strong id="generation">0</strong></div><div class="readout"><span>Population</span><strong id="population">5</strong></div><div class="readout"><span>Births</span><strong id="births">5</strong></div><div class="readout"><span>Deaths</span><strong id="deaths">0</strong></div></div>
+        </div>
+        <div class="score-panel">
+          <div class="panel-head"><h3>The score the cells are writing</h3><span id="history-count">1 generation visible</span></div>
+          <div class="score-wrap"><canvas id="score-canvas" width="900" height="480" role="img" aria-label="A score plot of the visible Game of Life history"></canvas></div>
+          <div class="score-caption"><span><strong>high pitch</strong> at the top · low pitch at the bottom</span><span>horizontal spread within each beat shows stereo position</span></div>
+          <div class="mapping-key" aria-label="Sonification key"><div class="map-item"><strong id="pitch-key-title">Row → pitch</strong><span id="pitch-key-body">Direct minor-pentatonic steps</span></div><div class="map-item"><strong>Column → space</strong>Left-to-right stereo</div><div class="map-item"><strong>Birth → light</strong>Bright upper attack</div><div class="map-item"><strong>Death → weight</strong>Low percussive pulse</div></div>
+        </div>
+      </div>
+
+      <div class="transport">
+        <div class="button-row"><button id="play" class="primary" type="button" aria-pressed="false">Play evolution</button><button id="step" type="button">One sounding step</button><button id="replay" type="button">Replay recent score</button><button id="reset" class="quiet" type="button">Reset seed</button><button id="stop" class="stop" type="button">Stop sound</button></div>
+        <div class="synth-sliders"><label class="tempo" for="tempo"><span>Time between generations</span><input id="tempo" type="range" min="180" max="900" step="30" value="480"><output id="tempo-output" for="tempo">480 ms</output></label><label class="tempo" for="mod-depth"><span>Pitch-motion depth</span><input id="mod-depth" type="range" min="1" max="8" step="1" value="5"><output id="mod-depth-output" for="mod-depth">5 steps</output></label><div class="chance-readout"><strong id="chance-name">Prepared score 00000000</strong> · sixteen steps · repeatable until replaced</div></div>
+      </div>
+      <div id="status" class="status" aria-live="polite"><strong>Ready.</strong> Choose a seed or press Play evolution. Headphones make the left-to-right motion easier to hear.</div>
+    </div>
+
+    <div class="mapping-explainer">
+      <article><div class="eyebrow">Direct map · control</div><h3>Location becomes the melody</h3><p>A glider moving down and right moves down in pitch and across stereo space. This is the V4 mapping preserved as a control condition.</p></article>
+      <article><div class="eyebrow">Modulation wave · designed</div><h3>A periodic hand bends the field</h3><p>A sixteen-generation triangle wave raises and lowers every voice. The glider still travels diagonally, but location no longer dictates the whole phrase.</p></article>
+      <article><div class="eyebrow">Prepared chance · selected</div><h3>A question receives one answer</h3><p>A chance operation prepares sixteen offsets. That contour then repeats exactly. Prepare another score to ask the same bounded musical question again.</p></article>
+    </div>
+  </section>
+
+  <section id="experiments" aria-labelledby="experiments-title">
+    <div class="eyebrow">Four seeds · three pitch maps</div>
+    <h2 id="experiments-title">Which continuity are you hearing?</h2>
+    <div class="experiment-grid">
+      <article class="experiment"><h3>Glider</h3><p>Five cells repeat a four-generation shape cycle while translating diagonally. Direct map exposes the drift; Modulation wave folds it; Prepared chance makes its pitch arc contingent on another process.</p><b>Persistence through three readings</b></article>
+      <article class="experiment"><h3>Blinker</h3><p>Three cells alternate between horizontal and vertical states. Its score should flip between two compact sonorities without going anywhere.</p><b>Period without travel</b></article>
+      <article class="experiment"><h3>Pulsar</h3><p>Forty-eight cells cycle through three large symmetric states. Occupied pitch rows contract and expand as a dense, repeating chordal body.</p><b>Symmetry at scale</b></article>
+      <article class="experiment"><h3>R-pentomino</h3><p>Five cells quickly generate a much less predictable history. Its score becomes denser because the Life computation becomes denser—not because a composed melody was retrieved.</p><b>Growth without a refrain</b></article>
+    </div>
+  </section>
+
+  <section id="cage-essay" class="paper" aria-labelledby="claim-title">
+    <div class="eyebrow">Essay · Game of Life beside John Cage</div>
+    <h2 id="claim-title">The glider does not compose alone.</h2>
+    <p class="lead">Conway’s Game of Life can generate a perfectly exact succession of states without generating a single note. John Cage’s writing helps expose the gap. A musical process is not only a source of events; it is also a way of deciding what may count as sound, which decisions belong to the composer, and what must remain available to contingency.</p>
+
+    <h3>Cage was asking about electronic sound before the synthesizer became ordinary.</h3>
+    <p>In <a href="https://doi.org/10.14361/9783839446256-014"><em>The Future of Music: Credo</em></a>, the early manifesto later collected in <em>Silence</em>, Cage argued that electrical instruments could open composition to noise and to the whole field of audible sound. His <a href="https://johncage.org/cage-autobiographical-statement">1990 autobiographical statement</a> recalls an early <em>Imaginary Landscape</em> practice that mixed acoustic sounds, amplified small sounds, and recordings of sine waves. The comparison with this browser instrument is therefore more specific than “Cage liked randomness.” Cage repeatedly treated technology as a way to reorganize the relation among sound, score, performer, and environment.</p>
+
+    <h3>Chance is a discipline, not an “anything goes” effect.</h3>
+    <p>A useful distinction appears in the Percussive Arts Society’s account of Cage’s practice: chance operations changed his responsibility from choosing preferred answers to constructing questions whose answers he would accept.</p>
+    <blockquote class="pullquote">“making my responsibility not the making of choices, but the asking of questions.”<cite>John Cage, quoted in the <a href="https://pas.org/john-cage/">Percussive Arts Society Hall of Fame biography</a></cite></blockquote>
+    <p><strong>Prepared chance</strong> in this app follows that structure in a small, transparent way. The program asks for sixteen pitch offsets within the depth chosen by the reader. The browser answers once. Those offsets then repeat, so the result can be replayed and compared. Pressing <strong>Prepare another chance score</strong> asks again. This is not a simulation of Cage’s I Ching practice, and it does not claim to compose “in Cage’s style.” It borrows one procedural insight: decide the field of possibilities, let a chance operation answer inside that field, and then attend to the result.</p>
+
+    <h3>Life, modulation, and selected Cage works distribute authorship differently.</h3>
+    <p>The Game of Life portion is deterministic. Given the same finite board and seed, B3/S23 produces the same next generation. The synthesizer portion is interpretive. Direct map makes row audible as pitch. Modulation wave adds a human-designed periodic contour. Prepared chance chooses a contour once and holds it stable. None is more “inside” the glider than the others. Each is a way of reading the same cellular history.</p>
+    <table class="comparison-table">
+      <thead><tr><th>Process</th><th>How the next event is made</th><th>What can repeat</th><th>Where contingency enters</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Game of Life</th><td data-label="Next event">Fixed B3/S23 neighborhood rule</td><td data-label="Repeatability">The same seed on the same board</td><td data-label="Contingency">In the reader’s choice of seed, not in the update rule</td></tr>
+        <tr><th scope="row">Direct / wave map</th><td data-label="Next event">Authored coordinate and modulation rules</td><td data-label="Repeatability">The same Life history and control settings</td><td data-label="Contingency">In the reader’s mapping and depth choices</td></tr>
+        <tr><th scope="row">Prepared chance</th><td data-label="Next event">One bounded random contour, then fixed playback</td><td data-label="Repeatability">The prepared sixteen-step score</td><td data-label="Contingency">When a new contour is prepared</td></tr>
+        <tr><th scope="row">Selected Cage works</th><td data-label="Next event">Different scores use different chance, timing, media, and performance procedures</td><td data-label="Repeatability">A procedure or score can persist while realizations differ</td><td data-label="Contingency">Composition, performance, broadcasts, electronics, and ambient sound—depending on the work</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Cage’s electronics also keep this app from congratulating itself too quickly.</h3>
+    <p><em>Imaginary Landscape No. 4</em> used twelve radios; <em>No. 5</em> assembled fragments from forty-two recordings, according to the <a href="https://johncage.org/kuhns/music-to-our-ears">John Cage Trust’s account of the series</a>. Later, Cage and Lejaren Hiller’s <em>HPSCHD</em> surrounded seven amplified harpsichords with fifty-two tapes of computer-generated sound in an event where the audience could move through the space; the <a href="https://archon.library.illinois.edu/archives/index.php?id=11834&amp;p=collections%2Ffindingaid&amp;rootcontentid=207502">University of Illinois archive</a> preserves the tapes and production history.</p>
+    <p>This app is much more closed. It listens to no room, radio, microphone, or network. Its oscillators are generated locally, its pitch collection is fixed, and its “chance” is bounded by code the reader can inspect. That difference matters. The Cage comparison does not convert every algorithm into experimental music. It asks whether the system gives up enough control to let its maker hear something not already contained in a preferred melodic plan. Cage’s late statement asks listeners to attend to vibration “<a href="https://johncage.org/cage-autobiographical-statement">not necessarily two times the same</a>.” Here the Life states can be the same while their pitch contour changes. The experiment relocates sameness rather than eliminating it.</p>
+
+    <div class="listening-score">
+      <strong>A three-pass listening score</strong>
+      <ol>
+        <li>Reset the glider. Choose <strong>The board</strong> and <strong>Direct map</strong>. Play sixteen generations. Listen for the diagonal descent.</li>
+        <li>Reset without changing the seed. Choose <strong>Modulation wave</strong>. Ask whether the glider now sounds like one phrase bending or like a new composer laid over it.</li>
+        <li>Reset and choose <strong>Prepared chance</strong>. Replay the same contour, then prepare another. Name exactly what stayed the same and what changed.</li>
+      </ol>
+    </div>
+
+    <div id="boundary" class="boundary">
+      <div class="computed"><strong>Computed here</strong>B3/S23 produces every displayed generation. Cell coordinates, births, and deaths come from the live Life state.</div>
+      <div class="authored"><strong>Designed here</strong>The scale, oscillators, stereo field, modulation wave, chance limits, tempo, and visual score are interpretive choices.</div>
+      <div class="open"><strong>Still open</strong>Whether a changing mapping reveals a musical identity, overlays one, or merely makes the instrument more pleasurable to play.</div>
+    </div>
+    <ul class="source-list">
+      <li><a href="https://johncage.org/cage-autobiographical-statement"><strong>John Cage, “An Autobiographical Statement” (1990/1991)</strong></a> — Cage on the prepared piano, early electronic work, chance-determined performance, and attentive listening.</li>
+      <li><a href="https://doi.org/10.14361/9783839446256-014"><strong>John Cage, “The Future of Music: Credo”</strong></a> — the early manifesto on electrical instruments, noise, rhythm, and new sonic materials.</li>
+      <li><a href="https://pas.org/john-cage/"><strong>David Revill, “John Cage” (Percussive Arts Society)</strong></a> — a concise account of chance as compositional discipline and question-making.</li>
+      <li><a href="https://johncage.org/kuhns/music-to-our-ears"><strong>John Cage Trust, “Music to Our Ears!”</strong></a> — instrumentation and archival complications in the <em>Imaginary Landscapes</em>.</li>
+      <li><a href="https://archon.library.illinois.edu/archives/index.php?id=11834&amp;p=collections%2Ffindingaid&amp;rootcontentid=207502"><strong>University of Illinois, <em>HPSCHD</em> Sound Recordings finding aid</strong></a> — primary archival context for Cage and Hiller’s computer-and-tape event.</li>
+    </ul>
+    <nav class="version-nav" aria-label="Version links"><a href="../revised-3/">← Session 9 V4: Hear the Pattern</a><a href="../revised-2/">Session 9 V3: Nothing Moves</a><a href="../revised/">Session 9 V2: Generated Again</a><a href="../">Session 9 V1: accumulation</a><a href="../../">Instructor Study home</a></nav>
+    <footer>What Makes Something One Thing? · Session 9 V5 · Original essay with brief, linked quotations. No accounts, analytics, uploads, recordings, saved scores, or stored reader data. All sound is synthesized locally after a reader action.</footer>
+  </section>
+</article></main>
+
+<script>
+(() => {
+  "use strict";
+  const q=(selector,root=document)=>root.querySelector(selector), qa=(selector,root=document)=>[...root.querySelectorAll(selector)];
+  const SIZE=17, key=(x,y)=>`${x},${y}`, parse=k=>k.split(",").map(Number), toSet=cells=>new Set(cells.map(([x,y])=>key(x,y)));
+  const pulsar=()=>{const cells=[];[2,7,9,14].forEach(y=>[4,5,6,10,11,12].forEach(x=>cells.push([x,y])));[2,7,9,14].forEach(x=>[4,5,6,10,11,12].forEach(y=>cells.push([x,y])));return cells;};
+  const PRESETS={
+    glider:{label:"Glider",cells:[[3,2],[4,3],[2,4],[3,4],[4,4]]},
+    blinker:{label:"Blinker",cells:[[7,8],[8,8],[9,8]]},
+    pulsar:{label:"Pulsar",cells:pulsar()},
+    rpentomino:{label:"R-pentomino",cells:[[8,7],[9,7],[7,8],[8,8],[8,9]]}
+  };
+  const clone=s=>new Set(s), same=(a,b)=>a.size===b.size&&[...a].every(item=>b.has(item));
+  function stepLife(state){const next=new Set();for(let y=0;y<SIZE;y+=1)for(let x=0;x<SIZE;x+=1){let neighbors=0;for(let dy=-1;dy<=1;dy+=1)for(let dx=-1;dx<=1;dx+=1)if((dx||dy)&&state.has(key(x+dx,y+dy)))neighbors+=1;const alive=state.has(key(x,y));if(neighbors===3||(alive&&neighbors===2))next.add(key(x,y));}return next;}
+  function bounds(state){const cells=[...state].map(parse);if(!cells.length)return{minX:0,maxX:0,minY:0,maxY:0,width:1,height:1};const xs=cells.map(c=>c[0]),ys=cells.map(c=>c[1]),minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);return{minX,maxX,minY,maxY,width:maxX-minX+1,height:maxY-minY+1};}
+  function randomSeed(){if(globalThis.crypto?.getRandomValues){const value=new Uint32Array(1);globalThis.crypto.getRandomValues(value);return value[0]||1;}return(Date.now()>>>0)||1;}
+  function buildChanceContour(seed){let value=seed>>>0;const random=()=>{value^=value<<13;value^=value>>>17;value^=value<<5;return(value>>>0)/4294967296;},offsets=[-8,-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6,7,8];for(let i=offsets.length-1;i>0;i-=1){const j=Math.floor(random()*(i+1));[offsets[i],offsets[j]]=[offsets[j],offsets[i]];}return offsets;}
+  const waveContour=[0,.25,.5,.75,1,.75,.5,.25,0,-.25,-.5,-.75,-1,-.75,-.5,-.25];
+  function pitchOffset(frameGeneration,activePitchMode=pitchMode){if(activePitchMode==="wave")return Math.round(waveContour[((frameGeneration%16)+16)%16]*modulationDepth);if(activePitchMode==="chance")return Math.round((chanceContour[((frameGeneration%16)+16)%16]/8)*modulationDepth);return 0;}
+  function mapCell(cell,state,listenMode=mode,frameGeneration=generation,activePitchMode=pitchMode){const [x,y]=Array.isArray(cell)?cell:parse(cell),box=bounds(state),relX=x-box.minX,relY=y-box.minY,basePitch=listenMode==="board"?SIZE-1-y:Math.round((SIZE-1)/2+(box.height-1)/2-relY),pan=listenMode==="board"?(x/(SIZE-1))*2-1:box.width===1?0:(relX/(box.width-1))*2-1;return{pitch:Math.max(0,Math.min(SIZE-1,basePitch+pitchOffset(frameGeneration,activePitchMode))),pan};}
+  function frame(){return{life:clone(life),born:clone(born),dead:clone(dead),generation};}
+
+  let preset="glider",life=toSet(PRESETS.glider.cells),born=clone(life),dead=new Set(),trail=clone(life),generation=0,mode="board",pitchMode="direct",modulationDepth=5,chanceSeed=randomSeed(),chanceContour=buildChanceContour(chanceSeed),timer=null,replayTimer=null,history=[];
+  const audio={ctx:null,master:null,compressor:null,sources:new Set()};
+  function ensureAudio(){if(!audio.ctx){const Ctor=window.AudioContext||window.webkitAudioContext;if(!Ctor)throw new Error("Web Audio is not supported in this browser.");audio.ctx=new Ctor();audio.master=audio.ctx.createGain();audio.master.gain.value=.72;audio.compressor=audio.ctx.createDynamicsCompressor();audio.compressor.threshold.value=-20;audio.compressor.knee.value=18;audio.compressor.ratio.value=6;audio.compressor.attack.value=.01;audio.compressor.release.value=.24;audio.master.connect(audio.compressor);audio.compressor.connect(audio.ctx.destination);}if(audio.ctx.state==="suspended")audio.ctx.resume();return audio.ctx;}
+  function trackSource(source){audio.sources.add(source);source.addEventListener("ended",()=>audio.sources.delete(source),{once:true});}
+  function stopSources(){audio.sources.forEach(source=>{try{source.stop();}catch(error){}});audio.sources.clear();}
+  function connectPan(node,pan,ctx){if(ctx.createStereoPanner){const panner=ctx.createStereoPanner();panner.pan.value=Math.max(-1,Math.min(1,pan));node.connect(panner);panner.connect(audio.master);}else node.connect(audio.master);}
+  function midiFor(pitch){const scale=[0,3,5,7,10],degree=Math.max(0,Math.min(SIZE-1,pitch));return 45+Math.floor(degree/5)*12+scale[degree%5];}
+  function voicesFor(f,listenMode=mode,activePitchMode=pitchMode){return[...f.life].map(cell=>{const mapped=mapCell(cell,f.life,listenMode,f.generation,activePitchMode);return{pitch:mapped.pitch,pan:mapped.pan,birth:f.born.has(cell)};});}
+  function playFrame(f,when,duration,listenMode=mode){const ctx=ensureAudio(),voices=voicesFor(f,listenMode),voiceScale=1/Math.sqrt(Math.max(1,voices.length));voices.forEach(voice=>{const osc=ctx.createOscillator(),gain=ctx.createGain(),end=when+duration;osc.type=voice.birth?"triangle":"sine";osc.frequency.value=440*Math.pow(2,(midiFor(voice.pitch)-69)/12);gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(Math.max(.0025,.058*voiceScale),when+.025);gain.gain.exponentialRampToValueAtTime(.0001,end);osc.connect(gain);connectPan(gain,voice.pan,ctx);trackSource(osc);osc.start(when);osc.stop(end+.03);if(voice.birth){const shimmer=ctx.createOscillator(),shine=ctx.createGain();shimmer.type="sine";shimmer.frequency.value=osc.frequency.value*2;shine.gain.setValueAtTime(.0001,when);shine.gain.exponentialRampToValueAtTime(.018*voiceScale,when+.012);shine.gain.exponentialRampToValueAtTime(.0001,when+Math.min(.16,duration*.5));shimmer.connect(shine);connectPan(shine,voice.pan,ctx);trackSource(shimmer);shimmer.start(when);shimmer.stop(when+Math.min(.18,duration*.55));}});if(f.dead.size){const thud=ctx.createOscillator(),gain=ctx.createGain();thud.type="sine";thud.frequency.setValueAtTime(82,when);thud.frequency.exponentialRampToValueAtTime(46,when+.12);gain.gain.setValueAtTime(.0001,when);gain.gain.exponentialRampToValueAtTime(Math.min(.09,.02+f.dead.size*.006),when+.008);gain.gain.exponentialRampToValueAtTime(.0001,when+.14);thud.connect(gain);gain.connect(audio.master);trackSource(thud);thud.start(when);thud.stop(when+.16);}}
+  function soundCurrent(){try{stopSources();const ctx=ensureAudio();playFrame(frame(),ctx.currentTime+.025,Math.max(.18,Number(q("#tempo").value)/1000*.72));}catch(error){q("#status").innerHTML=`<strong>Sound unavailable.</strong> ${error.message}`;}}
+
+  function appendHistory(){history.push(frame());if(history.length>48)history.shift();}
+  function loadPreset(name,play=true){stopAll(false);preset=name;life=toSet(PRESETS[name].cells);born=clone(life);dead=new Set();trail=clone(life);generation=0;history=[];appendHistory();selectButtons(".preset","preset",name);render();q("#status").innerHTML=`<strong>${PRESETS[name].label} loaded with ${pitchModeLabel()}.</strong> Its initial state is sounding once. Press Play evolution to hear its continuation.`;if(play)soundCurrent();}
+  function selectButtons(selector,dataKey,value){qa(selector).forEach(button=>{const selected=button.dataset[dataKey]===value;button.classList.toggle("selected",selected);button.setAttribute("aria-pressed",String(selected));});}
+  function advance(play=true){const previous=clone(life),next=stepLife(life);born=new Set([...next].filter(cell=>!previous.has(cell)));dead=new Set([...previous].filter(cell=>!next.has(cell)));life=next;life.forEach(cell=>trail.add(cell));generation+=1;appendHistory();render();if(play){try{const ctx=ensureAudio();playFrame(frame(),ctx.currentTime+.02,Math.max(.16,Number(q("#tempo").value)/1000*.78));}catch(error){q("#status").innerHTML=`<strong>Sound unavailable.</strong> ${error.message}`;}}if(!life.size){stopAll(false);q("#status").innerHTML="<strong>The pattern became empty.</strong> Its score has ended. Reset or choose another seed.";}}
+  function stopRun(){if(timer){clearInterval(timer);timer=null;}q("#play").setAttribute("aria-pressed","false");q("#play").textContent="Play evolution";}
+  function stopReplay(){if(replayTimer){clearTimeout(replayTimer);replayTimer=null;}}
+  function stopAll(cutSound=true){stopRun();stopReplay();if(cutSound)stopSources();}
+
+  function pitchModeLabel(){return pitchMode==="wave"?"modulation wave":pitchMode==="chance"?"prepared chance":"direct pitch map";}
+  function updatePitchUI(){q("#pitch-key-title").textContent=pitchMode==="direct"?"Row → pitch":pitchMode==="wave"?"Row + wave → pitch":"Row + chance → pitch";q("#pitch-key-body").textContent=pitchMode==="direct"?"Direct minor-pentatonic steps":pitchMode==="wave"?`16-step wave · depth ${modulationDepth}`:`Prepared 16-step contour · depth ${modulationDepth}`;q("#chance-name").textContent=`Prepared score ${chanceSeed.toString(16).padStart(8,"0")}`;q("#mod-depth-output").textContent=`${modulationDepth} step${modulationDepth===1?"":"s"}`;}
+  function render(){const grid=q("#life-grid");grid.innerHTML="";for(let y=0;y<SIZE;y+=1)for(let x=0;x<SIZE;x+=1){const cellKey=key(x,y),button=document.createElement("button"),alive=life.has(cellKey);button.type="button";button.className="life-cell"+(trail.has(cellKey)?" trail":"")+(alive?" alive":"")+(born.has(cellKey)?" born":"")+(dead.has(cellKey)?" dead":"");button.setAttribute("role","gridcell");button.setAttribute("aria-label",`row ${y+1}, column ${x+1}, ${alive?"alive":"empty"}`);button.addEventListener("click",()=>editCell(cellKey));grid.appendChild(button);}q("#generation").textContent=String(generation);q("#population").textContent=String(life.size);q("#births").textContent=String(born.size);q("#deaths").textContent=String(dead.size);q("#board-name").textContent=`${preset==="custom"?"Custom seed":PRESETS[preset].label} · ${mode==="board"?"board":"pattern"} · ${pitchModeLabel()}`;q("#history-count").textContent=`${history.length} generation${history.length===1?"":"s"} visible`;updatePitchUI();drawScore();}
+  function editCell(cellKey){stopAll();preset="custom";life.has(cellKey)?life.delete(cellKey):life.add(cellKey);born=clone(life);dead=new Set();trail=clone(life);generation=0;history=[];appendHistory();qa(".preset").forEach(button=>{button.classList.remove("selected");button.setAttribute("aria-pressed","false");});render();q("#status").innerHTML=`<strong>Custom seed: ${life.size} live cell${life.size===1?"":"s"}.</strong> The edited state is sounding once.`;if(life.size)soundCurrent();}
+
+  function drawScore(){const canvas=q("#score-canvas"),rect=canvas.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1),width=Math.max(320,Math.round(rect.width*dpr)),height=Math.max(260,Math.round(rect.height*dpr));if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}const ctx=canvas.getContext("2d");ctx.clearRect(0,0,width,height);ctx.fillStyle="#090a18";ctx.fillRect(0,0,width,height);const padX=34*dpr,padY=24*dpr,innerW=width-padX*2,innerH=height-padY*2;ctx.lineWidth=1*dpr;for(let row=0;row<SIZE;row+=1){const y=padY+(row/(SIZE-1))*innerH;ctx.strokeStyle=row%5===0?"rgba(169,149,255,.2)":"rgba(255,255,255,.055)";ctx.beginPath();ctx.moveTo(padX,y);ctx.lineTo(width-padX,y);ctx.stroke();}const frames=history.slice(-28),slot=innerW/Math.max(1,frames.length),centroids=[];frames.forEach((f,index)=>{const centerX=padX+(index+.5)*slot,voiceList=voicesFor(f,mode,pitchMode);if(voiceList.length){const mean=voiceList.reduce((sum,v)=>sum+v.pitch,0)/voiceList.length;centroids.push([centerX,padY+((SIZE-1-mean)/(SIZE-1))*innerH]);}f.life.forEach(cell=>{const mapped=mapCell(cell,f.life,mode,f.generation,pitchMode),x=centerX+mapped.pan*slot*.32,y=padY+((SIZE-1-mapped.pitch)/(SIZE-1))*innerH,r=Math.max(2.2*dpr,Math.min(5*dpr,slot*.17)),isBorn=f.born.has(cell);ctx.fillStyle=isBorn?"#ffc85f":"#65e7de";ctx.shadowColor=isBorn?"#ffc85f":"#65e7de";ctx.shadowBlur=7*dpr;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;});if(f.dead.size){ctx.fillStyle="rgba(255,112,140,.72)";ctx.fillRect(centerX-1*dpr,height-padY-5*dpr,2*dpr,5*dpr);}});if(centroids.length>1){ctx.strokeStyle="rgba(255,255,255,.38)";ctx.lineWidth=1.2*dpr;ctx.beginPath();centroids.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke();}canvas.setAttribute("aria-label",`Score plot for ${frames.length} Game of Life generations in ${mode} coordinates with ${pitchModeLabel()}.`);}
+
+  qa(".preset").forEach(button=>button.addEventListener("click",()=>loadPreset(button.dataset.preset)));
+  qa(".mode").forEach(button=>button.addEventListener("click",()=>{stopAll();mode=button.dataset.mode;selectButtons(".mode","mode",mode);render();soundCurrent();q("#status").innerHTML=mode==="board"?"<strong>Hearing the board.</strong> Absolute row controls pitch and absolute column controls stereo position.":"<strong>Hearing the pattern.</strong> Each state is recentered before pitch and stereo are assigned; translation is ignored.";}));
+  qa(".pitch-mode").forEach(button=>button.addEventListener("click",()=>{stopAll();pitchMode=button.dataset.pitchMode;selectButtons(".pitch-mode","pitchMode",pitchMode);render();soundCurrent();q("#status").innerHTML=pitchMode==="direct"?"<strong>Direct map.</strong> Row controls pitch without temporal modulation.":pitchMode==="wave"?`<strong>Modulation wave.</strong> A repeating sixteen-step contour bends the pitch field by up to ${modulationDepth} steps.`:`<strong>Prepared chance.</strong> Score ${chanceSeed.toString(16).padStart(8,"0")} bends the pitch field and repeats every sixteen generations.`;}));
+  q("#prepare-chance").addEventListener("click",()=>{stopAll();chanceSeed=randomSeed();chanceContour=buildChanceContour(chanceSeed);pitchMode="chance";selectButtons(".pitch-mode","pitchMode",pitchMode);render();soundCurrent();q("#status").innerHTML=`<strong>Another question, another prepared answer.</strong> Score ${chanceSeed.toString(16).padStart(8,"0")} will repeat every sixteen generations until you replace it.`;});
+  q("#clear-board").addEventListener("click",()=>{stopAll();preset="custom";life=new Set();born=new Set();dead=new Set();trail=new Set();generation=0;history=[];appendHistory();qa(".preset").forEach(button=>{button.classList.remove("selected");button.setAttribute("aria-pressed","false");});render();q("#status").innerHTML="<strong>Blank board.</strong> Click cells to draw a seed, then play its evolution.";});
+  q("#step").addEventListener("click",()=>{stopRun();stopReplay();if(!life.size){q("#status").innerHTML="<strong>No live cells.</strong> Choose a seed or draw one first.";return;}advance(true);q("#status").innerHTML=`<strong>Generation ${generation} sounded.</strong> ${born.size} births and ${dead.size} deaths changed the score.`;});
+  q("#play").addEventListener("click",()=>{stopReplay();if(timer){stopRun();q("#status").innerHTML="<strong>Paused.</strong> Click the board, switch listening modes, or replay the recent history.";return;}if(!life.size){q("#status").innerHTML="<strong>No live cells.</strong> Choose a seed or draw one first.";return;}try{ensureAudio();soundCurrent();}catch(error){q("#status").innerHTML=`<strong>Sound unavailable.</strong> ${error.message}`;return;}q("#play").setAttribute("aria-pressed","true");q("#play").textContent="Pause evolution";q("#status").innerHTML=`<strong>Playing ${preset==="custom"?"the custom seed":PRESETS[preset].label}.</strong> Each generation is becoming the next audible event.`;timer=setInterval(()=>advance(true),Number(q("#tempo").value));});
+  q("#replay").addEventListener("click",()=>{stopAll();const frames=history.slice(-16);if(!frames.length)return;try{const ctx=ensureAudio(),interval=Number(q("#tempo").value)/1000;frames.forEach((f,i)=>playFrame(f,ctx.currentTime+.08+i*interval,Math.max(.16,interval*.78),mode));q("#status").innerHTML=`<strong>Replaying ${frames.length} stored state${frames.length===1?"":"s"} in ${mode} coordinates.</strong> Switch modes afterward to rescore the same cellular history.`;replayTimer=setTimeout(()=>{replayTimer=null;},Math.ceil((frames.length*interval+.2)*1000));}catch(error){q("#status").innerHTML=`<strong>Sound unavailable.</strong> ${error.message}`;}});
+  q("#reset").addEventListener("click",()=>preset==="custom"?loadPreset("glider"):loadPreset(preset));
+  q("#stop").addEventListener("click",()=>{stopAll();q("#status").innerHTML="<strong>Stopped.</strong> The cellular history remains available to replay or rescore.";});
+  q("#tempo").addEventListener("input",event=>{q("#tempo-output").textContent=`${event.target.value} ms`;if(timer){stopRun();q("#status").innerHTML="<strong>Tempo changed.</strong> Press Play evolution to continue at the new interval.";}});
+  q("#mod-depth").addEventListener("input",event=>{stopAll();modulationDepth=Number(event.target.value);render();if(life.size)soundCurrent();q("#status").innerHTML=`<strong>Pitch-motion depth: ${modulationDepth} step${modulationDepth===1?"":"s"}.</strong> The Life history is unchanged; its current score has been remapped.`;});
+  addEventListener("resize",drawScore);addEventListener("pagehide",()=>stopAll(),{once:true});
+
+  function translated(state,dx,dy){return new Set([...state].map(cell=>{const[x,y]=parse(cell);return key(x+dx,y+dy);}));}
+  function signature(state,listenMode){return[...state].map(cell=>{const mapped=mapCell(cell,state,listenMode,0,"direct");return`${mapped.pitch}:${mapped.pan.toFixed(3)}`;}).sort().join("|");}
+  function selftest(){const glider=toSet(PRESETS.glider.cells),g1=stepLife(glider),g2=stepLife(g1),g3=stepLife(g2),g4=stepLife(g3),blinker=toSet(PRESETS.blinker.cells),pulsarState=toSet(PRESETS.pulsar.cells),rp=toSet(PRESETS.rpentomino.cells),shifted=translated(glider,5,4),testSeed=0x51c0ffee,testContour=buildChanceContour(testSeed);const gliderMoves=g4.size===5&&!same(glider,g4),blinkerPeriod2=same(stepLife(stepLife(blinker)),blinker),pulsarPeriod3=same(stepLife(stepLife(stepLife(pulsarState))),pulsarState),rChanges=!same(stepLife(rp),rp),shapeTranslationInvariant=signature(glider,"shape")===signature(shifted,"shape"),boardTranslationAudible=signature(glider,"board")!==signature(shifted,"board"),waveRisesAndFalls=pitchOffset(4,"wave")>0&&pitchOffset(12,"wave")<0,chanceIsRepeatable=JSON.stringify(testContour)===JSON.stringify(buildChanceContour(testSeed)),chanceContainsBothDirections=Math.min(...testContour)<0&&Math.max(...testContour)>0,mediaFree=!document.querySelector("audio,video"),presetCounts={glider:glider.size,blinker:blinker.size,pulsar:pulsarState.size,rpentomino:rp.size};return{pass:gliderMoves&&blinkerPeriod2&&pulsarPeriod3&&rChanges&&shapeTranslationInvariant&&boardTranslationAudible&&waveRisesAndFalls&&chanceIsRepeatable&&chanceContainsBothDirections&&mediaFree&&presetCounts.glider===5&&presetCounts.blinker===3&&presetCounts.pulsar===48&&presetCounts.rpentomino===5,life:{gliderMoves,blinkerPeriod2,pulsarPeriod3,rChanges,presetCounts},mapping:{shapeTranslationInvariant,boardTranslationAudible,waveRisesAndFalls,chanceIsRepeatable,chanceContainsBothDirections},mediaFree};}
+  history=[];appendHistory();render();const startup=selftest();document.documentElement.dataset.selftest=startup.pass?"pass":"fail";window.S9V5={selftest,step:()=>advance(false),load:name=>loadPreset(name,false),reset:()=>loadPreset("glider",false),prepareChance:()=>q("#prepare-chance").click()};
+})();
+</script>
+</body>
+</html>
