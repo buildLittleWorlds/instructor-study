@@ -25,14 +25,14 @@ session-06/                The Agreement Machine + gun bench + yardstick demo
 session-07/                What Makes Something One Thing? v1 - One Pattern, New Cells
 session-08/                v2 before - image, followed by revised/, revised-2/, and revised-3/ music pages
 session-09/                V1 accumulation; V2 contraction; V3 selective expansion; V4 Life sonification; V5 Life composition studio
-session-10/                older v4 draft; reconcile to the music/reader-path chain before reuse
-session-11/                reserved for v5 - One Token, Several Contexts (not active)
+session-10/                revision archaeology and decision record; Session 9 V5 is now the locked project
+session-11/                holding route for a brief polish comparison; actual polish result not yet built
 archive/                   historical instructor artifacts; not course authority
 ```
 
-Session 7 begins one cumulative instructor example. Session 8 contains a public image-to-music revision chain, culminating in `revised-3/` with sound-first experiments, listener mapping, an abstract, four analytical sections, and six sources. The first Session 9 page carried nearly all of that material forward and added a reader path plus mechanistic-interpretability research. `session-09/revised/` makes the opposite move: it cuts back to the glider, one compact music bench, and a bounded disagreement among Dennett, Barenholtz, and a peer-reviewed generative-memory model. `session-09/revised-2/` expands again, but selectively: it develops the glider as an encounter with persistence through sequential generation while keeping the larger V1 apparatus out. `session-09/revised-3/` then makes a structural revision: the Life state is no longer adjacent to a musical example but directly generates a visible and audible score. `session-09/revised-4/` keeps that instrument as a seed editor and turns it into a multitrack composition studio: musicians can combine independent Life voices, arrange and remap them, preview the score, export WAV/ZIP/JSON files with a pattern ledger, and read a source-linked paper connecting Cage with Earle Brown, Xenakis, George Lewis, and Pauline Oliveros.
+Session 7 begins one cumulative instructor example. Session 8 contains a public image-to-music revision chain, culminating in `revised-3/` with sound-first experiments, listener mapping, an abstract, four analytical sections, and six sources. The first Session 9 page carried nearly all of that material forward and added a reader path plus mechanistic-interpretability research. `session-09/revised/` makes the opposite move: it cuts back to the glider, one compact music bench, and a bounded disagreement among Dennett, Barenholtz, and a peer-reviewed generative-memory model. `session-09/revised-2/` expands again, but selectively: it develops the glider as an encounter with persistence through sequential generation while keeping the larger V1 apparatus out. `session-09/revised-3/` then makes a structural revision: the Life state is no longer adjacent to a musical example but directly generates a visible and audible score. `session-09/revised-4/` keeps that instrument as a seed editor and turns it into a multitrack composition studio: musicians can combine independent Life voices, arrange and remap them, preview the score, export WAV/ZIP/JSON files with a pattern ledger, and read a source-linked paper connecting Cage with Earle Brown, Xenakis, George Lewis, and Pauline Oliveros. Session 10 now reads that public chain as revision archaeology: it records the quick class-time turn from direct Life sonification to the Cage/prepared-chance question, separates commit evidence from the instructor's account of the encounter, and locks Session 9 V5 as the project to finish.
 
-The standalone Sessions 7-10 retired on 2026-07-28 are preserved under `archive/2026-07-28-pre-one-thing-sequence/`. Session 11 remains a reserved route and should not be treated as built or tested.
+The standalone Sessions 7-10 retired on 2026-07-28 are preserved under `archive/2026-07-28-pre-one-thing-sequence/`. Session 11 has a holding route for a brief bounded polish comparison, but no polish result should be claimed before it happens. Session 12 remains the student presentation; neither later outcome should be treated as built or tested.
 
 ## Cumulative instructor-example contract
 
@@ -52,8 +52,9 @@ reader evidence, source support, and actual technical evidence:
 - Session 7 - persistence through changing cells.
 - Session 8 - image-to-music revisions; parts and wholes become audible, testable, and source-backed.
 - Session 9 - addition reaches a limit; V2 tests subtraction; V3 expands selectively; V4 joins the visual computation and musical encounter into one instrument; V5 makes that instrument a portable composition practice and asks how rules, chance, performance, and listening distribute authorship.
-- Session 10 - authorship and provenance should grow from the actual revision, source, and reader record; the older embedding draft is not yet reconciled.
-- Session 11 - remains planned and must follow the reconciled Session 10 path.
+- Session 10 - reads the actual revision, source, and repository record; names the in-class Cage/Life interpretation as an instructor account rather than participant proof; and locks V5 as the project.
+- Session 11 - will show no more than two verified presentation-serving changes to V5, then give most of the meeting to student finishing and rehearsal.
+- Session 12 - adds no instructor version or lesson; the class belongs to student presentations.
 
 ## Data and interaction rule
 

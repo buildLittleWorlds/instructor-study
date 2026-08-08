@@ -1,68 +1,55 @@
-# Session 10 Instructor Paper-App: One Point, Several Neighborhoods
+# Session 10 Instructor Paper-App: The Work Is the Choosing
 
-This is **Version 4 of 5** of **What Makes Something One Thing?** Embeddings first enter the cumulative example here.
+Session 10 is the revision-archaeology and project-lock encounter for **What Makes Something One Thing?** It reconstructs the public path through Sessions 8 and 9, identifies the in-class turn from Game of Life sonification toward John Cage and prepared chance, and records **Who Composes the Glider?** (`../session-09/revised-4/`) as the now-locked instructor project.
 
-It is an instructor demonstration, not the student assignment. Session 10 still asks students to use their real project record to document consequential AI contributions, human decisions, tests, revisions, and rejected suggestions.
+This replaces the earlier advance-release Session 10 about sentence embeddings. That page remains recoverable in repository history, but it no longer represents the project produced by the actual revision chain.
 
 ## Public artifact
 
 - `index.html` — a self-contained HTML/CSS/JavaScript paper-app.
 - Stable route: `/session-10/`
-- New capability: optional in-browser sentence embeddings.
-- Carried forward: the Life, SVG, passage, and Boundary Notebook interactions.
+- Current project: Session 9 V5, **Who Composes the Glider?**
+- Reader interaction: inspect one consequential decision, give it a provisional disposition, name the evidence, and copy a decision receipt.
+- Storage boundary: the reader's selection and note remain in memory and disappear on refresh.
 
-## Human-first interaction
+## Revision archaeology
 
-The model controls remain disabled until the reader assigns at least one human membership to a literary fragment. The reader can then:
+The page keeps visible links to every relevant public artifact:
 
-1. reveal baked curated measurements without a network request; or
-2. explicitly load the pinned model and recompute the same comparison in the browser.
+1. Session 7 begins with persistence through changing cells.
+2. Session 8 moves from an image-led page to music, then to a sound-first bench, and finally to a listener path and source-backed paper.
+3. Session 9 V1 accumulates the revision chain.
+4. V2 contracts to one glider, one motif bench, and one bounded disagreement.
+5. V3 expands selectively around sequential generation.
+6. V4 makes the Game of Life state generate the score directly (`6af4b32`, 2026-08-04 8:17 p.m. CDT).
+7. Twenty-six minutes later, the first Cage/Life composition version enters the record (`f95fa4e`, 8:43 p.m. CDT).
+8. The next-morning revision becomes the multitrack studio now published as V5 (`921db1e`).
 
-Model failure leaves the human annotation, earlier cases, paper layer, Boundary Notebook, fallback similarities, and map usable.
+The commit sequence verifies repository state and timing. It does **not** prove what anyone said in class, when the idea was first conceived, or that the commit moment and the classroom moment were identical. The page labels the class-time interpretation as Daniel's account rather than participant evidence.
 
-## Pinned technical record
+## Decision-record encounter
 
-- Package: `@huggingface/transformers@4.2.0`
-- Model: `Xenova/all-MiniLM-L6-v2`
-- Model revision: `751bff37182d3f1213fa05d7196b954e230abad9`
-- Model license: Apache-2.0
-- Task: `feature-extraction`
-- Precision: q8
-- Pooling: normalized mean pooling
-- Measurement: cosine similarity
-- Baseline runtime: CPU/WASM
-- Package host: jsDelivr
-- Model host: Hugging Face
+The reader can inspect seven connected decisions: medium, sound-first interaction, map-first reader path, subtraction, sonification, Cage/prepared chance, and the multitrack studio. Each record separates:
 
-The fallback measurements were generated with the same package, revision, q8 weights, pooling, and normalization settings used by the live path.
+- where the decision entered the record;
+- what Codex contributed;
+- what Daniel judged and remains responsible for;
+- what was checked and what happened;
+- what was rejected or bounded;
+- the current status.
 
-The deterministic two-axis map uses:
+The reader then marks the decision **Keep**, **Polish**, or **Reopen**, writes an evidence-based reason, and copies a plain-text receipt. This exercise is diagnostic only. It does not overturn the instructor lock: V5 is the project, Session 11 gives it a brief bounded polish pass, and in Session 12 the page remains available while students present their own work.
 
-- horizontal position = Mara similarity − Ivo similarity;
-- vertical position = relationship similarity − setting similarity.
+## Evidence boundary
 
-It is a teaching projection and explicitly discloses distortion of the 384-dimensional geometry.
+The page distinguishes:
 
-## Epistemic boundary
+- **Computed:** Conway's B3/S23 transitions, direct score mappings, deterministic seed replay, rendered audio, and export files in V4/V5.
+- **Designed:** pitch mappings, tempo, instruments, filters, stereo placement, periodic modulation, voice arrangement, reader order, and interface framing.
+- **Source-proposed:** the bounded interpretations drawn from Cage, Brown, Xenakis, Lewis, and Oliveros.
+- **Open:** whether Life composes, who owns the emergent musical identity, and whether replayability changes the work's status.
 
-The page uses **model similarity**, **neighborhood**, **comparison**, and **model output**.
-
-It does not call the values:
-
-- confidence;
-- truth;
-- proof;
-- ground truth;
-- attention weights;
-- character classification.
-
-The anchors were declared before the measurements were generated. Counterintuitive or disagreeing results remain evidence rather than being tuned away.
-
-## Authorship and provenance
-
-Daniel chose the project question, cumulative sequence, claims, interpretive categories, source boundary, and publication decisions. OpenAI Codex helped draft the implementation and verification logic under his direction. The pinned model computes the displayed similarities. None of those contributions transfers responsibility for the published page away from Daniel.
-
-The Session 9 → 10 encounter is visibly labeled as a simulated teaching scenario. It is not presented as participant data. The technical measurements and source metadata are actual.
+The chance process is locally prepared and seed-replayable. It is not described as an I Ching simulation, a Cage style generator, proof of Cage's claims, or autonomous composition.
 
 ## Verification
 
@@ -74,18 +61,20 @@ S10.selftest()
 
 Expected: `pass: true`.
 
-Then verify:
+Then verify manually:
 
-1. model controls are disabled before a human annotation;
-2. the curated comparison works without loading the model;
-3. live loading begins only after the explicit button press;
-4. progress and recoverable failure messages use an `aria-live` status;
-5. the largest live-to-baked difference is reported against a `0.005` tolerance;
-6. changing the selected fragment changes the exact bars and highlighted map point;
-7. no similarity is labeled attention, confidence, truth, or proof;
-8. all earlier cases remain usable;
-9. refresh clears reader annotations and writing.
+1. all Session 8 and Session 9 version links open the named public artifacts;
+2. selecting each decision updates all receipt fields;
+3. Keep, Polish, and Reopen update the provisional disposition;
+4. writing a reason updates the copied receipt without network or file writes;
+5. the actual project lock remains visible regardless of the provisional reader choice;
+6. the computed, designed, source-proposed, and open boundaries remain distinct;
+7. refresh clears the reader's note and returns to the first decision;
+8. the page loads without external scripts, audio, video, or model downloads.
 
-## Release boundary
+## Handoff
 
-This advance release stops at Version 4. Session 11’s attention stress test remains planned and is not silently represented as completed work.
+- **Session 11:** show no more than two small, verified presentation-serving changes, then give most of the meeting to student finishing and rehearsal.
+- **Session 12:** no new instructor build or presentation; the page remains available while all class time belongs to student showcases.
+
+Neither later session is represented here as already built or tested.

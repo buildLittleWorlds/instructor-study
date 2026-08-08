@@ -32,7 +32,7 @@
       ['session-07/', '7', 'One Pattern, New Cells'],
       ['session-08/', '8', 'One Part, Several Wholes'],
       ['session-09/', '9', 'One Motif, One Reader Path'],
-      ['session-10/', '10', 'One Point, Several Neighborhoods']
+      ['session-10/', '10', 'The Work Is the Choosing']
     ],
     trailheads: [
       ['session-03/', '3', 'What Counts as Context'],

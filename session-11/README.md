@@ -1,72 +1,52 @@
-# Session 11 Planned Instructor Paper-App: One Token, Several Contexts
+# Session 11 Planned Instructor Page: The Project Is Chosen
 
-This route is reserved for **Version 5 of 5** of **What Makes Something One Thing?** It is not an active session page.
+This route is reserved for the brief polish demonstration that opens Session 11. It is not another
+conceptual version of **What Makes Something One Thing?** and is not yet a completed final page.
 
-## Course practice that must remain primary
+Session 10 locked **Who Composes the Glider?** (`../session-09/revised-4/`) as the instructor project.
+Session 11 may change only what makes that same project clearer, more reliable, more accessible, more
+accurate, or easier to present.
 
-Session 11 asks students to:
+## Time boundary
 
-- compare the early and current forms of their project;
-- run one stress test tied to the page’s own promise;
-- repair, limit, or condition the claim;
-- revise the relationship among interaction, prose, sources, and reader path;
-- prepare one coherent page for the Session 12 presentation.
+- Instructor comparison: 15–20 minutes maximum.
+- Remaining class time: student finishing, one-reader checks, and rehearsal.
+- Session 12: student presentations only.
 
-The attention material serves this stress test. It does not replace the course purpose with a detached AI lesson.
+## What belongs in the polish record
 
-## Planned instructor delta
+Record only changes that actually occur after the Session 10 lock, such as:
 
-Use the original Session 9 passage and let the reader select:
+- a clearer first instruction or reader path;
+- a repaired reset, preview, export, keyboard, narrow-screen, or unusual-input behavior;
+- a tighter transition between the composition studio and the paper;
+- a corrected source, credit, technical description, or limitation;
+- a removed repetition or stale fragment.
 
-- a query word or token;
-- one of two authored teaching heads;
-- a context arrangement.
+For every change, name the real snag, the bounded fix, the rerun result, and the larger addition that
+was deferred. Do not pre-write an encounter or claim a polish result before it exists.
 
-The page displays the chosen query and each key vector, computes scaled dot products, applies softmax, and draws weighted relations. A new query or head changes the resulting relational field.
+## What does not belong
 
-This introduces a possible portable concept: **query-relative wholes**.
+- a new musical system or research question;
+- another historical-composer survey;
+- a seventh voice, new export family, or unrelated visualization merely because it is possible;
+- a new claim that changes what the project is;
+- a detached Session 11 AI lesson.
 
-## Honesty boundary
+## Presentation-ready check
 
-The vectors are authored teaching data designed to make the mechanics inspectable.
-
-- Computed: dot products, scaling, softmax, normalized weights, and rendered line strength.
-- Authored: the small query/key vectors and the interpretation of what each teaching head represents.
-- Not claimed: that these are internal weights extracted from `Xenova/all-MiniLM-L6-v2`, or that the embedding values from Session 10 are attention.
-
-Link to `/session-03/attention-is-all-you-need/` for the fuller query/key/value and multi-head tour.
-
-## Game of Life contrast
-
-Use the Life case as a counter-model:
-
-- Life has a fixed local neighborhood and one deterministic update rule.
-- Attention constructs graded, query-dependent relations that may connect distant positions.
-
-Do not say that a Life neighborhood is attention or that a glider is a transformer.
-
-## Evidence gate
-
-Before replacing the holding page:
-
-1. Complete and verify Version 4.
-2. Record its real model results, failures, and authorship judgments.
-3. Restate the project’s promise in a form that can fail.
-4. Run one stress test against an ambiguous literary or visual case.
-5. Record the result before deciding whether to repair, narrow, or retain the claim.
-6. Compare the Session 7 and Session 11 claims.
-
-## Required verification when built
-
-- Changing the query changes the computed weights.
-- Each displayed weight set sums to 100% within rounding.
-- Displayed vectors and intermediate scores make the arithmetic inspectable.
-- Authored teaching data are labeled on the interaction itself.
-- Embedding cosine is never relabeled as attention.
-- The Life contrast states both the useful connection and the non-equivalence.
-- The final paper layer contains a genuine stress-test result and limitation.
-- The complete page reads as one argument rather than five unrelated demonstrations.
+1. The opening tells a reader how to begin.
+2. The demonstration score can be heard and stopped.
+3. The central composition decision can be changed and heard.
+4. The WAV/JSON/ledger/ZIP boundary is described accurately.
+5. The paper distinguishes computed Life states, authored mappings, chance procedures, scholarship,
+   and open listener judgment.
+6. Sources and credits resolve.
+7. The presentation path works on a narrow screen and with keyboard controls where provided.
+8. The Session 10 project identity remains unchanged.
 
 ## Current status
 
-Planned and unlisted. The active cumulative version remains `/session-07/`.
+Planned holding route. The locked artifact is still Session 9 V5, **Who Composes the Glider?** No
+Session 11 polish result should be claimed until the actual final pass is completed and verified.

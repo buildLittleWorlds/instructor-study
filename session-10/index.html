@@ -1,635 +1,211 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>One Point, Several Neighborhoods — Instructor Study Session 10</title>
-<script defer src="../studio-nav.js" data-site="study"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A Session 10 revision-archaeology paper-app about authorship, judgment, and locking the Game of Life composition studio for its final course phases.">
+<title>The Work Is the Choosing — Instructor Study Session 10</title>
 <style>
-  :root{--ink:#22222a;--muted:#666873;--paper:#f8f6f0;--card:#fffefa;--line:#ddd9cf;--green:#2f6f5e;--green-deep:#214f44;--green-soft:#e7f1ee;--gold:#b5751b;--gold-soft:#fff2d6;--blue:#315f91;--blue-soft:#eef3f8;--violet:#6b55a5;--orange:#c96b32;--red:#9b443f}
-  *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:1.05rem/1.65 Georgia,"Times New Roman",serif}button,select,textarea{font:inherit}
-  main{width:min(76rem,calc(100% - 2rem));margin:0 auto;padding:2.7rem 0 5rem}article>section{margin-top:4rem;scroll-margin-top:5rem}h1{max-width:14ch;margin:.25rem 0 .7rem;font-size:clamp(3rem,7vw,6rem);line-height:.98;letter-spacing:-.055em}h2{margin:.15rem 0 .55rem;font-size:clamp(1.75rem,3vw,2.55rem);line-height:1.12}h3{margin:.2rem 0 .45rem;line-height:1.2}p{margin:.45rem 0 1rem}a{color:var(--green-deep)}
-  .kicker,.eyebrow,.boundary,.stage,.jump-links,.practice-card,.simulated,.case-state,.control-panel,.legend,.caption,.notice,.status,.paper-label,.ledger,.source-box,.model-gate,.small,.annotation-record,.selected-fragment,.story-title,footer{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-  .kicker,.eyebrow{color:var(--green);font-size:.76rem;font-weight:850;letter-spacing:.075em;text-transform:uppercase}.deck{max-width:55ch;color:var(--muted);font-size:1.25rem}
-  .boundary{display:flex;gap:.8rem;max-width:70rem;margin:1.4rem 0;padding:1rem 1.1rem;border:1px solid #b8d2c7;border-radius:15px;background:var(--green-soft);font-size:.9rem}.boundary-mark{display:grid;place-items:center;flex:0 0 1.7rem;height:1.7rem;border-radius:50%;background:var(--green);color:white;font-weight:900}
-  .stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem;margin:1.35rem 0}.stage{display:grid;gap:.12rem;padding:.75rem .8rem;border:1px solid var(--line);border-radius:12px;background:var(--card);text-decoration:none}.stage span{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em}.stage strong{font-size:.9rem}.stage.complete{border-color:#b8d2c7;background:#f3f8f5}.stage.current{border:2px solid var(--green);background:var(--green-soft)}.stage.future{opacity:.55}
-  .jump-links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}.jump-links a{padding:.48rem .72rem;border:1px solid var(--line);border-radius:999px;background:var(--card);font-size:.82rem;font-weight:800;text-decoration:none}
-  .practice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}.practice-card{padding:1rem;border:1px solid var(--line);border-top:4px solid var(--green);border-radius:13px;background:var(--card);font-size:.9rem}.practice-card p{margin:0;color:var(--muted)}
-  .simulated{padding:1.15rem;border:2px dashed #d7bd87;border-radius:16px;background:#fffaf0}.sim-label{display:inline-block;margin-bottom:.5rem;padding:.28rem .48rem;border-radius:6px;background:var(--gold-soft);color:#765018;font-size:.72rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.sim-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.sim-step{padding:.85rem;border-radius:10px;background:rgba(255,255,255,.72)}.sim-step strong{display:block;color:#765018;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}.sim-step p{margin:.35rem 0 0;font-size:.88rem}
-  .action-spine{margin:1.2rem 0;padding:1rem;border-left:4px solid var(--orange);background:#fff8f2;font-size:1.05rem}.action-spine strong{color:#8f4a1e}
-  .case{padding:clamp(1rem,3vw,1.7rem);border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 14px 38px rgba(34,34,42,.06)}.case+.case{margin-top:1.25rem}.case-heading{display:flex;align-items:start;justify-content:space-between;gap:1rem}.case-state{flex:0 0 auto;padding:.35rem .55rem;border-radius:999px;font-size:.7rem;font-weight:850;text-transform:uppercase;letter-spacing:.04em}.case-state.new{background:var(--gold-soft);color:#765018}.case-state.kept{background:var(--green-soft);color:var(--green-deep)}.case-intro{max-width:65ch;color:var(--muted)}
-  .case-grid,.text-layout,.model-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(18rem,.75fr);gap:1.2rem;align-items:start}.control-panel,.story-card,.map-card,.bars-card,.annotation-record,.source-box,.model-gate{padding:1rem;border:1px solid var(--line);border-radius:14px;background:#fbfaf6}.sticky-panel{position:sticky;top:4.2rem}
-  button{min-height:2.55rem;padding:.55rem .78rem;border:1px solid #9db3aa;border-radius:9px;background:white;color:var(--green-deep);font-weight:760;cursor:pointer}button:hover,button:focus-visible{border-color:var(--green);background:var(--green-soft);outline:3px solid rgba(47,111,94,.18)}button[aria-pressed=true],button.selected{border-color:var(--green);background:var(--green);color:white}button:disabled{cursor:not-allowed;opacity:.45}button.quiet{border-color:var(--line);color:var(--muted)}.button-row{display:flex;flex-wrap:wrap;gap:.45rem}fieldset{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;margin:.9rem 0;padding:.8rem;border:1px solid var(--line);border-radius:11px}legend{padding:0 .3rem;font-size:.82rem;font-weight:850}
-  .status{margin:.8rem 0;padding:.8rem;border-radius:10px;background:var(--green-soft);font-size:.86rem}.notice,.caption,.small{color:var(--muted);font-size:.8rem}.mini-readout{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem;padding:.65rem .75rem;border-radius:10px;background:#f1efe9}.mini-readout span{color:var(--muted);font-size:.75rem;text-transform:uppercase}.mini-readout strong{font-size:1.4rem}
-  .life-grid{display:grid;grid-template-columns:repeat(9,1fr);aspect-ratio:1;gap:3px;padding:6px;border-radius:12px;background:#d5d1c8}.life-cell{min-height:0;padding:0;border:0;border-radius:4px;background:#f5f2ea;aspect-ratio:1}.life-cell.alive{background:var(--green)}.life-cell.marked{box-shadow:inset 0 0 0 4px #efb83f}.life-cell.born{background:#3d7eaa}.life-cell.departed{background:#f4d5cf}.legend{display:flex;gap:1rem;margin-top:.55rem;color:var(--muted);font-size:.78rem}.legend i{display:inline-block;width:.75rem;height:.75rem;margin-right:.25rem;border-radius:3px;vertical-align:-.05rem}.legend .live{background:var(--green)}.legend .marked{background:#efb83f}
-  .image-frame{overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#dbeaf2}.image-frame svg{display:block;width:100%;height:auto}.image-frame .caption{margin:.7rem .8rem}.droplet{cursor:pointer}.droplet:focus{outline:none}.droplet:focus path{stroke:#fff;stroke-width:9px}.whole-button,.text-whole{font-size:.85rem}
-  .story-card{font-family:Georgia,"Times New Roman",serif}.story-title{margin-bottom:.7rem;color:var(--green-deep);font-weight:900;letter-spacing:.03em}.passage{margin:.2rem 0 1rem;font-size:1.06rem;line-height:1.9}.fragment{display:inline;min-height:0;padding:.08rem .18rem;border:0;border-bottom:2px solid #d2a14d;border-radius:4px;background:#fff3cf;color:inherit;font-weight:inherit;text-align:left}.fragment:hover,.fragment:focus-visible{background:#ffe199;outline:2px solid #b5751b}.fragment.selected{background:var(--green);color:white;border-color:var(--green)}.selected-fragment span{display:block;color:var(--muted);font-size:.72rem;text-transform:uppercase}.selected-fragment strong{display:block;margin-top:.2rem}.annotation-record{margin-top:1rem}.annotation-record h3{font-size:1rem}.annotation-row{display:grid;grid-template-columns:minmax(8rem,.7fr) minmax(0,1.3fr);gap:.7rem;padding:.55rem 0;border-top:1px solid var(--line);font-size:.84rem}.annotation-row span{color:var(--muted)}.empty{color:var(--muted);font-size:.85rem}
-  .notebook{display:grid;grid-template-columns:minmax(14rem,.55fr) minmax(0,1.45fr);gap:1rem;padding:1.2rem;border:1px solid #b8d2c7;border-radius:18px;background:var(--green-soft)}.notebook label{display:block;font-family:system-ui,sans-serif;font-size:.8rem;font-weight:850}.notebook select,.notebook textarea{width:100%;margin-top:.35rem;padding:.65rem;border:1px solid #9db3aa;border-radius:9px;background:white}.notebook textarea{min-height:7rem;resize:vertical}.notebook-entry{margin-top:.7rem;padding:.7rem;border-radius:9px;background:white;font-family:system-ui,sans-serif;font-size:.84rem}.notebook-entry strong{color:var(--green-deep)}
-  .paper-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}.paper-card{padding:1rem;border:1px solid var(--line);border-radius:13px;background:var(--card)}.paper-card.current{grid-column:1/-1;border-color:#b8d2c7;background:var(--green-soft)}.paper-label{color:var(--green);font-size:.72rem;font-weight:900;letter-spacing:.05em;text-transform:uppercase}.paper-card p{margin:.35rem 0 0}
-  .claim-key{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;margin-top:.9rem}.claim-key div{padding:.8rem;border-radius:10px;font-family:system-ui,sans-serif;font-size:.82rem}.claim-key .shown{background:var(--green-soft)}.claim-key .sourced{background:var(--blue-soft)}.claim-key .open{background:var(--gold-soft)}
-  .ledger{overflow:hidden;border:1px solid var(--line);border-radius:15px;background:var(--card)}.ledger-row{display:grid;grid-template-columns:12rem 1fr;border-bottom:1px solid var(--line)}.ledger-row:last-child{border-bottom:0}.ledger dt,.ledger dd{margin:0;padding:.8rem .9rem}.ledger dt{background:#f1efe9;color:var(--green-deep);font-weight:850}.ledger dd{font-size:.87rem}.ledger .claim dt,.ledger .claim dd{background:var(--green-soft)}
-  .model-gate{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-bottom:.8rem}.model-gate p{margin:0;color:var(--muted);font-size:.87rem}.source-box{margin-top:1rem;font-size:.82rem}.embedding-map{position:relative;min-height:330px;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:linear-gradient(#ffffffdd,#ffffffdd),linear-gradient(90deg,#eef3f8 50%,#fff2d6 50%)}.axis{position:absolute;background:#b8b5ae}.axis.horizontal{left:0;right:0;top:50%;height:1px}.axis.vertical{top:0;bottom:0;left:50%;width:1px}.anchor-point{position:absolute;padding:.2rem .35rem;border-radius:5px;background:#f1efe9;color:var(--muted);font:700 .66rem system-ui,sans-serif}.anchor-point.mara{right:.3rem;top:48%}.anchor-point.ivo{left:.3rem;top:48%}.anchor-point.relation{left:51%;top:.3rem}.anchor-point.setting{left:51%;bottom:.3rem}.map-point{position:absolute;display:grid;place-items:center;width:2rem;height:2rem;min-height:0;padding:0;border:2px solid white;border-radius:50%;background:var(--violet);color:white;font:850 .7rem system-ui,sans-serif;transform:translate(-50%,-50%);box-shadow:0 2px 8px #0003}.map-point.active{width:2.6rem;height:2.6rem;background:var(--orange)}.similarity-row{display:grid;grid-template-columns:8rem 1fr 3.5rem;gap:.45rem;align-items:center;margin:.65rem 0;font:750 .77rem system-ui,sans-serif}.bar-track{height:.9rem;overflow:hidden;border-radius:999px;background:#ece9e2}.bar-fill{height:100%;border-radius:999px;background:var(--violet)}.bar-value{text-align:right;font-variant-numeric:tabular-nums}
-  .next-card{padding:1.1rem;border:1px solid var(--line);border-radius:15px;background:var(--card)}.next-card a{font-family:system-ui,sans-serif;font-weight:850}.version-nav{display:flex;justify-content:space-between;gap:.7rem;margin-top:1rem;font-family:system-ui,sans-serif;font-size:.85rem}
-  footer{margin-top:3.5rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
-  @media(max-width:840px){.case-grid,.text-layout,.model-grid,.notebook{grid-template-columns:1fr}.practice-grid,.sim-grid,.claim-key{grid-template-columns:1fr}.sticky-panel{position:static}.model-gate{display:block}.model-gate .button-row{margin-top:.8rem}}
-  @media(max-width:620px){main{width:min(100% - 1rem,76rem);padding-top:1.5rem}.stages{grid-template-columns:1fr 1fr}.case-heading{display:block}.case-state{display:inline-block;margin:.4rem 0}.paper-grid{grid-template-columns:1fr}.paper-card.current{grid-column:auto}.ledger-row{grid-template-columns:1fr}.ledger dt{padding-bottom:.25rem}.ledger dd{padding-top:.35rem}fieldset{grid-template-columns:1fr}.version-nav{flex-direction:column}.annotation-row{grid-template-columns:1fr}}
-  </style>
+  :root{
+    --paper:#f4f0e7;--card:#fffdf8;--ink:#20201d;--muted:#67665f;--line:#d6d0c4;
+    --green:#276b59;--green-soft:#dceee7;--blue:#315f91;--blue-soft:#e4edf6;
+    --gold:#a66b13;--gold-soft:#fff0cf;--violet:#65519a;--violet-soft:#ece7f7;
+    --rose:#9d4a58;--rose-soft:#f7e5e8;--night:#11152a;--night-2:#181d39;--cyan:#67dfd4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;background:var(--paper)}
+  body{margin:0;background:var(--paper);color:var(--ink);font:1.02rem/1.65 Georgia,"Times New Roman",serif}
+  a{color:var(--blue)} a:hover{text-decoration-thickness:2px}
+  button,input,textarea{font:inherit}
+  button{min-height:2.65rem;padding:.58rem .82rem;border:1px solid #9caaa4;border-radius:9px;background:white;color:#174c3e;font-weight:780;cursor:pointer}
+  button:hover,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid rgba(49,95,145,.22);outline-offset:2px}
+  button[aria-pressed="true"],button.primary{border-color:var(--green);background:var(--green);color:white}
+  button.quiet{border-color:var(--line);color:var(--muted)}
+  main{width:min(78rem,calc(100% - 2rem));margin:0 auto;padding:3.2rem 0 5rem}
+  header{position:relative;isolation:isolate;min-height:26rem;padding-bottom:1.2rem;color:#f8f7ff}
+  header::before{content:"";position:absolute;z-index:-1;top:-3.2rem;right:calc(50% - 50vw);bottom:-1.5rem;left:calc(50% - 50vw);background:var(--night)}
+  h1{max-width:11ch;margin:.3rem 0 1rem;font-size:clamp(4rem,10vw,8.2rem);line-height:.84;letter-spacing:-.07em}
+  h2{margin:.15rem 0 .65rem;font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.02;letter-spacing:-.035em}
+  h3{margin:.2rem 0 .45rem;line-height:1.18}
+  p{margin:.5rem 0 1rem}
+  section{margin-top:4.5rem;scroll-margin-top:2rem}
+  .kicker,.eyebrow,.route,.lock-banner,.timeline,.decision-lab,.boundary-grid,.ledger,.version-links,.source-list,.small,footer{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .kicker,.eyebrow{color:var(--green);font-size:.75rem;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+  header .kicker{color:var(--cyan)}
+  .deck{max-width:51ch;color:#d0cfe0;font-size:1.3rem}
+  .route{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.4rem 0}.route a{padding:.45rem .7rem;border:1px solid #464d71;border-radius:999px;color:#e6e5f4;font-size:.78rem;text-decoration:none}.route a:hover,.route a:focus-visible{border-color:var(--cyan);background:#1a2541}
+  .lock-banner{display:grid;grid-template-columns:auto 1fr;gap:.9rem;max-width:68rem;margin-top:1.5rem;padding:1rem 1.1rem;border:1px solid #5c6590;border-radius:15px;background:rgba(103,223,212,.09);color:#d9d8e8;font-size:.9rem}
+  .lock-mark{display:grid;place-items:center;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--cyan);color:var(--night);font-weight:950}.lock-banner strong{color:white}
+  .lead{max-width:72ch;font-size:1.2rem}
+  .version-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin-top:1rem}
+  .version-links a{display:block;padding:.8rem .9rem;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font-size:.8rem;text-decoration:none}.version-links a:hover,.version-links a:focus-visible{border-color:var(--green);background:var(--green-soft)}.version-links span{display:block;color:var(--muted);font-size:.7rem;font-weight:850;text-transform:uppercase}
+  .timeline{position:relative;display:grid;gap:.85rem;margin-top:1.3rem}.timeline::before{content:"";position:absolute;left:1.15rem;top:1rem;bottom:1rem;width:2px;background:var(--line)}
+  .era{position:relative;display:grid;grid-template-columns:2.35rem 1fr;gap:.85rem}.era-dot{z-index:1;display:grid;place-items:center;width:2.35rem;height:2.35rem;border:3px solid var(--paper);border-radius:50%;background:var(--green);color:white;font-size:.72rem;font-weight:900}.era-card{padding:1rem 1.1rem;border:1px solid var(--line);border-radius:14px;background:var(--card)}.era-card p{margin:.3rem 0;color:var(--muted)}.era-card .record{margin-top:.55rem;color:var(--blue);font-size:.75rem;font-weight:800}.era.turn .era-dot{background:var(--gold)}.era.locked .era-dot{background:var(--violet)}.era.retired .era-dot{background:var(--rose)}
+  .decision-lab{overflow:hidden;border:1px solid #454c70;border-radius:22px;background:var(--night);color:#eeedf7;box-shadow:0 25px 70px rgba(15,18,38,.18)}
+  .lab-head{padding:1.2rem 1.3rem;background:linear-gradient(110deg,rgba(103,223,212,.12),rgba(143,118,205,.14))}.lab-head p{max-width:72ch;margin-bottom:0;color:#c9c8d7}
+  .decision-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.55rem;padding:1rem 1.2rem;border-top:1px solid #343a5b;border-bottom:1px solid #343a5b}.decision-picker button{min-height:4.2rem;border-color:#454c70;background:var(--night-2);color:#e9e8f3;text-align:left}.decision-picker button[aria-pressed="true"]{border-color:var(--cyan);background:#1e4850}.decision-picker small{display:block;margin-top:.25rem;color:#aeadc0;font-weight:600}
+  .receipt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#343a5b}.receipt article{min-height:8.5rem;padding:1rem 1.1rem;background:var(--night-2)}.receipt .eyebrow{color:var(--cyan)}.receipt p{margin:.25rem 0;color:#cbc9d8;font-size:.9rem}.receipt strong{color:white}
+  .verdict{display:grid;grid-template-columns:1fr minmax(20rem,.8fr);gap:1rem;padding:1.2rem;background:#0d1124}.verdict-choice{display:flex;flex-wrap:wrap;gap:.5rem;margin:.65rem 0}.verdict-choice button{border-color:#4b5277;background:#171c37;color:#e9e8f3}.verdict-choice button[aria-pressed="true"]{border-color:var(--gold);background:#5f441c}.reason{display:grid;gap:.35rem;color:#c9c8d7;font-size:.78rem;font-weight:800}.reason textarea{min-height:6.2rem;padding:.7rem;border:1px solid #4b5277;border-radius:9px;background:#171c37;color:white;resize:vertical}.note-output{min-height:10rem;padding:1rem;border:1px solid #4b5277;border-radius:12px;background:#151a34;color:#d8d6e4;white-space:pre-wrap}.note-output strong{color:var(--cyan)}
+  .actual-lock{margin-top:1rem;padding:1rem 1.1rem;border-left:5px solid var(--violet);background:var(--violet-soft)}.actual-lock strong{color:#433173}.actual-lock ul{margin:.5rem 0 0}
+  .boundary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.boundary-grid div{padding:1rem 1.05rem;border-radius:13px;font-size:.88rem}.boundary-grid strong{display:block;margin-bottom:.25rem}.computed{background:var(--green-soft)}.designed{background:var(--violet-soft)}.open{background:var(--gold-soft)}
+  .future-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.future-card{padding:1.1rem 1.2rem;border:1px solid var(--line);border-top:5px solid var(--green);border-radius:14px;background:var(--card)}.future-card:nth-child(2){border-top-color:var(--gold)}.future-card p{color:var(--muted)}
+  .ledger{display:grid;gap:1px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--line)}.ledger-row{display:grid;grid-template-columns:10rem 1fr;background:var(--card)}.ledger-row dt,.ledger-row dd{margin:0;padding:.85rem 1rem}.ledger-row dt{color:var(--green);font-size:.73rem;font-weight:900;text-transform:uppercase}.ledger-row dd{border-left:1px solid var(--line);font-size:.9rem}.ledger-row.claim{background:var(--green-soft)}
+  .source-list{max-width:72rem;margin:1rem 0 0;padding:0;list-style:none}.source-list li{margin:.65rem 0;padding:.85rem 1rem;border-left:4px solid var(--blue);background:var(--card);font-size:.88rem}
+  .notice{padding:.9rem 1rem;border-radius:11px;background:var(--gold-soft);font-family:system-ui,sans-serif;font-size:.84rem}
+  .small{color:var(--muted);font-size:.78rem}
+  footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
+  @media(max-width:900px){.version-links,.decision-picker{grid-template-columns:repeat(2,minmax(0,1fr))}.verdict{grid-template-columns:1fr}}
+  @media(max-width:680px){main{width:min(100% - 1rem,78rem);padding-top:2rem}header::before{top:-2rem}.lock-banner{grid-template-columns:1fr}.version-links,.decision-picker,.receipt,.boundary-grid,.future-grid{grid-template-columns:1fr}.ledger-row{grid-template-columns:1fr}.ledger-row dd{border-left:0;border-top:1px solid var(--line)}h1{font-size:clamp(3.7rem,18vw,5.7rem)}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
 </head>
 <body>
 <main>
 <article>
   <header>
-    <div class="kicker">Instructor Study · Session 10 · Version 4 of 5</div>
-    <h1>One Point, Several Neighborhoods</h1>
-    <p class="deck">Human annotations come first. Then a small model running in the browser becomes a second observer: not an authority, but another way to inspect several semantic neighborhoods.</p>
-    <div class="boundary"><span class="boundary-mark" aria-hidden="true">i</span><div><strong>This is Daniel’s cumulative instructor example, not the student assignment.</strong> Students keep developing their own paper-apps. This page demonstrates how one project can retain earlier work, encounter a problem, and revise both its interaction and its claim.</div></div>
-    <div class="stages" aria-label="Cumulative instructor-example versions">
-      <a class="stage complete" href="../session-07/"><span>Version 1</span><strong>Cells</strong></a>
-      <a class="stage complete" href="../session-08/"><span>Version 2</span><strong>Image</strong></a>
-      <a class="stage complete" href="../session-09/"><span>Version 3</span><strong>Text</strong></a>
-      <a class="stage current" href="../session-10/" aria-current="page"><span>Version 4</span><strong>Embeddings</strong></a>
-    </div>
-    <div class="action-spine"><strong>The recurring action:</strong> select a part → assign every whole that fits → inspect overlap or change → state and revise the rule.</div>
-    <nav class="jump-links" aria-label="Page sections">
-      <a href="#course-practice">Today’s practice</a><a href="#why-version">Why this version</a><a href="#cases">Interactive cases</a><a href="#notebook">Boundary Notebook</a><a href="#paper">Paper layer</a><a href="#record">Development record</a>
-    </nav>
+    <div class="kicker">Instructor Study · Session 10 · Revision archaeology and authorship</div>
+    <h1>The work is the choosing.</h1>
+    <p class="deck">The glider did not become music in one prompt. A still image failed, sound replaced telling, subtraction made a connection visible, a class-time question brought in John Cage, and a later build turned one instrument into a score-making studio. Session 10 reads that record before it claims authorship.</p>
+    <nav class="route" aria-label="Page route"><a href="#versions">Open the versions</a><a href="#archaeology">Read the archaeology</a><a href="#decision">Audit one decision</a><a href="#boundary">Check the boundary</a><a href="#next">Lock the next phase</a></nav>
+    <div class="lock-banner"><span class="lock-mark" aria-hidden="true">✓</span><div><strong>Project lock:</strong> <a href="../session-09/revised-4/" style="color:#8af3e9">Who Composes the Glider?</a> is now the instructor project. Session 10 adds its decision and authorship record; Session 11 gives it a bounded polish pass. In Session 12, the page remains available while students present their own work. A new medium would hide the very history this session needs.</div></div>
   </header>
 
-  <section id="course-practice" aria-labelledby="practice-title">
-    <div class="eyebrow">Today’s course practice</div>
-    <h2 id="practice-title">Document who contributed what—and who remains responsible</h2>
-    <p>The instructor example models the practice below. It does not replace the work students do on their own evolving paper-app.</p>
-    <div class="practice-grid"><div class="practice-card"><h3>Trace</h3><p>Use the actual build record to name consequential AI contributions, human judgments, tests, and rejected suggestions.</p></div><div class="practice-card"><h3>Compare</h3><p>Treat a model output as evidence to inspect beside a human judgment, not as a replacement for it.</p></div><div class="practice-card"><h3>Take responsibility</h3><p>An authorship note is a credits page and a decision record, not an apology for using tools.</p></div></div>
-  </section>
-
-  <section id="why-version" aria-labelledby="why-title">
-    <div class="simulated">
-      <div class="sim-label">Simulated teaching encounter · not participant data</div>
-      <h2 id="why-title">Session 9 → Session 10</h2>
-      <p>This scenario is invented to make the revision process visible before the class encounter occurs. It contains no participant quotation and makes no research claim.</p>
-      <div class="sim-grid">
-        <div class="sim-step"><strong>Possible observation</strong><p>A hypothetical reader assigns “Their hands stopped before touching either object” to the relationship, then wonders whether a language model would organize the same fragment similarly.</p></div>
-        <div class="sim-step"><strong>Possible interpretation</strong><p>The question becomes useful only after the reader has committed to a human annotation; otherwise the model’s first result becomes the default answer.</p></div>
-        <div class="sim-step"><strong>Revision it motivates</strong><p>Version 4 keeps annotation first, then offers baked measurements and an optional live embedding model as a second observer.</p></div>
-      </div>
+  <section id="versions" aria-labelledby="versions-title">
+    <div class="eyebrow">The evidence shelf · every turn stays visible</div>
+    <h2 id="versions-title">Do not tell the smooth version.</h2>
+    <p class="lead">The published pages are not discarded drafts. Together they show what the builder noticed, what AI helped make, what a source changed, what was cut, and which judgment moved the work. Open them in order or jump directly to the turn you want to inspect.</p>
+    <div class="version-links">
+      <a href="../session-07/"><span>Session 7</span>One Pattern, New Cells</a>
+      <a href="../session-08/"><span>Session 8 · before</span>One Part, Several Wholes</a>
+      <a href="../session-08/revised/"><span>Session 8 · music</span>One Motif, Several Wholes</a>
+      <a href="../session-08/revised-2/"><span>Session 8 · sound first</span>Every click answers</a>
+      <a href="../session-08/revised-3/"><span>Session 8 · map first</span>Mark the Joints</a>
+      <a href="../session-09/"><span>Session 9 · V1</span>Accumulation</a>
+      <a href="../session-09/revised/"><span>Session 9 · V2</span>Generated Again</a>
+      <a href="../session-09/revised-2/"><span>Session 9 · V3</span>Nothing Moves</a>
+      <a href="../session-09/revised-3/"><span>Session 9 · V4</span>Hear the Pattern Travel</a>
+      <a href="../session-09/revised-4/"><span>Session 9 · V5 · current</span>Who Composes the Glider?</a>
     </div>
   </section>
 
-  <section id="cases" aria-labelledby="cases-title">
-    <div class="eyebrow">The growing artifact</div>
-    <h2 id="cases-title">Earlier cases stay usable as the question changes medium</h2>
-    <p>Nothing below is a recap card. Each earlier interaction remains live so a reader can deliberately descend to the prior evidence and compare it with the new case.</p>
-
-<section class="case" id="life-case" aria-labelledby="life-title">
-  <div class="case-heading">
-    <div><div class="eyebrow">Case 1 · discrete cells</div><h2 id="life-title">One pattern, new cells</h2></div>
-    <span class="case-state kept">Carried forward</span>
-  </div>
-  <p class="case-intro">Select the five live cells as the thing, advance the glider, then inspect what survived, appeared, and disappeared.</p>
-  <div class="case-grid">
-    <div>
-      <div id="life-grid" class="life-grid" role="group" aria-label="Interactive nine by nine Game of Life grid"></div>
-      <div class="legend"><span><i class="live"></i> live</span><span><i class="marked"></i> your boundary</span></div>
+  <section id="archaeology" aria-labelledby="archaeology-title">
+    <div class="eyebrow">Revision archaeology · record before interpretation</div>
+    <h2 id="archaeology-title">The project changed its own question.</h2>
+    <div class="timeline">
+      <div class="era retired"><span class="era-dot">0</span><article class="era-card"><h3>An early route was built in advance.</h3><p>The first Sessions 8–10 sequence moved from a pond image to microfiction and then to sentence embeddings. Those pages used clearly labeled simulated teaching encounters. They were plausible, polished, and still superseded when actual encounters gave the project a stronger center.</p><div class="record">Record type: advance-release artifact and repository history · not participant evidence</div></article></div>
+      <div class="era"><span class="era-dot">1</span><article class="era-card"><h3>The image read as flat. Music put time inside the question.</h3><p>During the earlier arc walkthrough, the still pond asserted plural membership with buttons while the glider performed identity through change. The instructor replaced the image with a browser-synthesized musical figure, then kept revising when parts of that page still told instead of sounded.</p><div class="record">Commits a5aa161 → 3c266f8 → 3e79e2e · actual instructor observation, implementation, and checks</div></article></div>
+      <div class="era"><span class="era-dot">2</span><article class="era-card"><h3>The ear mapped before the labels arrived.</h3><p>A Session 8 Trailheads card—“Is ‘the chorus’ a discovery or a decision?”—was stripped to its move and applied to the existing page. The result was Mark the Joints, followed by the abstract, analytical sections, and six-source paper layer.</p><div class="record">Commits 7dc9e95 and dff3071 · authored design encounter plus source-backed writing</div></article></div>
+      <div class="era"><span class="era-dot">3</span><article class="era-card"><h3>Addition reached a limit; subtraction exposed regeneration.</h3><p>Session 9 V1 accumulated nearly everything. V2 cut back to one glider, one motif, and one disagreement. V3 expanded only the connection that became newly visible: a glider persists by sequential generation without transporting a permanent set of cells.</p><div class="record">Commits fe5ad19 → bc7b270 → 1f4bf71 · keep, cut, then selectively deepen</div></article></div>
+      <div class="era turn"><span class="era-dot">4</span><article class="era-card"><h3>In class, the two examples became one instrument.</h3><p>V4 stopped placing Life beside music. Every B3/S23 generation became a sounding event and a visible score. At 8:17 p.m. CDT on August 4, commit 6af4b32 recorded the direct sonification. The class-time question then turned toward John Cage, electronic sound, and chance as a disciplined way of asking rather than merely preferring.</p><div class="record">Commit 6af4b32 · computed Life states joined to an authored sonic mapping</div></article></div>
+      <div class="era turn"><span class="era-dot">5</span><article class="era-card"><h3>The Cage/Life interpretation crystallized.</h3><p>At 8:43 p.m. CDT, commit f95fa4e added direct, designed-wave, and prepared-chance readings of the same Life history plus a source-linked Cage essay. The page explicitly refused two flattering shortcuts: it does not reproduce Cage’s I Ching practice and does not compose “in Cage’s style.”</p><div class="record">Commit f95fa4e · repository timestamp plus the instructor’s class-context account; no invented classroom quotation</div></article></div>
+      <div class="era locked"><span class="era-dot">6</span><article class="era-card"><h3>The next-morning build changed the use, not the question.</h3><p>Commit 921db1e, at 5:07 a.m. CDT on August 5, preserved the Cage/Life interpretation and expanded the instrument into a multitrack studio with reusable project data, local WAV/ZIP export, and a human-readable pattern ledger. That is the current V5 and the project now locked for completion.</p><div class="record">Commit 921db1e · current public artifact · scope locked at Session 10</div></article></div>
     </div>
-    <div class="control-panel">
-      <div class="mini-readout"><span>Generation</span><strong id="life-generation">0</strong></div>
-      <div class="button-row">
-        <button id="life-mark" type="button">Mark live cells</button>
-        <button id="life-advance" type="button">Advance</button>
-        <button id="life-compare" type="button">Compare</button>
-        <button id="life-reset" class="quiet" type="button">Reset</button>
-      </div>
-      <div id="life-status" class="status" role="status" aria-live="polite">Mark what you think the glider is.</div>
-      <p class="notice"><strong>Actual computation.</strong> This page computes Conway’s B3/S23 rule and checks generations 0–4 against a fixture.</p>
-    </div>
-  </div>
-</section>
-<section class="case" id="image-case" aria-labelledby="image-title">
-  <div class="case-heading">
-    <div><div class="eyebrow">Case 2 · visual region</div><h2 id="image-title">One part, several wholes</h2></div>
-    <span class="case-state kept">Carried forward</span>
-  </div>
-  <p class="case-intro">Select the suspended droplet, then choose <em>every</em> whole that gives the part a defensible role.</p>
-  <div class="case-grid">
-    <div class="image-frame">
-      <svg viewBox="0 0 620 390" role="img" aria-labelledby="pond-title pond-desc">
-        <title id="pond-title">A pond-edge plant, reflected sky, and suspended droplet</title>
-        <desc id="pond-desc">Original vector artwork. The central droplet is keyboard selectable and can be assigned to several wholes.</desc>
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#dbeaf2"/><stop offset="1" stop-color="#f8d9a9"/></linearGradient>
-          <linearGradient id="water" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6d9da5"/><stop offset="1" stop-color="#315d67"/></linearGradient>
-          <filter id="soft-shadow"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-opacity=".23"/></filter>
-        </defs>
-        <rect width="620" height="390" fill="url(#sky)"/>
-        <circle cx="510" cy="82" r="42" fill="#f7c95b" opacity=".85"/>
-        <path d="M0 230 C125 202 235 251 360 222 S535 212 620 234 V390 H0Z" fill="url(#water)"/>
-        <path d="M0 253 C150 225 240 275 365 246 S525 234 620 253" fill="none" stroke="#b9d9da" stroke-width="4" opacity=".7"/>
-        <path d="M165 315 C178 250 187 195 198 112" fill="none" stroke="#285f45" stroke-width="15" stroke-linecap="round"/>
-        <path d="M192 190 C145 174 116 147 103 115 C146 111 185 126 201 160Z" fill="#4f8a60"/>
-        <path d="M185 247 C226 230 259 200 270 167 C227 169 196 188 181 216Z" fill="#3e7852"/>
-        <path d="M362 274 C417 257 469 259 520 277" fill="none" stroke="#f4d2a0" stroke-width="20" opacity=".35"/>
-        <path id="membership-plant" d="M186 236 C179 202 184 166 199 127" fill="none" stroke="#4c9a65" stroke-width="8" stroke-linecap="round" opacity="0"/>
-        <ellipse id="membership-sky" cx="360" cy="273" rx="62" ry="32" fill="none" stroke="#7a5cc9" stroke-width="7" opacity="0"/>
-        <path id="membership-cycle" d="M298 76 C400 28 520 95 500 182 C487 240 424 249 385 228" fill="none" stroke="#247e9b" stroke-width="7" stroke-dasharray="10 9" opacity="0"/>
-        <rect id="membership-composition" x="275" y="103" width="185" height="205" rx="38" fill="none" stroke="#c66a28" stroke-width="7" opacity="0"/>
-        <g id="droplet" role="button" tabindex="0" aria-pressed="false" aria-label="Select the suspended droplet" class="droplet" filter="url(#soft-shadow)">
-          <path d="M365 105 C365 105 326 158 326 190 C326 218 343 237 365 237 C387 237 404 218 404 190 C404 158 365 105 365 105Z" fill="#c8edf3" stroke="#214f62" stroke-width="5"/>
-          <path d="M351 153 C340 171 340 190 349 202" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity=".78"/>
-        </g>
-      </svg>
-      <p class="caption">Original SVG artwork made for this course. Colored outlines appear only after you assign memberships; the list beside the image repeats every assignment in words.</p>
-    </div>
-    <div class="control-panel">
-      <button id="select-droplet" type="button">Select the droplet</button>
-      <fieldset>
-        <legend>Choose every whole that fits</legend>
-        <button class="whole-button" data-whole="plant" type="button" aria-pressed="false">the plant</button>
-        <button class="whole-button" data-whole="sky" type="button" aria-pressed="false">the reflected sky</button>
-        <button class="whole-button" data-whole="cycle" type="button" aria-pressed="false">the water cycle</button>
-        <button class="whole-button" data-whole="composition" type="button" aria-pressed="false">the composition</button>
-      </fieldset>
-      <div id="image-status" class="status" role="status" aria-live="polite">Select the droplet, then assign one or more wholes.</div>
-      <button id="image-reset" class="quiet" type="button">Reset image case</button>
-    </div>
-  </div>
-</section>
-<section class="case" id="text-case" aria-labelledby="text-title">
-  <div class="case-heading">
-    <div><div class="eyebrow">Case 3 · textual fragment</div><h2 id="text-title">One passage, several characters</h2></div>
-    <span class="case-state kept">Carried forward</span>
-  </div>
-  <p class="case-intro">Choose a highlighted fragment, then assign every interpretive whole that fits. The passage does not contain an answer key.</p>
-  <div class="text-layout">
-    <div class="story-card">
-      <div class="story-title">Between the Chairs</div>
-
-<p class="passage">
-  When Mara returned to the observatory, <button class="fragment" data-fragment="f1">the blue cup was still on Ivo’s desk</button>.
-  <button class="fragment" data-fragment="f2">He had repaired its cracked handle with gold paint</button>, the way she once described a Japanese bowl in
-  <button class="fragment" data-fragment="f3">a letter neither of them mentioned anymore</button>. Rain threaded the dome windows.
-  <button class="fragment" data-fragment="f4">Mara set the station key beside the cup, though the night shift was hers</button>.
-</p>
-<p class="passage">“You kept it,” she said. Ivo turned the cup so the seam faced the wall. “It kept the stain.” The storm erased the city lights below them. For a moment,
-  <button class="fragment" data-fragment="f5">the glass held two dim reflections</button>: Mara reaching for the key, Ivo reaching for the cup.
-  <button class="fragment" data-fragment="f6">Their hands stopped before touching either object</button>. In the silence,
-  <button class="fragment" data-fragment="f7">the radio repeated a weather warning for boats far beyond the hill</button>.
-  Mara left the key. Ivo left the cup facing the wall. At dawn,
-  <button class="fragment" data-fragment="f8">the cleaning crew found both objects exactly between the two chairs</button>.
-</p>
-      <p class="caption">Original microfiction by the course instructor for this demonstration. Highlighting was chosen to create debatable boundaries, not to encode ground truth.</p>
-    </div>
-    <div class="control-panel sticky-panel">
-      <div class="selected-fragment"><span>Selected fragment</span><strong id="selected-fragment-text">Choose a highlighted phrase.</strong></div>
-      <fieldset>
-        <legend>Choose every whole that fits</legend>
-        <button class="text-whole" data-text-whole="mara" type="button" aria-pressed="false">Mara</button>
-        <button class="text-whole" data-text-whole="ivo" type="button" aria-pressed="false">Ivo</button>
-        <button class="text-whole" data-text-whole="relation" type="button" aria-pressed="false">their relationship</button>
-        <button class="text-whole" data-text-whole="setting" type="button" aria-pressed="false">setting / context</button>
-      </fieldset>
-      <div id="text-status" class="status" role="status" aria-live="polite">Choose a fragment before assigning memberships.</div>
-      <button id="text-reset" class="quiet" type="button">Reset passage annotations</button>
-    </div>
-  </div>
-  <div class="annotation-record">
-    <h3>Your human annotation record</h3>
-    <div id="annotation-list"><p class="empty">No memberships assigned yet.</p></div>
-  </div>
-</section>
-<section class="case model-case" id="model-case" aria-labelledby="model-title">
-  <div class="case-heading">
-    <div><div class="eyebrow">Case 4 · embedding point</div><h2 id="model-title">One point, several neighborhoods</h2></div>
-    <span class="case-state new">New in this version</span>
-  </div>
-  <p class="case-intro">Make at least one human passage annotation first. Then inspect baked measurements or explicitly load the same pinned model in your browser.</p>
-  <div class="model-gate">
-    <div>
-      <h3>Human judgment first</h3>
-      <p id="human-gate-text">Return to the passage and assign at least one membership. Model controls remain unavailable until you do.</p>
-    </div>
-    <div class="button-row">
-      <button id="show-baked" type="button" disabled>Show curated comparison</button>
-      <button id="load-model" type="button" disabled>Load live model</button>
-    </div>
-  </div>
-  <div id="model-status" class="status" role="status" aria-live="polite">No model or fallback comparison has been shown.</div>
-  <div class="model-grid" id="model-results" hidden>
-    <div class="map-card">
-      <h3>Two-axis neighborhood map</h3>
-      <p class="small">Horizontal: Mara similarity minus Ivo similarity. Vertical: relationship similarity minus setting similarity. This deterministic teaching projection distorts the 384-dimensional geometry.</p>
-      <div id="embedding-map" class="embedding-map" aria-label="Projected embedding comparison map">
-        <span class="axis horizontal"></span><span class="axis vertical"></span>
-        <span class="anchor-point mara">Mara</span><span class="anchor-point ivo">Ivo</span>
-        <span class="anchor-point relation">Relationship</span><span class="anchor-point setting">Setting</span>
-      </div>
-    </div>
-    <div class="bars-card">
-      <h3>Exact cosine similarities</h3>
-      <p id="bars-fragment" class="small"></p>
-      <div id="similarity-bars"></div>
-      <p class="small"><strong>These values are model similarity.</strong> They are not confidence, truth, attention, or proof of membership.</p>
-    </div>
-  </div>
-  <div class="source-box">
-    <strong>Runtime and provenance.</strong> The live option imports <code>@huggingface/transformers@4.2.0</code> from jsDelivr only after you request it, then downloads <code>Xenova/all-MiniLM-L6-v2</code> revision <code>751bff37182d3f1213fa05d7196b954e230abad9</code> from Hugging Face. The Apache-2.0 model runs with q8 weights, normalized mean pooling, and cosine similarity on CPU/WASM. Curated fallback values were generated with that same configuration. No annotation or text is stored by this page.
-  </div>
-</section>
+    <p class="notice"><strong>Evidence discipline.</strong> A commit proves that a repository state was recorded at a time. It does not, by itself, prove what anyone said in class or who first imagined an idea. The class context comes from the instructor’s account and the contemporaneous record; this page quotes no student and presents no screen observation as participant evidence.</p>
   </section>
 
-  <section id="notebook" aria-labelledby="notebook-title">
-    <div class="eyebrow">State and revise the rule</div>
-    <h2 id="notebook-title">Boundary Notebook</h2>
-    <div class="notebook">
-      <div>
-        <label for="rule-case">Case
-          <select id="rule-case"><option value="Glider">Glider</option><option value="Droplet">Droplet</option><option value="Passage">Passage</option><option value="Embedding comparison">Embedding comparison</option></select>
-        </label>
-        <p class="small">Entries stay in memory only and disappear when the page is refreshed.</p>
-      </div>
-      <div>
-        <label for="rule-text">What rule are you using to decide what counts as one thing?
-          <textarea id="rule-text" placeholder="I count this as one thing when…"></textarea>
-        </label>
-        <div class="button-row"><button id="save-rule" type="button">Save this provisional rule</button></div>
-        <div id="rule-status" class="status" role="status" aria-live="polite">No rule saved yet.</div>
-        <div id="notebook-entries"></div>
+  <section id="decision" aria-labelledby="decision-title">
+    <div class="eyebrow">Interactive encounter · inspect one consequential choice</div>
+    <h2 id="decision-title">Authorship lives in the redirects.</h2>
+    <p class="lead">Choose one turn. The receipt separates the originating encounter, AI’s implementation role, the instructor’s judgment, the check, and the path rejected. Then make a provisional keep/polish/reopen call. Your call stays in this page only; the actual project lock is recorded below it.</p>
+    <div class="decision-lab">
+      <div class="lab-head"><h3 style="margin:0">The Decision Record</h3><p>A commit list is not yet an authorship account. It becomes one when a consequential choice is connected to evidence, judgment, checking, and responsibility.</p></div>
+      <div id="decision-picker" class="decision-picker" role="group" aria-label="Choose a revision decision to inspect"></div>
+      <div id="receipt" class="receipt" aria-live="polite"></div>
+      <div class="verdict">
+        <div>
+          <div class="eyebrow" style="color:var(--cyan)">Your provisional call</div>
+          <div class="verdict-choice" role="group" aria-label="Choose a decision verdict"><button type="button" data-verdict="Keep" aria-pressed="true">Keep</button><button type="button" data-verdict="Polish" aria-pressed="false">Polish</button><button type="button" data-verdict="Reopen" aria-pressed="false">Reopen</button></div>
+          <label class="reason" for="reason">Because the record shows…<textarea id="reason" placeholder="Name the evidence or judgment, not a feeling about the finished page."></textarea></label>
+          <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.65rem"><button id="lock-note" class="primary" type="button">Lock this decision note</button><button id="copy-note" class="quiet" type="button" disabled>Copy note</button></div>
+          <p id="decision-status" class="small" aria-live="polite">Choose a trace, read the receipt, and write one record-based reason.</p>
+        </div>
+        <div id="note-output" class="note-output"><strong>No note yet.</strong><br>Your note will name the trace, contributions, check, rejected path, and responsibility without pretending one contributor did everything.</div>
       </div>
     </div>
+    <div class="actual-lock"><strong>The instructor’s actual Session 10 decision:</strong> keep V5 as the project and reopen only bounded parts of its presentation. The musical medium, Cage/Life question, and composition-studio core no longer compete with fresh concepts. Mobile behavior, keyboard access, mix legibility, source transitions, export clarity, and the authorship account may still receive small verified repairs or polish.</div>
   </section>
 
-  <section id="paper" aria-labelledby="paper-title">
-    <div class="eyebrow">Paper layer · revised in Version 4</div>
-    <h2 id="paper-title">Semantic proximity supplies another relation, not a final membership</h2>
+  <section id="boundary" aria-labelledby="boundary-title">
+    <div class="eyebrow">Epistemic boundary · what the current project can claim</div>
+    <h2 id="boundary-title">The glider still does not compose alone.</h2>
+    <div class="boundary-grid">
+      <div class="computed"><strong>Computed and recorded</strong>B3/S23 generates each displayed Life state. The browser derives sound and exports from the chosen settings. Git records the named repository states and timestamps.</div>
+      <div class="designed"><strong>Designed and judged</strong>The seeds, board bounds, pitch maps, scales, timbres, chance ranges, arrangement, stopping points, prose, sources, and project lock are human-directed choices implemented with AI assistance.</div>
+      <div class="open"><strong>Still open</strong>Whether listeners hear one musical identity, how much agency belongs to a procedure or performer, and whether the final work is compelling beyond its usefulness as an authorship experiment.</div>
+    </div>
+    <p class="notice" style="margin-top:1rem"><strong>Chance boundary.</strong> Prepared chance answers inside a field somebody designed. It does not make Conway’s rule random, erase the mapper, imitate Cage, or turn a browser into an autonomous composer.</p>
+  </section>
 
-  <div class="paper-grid">
-    <div class="paper-card"><div class="paper-label">Question</div><p>If one fragment lies near several semantic anchors, does that reveal plural membership—or only the way one model organizes language?</p></div>
-    <div class="paper-card"><div class="paper-label">Observation</div><p>The pinned embedding model assigns graded cosine similarities between each fragment and four predeclared anchors. Several fragments remain appreciably related to more than one anchor.</p></div>
-    <div class="paper-card"><div class="paper-label">Interpretation</div><p>Embedding neighborhoods can expose relations worth inspecting, including disagreements with a human annotation. They do not convert an interpretive category into ground truth.</p></div>
-    <div class="paper-card"><div class="paper-label">Limitation</div><p>The anchors are authored teaching choices, the two-dimensional map compresses the 384-dimensional vectors, and one English model cannot represent every defensible reading.</p></div>
-    <div class="paper-card current"><div class="paper-label">Current claim · Version 4</div><p>A model can make relational structure perceptible without receiving authority to decide what a fragment finally belongs to.</p></div>
-    <div class="paper-card"><div class="paper-label">Next move</div><p>Stress-test the claim later with query-relative attention, keeping attention weights distinct from embedding similarity.</p></div>
-  </div>
-
+  <section id="next" aria-labelledby="next-title">
+    <div class="eyebrow">The locked road forward</div>
+    <h2 id="next-title">Finish the project that the record discovered.</h2>
+    <div class="future-grid">
+      <article class="future-card"><h3>Session 11 · bounded polish</h3><p>Show one or two small presentation-serving changes, grounded in an actual snag such as mobile width, keyboard use, reset, project re-import, mix legibility, or a first-time listener’s route. Repair or clarify without adding a new medium, system, or question; most class time belongs to student work.</p></article>
+      <article class="future-card"><h3>Session 12 · hand the room to students</h3><p>The instructor project receives no new feature, lesson, or presentation slot. It remains available as an example, while class time belongs to students presenting each final paper-app, its central reader action, decisive turn, evidence or source, limitation, and authorship.</p></article>
+    </div>
   </section>
 
   <section id="record" aria-labelledby="record-title">
-    <div class="eyebrow">Development record</div>
-    <h2 id="record-title">The revision remains inspectable</h2>
-    <p>The ledger distinguishes an authored simulation from actual technical results. Simulated evidence explains a possible process; it is never presented as something a student or reader actually did.</p>
-    <dl class="ledger"><div class="ledger-row"><dt>Kept</dt><dd>All three earlier interactive cases, their multi-membership logic, and the shared Boundary Notebook.</dd></div><div class="ledger-row"><dt>Tried</dt><dd>A pinned in-browser sentence-embedding model compared with predeclared character, relationship, and setting anchors.</dd></div><div class="ledger-row"><dt>Encountered</dt><dd>Simulated teaching observation: a hypothetical Session 9 reader asks what a model would group with a human-labeled fragment. This is not participant data.</dd></div><div class="ledger-row"><dt>Changed</dt><dd>Required a human annotation before revealing model comparison and preserved the baked comparison when the model cannot load.</dd></div><div class="ledger-row"><dt>Rejected</dt><dd>Calling the highest similarity a classification, confidence, truth, attention, or proof of character membership.</dd></div><div class="ledger-row"><dt>Actual technical result</dt><dd>Fallback measurements were generated with Transformers.js 4.2.0 and the pinned q8 model revision; the live path recomputes the same curated comparison and reports agreement tolerance.</dd></div><div class="ledger-row claim"><dt>Current claim</dt><dd>Embedding similarity is a useful second observer of relation, but interpretive responsibility remains with the reader and author.</dd></div></dl>
+    <div class="eyebrow">Development ledger · Session 10</div>
+    <h2 id="record-title">The earlier Session 10 page became evidence.</h2>
+    <dl class="ledger">
+      <div class="ledger-row"><dt>Kept</dt><dd>Every visible Session 7–9 version; the verified Life computation; the V5 instrument, arrangement system, exports, source boundaries, and experimental-music paper.</dd></div>
+      <div class="ledger-row"><dt>Tried earlier</dt><dd>An advance-release path from image to microfiction to optional sentence embeddings. Its model-provenance discipline remains useful, but that medium no longer represents the project actual encounters produced.</dd></div>
+      <div class="ledger-row"><dt>Encountered</dt><dd>The in-class convergence of Game of Life and music, followed by the Cage/chance question and the next-morning multitrack expansion. These turns made the project’s authorship question concrete rather than hypothetical.</dd></div>
+      <div class="ledger-row"><dt>Changed</dt><dd>Rebuilt Session 10 as revision archaeology and a decision-record encounter. The page now treats V5 as the locked artifact instead of introducing embeddings as another case.</dd></div>
+      <div class="ledger-row"><dt>Rejected</dt><dd>A new medium; a transcript dump; percentage authorship; treating commit times as proof of speech; calling prepared chance Cage imitation; and calling the Life system an autonomous composer.</dd></div>
+      <div class="ledger-row"><dt>Actual technical result</dt><dd>This page loads no model or media, makes no network request, stores no reader input, links every public revision, and checks the decision records, commit labels, required sections, and current-project lock through <code>S10.selftest()</code>.</dd></div>
+      <div class="ledger-row claim"><dt>Current claim</dt><dd>Authorship is visible in the record of direction, encounter, interpretation, implementation, checking, rejection, credit, and responsibility—and the current authorial act is to stop changing the project’s identity long enough to finish it.</dd></div>
+    </dl>
   </section>
 
-  <section aria-labelledby="next-title">
-    <div class="next-card">
-      <div class="eyebrow">Where this version leaves the project</div>
-      <h2 id="next-title">Version 4 is the end of this advance-release arc</h2>
-      <p>Session 11 remains planned rather than silently completed. The present release lets students see the full Session 7–10 arc while leaving the final attention stress test for its own revision.</p>
-
-      <div class="version-nav"><a href="../session-09/">← Back to Version 3</a><a href="../">Instructor Study home</a></div>
-    </div>
+  <section id="sources" aria-labelledby="sources-title">
+    <div class="eyebrow">Sources and provenance</div>
+    <h2 id="sources-title">Credit the practices without borrowing their authority.</h2>
+    <ul class="source-list">
+      <li><a href="../session-09/revised-4/"><strong>Session 9 V5, “Who Composes the Glider?”</strong></a> — the current executable artifact, full source shelf, pattern ledger, and computed/designed/open boundary.</li>
+      <li><a href="https://johncage.org/cage-autobiographical-statement"><strong>John Cage, “An Autobiographical Statement”</strong></a> — technology, chance-determined work, and attentive listening; used as a source, not a style license.</li>
+      <li><a href="https://www.data-johncage.org/pp/John-Cage-Work-Detail.cfm?work_ID=134"><strong>John Cage Complete Works, <em>Music of Changes</em></strong></a> — chance in composition and a resulting score fixed in detail.</li>
+      <li><a href="https://earle-brown.org/wp-content/uploads/Earle-Brown-open-form-general-instructions.pdf"><strong>Earle Brown, open-form instructions</strong></a> — a contrasting placement of decision and contingency in performance.</li>
+      <li><strong>Repository history:</strong> commits a5aa161, 3c266f8, 3e79e2e, 7dc9e95, dff3071, fe5ad19, bc7b270, 1f4bf71, 6af4b32, f95fa4e, and 921db1e. Commit records establish code states and timestamps; they do not replace the chats, sources, or instructor judgments needed for an authorship account.</li>
+    </ul>
   </section>
 
-  <footer>What Makes Something One Thing? · Version 4 · No accounts, analytics, uploads, or stored reader data.</footer>
+  <footer><a href="../">Instructor Study home</a> · Session 10 · no accounts, analytics, uploads, model requests, or stored reader data. The interactive note remains in memory and disappears on refresh.</footer>
 </article>
 </main>
 
 <script>
 (() => {
   "use strict";
-  const VERSION = 10;
-  const q = (selector, root = document) => root.querySelector(selector);
-  const qa = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const esc = (value) => String(value).replace(/[&<>"']/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-
-  const SIZE = 9;
-  const START = [[2,1],[3,2],[1,3],[2,3],[3,3]];
-  const FIXTURES = [
-    [[2,1],[3,2],[1,3],[2,3],[3,3]],
-    [[1,2],[3,2],[2,3],[3,3],[2,4]],
-    [[3,2],[1,3],[3,3],[2,4],[3,4]],
-    [[2,2],[3,3],[4,3],[2,4],[3,4]],
-    [[3,2],[4,3],[2,4],[3,4],[4,4]]
+  const q=(selector,root=document)=>root.querySelector(selector),qa=(selector,root=document)=>[...root.querySelectorAll(selector)];
+  const DECISIONS=[
+    {id:"medium",short:"Image → music",commit:"a5aa161",title:"Replace the still image with music",origin:"An actual instructor observation: the pond image asserted membership while the glider performed identity through change.",ai:"Codex helped turn the directed musical concept into browser synthesis, controls, and verification logic.",human:"Dr. Plate judged that the companion case needed time, selected the musical source and analytical question, and retained the glider as the comparison.",check:"The Life fixture and synthesized musical layers were checked separately; no recording, vocal, or lyric was embedded.",cut:"Keep polishing the pond image, add image segmentation, or treat model performance as the center.",status:"Kept. Music became the project’s working medium."},
+    {id:"sound",short:"Make it audible",commit:"3c266f8",title:"Replace silent feedback with sound-first experiments",origin:"The first musical page’s bench sounded, but its annotated piano roll answered a click only with color and prose.",ai:"Codex implemented the held-note and editable-motif experiments, live toggles, and self-tests under instructor direction.",human:"Dr. Plate recognized the old tell-first problem in a new form and required every central musical action to answer in sound.",check:"The held C remains at one frequency; chord pads omit C; nudge arithmetic and the chorus pattern are checked.",cut:"A silent assignment grid and an automatic correctness verdict about whether the motif survived.",status:"Kept. The ear, not a grader, judges musical continuity."},
+    {id:"map",short:"Map before naming",commit:"7dc9e95",title:"Let the listener mark joints before names arrive",origin:"A Trailheads card asked whether ‘the chorus’ is discovered or decided; its move exposed narration that named sections before hearing.",ai:"Codex helped translate the reinterpreted card into the names-off pass, bar-quantized marks, comparison view, and checks.",human:"Dr. Plate chose to keep the card’s move while dropping its proposed topic and refused to grade disagreements as errors.",check:"Reader marks and named boundaries share the same build data; marks stay only in memory.",cut:"Names first, auto-grading, and replacing the narrated build rather than giving it a different role.",status:"Kept. Map first, name after became the authoritative Session 8 encounter."},
+    {id:"subtract",short:"Subtract",commit:"bc7b270",title:"Cut the accumulated page back to two encounters",origin:"Session 9 V1 had several plausible entrances, experiments, sources, and analytical extensions competing for the center.",ai:"Codex helped preserve a working glider and compact motif bench while removing the larger apparatus.",human:"Dr. Plate chose contraction as an inquiry, not a universal claim that shorter pages are better.",check:"The reduced page retained verified Life generations, valid musical event data, and explicit memory-claim limits.",cut:"Treating every earlier good addition as permanent or presenting generative memory as the app’s result.",status:"Kept as a visible version. The cut exposed the regeneration question."},
+    {id:"sonify",short:"Life writes score",commit:"6af4b32",title:"Make each Life generation directly audible",origin:"The glider and music still sat beside each other; the instructor asked for one encounter that unified them during Session 9.",ai:"Codex implemented the cellular instrument, coordinate mappings, visual score, Web Audio synthesis, and preset checks.",human:"Dr. Plate redirected the structure so computation and music met in one object and required authored mappings to remain explicit.",check:"B3/S23 states are computed; translation-invariant pattern coordinates match translated gliders; board coordinates do not.",cut:"Claiming the music was naturally inside the glider or that one mapping was the correct sound of Life.",status:"Kept. V4 is the focused control encounter inside V5."},
+    {id:"cage",short:"Cage / chance",commit:"f95fa4e",title:"Place prepared chance beside deterministic Life",origin:"The in-class sonification prompted a new question: how would John Cage’s account of technology, chance, and responsibility change the reading?",ai:"Codex helped research, draft, and implement direct, periodic, and seeded chance pitch processes.",human:"Dr. Plate chose Cage as the source-backed alternative, bounded the comparison, and rejected style imitation and false equivalence.",check:"The same chance seed reproduces the same sixteen-step contour; preparing again changes the answer without changing B3/S23.",cut:"‘Random music,’ an I Ching simulation, Cage-style generation, or the claim that chance removes authorship.",status:"Kept. This is the class-time crystallizing interpretation."},
+    {id:"studio",short:"Compose and export",commit:"921db1e",title:"Turn the instrument into a portable composition practice",origin:"The Cage/Life synthesizer could ask who composes, but a musician still needed a way to arrange independent voices and carry the result away.",ai:"Codex helped implement multitrack arrangement, local rendering, project import/export, and the pattern ledger.",human:"Dr. Plate directed the studio use, expanded the source comparison, and kept the system framed as score-making rather than autonomous composition.",check:"The current self-test covers Life presets, mapping invariance, chance repeatability, arrangement readiness, WAV rendering, and ZIP packaging.",cut:"A server, uploads, unlimited tracks, hidden generative decisions, and a claim that export resolves the authorship question.",status:"Locked. Session 11 may polish V5; Session 12 belongs to student presentations."}
   ];
-  const cellKey = (x,y) => x + "," + y;
-  const toSet = (cells) => new Set(cells.map(([x,y]) => cellKey(x,y)));
-  const splitKey = (key) => key.split(",").map(Number);
-  const sameSet = (a,b) => a.size === b.size && [...a].every((value) => b.has(value));
-  function lifeStep(cells) {
-    const counts = new Map();
-    cells.forEach((key) => {
-      const [x,y] = splitKey(key);
-      for(let dx=-1;dx<=1;dx++) for(let dy=-1;dy<=1;dy++) {
-        if(dx === 0 && dy === 0) continue;
-        const neighbor = cellKey(x+dx,y+dy);
-        counts.set(neighbor,(counts.get(neighbor)||0)+1);
-      }
-    });
-    const next = new Set();
-    counts.forEach((count,key) => {
-      if(count === 3 || (count === 2 && cells.has(key))) next.add(key);
-    });
-    return next;
-  }
-  let lifeCurrent = toSet(START);
-  let lifePrevious = null;
-  let lifeMarked = new Set();
-  let generation = 0;
-  function renderLife() {
-    const grid = q("#life-grid");
-    if(!grid) return;
-    const focus = document.activeElement?.dataset?.cell;
-    grid.innerHTML = "";
-    for(let y=0;y<SIZE;y++) for(let x=0;x<SIZE;x++) {
-      const key = cellKey(x,y);
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "life-cell";
-      button.dataset.cell = key;
-      const alive = lifeCurrent.has(key);
-      if(alive) button.classList.add("alive");
-      if(lifeMarked.has(key)) button.classList.add("marked");
-      if(lifePrevious && alive && !lifePrevious.has(key)) button.classList.add("born");
-      if(lifePrevious && !alive && lifePrevious.has(key)) button.classList.add("departed");
-      button.setAttribute("aria-pressed",lifeMarked.has(key) ? "true" : "false");
-      button.setAttribute("aria-label","row " + (y+1) + ", column " + (x+1) + (alive ? ", live" : ", empty") + (lifeMarked.has(key) ? ", marked as part of the glider" : ""));
-      button.addEventListener("click",() => {
-        lifeMarked.has(key) ? lifeMarked.delete(key) : lifeMarked.add(key);
-        renderLife();
-      });
-      grid.appendChild(button);
-    }
-    q("#life-generation").textContent = generation;
-    if(focus) q('[data-cell="' + focus + '"]')?.focus();
-  }
-  q("#life-mark")?.addEventListener("click",() => {
-    lifeMarked = new Set(lifeCurrent);
-    q("#life-status").innerHTML = "<strong>Five positions marked.</strong> Advance to test whether this fixed boundary follows the pattern.";
-    renderLife();
-  });
-  q("#life-advance")?.addEventListener("click",() => {
-    lifePrevious = new Set(lifeCurrent);
-    lifeCurrent = lifeStep(lifeCurrent);
-    generation += 1;
-    q("#life-status").innerHTML = "<strong>The rule ran.</strong> Compare the new live cells with your marked boundary.";
-    renderLife();
-  });
-  q("#life-compare")?.addEventListener("click",() => {
-    if(!lifePrevious) {
-      q("#life-status").textContent = "Advance the glider once before comparing.";
-      return;
-    }
-    const survived = [...lifeCurrent].filter((key) => lifePrevious.has(key)).length;
-    const born = [...lifeCurrent].filter((key) => !lifePrevious.has(key)).length;
-    const departed = [...lifePrevious].filter((key) => !lifeCurrent.has(key)).length;
-    const markedAlive = [...lifeMarked].filter((key) => lifeCurrent.has(key)).length;
-    q("#life-status").innerHTML = "<strong>" + survived + " survived, " + born + " appeared, " + departed + " disappeared.</strong> " + markedAlive + " of your marked positions are live now.";
-  });
-  q("#life-reset")?.addEventListener("click",() => {
-    lifeCurrent = toSet(START); lifePrevious = null; lifeMarked = new Set(); generation = 0;
-    q("#life-status").textContent = "Mark what you think the glider is.";
-    renderLife();
-  });
-  renderLife();
-
-  let imageSelected = false;
-  const imageWholes = new Set();
-  const wholeNames = {plant:"the plant",sky:"the reflected sky",cycle:"the water cycle",composition:"the composition"};
-  function renderImage() {
-    const droplet = q("#droplet");
-    if(!droplet) return;
-    droplet.setAttribute("aria-pressed", imageSelected ? "true" : "false");
-    qa(".whole-button").forEach((button) => {
-      const selected = imageWholes.has(button.dataset.whole);
-      button.setAttribute("aria-pressed",selected ? "true" : "false");
-      const overlay = q("#membership-" + button.dataset.whole);
-      if(overlay) overlay.setAttribute("opacity", selected ? "1" : "0");
-    });
-    const names = [...imageWholes].map((key) => wholeNames[key]);
-    q("#image-status").innerHTML = !imageSelected
-      ? "Select the droplet, then assign one or more wholes."
-      : names.length
-        ? "<strong>Assigned to " + esc(names.join(", ")) + ".</strong> The same pixels now participate in " + names.length + " named whole" + (names.length === 1 ? "" : "s") + "."
-        : "<strong>Droplet selected.</strong> Choose every whole that fits.";
-  }
-  function selectDroplet() { imageSelected = true; renderImage(); }
-  q("#select-droplet")?.addEventListener("click",selectDroplet);
-  q("#droplet")?.addEventListener("click",selectDroplet);
-  q("#droplet")?.addEventListener("keydown",(event) => {
-    if(event.key === "Enter" || event.key === " ") { event.preventDefault(); selectDroplet(); }
-  });
-  qa(".whole-button").forEach((button) => button.addEventListener("click",() => {
-    imageSelected = true;
-    const key = button.dataset.whole;
-    imageWholes.has(key) ? imageWholes.delete(key) : imageWholes.add(key);
-    renderImage();
-  }));
-  q("#image-reset")?.addEventListener("click",() => { imageSelected = false; imageWholes.clear(); renderImage(); });
-  renderImage();
-
-  const fragmentText = {
-    f1:"the blue cup was still on Ivo’s desk",
-    f2:"He had repaired its cracked handle with gold paint",
-    f3:"a letter neither of them mentioned anymore",
-    f4:"Mara set the station key beside the cup, though the night shift was hers",
-    f5:"the glass held two dim reflections",
-    f6:"Their hands stopped before touching either object",
-    f7:"the radio repeated a weather warning for boats far beyond the hill",
-    f8:"the cleaning crew found both objects exactly between the two chairs"
-  };
-  const textWholeNames = {mara:"Mara",ivo:"Ivo",relation:"their relationship",setting:"setting / context"};
-  let selectedFragment = null;
-  const annotations = new Map();
-  let humanAnnotationMade = false;
-  let modelBusy = false;
-  let modelRunToken = 0;
-  function selectFragment(id) {
-    selectedFragment = id;
-    qa(".fragment").forEach((button) => button.classList.toggle("selected",button.dataset.fragment === id));
-    renderTextControls();
-    if(q("#model-results") && !q("#model-results").hidden) renderModelResults();
-  }
-  function renderTextControls() {
-    const label = q("#selected-fragment-text");
-    if(!label) return;
-    label.textContent = selectedFragment ? fragmentText[selectedFragment] : "Choose a highlighted phrase.";
-    const memberships = selectedFragment ? (annotations.get(selectedFragment) || new Set()) : new Set();
-    qa(".text-whole").forEach((button) => button.setAttribute("aria-pressed",memberships.has(button.dataset.textWhole) ? "true" : "false"));
-    q("#text-status").textContent = !selectedFragment
-      ? "Choose a fragment before assigning memberships."
-      : memberships.size
-        ? "This fragment belongs to: " + [...memberships].map((key) => textWholeNames[key]).join(", ") + "."
-        : "Fragment selected. Choose every whole that fits.";
-    const rows = [...annotations.entries()].filter(([,values]) => values.size).map(([id,values]) =>
-      '<div class="annotation-row"><strong>' + esc(fragmentText[id]) + '</strong><span>' + esc([...values].map((key) => textWholeNames[key]).join(", ")) + '</span></div>'
-    );
-    q("#annotation-list").innerHTML = rows.length ? rows.join("") : '<p class="empty">No memberships assigned yet.</p>';
-    if(q("#show-baked")) {
-      q("#show-baked").disabled = !humanAnnotationMade;
-      q("#load-model").disabled = !humanAnnotationMade || modelBusy;
-      if(humanAnnotationMade) {
-        q("#human-gate-text").textContent = "A human annotation now exists. Compare it with model neighborhoods when you are ready.";
-      } else {
-        q("#human-gate-text").textContent = "Return to the passage and assign at least one membership. Model controls remain unavailable until you do.";
-        q("#model-results").hidden = true;
-        q("#model-status").textContent = "No model or fallback comparison has been shown.";
-      }
-    }
-  }
-  qa(".fragment").forEach((button) => button.addEventListener("click",() => selectFragment(button.dataset.fragment)));
-  qa(".text-whole").forEach((button) => button.addEventListener("click",() => {
-    if(!selectedFragment) { q("#text-status").textContent = "Choose a highlighted fragment first."; return; }
-    const values = annotations.get(selectedFragment) || new Set();
-    const key = button.dataset.textWhole;
-    values.has(key) ? values.delete(key) : values.add(key);
-    annotations.set(selectedFragment,values);
-    humanAnnotationMade = [...annotations.values()].some((set) => set.size);
-    renderTextControls();
-  }));
-  q("#text-reset")?.addEventListener("click",() => {
-    annotations.clear(); selectedFragment = null; humanAnnotationMade = false;
-    modelRunToken += 1;
-    modelBusy = false;
-    qa(".fragment").forEach((button) => button.classList.remove("selected"));
-    if(q("#show-baked")) {
-      shownMeasurements = BAKED;
-      q("#load-model").textContent = "Load live model";
-    }
-    renderTextControls();
-  });
-  renderTextControls();
-
-  const notebookEntries = new Map();
-  q("#save-rule")?.addEventListener("click",() => {
-    const caseName = q("#rule-case").value;
-    const rule = q("#rule-text").value.trim();
-    if(!rule) { q("#rule-status").textContent = "Write a provisional rule before saving it."; return; }
-    notebookEntries.set(caseName,rule);
-    q("#rule-status").textContent = "Rule saved in this page only. Revise it after another case.";
-    q("#notebook-entries").innerHTML = [...notebookEntries.entries()].map(([name,text]) =>
-      '<div class="notebook-entry"><strong>' + esc(name) + ':</strong> ' + esc(text) + '</div>'
-    ).join("");
-  });
-
-  const BAKED = {"modelId":"Xenova/all-MiniLM-L6-v2","revision":"751bff37182d3f1213fa05d7196b954e230abad9","dtype":"q8","anchors":[{"id":"mara","label":"Mara’s intention","text":"Mara wants to hand over responsibility while deciding whether to repair an old relationship."},{"id":"ivo","label":"Ivo’s interpretation","text":"Ivo preserves an object and hides its repaired seam because he is guarding a memory."},{"id":"relation","label":"Their relationship","text":"Two people share an unresolved history expressed through silence, gestures, and objects between them."},{"id":"setting","label":"Setting and context","text":"A stormy observatory at night, with rain, radio warnings, windows, and distant city lights."}],"fragments":[{"id":"f1","text":"the blue cup was still on Ivo's desk","similarities":{"mara":0.068711,"ivo":0.433302,"relation":0.097163,"setting":0.056342},"projection":{"x":-0.364591,"y":0.040821}},{"id":"f2","text":"He had repaired its cracked handle with gold paint","similarities":{"mara":0.287192,"ivo":0.284988,"relation":0.025946,"setting":-0.011172},"projection":{"x":0.002204,"y":0.037118}},{"id":"f3","text":"a letter neither of them mentioned anymore","similarities":{"mara":0.170285,"ivo":0.12075,"relation":0.336887,"setting":0.000789},"projection":{"x":0.049535,"y":0.336098}},{"id":"f4","text":"Mara set the station key beside the cup, though the night shift was hers","similarities":{"mara":0.332038,"ivo":0.162407,"relation":0.084257,"setting":0.178213},"projection":{"x":0.169631,"y":-0.093956}},{"id":"f5","text":"the glass held two dim reflections","similarities":{"mara":0.125803,"ivo":0.184503,"relation":0.152466,"setting":0.326099},"projection":{"x":-0.0587,"y":-0.173633}},{"id":"f6","text":"Their hands stopped before touching either object","similarities":{"mara":0.098904,"ivo":0.206386,"relation":0.335074,"setting":-0.070123},"projection":{"x":-0.107482,"y":0.405197}},{"id":"f7","text":"the radio repeated a weather warning for boats far beyond the hill","similarities":{"mara":-0.104541,"ivo":-0.003167,"relation":0.063519,"setting":0.390417},"projection":{"x":-0.101374,"y":-0.326898}},{"id":"f8","text":"the cleaning crew found both objects exactly between the two chairs","similarities":{"mara":0.069801,"ivo":0.245264,"relation":0.32913,"setting":-0.034402},"projection":{"x":-0.175463,"y":0.363532}}]};
-  let shownMeasurements = BAKED;
-  let extractor = null;
-  function currentFragmentData() {
-    const id = selectedFragment || "f6";
-    return shownMeasurements.fragments.find((item) => item.id === id) || shownMeasurements.fragments[0];
-  }
-  function renderModelResults() {
-    if(!q("#model-results")) return;
-    const selected = currentFragmentData();
-    q("#bars-fragment").textContent = "Selected: “" + fragmentText[selected.id] + "”";
-    q("#similarity-bars").innerHTML = BAKED.anchors.map((anchor) => {
-      const value = selected.similarities[anchor.id];
-      const width = Math.max(0,Math.min(100,((value + .15) / .65) * 100));
-      return '<div class="similarity-row"><span>' + esc(anchor.label) + '</span><div class="bar-track"><div class="bar-fill" style="width:' + width.toFixed(1) + '%"></div></div><span class="bar-value">' + value.toFixed(3) + '</span></div>';
-    }).join("");
-    const map = q("#embedding-map");
-    qa(".map-point",map).forEach((point) => point.remove());
-    shownMeasurements.fragments.forEach((fragment) => {
-      const point = document.createElement("button");
-      point.type = "button";
-      point.className = "map-point" + (fragment.id === selected.id ? " active" : "");
-      point.textContent = fragment.id.toUpperCase();
-      point.style.left = Math.max(7,Math.min(93,50 + (fragment.projection.x / .55) * 42)) + "%";
-      point.style.top = Math.max(7,Math.min(93,50 - (fragment.projection.y / .55) * 42)) + "%";
-      point.setAttribute("aria-label","Select " + fragmentText[fragment.id]);
-      point.addEventListener("click",() => selectFragment(fragment.id));
-      map.appendChild(point);
-    });
-  }
-  q("#show-baked")?.addEventListener("click",() => {
-    modelRunToken += 1;
-    shownMeasurements = BAKED;
-    q("#model-results").hidden = false;
-    q("#model-status").innerHTML = "<strong>Curated fallback shown.</strong> These measurements were generated from the pinned q8 model; no model was loaded in this visit.";
-    q("#load-model").textContent = "Load live model";
-    q("#load-model").disabled = modelBusy;
-    if(!selectedFragment) selectFragment("f6");
-    renderModelResults();
-  });
-  q("#load-model")?.addEventListener("click",async() => {
-    const button = q("#load-model");
-    const runToken = ++modelRunToken;
-    modelBusy = true;
-    button.disabled = true;
-    button.textContent = "Loading…";
-    q("#model-status").textContent = "Loading Transformers.js and the pinned model. The first visit may take a minute on an ordinary device.";
-    try {
-      const module = await import("https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0");
-      if(runToken !== modelRunToken || !humanAnnotationMade) return;
-      extractor = extractor || await module.pipeline("feature-extraction",BAKED.modelId,{
-        revision:BAKED.revision,
-        dtype:BAKED.dtype,
-        progress_callback:(event) => {
-          if(runToken !== modelRunToken || !humanAnnotationMade) return;
-          if(event.status === "progress_total") q("#model-status").textContent = "Loading model: " + Math.round(event.progress) + "%";
-          else if(event.status === "progress" && Number.isFinite(event.progress)) q("#model-status").textContent = "Loading model file: " + Math.round(event.progress) + "%";
-        }
-      });
-      if(runToken !== modelRunToken || !humanAnnotationMade) return;
-      const inputs = [...BAKED.fragments.map((item) => item.text),...BAKED.anchors.map((item) => item.text)];
-      const tensor = await extractor(inputs,{pooling:"mean",normalize:true});
-      if(runToken !== modelRunToken || !humanAnnotationMade) return;
-      const vectors = tensor.tolist();
-      const dot = (a,b) => a.reduce((sum,value,index) => sum + value * b[index],0);
-      const anchorVectors = vectors.slice(BAKED.fragments.length);
-      const liveFragments = BAKED.fragments.map((fragment,index) => {
-        const similarities = Object.fromEntries(BAKED.anchors.map((anchor,anchorIndex) => [anchor.id,dot(vectors[index],anchorVectors[anchorIndex])]));
-        return {...fragment,similarities,projection:{x:similarities.mara-similarities.ivo,y:similarities.relation-similarities.setting}};
-      });
-      let maxDifference = 0;
-      liveFragments.forEach((fragment,index) => BAKED.anchors.forEach((anchor) => {
-        maxDifference = Math.max(maxDifference,Math.abs(fragment.similarities[anchor.id]-BAKED.fragments[index].similarities[anchor.id]));
-      }));
-      shownMeasurements = {...BAKED,fragments:liveFragments};
-      q("#model-results").hidden = false;
-      renderModelResults();
-      const pass = maxDifference <= .005;
-      q("#model-status").innerHTML = "<strong>Live model complete.</strong> Largest live-to-baked difference: " + maxDifference.toFixed(5) + " (" + (pass ? "within" : "outside") + " the 0.005 audit tolerance).";
-      button.textContent = "Rerun live model";
-    } catch(error) {
-      if(runToken !== modelRunToken || !humanAnnotationMade) return;
-      shownMeasurements = BAKED;
-      q("#model-results").hidden = false;
-      renderModelResults();
-      q("#model-status").innerHTML = "<strong>Live model unavailable.</strong> The human annotation and curated fallback remain usable. Check your connection or device memory, then retry.";
-      button.textContent = "Retry live model";
-    } finally {
-      if(runToken === modelRunToken) {
-        modelBusy = false;
-        button.disabled = !humanAnnotationMade;
-      } else if(modelBusy) {
-        modelBusy = false;
-        renderTextControls();
-      }
-    }
-  });
-  addEventListener("pagehide",() => {
-    modelRunToken += 1;
-    if(extractor?.dispose) extractor.dispose();
-  },{once:true});
-
-  function selftest() {
-    const lifeCases = [];
-    let state = toSet(FIXTURES[0]);
-    for(let index=1;index<FIXTURES.length;index++) {
-      state = lifeStep(state);
-      lifeCases.push({generation:index,pass:sameSet(state,toSet(FIXTURES[index]))});
-    }
-    const imageCase = {pass:qa(".whole-button").length === 4};
-    const textCase = {pass:VERSION < 9 || (qa(".fragment").length === 8 && qa(".text-whole").length === 4)};
-    const modelCase = {pass:VERSION < 10 || BAKED.fragments.every((item) =>
-      Math.abs(item.projection.x-(item.similarities.mara-item.similarities.ivo)) < .000002 &&
-      Math.abs(item.projection.y-(item.similarities.relation-item.similarities.setting)) < .000002
-    )};
-    return {pass:lifeCases.every((item) => item.pass) && imageCase.pass && textCase.pass && modelCase.pass,lifeCases,imageCase,textCase,modelCase};
-  }
-  const api = {selftest,reset:() => location.reload()};
-  window["S" + VERSION] = api;
-  window.OneThing = api;
+  let current=DECISIONS[5],verdict="Keep",lockedText="";
+  const esc=value=>String(value).replace(/[&<>'"]/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));
+  function renderPicker(){q("#decision-picker").innerHTML=DECISIONS.map(item=>`<button type="button" data-decision="${item.id}" aria-pressed="${item.id===current.id}">${esc(item.short)}<small>${item.commit}</small></button>`).join("");}
+  function renderReceipt(){q("#receipt").innerHTML=`
+    <article><div class="eyebrow">Decision</div><p><strong>${esc(current.title)}</strong><br>${esc(current.origin)}</p></article>
+    <article><div class="eyebrow">AI contribution</div><p>${esc(current.ai)}</p></article>
+    <article><div class="eyebrow">Human judgment</div><p>${esc(current.human)}</p></article>
+    <article><div class="eyebrow">Check and result</div><p>${esc(current.check)}</p></article>
+    <article><div class="eyebrow">Rejected path</div><p>${esc(current.cut)}</p></article>
+    <article><div class="eyebrow">Recorded status · ${current.commit}</div><p>${esc(current.status)}</p></article>`;}
+  function selectDecision(id){const found=DECISIONS.find(item=>item.id===id);if(!found)return;current=found;lockedText="";q("#reason").value="";q("#note-output").innerHTML="<strong>No note yet.</strong><br>Read this receipt, then make a record-based call.";q("#copy-note").disabled=true;renderPicker();renderReceipt();q("#decision-status").textContent=`Inspecting ${current.commit}: ${current.title}.`;}
+  q("#decision-picker").addEventListener("click",event=>{const button=event.target.closest("button[data-decision]");if(button)selectDecision(button.dataset.decision);});
+  qa("[data-verdict]").forEach(button=>button.addEventListener("click",()=>{verdict=button.dataset.verdict;qa("[data-verdict]").forEach(item=>item.setAttribute("aria-pressed",String(item===button)));}));
+  function makeNote(){const reason=q("#reason").value.trim();if(reason.length<12){q("#decision-status").textContent="Write one specific reason from the receipt before locking the note.";q("#reason").focus();return "";}return`${verdict}: ${current.title} (${current.commit}).\n\nThe record shows: ${reason}\n\nAI contribution: ${current.ai}\n\nHuman judgment and responsibility: ${current.human}\n\nCheck: ${current.check}\n\nRejected path: ${current.cut}\n\nRecorded status: ${current.status}`;}
+  q("#lock-note").addEventListener("click",()=>{lockedText=makeNote();if(!lockedText)return;q("#note-output").textContent=lockedText;q("#copy-note").disabled=false;q("#decision-status").textContent="Decision note locked in this page only. It will disappear on refresh.";});
+  q("#copy-note").addEventListener("click",async()=>{if(!lockedText)return;try{await navigator.clipboard.writeText(lockedText);q("#decision-status").textContent="Decision note copied.";}catch(error){q("#decision-status").textContent="Copy was blocked. Select the note text and copy it manually.";}});
+  function selftest(){const uniqueIds=new Set(DECISIONS.map(item=>item.id)).size===DECISIONS.length,commitsOk=DECISIONS.every(item=>/^[0-9a-f]{7}$/.test(item.commit)),recordsComplete=DECISIONS.every(item=>["title","origin","ai","human","check","cut","status"].every(key=>item[key].length>20)),links=[...document.querySelectorAll(".version-links a")],versionLinksOk=links.length===10&&links.every(link=>link.getAttribute("href")),sectionsOk=["versions","archaeology","decision","boundary","next","record","sources"].every(id=>document.getElementById(id)),lockedProject=document.body.textContent.includes("Who Composes the Glider?")&&document.body.textContent.includes("Project lock"),mediaFree=!document.querySelector("audio,video"),networkFree=!document.querySelector("script[src]");const pass=uniqueIds&&commitsOk&&recordsComplete&&versionLinksOk&&sectionsOk&&lockedProject&&mediaFree&&networkFree;return{pass,uniqueIds,commitsOk,recordsComplete,versionLinksOk,sectionsOk,lockedProject,mediaFree,networkFree,decisions:DECISIONS.length};}
+  renderPicker();renderReceipt();const startup=selftest();document.documentElement.dataset.selftest=startup.pass?"pass":"fail";window.S10={selftest,select:selectDecision,note:()=>lockedText};
 })();
 </script>
 </body>
